@@ -1,0 +1,17 @@
+taxbird README
+=================
+
+
+(probably) Frequently Asked Questions
+========================================
+F: When running taxbird I sometimes get 
+   "WARNING **: Invalid UTF8 string passed to pango_layout_set_text()".
+   Why is this?
+
+A: taxbird expects the Scheme sources to be encoded in UTF-8. No filtering
+   etc. is done to the read strings, i.e. they are passed on to Gnome/Pango.
+   If you encode your file with ISO-8859-1 for example, pango will not be able
+   to interpret the data and will emit the warning. The shown strings will be
+   truncated at the first non-ASCII character in this case.
+
+$Id: README,v 1.1 2005-01-16 17:26:00 stesie Exp $

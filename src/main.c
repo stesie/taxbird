@@ -1,0 +1,80 @@
+/* Copyright(C) 2004,05 Stefan Siegl <ssiegl@gmx.de>
+ * taxbird - free program to interface with German IRO's Elster/Coala
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
+#include <gnome.h>
+
+#include "interface.h"
+#include "support.h"
+#include "workspace.h"
+#include "guile.h"
+
+
+/* forwarded main, i.e. with guile support initialized */
+static void main_forward(void *closure, int argc, char **argv);
+
+
+
+int
+main (int argc, char *argv[])
+{
+#ifdef ENABLE_NLS
+  bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
+  bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+  textdomain (GETTEXT_PACKAGE);
+#endif
+
+  gnome_program_init (PACKAGE_NAME, PACKAGE_VERSION, LIBGNOMEUI_MODULE,
+                      argc, argv,
+                      GNOME_PARAM_APP_DATADIR, PACKAGE_DATA_DIR,
+                      NULL);
+
+  /* initialize Guile backend */
+  scm_boot_guile(argc, argv, main_forward, NULL);
+  return 0;
+}
+
+
+
+/* forwarded main, i.e. with guile support initialized */
+static void
+main_forward(void *closure, int argc, char **argv) 
+{
+  /* keep GCC from complaining that 'closure' is not used */
+  (void) closure;
+
+  /* TODO parse command line arguments, left for us ... 
+   * Especially read the name of a file we should open right after startup.
+   * Some output Elster-XML command like Glade's compile instruction would
+   * be cool as well */
+  (void) argc;
+  (void) argv;
+
+  /* load taxbird's Guile extension stuff */
+  taxbird_guile_init();
+
+  /* create initial application window, i.e. workspace(ws) */
+  taxbird_ws_new();
+
+  /* Gtk+ main loop */
+  gtk_main ();
+}
+
