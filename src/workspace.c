@@ -56,6 +56,9 @@ static GtkWidget *taxbird_ws_create_input(SCM specs);
 static GtkWidget *taxbird_ws_create_output(SCM specs);
 static GtkWidget *taxbird_ws_create_chooser(SCM specs);
 
+/* unprotect referenced SCM (callback for destroy notifications) */
+static void taxbird_ws_unprotect_scm(gpointer d);
+
 static struct {
   GtkWidget *(*new)(SCM specs);
 } taxbird_ws_field_creators[] = {
@@ -241,8 +244,9 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
      * rather early (i.e. before calling the retrieval func) as it might
      * use Glade's lookup code
      */
-    scm_gc_protect_object(specs); /* Guile's GC mustn't destroy the list! */
-    gtk_object_set_user_data(GTK_OBJECT(input), (void *) specs);
+    g_object_set_data_full(G_OBJECT(input), "scm_specs",
+			   scm_gc_protect_object(specs),
+			   taxbird_ws_unprotect_scm);
     gtk_table_attach(GTK_TABLE(table), input, 1,
 		     ws_field_t & 4 ? 2 : 3, item, item + 1,
 		     (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
@@ -277,8 +281,9 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
       input = taxbird_ws_field_creators[ws_field_t].new(specs);
 
       /* insert the widget into the widget tree as early as possible */
-      scm_gc_protect_object(specs); /* Guile's GC mustn't destroy the list! */
-      gtk_object_set_user_data(GTK_OBJECT(input), (void *) SCM_CDDDDR(specs));
+      g_object_set_data_full(G_OBJECT(input), "scm_specs",
+			     scm_gc_protect_object(SCM_CDDDDR(specs)),
+			     taxbird_ws_unprotect_scm);
       gtk_table_attach(GTK_TABLE(table), input, 2, 3, item, item + 1,
 		       (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
 		       (GtkAttachOptions) (0), 0, 0);
@@ -304,7 +309,7 @@ static int
 taxbird_ws_validate(GtkWidget *w)
 {
   GtkWidget *appwin = lookup_widget(w, "taxbird");
-  SCM field = (SCM) gtk_object_get_user_data(GTK_OBJECT(w));
+  SCM field = (SCM) g_object_get_data(G_OBJECT(w), "scm_specs");
   /* field points to the ("intname" "name" "desc" validate-func) list */
   SCM validatfunc;
   g_return_val_if_fail(SCM_NFALSEP(scm_list_p(field)), 0);
@@ -351,7 +356,7 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 
   GtkWidget *appwin = lookup_widget(w, "taxbird");
 
-  SCM field = (SCM) gtk_object_get_user_data(GTK_OBJECT(w));
+  SCM field = (SCM) g_object_get_data(G_OBJECT(w), "scm_specs");
   g_return_if_fail(SCM_NFALSEP(scm_list_p(field)));
 
   /* store data if it's valid */
@@ -609,4 +614,10 @@ taxbird_ws_save(GtkWidget *appwin, const char *fname)
   }
 
   ws->changed = 0;
+}
+
+static void
+taxbird_ws_unprotect_scm(gpointer d)
+{
+  scm_gc_unprotect_object((SCM)d);
 }
