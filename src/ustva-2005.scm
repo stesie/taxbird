@@ -271,12 +271,13 @@
 	       ;; second field
 	       "Kz96"
 	       #f ; no desc for 2nd field ...
-	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe,"
-			      " neuer Fahrzeuge von Lieferern *ohne* USt-IdNr. "
-			      "zum allgemeinen Steuersatz (Steuer)")
+	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe"
+			      ", neuer Fahrzeuge von Lieferern *ohne* "
+			      "USt-IdNr. zum allgemeinen Steuersatz (Steuer)")
 	       (lambda(val buf)
 		 (validate:signed-monetary-max val buf
-					       (storage:retrieve buf "Kz94")))))
+					       (storage:retrieve buf
+								 "Kz94")))))
 
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -371,8 +372,109 @@
 			      " wird - (Steuer)")
 	       (lambda (val b)
 		 (validate:signed-monetary-max val b
-					       (storage:retrieve b "Kz84")))))))
-    
+					       (storage:retrieve b "Kz84")))))
+
+   "Abziehbare Vorsteuerbeträge"
+   (list tb:field:text-input
+	 (list "Kz66"
+	       "aus Rechnungen anderer Untern."
+	       (string-append "Vorsteuerbeträge aus Rechnungen von anderen "
+			      "Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), "
+			      "aus Leistungen im Sinne des § 13a Abs. 1 Nr. 6 "
+			      "UStG (§ 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus "
+			      "innergemeinschaftlichen Dreiecksgeschäften "
+			      "(§ 25b Abs. 5 UStG)")
+	       validate:signed-monetary)
+
+
+	 tb:field:text-input
+	 (list "Kz61"
+	       "Vorst. aus innergem. Erwerb"
+	       (string-append "Vorsteuerbeträge aus dem innergemeinschaftlichen"
+			      " Erwerb von Gegenständen (§ 15 Abs. 1 Satz 1 "
+			      "Nr. 3 UStG)")
+	       validate:signed-monetary)
+
+
+	 tb:field:text-input
+	 (list "Kz62"
+	       "Einfuhrumsatzsteuer"
+	       (string-append "Entrichtete Einfuhrumsatzsteuer "
+			      "(§ 15 Abs. 1 Satz 1 Nr. 2 UStG)")
+	       validate:signed-monetary)
+
+
+	 tb:field:text-input
+	 (list "Kz67"
+	       "Vorsteuer § 13b"
+	       (string-append "Vorsteuerbeträge aus Leistungen im Sinne "
+			      "des § 13b Abs. 1 UStG "
+			      "(§ 15 Abs. 1 Satz 1 Nr. 4 UStG)")
+	       validate:signed-monetary)
+
+
+	 tb:field:text-input
+	 (list "Kz63"
+	       "nach allg. Durchschnittsätze"
+	       (string-append "Vorsteuerbeträge, die nach allgemeinen "
+			      "Durchschnittsätzen berechnet sind "
+			      "(§§ 23 und 23a UStG)")
+	       validate:signed-monetary)
+
+
+	 tb:field:text-input
+	 (list "Kz64"
+	       "Berichtigung des Vorsteuerabzugs"
+	       "Berichtigung des Vorsteuerabzugs (§ 15a UStG)"
+	       validate:signed-monetary)
+
+	 
+	 tb:field:text-input
+	 (list "Kz59"
+	       "innerg. Lief. neuer Fahrz."
+	       (string-append "Vorsteuerabzug für innergemeinschaftliche "
+			      "Lieferungen neuer Fahrzeuge außerhalb eines "
+			      "Unternehmens (§ 2a UStG) sowie von Klein"
+			      "unternehmern im Sinne des § 19 Abs. 1 UStG "
+			      "(§ 15 Abs. 4a UStG)")
+	       validate:signed-monetary))
+
+   "Sonstige"
+   (list tb:field:text-input
+	 (list "Kz65"
+	       "Wechsel Bestuerungsform sowie Nachsteuer"
+	       (string-append "Steuer infolge Wechsels der Besteuerungsform "
+			      "sowie Nachsteuer auf versteuerte Anzahlungen "
+			      "wegen Steuersatzerhöhung")
+	       validate:signed-monetary)
+
+
+	 tb:field:text-input
+	 (list "Kz69"
+	       "Sonstiges"
+	       (string-append "Steuerbeträge, die vom letzten Abnehmer eines "
+			      "innergemeinschaftlichen Dreiecksgeschäfts "
+			      "geschuldet werden (§ 25b Abs. 2 UStG), "
+			      "in Rechnungen unrichtig oder unberechtigt "
+			      "ausgewiesene Steuerbeträge (§ 14c UStG), "
+			      "Steuerbeträge für Leistungen im Sinne des "
+			      "§ 13a Abs. 1 Nr. 6 UStG sowie Steuerbeträge, "
+			      "die nach § 6a Abs. 4 Satz 2 oder § 17 Abs. 1 "
+			      "Satz 2 UStG geschuldet werden.")
+	       validate:signed-monetary)
+
+
+	 tb:field:text-input
+	 (list "Kz39"
+	       "Anrechnung Sonder-VZ"
+	       (string-append "Anrechnung (Abzug) der festgesetzten "
+			      "Sondervorauszahlung für Dauerfristverlängerung "
+			      "(nur auszufüllen in der letzten Voranmeldung "
+			      "des Besteuerungszeitraums, in der Regel "
+			      "Dezember)")
+	       validate:unsigned-int))))
+
+
 
 
 (define ustva-2005:recalculate
