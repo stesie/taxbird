@@ -139,7 +139,10 @@
 
       (while (> (length list) 0)
 	     (if (string=? (car list) element)
-		 ((eval (cadr list) (current-module)) value buffer))
+		 (let ()
+		   (if (= (string-length value) 0)
+		       (set! value "0"))
+		   ((eval (cadr list) (current-module)) value buffer)))
 	     (set! list (cddr list))))))
 
 (tb:form-register

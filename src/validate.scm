@@ -31,21 +31,27 @@
 ;; make sure the specified value is a signed integer
 (define validate:signed-int
   (lambda (value buffer)
-    (let ((conv-val (string->number value)))
-      (if (number? conv-val)
-	  (if (integer? conv-val)
-	      #t
-	      #f)
-	  #f))))
+    (if (= (string-length value) 0)
+	#t ; empty 
+	
+	(let ((conv-val (string->number value)))
+	  (if (number? conv-val)
+	      (if (integer? conv-val)
+		  #t
+		  #f)
+	      #f)))))
 
 
 ;; make sure the specified value is a signed monetary value, i.e. not more 
 ;; than two cent digits
 (define validate:signed-monetary
   (lambda (value buffer)
-    (let ((conv-val (string->number value)))
-      (if (number? conv-val)
-	  (if (integer? (* 100 conv-val))
-	      #t
-	      #f)
-	  #f))))
+    (if (= (string-length value) 0)
+	#t ; empty => zero
+
+	(let ((conv-val (string->number value)))
+	  (if (number? conv-val)
+	      (if (integer? (* 100 conv-val))
+		  #t
+		  #f)
+	      #f)))))
