@@ -91,8 +91,22 @@ void taxbird_guile_init(void)
 int
 taxbird_guile_eval_file(const char *fn)
 {
-  SCM dirlist = scm_c_lookup_ref("tb:scm-directories");
+  SCM dirlist;
 
+  /* make sure that every file is evaluated only once */
+  static GSList *evaluated_files = NULL;
+  if(evaluated_files) {
+    GSList *ptr = evaluated_files;
+    do {
+      if(! strcmp(ptr->data, fn))
+	return 0;
+    } while((ptr = ptr->next));
+  }
+
+  /* file hasn't been evaluated yet, add to list of evaluated files. */
+  evaluated_files = g_slist_prepend(evaluated_files, g_strdup(fn));
+
+  dirlist = scm_c_lookup_ref("tb:scm-directories");
   while(scm_ilength(dirlist)) {
     size_t path_len;
     char *buf;
