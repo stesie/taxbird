@@ -1,4 +1,4 @@
-/* Copyright(C) 2004 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2004,05 Stefan Siegl <ssiegl@gmx.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -100,6 +100,9 @@ void
 taxbird_ws_sel_form(GtkWidget *appwin, int formid)
 {
   SCM dataset;
+  GtkTreeViewColumn *column;
+  GtkCellRenderer *renderer;
+  GtkTreeStore *tree;
   GtkTreeView *tv_sheets = GTK_TREE_VIEW(lookup_widget(appwin, "tv_sheets"));
 
   g_return_if_fail(formid >= 0);
@@ -109,27 +112,20 @@ taxbird_ws_sel_form(GtkWidget *appwin, int formid)
   g_return_if_fail(SCM_NFALSEP(scm_list_p(dataset)));
   
   /* add column */
-  {
-    GtkTreeViewColumn *column;
-    GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
-
-    column = gtk_tree_view_column_new_with_attributes(_("Available Sheets"),
-						      renderer, "text", 0,
-						      NULL);
-    gtk_tree_view_append_column(tv_sheets, column);
-  }
+  renderer = gtk_cell_renderer_text_new();
+  column = gtk_tree_view_column_new_with_attributes(_("Available Sheets"),
+						    renderer, "text", 0, NULL);
+  gtk_tree_view_append_column(tv_sheets, column);
 
   /* add names of available sheets */
-  {
-    GtkTreeStore *tree = gtk_tree_store_new(1, G_TYPE_STRING);
-
-    taxbird_ws_fill_tree_store(tree, NULL, dataset);
-    gtk_tree_view_set_model(tv_sheets, GTK_TREE_MODEL(tree));
-  }
+  tree = gtk_tree_store_new(1, G_TYPE_STRING);
+  taxbird_ws_fill_tree_store(tree, NULL, dataset);
+  gtk_tree_view_set_model(tv_sheets, GTK_TREE_MODEL(tree));
 
   taxbird_ws_get(appwin)->current_form = formid;
   taxbird_ws_get(appwin)->ws_data = scm_call_0(forms[formid]->dataset_create);
 }
+
 
 
 /* add necessary items (taken from the dataset) to the
@@ -192,6 +188,8 @@ taxbird_ws_fill_tree_store(GtkTreeStore *tree, GtkTreeIter *parent, SCM dataset)
 void
 taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 {
+  GtkWidget *table;
+  int item = 0;
   GtkBin *viewport = GTK_BIN(lookup_widget(appwin, "viewport"));
   int forms_id = taxbird_ws_get(appwin)->current_form;
   SCM sheet = taxbird_ws_lookup_sheet(forms[forms_id]->dataset, sheetname);
@@ -204,104 +202,94 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 	     * a parent in the tree  */  
 
   /* remove old widget tree ... */
-  {
-    GtkWidget *child = GTK_WIDGET(gtk_bin_get_child(viewport));
-    if(child) 
-      gtk_widget_destroy(child);
-  }
+  if((table = GTK_WIDGET(gtk_bin_get_child(viewport))))
+    gtk_widget_destroy(table);
 
   /* create new widget tree  ... */
-  {
-    int item = 0;
+  table = gtk_table_new(scm_ilength(sheet) >> 1, 3, FALSE);
+  gtk_container_set_border_width(GTK_CONTAINER(table), 5);
+  gtk_table_set_row_spacings(GTK_TABLE(table), 5);
+  gtk_table_set_col_spacings(GTK_TABLE(table), 10);
+  
+  /* connect new table to the viewport - we need to do this so early,
+   * as the storage callbacks (using glade's lookup code) require the whole
+   * widget tree to be set up properly */
+  gtk_container_add(GTK_CONTAINER(viewport), table);
 
-    GtkWidget *table = gtk_table_new(scm_ilength(sheet) >> 1, 3, FALSE);
-    gtk_container_set_border_width(GTK_CONTAINER(table), 5);
-    gtk_table_set_row_spacings(GTK_TABLE(table), 5);
-    gtk_table_set_col_spacings(GTK_TABLE(table), 10);
-
-    /* connect new table to the viewport - we need to do this so early,
-     * as the storage callbacks (using glade's lookup code) require the whole
-     * widget tree to be set up properly */
-    gtk_container_add(GTK_CONTAINER(viewport), table);
-
-    while(scm_ilength(sheet)) {
-      SCM specs = SCM_CADR(sheet);
+  /* parse the sheet definition step by step and create the necessary widgets */
+  while(scm_ilength(sheet)) {
+    int ws_field_t;
+    GtkWidget *input, *label;
+    SCM specs = SCM_CADR(sheet);
       
-      if(SCM_SYMBOLP(specs))
-	/* refrenced by variable, resolve it */
-	specs = scm_c_lookup_ref(SCM_SYMBOL_CHARS(specs));
+    if(SCM_SYMBOLP(specs))
+      /* refrenced by variable, resolve it */
+      specs = scm_c_lookup_ref(SCM_SYMBOL_CHARS(specs));
 
-      /* resolve quotes */
-      while(SCM_SYMBOLP(SCM_CAR(specs)))
-	specs = scm_primitive_eval(specs);
+    /* resolve quotes */
+    while(SCM_SYMBOLP(SCM_CAR(specs)))
+      specs = scm_primitive_eval(specs);
 
-      char *ws_field_type_sym = SCM_SYMBOL_CHARS(SCM_CAR(sheet));
-      int ws_field_type = scm_num2int(scm_c_lookup_ref(ws_field_type_sym), 0,
-				      "taxbird_ws_sel_sheet");
-      GtkWidget *input =
-	taxbird_ws_field_creators[ws_field_type & 3].new(specs);
+    ws_field_t = scm_num2int(scm_c_lookup_ref(SCM_SYMBOL_CHARS(SCM_CAR(sheet))),
+			     0, "taxbird_ws_sel_sheet");
+    input = taxbird_ws_field_creators[ws_field_t & 3].new(specs);
 
-      { /* add description label */
-	GtkWidget *label;
+    /* we need to attach the widget to the table (thus the widget tree itself)
+     * rather early (i.e. before calling the retrieval func) as it might
+     * use Glade's lookup code
+     */
+    scm_gc_protect_object(specs); /* Guile's GC mustn't destroy the list! */
+    gtk_object_set_user_data(GTK_OBJECT(input), (void *) specs);
+    gtk_table_attach(GTK_TABLE(table), input, 1,
+		     ws_field_t & 4 ? 2 : 3, item, item + 1,
+		     (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
+		     (GtkAttachOptions) (0), 0, 0);
+    GLADE_HOOKUP_OBJECT(appwin, input, 
+			SCM_STRING_CHARS(SCM_CAR(specs)));
+    
+    /* retrieve content */
+    taxbird_ws_retrieve_field(input, taxbird_ws_get(appwin),
+			      SCM_STRING_CHARS(SCM_CAR(specs)));
 
-	g_return_if_fail(SCM_STRINGP(SCM_CADR(specs)));
-	label = gtk_label_new(SCM_STRING_CHARS(SCM_CADR(specs)));
+    /* set callback responsible for displaying help text in appbar */
+    g_signal_connect((gpointer) input, "focus-in-event",
+		     G_CALLBACK(taxbird_ws_show_appbar_help),
+		     SCM_CADDR(specs));
+				  
+    gtk_widget_show(input);
 
-	gtk_label_set_line_wrap(GTK_LABEL(label), 1);
-	gtk_widget_show(label);
-	gtk_table_attach(GTK_TABLE(table), label, 0, 1, item, item + 1,
-			 (GtkAttachOptions) (GTK_FILL),
-			 (GtkAttachOptions) (0), 0, 0);
-	gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-      }
+    /* add description label */
+    g_return_if_fail(SCM_STRINGP(SCM_CADR(specs)));
+    label = gtk_label_new(SCM_STRING_CHARS(SCM_CADR(specs)));
+    gtk_label_set_line_wrap(GTK_LABEL(label), 1);
+    gtk_widget_show(label);
+    gtk_table_attach(GTK_TABLE(table), label, 0, 1, item, item + 1,
+		     (GtkAttachOptions) (GTK_FILL),
+		     (GtkAttachOptions) (0), 0, 0);
+    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
 
-      /* we need to attach the widget to the table (thus the widget tree itself)
-       * rather early (i.e. before calling the retrieval func) as it might
-       * use Glade's lookup code
-       */
-      gtk_object_set_user_data(GTK_OBJECT(input), (void *) specs);
-      gtk_table_attach(GTK_TABLE(table), input, 1,
-		       ws_field_type & 4 ? 2 : 3, item, item + 1,
+    if(ws_field_t & 4) {
+      /* second field on same row */
+      char *field_name = SCM_STRING_CHARS(SCM_CADDDDR(specs));
+      input = taxbird_ws_field_creators[ws_field_t].new(specs);
+
+      /* insert the widget into the widget tree as early as possible */
+      scm_gc_protect_object(specs); /* Guile's GC mustn't destroy the list! */
+      gtk_object_set_user_data(GTK_OBJECT(input), (void *) SCM_CDDDDR(specs));
+      gtk_table_attach(GTK_TABLE(table), input, 2, 3, item, item + 1,
 		       (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
 		       (GtkAttachOptions) (0), 0, 0);
-      GLADE_HOOKUP_OBJECT(appwin, input, 
-			  SCM_STRING_CHARS(SCM_CAR(specs)));
-
-      /* retrieve content */
-      taxbird_ws_retrieve_field(input, taxbird_ws_get(appwin),
-				SCM_STRING_CHARS(SCM_CAR(specs)));
-
-      /* set callback responsible for displaying help text in appbar */
-      g_signal_connect((gpointer) input, "focus-in-event",
-		       G_CALLBACK(taxbird_ws_show_appbar_help),
-		       SCM_CADDR(specs));
-				  
+      GLADE_HOOKUP_OBJECT(appwin, input, field_name);
+      
+      taxbird_ws_retrieve_field(input, taxbird_ws_get(appwin), field_name);
       gtk_widget_show(input);
-
-
-      if(ws_field_type & 4) {
-	/* second field on same row */
-	char *field_name = SCM_STRING_CHARS(SCM_CADDDDR(specs));
-	GtkWidget *input = taxbird_ws_field_creators[ws_field_type].new(specs);
-
-	/* insert the widget into the widget tree as early as possible */
-	gtk_object_set_user_data(GTK_OBJECT(input), (void *) SCM_CDDDDR(specs));
-	gtk_table_attach(GTK_TABLE(table), input, 2, 3, item, item + 1,
-			 (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-			 (GtkAttachOptions) (0), 0, 0);
-	GLADE_HOOKUP_OBJECT(appwin, input, field_name);
-
-	taxbird_ws_retrieve_field(input, taxbird_ws_get(appwin), field_name);
-	gtk_widget_show(input);
-	
-      }
-
-      sheet = SCM_CDDR(sheet);
-      item ++;
     }
 
-    gtk_widget_show(table);
+    sheet = SCM_CDDR(sheet);
+    item ++;
   }
+
+  gtk_widget_show(table);
 }
 
 
