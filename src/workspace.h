@@ -1,4 +1,4 @@
-/* Copyright(C) 2004 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2004,05 Stefan Siegl <ssiegl@gmx.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
