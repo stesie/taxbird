@@ -1,9 +1,73 @@
-taxbird README
-=================
+taxbird - Gnome-2 based application to create Elster (Geier) XML files
+
+Copyright (C) 2004,05 Stefan Siegl <ssiegl@gmx.de>, Germany
+                      (see AUTHORS for a complete, detailed list of authors)
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+Elster ist das deutsche Projekt zur elektronischen Abgabe
+von Steuererklärungen, siehe <http://www.elster.de>.
+
+
+Taxbird ist ein Projekt, zur elektronischen Übermittlung von
+Steuerdaten im Rahmen freier Software. Es besteht zum Einen aus
+'libgeier', einer Bibliothek zur Übermittlung sowie 'Taxbird' einer
+grafischen (Gnome-2 basierenden) Oberfläche zur Erfassung von
+Elster-XML Daten.
+
+Gegenwärtig befindet sich Taxbird noch in der Entwicklungsphase, das
+heißt, die Übermittlung von Echtdaten ist nicht möglich (mangels
+Hersteller-ID). Vorerst wird mittels Taxbird nur die Übermittlung von
+Umsatzsteuervoranmeldungen möglich sein. Die Abgabe von
+Lohnsteueranmeldungen ist vorgesehen. Wann die Übermittlung der
+Jahreserklärungen (hauptsächlich Einkommensteuererklärungen) möglich
+ist, steht noch nicht fest (da die Möglichkeit seitens der
+Finanzverwaltung bisher nicht eingeräumt wurde).
+
+Die Formulare (gegenwärtig nur die Umsatzsteuervoranmeldung 2005) sind
+mittels Skriptsprache in Taxbird hinterlegt. So ist es möglich, ohne
+große Programmierkenntnisse eigene (weitere) Formulare hinzuzufügen,
+sowie bestehende zu Überarbeiten. Die Anwendung selbst muss nicht neu
+kompiliert werden. Auf diese Art und Weise ist auch ein Online-Update
+kein großer Akt.
+
+
+
+Installation der CVS-Version:
+-----------------------------
+
+$ export CFLAGS="-Wall -ggdb" # sofern debugging Symbole gewünscht
+$ ./autogen.sh
+$ make
+$ make install
+
+Benutzte Software-Versionen
+(andere können funktionieren oder auch nicht, bei Problemen bitte melden):
+
+autoconf (GNU Autoconf) 2.59
+automake (GNU Automake) 1.4-p6
+libgnomeui-2.0 (Gnome Development Libraries) 2.8.0
+GNU Guile 1.6.7
+GNU Make 3.80
+gcc (GCC) 3.3.5
+
 
 
 (probably) Frequently Asked Questions
-========================================
+-------------------------------------
 F: When running taxbird I sometimes get 
    "WARNING **: Invalid UTF8 string passed to pango_layout_set_text()".
    Why is this?
@@ -14,4 +78,4 @@ A: taxbird expects the Scheme sources to be encoded in UTF-8. No filtering
    to interpret the data and will emit the warning. The shown strings will be
    truncated at the first non-ASCII character in this case.
 
-$Id: README,v 1.1 2005-01-16 17:26:00 stesie Exp $
+$Id: README,v 1.2 2005-02-10 10:31:04 stesie Exp $
