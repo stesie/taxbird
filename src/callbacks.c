@@ -27,6 +27,7 @@
 #include "support.h"
 #include "workspace.h"
 #include "form.h"
+#include "guile.h"
 
 
 /* callback function for 
@@ -235,5 +236,26 @@ on_choose_file_OK_clicked(GtkButton *button, gpointer user_data)
   }
 
   gtk_widget_destroy(dialog);
+}
+
+
+/* execute, i.e. export, button clicked */
+void
+on_execute_activate(GtkToolButton *toolbutton, gpointer user_data)
+{
+  (void) user_data;
+
+  GtkWidget *aw = lookup_widget(GTK_WIDGET(toolbutton), "taxbird");
+  struct form *f = forms[(int)g_object_get_data(G_OBJECT(aw), "current_form")];
+  SCM data = (SCM) g_object_get_data(G_OBJECT(aw), "scm_data");
+  SCM xml_data = scm_call_1(f->dataset_export, data);
+  SCM handle = scm_open_file(scm_makfrom0str("test.xml"), scm_makfrom0str("w"));
+
+  g_printerr("export feature not completed yet, see test.xml for output.\n\n");
+  g_return_if_fail(SCM_NFALSEP(scm_list_p(xml_data)));
+
+  taxbird_guile_eval_file("xml-writer.scm");
+  scm_call_2(scm_c_lookup_ref("xml-writer:write"), xml_data, handle);
+  scm_close(handle);
 }
 

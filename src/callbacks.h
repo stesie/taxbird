@@ -42,3 +42,7 @@ on_tv_sheets_cursor_changed            (GtkTreeView     *treeview,
 void
 on_choose_file_OK_clicked              (GtkButton       *button,
                                         gpointer         user_data);
+
+void
+on_execute_activate                    (GtkToolButton   *toolbutton,
+                                        gpointer         user_data);
