@@ -134,7 +134,6 @@
 
 
 
-
 (define ustva-2005:recalculate
   (lambda (buffer element value)
     (let ((list '("Kz51" (lambda(v buffer)
@@ -152,6 +151,34 @@
 		   ((eval (cadr list) (current-module)) value buffer)))
 	     (set! list (cddr list))))))
 
+
+
+(define ustva-2005:export
+  (lambda (buffer)
+    (let ((zeitraum (string->number (storage:retrieve buffer "zeitraum")))
+	  (land     (string->number (storage:retrieve buffer "land")))
+	  (st-nr    (storage:retrieve buffer "stnr")))
+		    
+      ;; manipulate 'zeitraum', 0 => January, 11 => Dec., 12 => I/05 .. 15
+      (set! zeitraum (number->string
+		      (if (> zeitraum 11)
+			  (+ zeitraum 29)    ; 12 + 29 = 41 => Q1 !!
+			  (+ zeitraum  1)))) ; January => 01 !!
+	  
+      (if (= (string-length zeitraum) 1)
+	  (set! zeitraum (string-append "0" zeitraum)))
+
+    (list "Umsatzsteuervoranmeldung" #f
+	  (list "Jahr"         #f "2005"
+		"Zeitraum"     #f zeitraum
+		"Steuernummer" #f (steuernummer:convert land st-nr)
+		"Kz09"         #f (export:generate-kz09 buffer)
+))
+    )))
+		  
+
+    
+
 (tb:form-register
  ; form's name and definition
  "Umsatzsteuervoranmeldung 2005" ustva-2005:definition
@@ -163,6 +190,14 @@
  (lambda (buffer element value)
    (storage:store buffer element value)
    (ustva-2005:recalculate buffer element value))
+
+ ; export function
+ (lambda (buf)
+   (tb:eval-file "export.scm")
+   (export:make-elster-xml
+    (export:make-transfer-header buf "UStVA" #t)
+    (export:make-nutzdaten-header buf)
+    (export:make-steuerfall buf "UStVA" "200501" (ustva-2005:export buf))))
 
  ; empty set
  (lambda () '(("vend-id" . "74931"))))

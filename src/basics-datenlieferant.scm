@@ -20,8 +20,8 @@
     ;; all the fields in 'datenlieferant' sheet together must not be longer
     ;; the 90 chars ..
     (let ((totallen (string-length value))
-	  (fields '("vend-id" "berater" "berufsbez" "berater-vorwahl"
-		    "berater-anschl" "mandant")))
+	  (fields '("vend-id" "name-lieferant" "berufsbez" "vorwahl"
+		    "anschluss" "mandant")))
 
       (while (> (length fields) 0)
 	     (if (not (string=? (car fields) field))
@@ -42,9 +42,9 @@
       "Von der Oberfinanzdirektion München vergebene Hersteller-ID" #t)
 
     tb:field:text-input
-    '("berater" "Name Berater"
-      "Name des (Steuer-)Beraters"
-      (lambda(val buf) (validate:datenlieferant val buf "berater")))
+    '("name-lieferant" "Name"
+      "Name des Datenlieferanten (ggf. Steuerberater)"
+      (lambda(val buf) (validate:datenlieferant val buf "name-lieferant")))
     
     tb:field:text-input
     '("berufsbez" "Berufsbezeichnung"
@@ -52,16 +52,47 @@
       (lambda(val buf) (validate:datenlieferant val buf "berufsbez")))
     
     tb:field:text-input
-    '("berater-vorwahl" "Tel.-Nr. Berater (Vorwahl)"
-      "Tel.-Nr. Berater/Vorwahl"
-      (lambda(val buf) (validate:datenlieferant val buf "berater-vorwahl")))
+    '("vorwahl" "Tel.-Nr. (Vorwahl)"
+      "Tel.-Nr. Datenlieferant/Berater (Vorwahl)"
+      (lambda(val buf) (validate:datenlieferant val buf "vorwahl")))
 
     tb:field:text-input
-    '("berater-anschl" "Tel.-Nr. Berater (Anschluss)"
-      "Tel.-Nr. Berater/Anschluss"
-      (lambda(val buf) (validate:datenlieferant val buf "berater-anschl")))
+    '("anschluss" "Tel.-Nr. (Anschluss)"
+      "Tel.-Nr. Datenlieferant/Berater (Anschluss)"
+      (lambda(val buf) (validate:datenlieferant val buf "anschluss")))
+
+    tb:field:text-input
+    '("plz-lieferant" "Postleitzahl" "PLZ des Datenlieferanten" #t)
+
+    tb:field:text-input
+    '("ort-lieferant" "Ort" "Sitzort des Datenlieferanten" #t)
+
+    tb:field:text-input
+    '("land-lieferant" "Land" "Land des Datenlieferanten" #t)
 
     tb:field:text-input
     '("mandant" "Name Mandant"
-      "Name Mandant (optional, aber erwünscht)"
+      "Name des Mandanten (optional, sofern zutreffend aber erwünscht)"
       (lambda(val buf) (validate:datenlieferant val buf "mandant")))))
+
+
+(define export:generate-datenlieferant
+  (lambda (store)
+    (list "DatenLieferant" #f
+	  (string-append (storage:retrieve store "name-lieferant") ", "
+			 (storage:retrieve store "vorwahl") "/"
+			 (storage:retrieve store "anschluss") ", "
+			 (storage:retrieve store "ort-lieferant") ", "
+			 (storage:retrieve store "plz-lieferant") ", "
+			 (storage:retrieve store "land-lieferant")))))
+
+
+
+(define export:generate-kz09
+  (lambda (store)
+    (string-append (storage:retrieve store "vend-id") "*"
+		   (storage:retrieve store "name-lieferant") "*"
+		   (storage:retrieve store "berufsbez") "*"
+		   (storage:retrieve store "vorwahl") "*"
+		   (storage:retrieve store "anschluss") "*"
+		   (storage:retrieve store "mandant"))))

@@ -25,7 +25,9 @@ guilestuff_DATA = basics-addresse.scm \
 	bundesland-chooser.scm \
 	steuernummer.scm \
 	storage.scm \
-	validate.scm
+	validate.scm \
+	xml-writer.scm \
+	export.scm
 
 autoloaddir = $(datadir)/taxbird/guile/autoload
 autoload_DATA = \
