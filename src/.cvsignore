@@ -17,3 +17,5 @@ interface.h
 support.c
 support.h
 *test*
+autoload
+signatures
