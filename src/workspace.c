@@ -131,7 +131,8 @@ taxbird_ws_sel_form(GtkWidget *appwin, int formid)
   gtk_tree_view_set_model(tv_sheets, GTK_TREE_MODEL(tree));
 
   taxbird_ws_get(appwin)->current_form = formid;
-  taxbird_ws_get(appwin)->ws_data = scm_call_0(forms[formid]->dataset_create);
+  taxbird_ws_get(appwin)->ws_data =
+    scm_list_copy(scm_call_0(forms[formid]->dataset_create));
 }
 
 
