@@ -37,6 +37,11 @@
 #define gh_cddddr(a) (gh_cdr(gh_cdddr(a)))
 #define gh_caddddr(a) (gh_cadr(gh_cdddr(a)))
 
+/* add necessary items (taken from the dataset) to the
+ * GtkTreeStore recursively */
+static void taxbird_ws_fill_tree_store(GtkTreeStore *ts, GtkTreeIter *iter,
+				       SCM dataset);
+
 static void taxbird_ws_store_event(GtkWidget *w, gpointer user_data);
 
 static void taxbird_ws_retrieve_field(GtkWidget *w, struct taxbird_ws *ws,
@@ -118,26 +123,71 @@ taxbird_ws_sel_form(GtkWidget *appwin, int formid)
 
   /* add names of available sheets */
   {
-    GtkTreeIter iter;
-    GtkListStore *list = gtk_list_store_new(1, G_TYPE_STRING);
+    GtkTreeStore *tree = gtk_tree_store_new(1, G_TYPE_STRING);
 
-    while(! gh_null_p(dataset)) {
-      char *sheetname = gh_scm2newstr(gh_car(dataset), NULL);
-
-      gtk_list_store_append (list, &iter);
-      gtk_list_store_set (list, &iter, 0, sheetname, -1);
-      
-      free(sheetname);
-
-      dataset = gh_cddr(dataset);
-    }
-
-    gtk_tree_view_set_model(tv_sheets, GTK_TREE_MODEL(list));
+    taxbird_ws_fill_tree_store(tree, NULL, dataset);
+    gtk_tree_view_set_model(tv_sheets, GTK_TREE_MODEL(tree));
   }
 
   taxbird_ws_get(appwin)->current_form = formid;
   taxbird_ws_get(appwin)->ws_data = gh_call0(forms[formid]->dataset_create);
 }
+
+
+/* add necessary items (taken from the dataset) to the
+ * GtkTreeStore recursively */
+static void
+taxbird_ws_fill_tree_store(GtkTreeStore *tree, GtkTreeIter *parent, SCM dataset)
+{
+  /* dataset actually represents a whole tree of sheets with field definitions
+   * included, destinguishing works this way:
+   *
+   * take the car of the dataset list
+   *  - if it's a number it is a constant specifing a field type
+   *    -> the cadr is the definition (label etc.) of the field
+   *
+   *  - if it's a string, it's the name of another sheet
+   *    -> the cadr is the further definition of this sheet (i.e. subsheets
+   *       and fields)
+   */
+  GtkTreeIter iter;
+
+  if(gh_symbol_p(dataset))
+    dataset = scm_primitive_eval(dataset);
+
+  g_return_if_fail(gh_list_p(dataset));
+  g_return_if_fail(gh_length(dataset));
+
+  if(gh_symbol_p(gh_car(dataset))) {
+    SCM symbol = gh_lookup(SCM_SYMBOL_CHARS(gh_car(dataset)));
+
+    /* ignore, symbols of number-type as those are the constants we use
+     * to indicate fields, try to evaluate everything else ... */
+
+    if(! gh_number_p(symbol))
+      /* probably quoted list, or whatever else, interpret it and
+       * call filling routine recursively */
+      taxbird_ws_fill_tree_store(tree, parent, scm_primitive_eval(dataset));
+
+    return;
+  }
+
+  if(gh_number_p(gh_car(dataset)))
+    return; /* okay, this sheet is a leaf (holding fields) */
+
+  while(gh_length(dataset)) {
+    g_return_if_fail(gh_string_p(gh_car(dataset)));
+
+    gtk_tree_store_append(tree, &iter, parent);
+    gtk_tree_store_set(tree, &iter, 0, SCM_STRING_CHARS(gh_car(dataset)), -1);
+
+    /* create sheet's nodes recursively */
+    taxbird_ws_fill_tree_store(tree, &iter, gh_cadr(dataset));
+
+    dataset = gh_cddr(dataset);
+  }
+}
+
 
 
 /* display sheet with provided id in the workspace of app_window */
@@ -149,6 +199,11 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
   SCM sheet = taxbird_ws_lookup_sheet(forms[forms_id]->dataset, sheetname);
 
   g_return_if_fail(gh_list_p(sheet));
+  g_return_if_fail(gh_length(sheet));
+
+  if(gh_string_p(gh_car(sheet)))
+    return; /* user didn't select a real sheet but only a node representing
+	     * a parent in the tree  */  
 
   /* remove old widget tree ... */
   {
@@ -192,6 +247,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 	GtkWidget *label = gtk_label_new(buf);
 	free(buf);
 
+	gtk_label_set_line_wrap(GTK_LABEL(label), 1);
 	gtk_widget_show(label);
 	gtk_table_attach(GTK_TABLE(table), label, 0, 1, item, item + 1,
 			 (GtkAttachOptions) (GTK_FILL),
@@ -359,29 +415,56 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 static SCM
 taxbird_ws_lookup_sheet(SCM dataset, const char *needle)
 {
+  if(gh_symbol_p(dataset))
+    dataset = scm_primitive_eval(dataset);
+
   g_return_val_if_fail(gh_list_p(dataset), gh_bool2scm(0));
+  g_return_val_if_fail(gh_length(dataset), gh_bool2scm(0));
   
+  if(gh_symbol_p(gh_car(dataset))) {
+    SCM symbol = gh_lookup(SCM_SYMBOL_CHARS(gh_car(dataset)));
+
+    if(! gh_number_p(symbol))
+      return taxbird_ws_lookup_sheet(scm_primitive_eval(dataset), needle);
+
+    else
+      return gh_bool2scm(0);
+  }
+    
+  if(gh_number_p(gh_car(dataset)))
+    return gh_bool2scm(0); /* sheet definition, no more sub-sheets */
+
   while(! gh_null_p(dataset)) {
-    char *sheetname = gh_scm2newstr(gh_car(dataset), NULL);
+    g_return_val_if_fail(gh_string_p(gh_car(dataset)), gh_bool2scm(0));
 
-    if(! strcmp(sheetname, needle)) {
+    if(! strcmp(SCM_STRING_CHARS(gh_car(dataset)), needle)) {
       SCM sheet = gh_cadr(dataset);
-      if(gh_symbol_p(sheet)) {
-	/* resolve symbol to list */
-	char *ws_field_type_sym = SCM_SYMBOL_CHARS(sheet);
-	sheet = gh_lookup(ws_field_type_sym);
-      }
-      else if(gh_list_p(sheet))
-	sheet = gh_cadr(sheet); /* unquote list */
-      else
-	g_assert_not_reached();
 
-      free(sheetname);
+      while(gh_symbol_p(sheet))
+	sheet = scm_primitive_eval(sheet);
+
       g_return_val_if_fail(gh_list_p(sheet), gh_bool2scm(0));
+
+      /* now try to find out whether the list is quoted or requires a
+       * procedure to be called (the first symbol may be a numeric
+       * constant (telling the type of field)
+       */
+      if(gh_symbol_p(gh_car(sheet))) {
+	SCM symbol = gh_lookup(SCM_SYMBOL_CHARS(gh_car(sheet)));
+	if(! gh_number_p(symbol))
+	  sheet = scm_primitive_eval(sheet);
+      }
+
       return sheet;
     }
+    else {
+      /* try recursing down */
+      SCM retval = taxbird_ws_lookup_sheet(gh_cadr(dataset), needle);
 
-    free(sheetname);
+      if(gh_list_p(retval))
+	return retval; /* got it, pass it back up */
+    }
+
     dataset = gh_cddr(dataset);
   }
 
