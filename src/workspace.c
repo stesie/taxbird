@@ -262,8 +262,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 
     /* set callback responsible for displaying help text in appbar */
     g_signal_connect((gpointer) input, "focus-in-event",
-		     G_CALLBACK(taxbird_ws_show_appbar_help),
-		     SCM_CADDR(specs));
+		     G_CALLBACK(taxbird_ws_show_appbar_help), NULL);
 				  
     gtk_widget_show(input);
 
@@ -292,6 +291,11 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
       GLADE_HOOKUP_OBJECT(appwin, input, field_name);
       
       taxbird_ws_retrieve_field(input, taxbird_ws_get(appwin), field_name);
+
+      /* set callback responsible for displaying help text in appbar */
+      g_signal_connect((gpointer) input, "focus-in-event",
+		       G_CALLBACK(taxbird_ws_show_appbar_help), NULL);
+
       gtk_widget_show(input);
     }
 
@@ -536,9 +540,20 @@ taxbird_ws_show_appbar_help(GtkWidget *widget, GdkEventFocus *event,
 			    gpointer user_data)
 {
   (void) event;
+  (void) user_data;
 
-  SCM helptext = user_data;
+  SCM helptext;
+  SCM specs = (SCM) g_object_get_data(G_OBJECT(widget), "scm_specs");
   GtkWidget *appbar = lookup_widget(widget, "appbar");
+
+  g_return_val_if_fail(SCM_NFALSEP(scm_list_p(specs)), 0);
+  if(scm_ilength(specs) < 3) {
+    /* no help text assigned, clear status line */
+    gnome_appbar_set_status(GNOME_APPBAR(appbar), "");
+    return FALSE; /* continue with next handler, if any. */
+  }
+
+  helptext = SCM_CADDR(specs);   
 
   if(SCM_NFALSEP(scm_list_p(helptext)))
     /* probably a command, execute it */
