@@ -25,8 +25,21 @@ ALL_LINGUAS="de"
 AM_GLIB_GNU_GETTEXT
 
 dnl Check for GNU Guile
-AC_CHECK_HEADER(guile/gh.h,, AC_MSG_ERROR([GNU Guile include files missing.]))
-AC_CHECK_LIB(guile, gh_define,, AC_MSG_ERROR([GNU Guile libraries missing.]))
+#AC_CHECK_HEADER(guile/gh.h,, AC_MSG_ERROR([GNU Guile include files missing.]))
+#AC_CHECK_LIB(guile, gh_define,, AC_MSG_ERROR([GNU Guile libraries missing.]))
+GUILE_FLAGS
+GUILE_MODULE_REQUIRED(ice-9 format)
+
+dnl Check for mhash/gpgme (crypto support for vendor ids)
+AM_PATH_GPGME(1.0.0,, AC_MSG_ERROR([libgpgme missing.]))
+#AC_CHECK_HEADER(gpgme.h,, AC_MSG_ERROR([libgpgme header files missing.]))
+
+dnl Check for libwww (md5 thingy)
+m4_include([libwww.m4])
+LIBWWW_FLAGS
+
+CFLAGS="$CFLAGS $GPGME_CFLAGS $GUILE_CFLAGS $LIBWWW_CFLAGS"
+LDFLAGS="$LDFLAGS $GPGME_LDFLAGS $GUILE_LDFLAGS $LIBWWW_LDFLAGS"
 
 AC_OUTPUT([
 Makefile
