@@ -21,116 +21,173 @@
 (tb:eval-file "bundesland-chooser.scm")
 (tb:eval-file "steuernummer.scm")
 (tb:eval-file "validate.scm")
+(tb:eval-file "zeitraum-chooser.scm")
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Umsatzsteuervoranmeldung 2005                                           ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define ustva-2005:definition
-  '("Allgemeine Daten" '(tb:field:chooser
-			 bundesland:chooser
-
-			 tb:field:text-input
-			 '("stnr" "Steuernummer"
-			   (string-append "Die vom zuständigen Finanzamt "
-					  "vergebene Steuernummer. "
-					  "Eingabe mit Schrägstrichen.")
-			   steuernummer:validate)
-
-			 tb:field:chooser
-			  '("zeitraum" "Voranmeldungszeitraum"
-			    "Umsatzsteuervoranmeldungszeitraum"
-			    ("Januar" "Februar" "März" "April" "Mai" "Juni"
-			     "Juli" "August" "September" "Oktober" "November"
-			     "Dezember" "1. Quartal" "2. Quartal" "3. Quartal"
-			     "4. Quartal")))
-
-    "Datenlieferant" basics:datenlieferant
-    "Steuerpflichtiger" basics:adresse 
-
-    ;; Vorderseite der Umsatzsteuervoranmeldung
-    "Lieferungen und sonstige Leistungen" ustva-2005:lief-und-so-leistg
-
-))
+  (list
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Lieferungen und sonstige Leistungen                                     ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(define ustva-2005:lief-und-so-leistg
-  '("Steuerfreie Umsätze" '("mit Vorsteuerabzug" ustva-2005:stfr-ums-vost
-			    "ohne Vorsteuerabzug" ustva-2005:stfr-ums-ohne-vost)
-    
-    "Steuerpflichtige Umsätze" ustva-2005:stpfl-ums
-;    "Umsätze nach § 24 UStG" ustva-2005:stpfl-ums-luf
-))
 
-(define ustva-2005:stfr-ums-vost
-  '("Innerg. Lieferungen" '(tb:field:text-input
-			    '("Kz41" "Abnehmer mit USt-ID"
-			      (string-append "Innergemeinschaftliche "
-					     "Lieferungen (§ 4 Nr. 1 Buchst. b "
-					     "UStG) an Abnehmer mit USt-IdNr.")
-			      validate:signed-int)
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   "Allgemeine Daten"
 
-			    tb:field:text-input
-			    '("Kz44" "Abnehmer ohne USt-ID (Fahrzeuge)"
-			      (string-append "Innergemeinschaftliche "
-					     "Lieferungen neuer Fahrzeuge an "
-					     "Abnehmer ohne Ust-IdNr.")
-			      validate:signed-int)
+   (list tb:field:chooser
+	 bundesland:chooser
 
-			    tb:field:text-input
-			    '("Kz49" "Außerhalb eines Untern. (Fahrzeuge)"
-			      (string-append "Innergemeinschaftliche "
-					     "Lieferungen neuer Fahrzeuge "
-					     "außerhalb eines Unternehmens "
-					     "§ 2a UStG")
-			      validate:signed-int))
 
-    "Weitere steuerfreie Umsätze" '(tb:field:text-input
-				    '("Kz43" "mit Vorsteuerabzug"
-				      (string-append "Weitere steuerfreie "
-						     "Umsätze mit Vorsteuer"
-						     "abzug (z.B. Ausfuhrliefer"
-						     "ungen, Umsätze nach § 4 "
-						     "Nr. 2 bis 7 UStG)")
-				      validate:signed-int))))
+	 tb:field:text-input
+	 (list "stnr"
+	       "Steuernummer"
+	       (string-append "Die vom zuständigen Finanzamt vergebene "
+			      "Steuernummer. Eingabe mit Schrägstrichen.")
+	       steuernummer:validate)
 
-(define ustva-2005:stfr-ums-ohne-vost
-  '(tb:field:text-input
-    '("Kz48" "Umsätze nach § 4 Nr. 8 bis 28 UStG"
-      (string-append "Umsätze nach § 4 Nr. 8 bis 28 UStG "
-		     "(steuerfreie Umsätze ohne Vorsteuerabzug)")
-      validate:signed-int)))
-			  
-(define ustva-2005:stpfl-ums
-  '(tb:field:text-input-calc
-    '("Kz51" "zum Steuersatz von 16%"
-      (string-append "Lieferungen und sonstige Leistungen einschl. "
-		     "unentgeltlicher Wertabgaben zum Steuersatz von 16 v.H.")
-      validate:signed-int "Kz51-calc")
 
-    tb:field:text-input-calc
-    '("Kz86" "zum Steuersatz von 7%"
-      (string-append "Lieferungen und sonstige Leistungen einschl. "
-		     "unentgeltlicher Wertabgaben zum Steuersatz von 7 v.H.")
-      validate:signed-int "Kz86-calc")
+	 tb:field:chooser
+	 zeitraum:chooser)
+   
 
-    tb:field:text-input-input
-    '("Kz35" "andere Steuersätze"
-      (string-append "Lieferungen und sonstige Leistungen einschl. "
-		     "unentgeltlicher Wertabgaben, Umsätze, die anderen "
-		     "Steuersätzen unterliegen (Umsatz)")
-      validate:signed-int
-      "Kz36" #f "Umsätze, die anderen Steuersätzen unterliegen (Steuer)"
-      (lambda(val buf)
-	(if (validate:signed-monetary val buf)
-	    (let ((kz35val (storage:retrieve buf "Kz35")))
-	      (if (= (string-length val) 0) (set! val "0"))
-	      (if (or (not (string? kz35val)) (= (string-length kz35val) 0))
-		  (set! kz35val "0"))
-	      (if (< (string->number val) (string->number kz35val)) #t #f))
-	    #f)))))
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   "Datenlieferant"    basics:datenlieferant
+
+
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   "Steuerpflichtiger" basics:adresse 
+
+
+
+    ;; Vorderseite der Umsatzsteuervoranmeldung ...
+   "Lieferungen und sonstige Leistungen" 
+
+   (list
+
+
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    "Steuerfreie Umsätze"
+    (list
+
+
+
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     "mit Vorsteuerabzug"
+
+     (list
+      "Innerg. Lieferungen"
+
+      (list tb:field:text-input
+	    (list "Kz41"
+		  "Abnehmer mit USt-ID"
+		  (string-append "Innergem. Lieferungen (§ 4 Nr. 1 Buchst. b "
+				 "UStG) an Abnehmer mit USt-IdNr.")
+		  validate:signed-int)
+
+
+	    tb:field:text-input
+	    (list "Kz44"
+		  "Abnehmer ohne USt-ID (Fahrzeuge)"
+		  (string-append "Innergem. Lieferungen neuer Fahrzeuge an "
+				 "Abnehmer ohne Ust-IdNr.")
+		  validate:signed-int)
+
+
+	    tb:field:text-input
+	    (list "Kz49"
+		  "Außerhalb eines Unternehmens (Fahrzeuge)"
+		  (string-append "Innergemeinschaftliche Lieferungen neuer "
+				 "Fahrzeuge außerhalb eines Unternehmens "
+				 "§ 2a UStG")
+		  validate:signed-int))
+
+
+
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      "Weitere steuerfreie Umsätze"
+      (list tb:field:text-input
+	    (list "Kz43"
+		  "mit Vorsteuerabzug"
+		  (string-append "Weitere steuerfreie Umsätze mit Vorsteuer "
+				 "abzug (z.B. Ausfuhrlieferungen, Umsätze nach "
+				 "§ 4 Nr. 2 bis 7 UStG)")
+		  validate:signed-int)))
+
+
+	
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     "ohne Vorsteuerabzug"
+     (list tb:field:text-input
+	   (list "Kz48"
+		 "Umsätze nach § 4 Nr. 8 bis 28 UStG"
+		 (string-append "Umsätze nach § 4 Nr. 8 bis 28 UStG "
+				"(steuerfreie Umsätze ohne Vorsteuerabzug)")
+		 validate:signed-int)))
+
+
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    "Steuerpflichtige Umsätze"
+    (list tb:field:text-input-calc
+	  (list "Kz51"
+		"zum Steuersatz von 16%"
+		(string-append "Lieferungen und sonstige Leistungen einschl. "
+			       "unentgeltlicher Wertabgaben "
+			       "zum Steuersatz von 16 v.H.")
+		validate:signed-int
+
+		;; second field ...
+		"Kz51-calc")
+
+	  
+	  tb:field:text-input-calc
+	  (list "Kz86"
+		"zum Steuersatz von 7%"
+		(string-append "Lieferungen und sonstige Leistungen einschl. "
+			       "unentgeltlicher Wertabgaben "
+			       "zum Steuersatz von 7 v.H.")
+		validate:signed-int
+
+		;; second field ...
+		"Kz86-calc")
+
+
+	  tb:field:text-input-input
+	  (list "Kz35"
+		"andere Steuersätze"
+		(string-append "Lieferungen und sonstige Leistungen einschl. "
+			       "unentgeltlicher Wertabgaben, Umsätze, die "
+			       "anderen Steuersätzen unterliegen (Umsatz)")
+		validate:signed-int
+
+		;; second field
+		"Kz36"
+		#f ; no desc for 2nd field ...
+		"Umsätze, die anderen Steuersätzen unterliegen (Steuer)"
+		(lambda(val buf)
+		  (if (validate:signed-monetary val buf)
+		      (let ((kz35val (storage:retrieve buf "Kz35")))
+			(if (= (string-length val) 0) (set! val "0"))
+			(if (or (not (string? kz35val))
+				(= (string-length kz35val) 0))
+			    (set! kz35val "0"))
+			(if (< (string->number val) (string->number kz35val))
+			    #t
+			    #f))
+		      #f)))))))
+
+
+
+
+
+
+
+
 
 
 
@@ -150,6 +207,7 @@
 		       (set! value "0"))
 		   ((eval (cadr list) (current-module)) value buffer)))
 	     (set! list (cddr list))))))
+
 
 
 
