@@ -1,5 +1,9 @@
 # List of source files containing translatable strings.
 
+src/form.c
+src/guile.c
 src/interface.c
 src/callbacks.c
+src/main.c
 src/support.c
+src/workspace.c
