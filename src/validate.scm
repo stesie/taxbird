@@ -37,3 +37,15 @@
 	      #t
 	      #f)
 	  #f))))
+
+
+;; make sure the specified value is a signed monetary value, i.e. not more 
+;; than two cent digits
+(define validate:signed-monetary
+  (lambda (value buffer)
+    (let ((conv-val (string->number value)))
+      (if (number? conv-val)
+	  (if (integer? (* 100 conv-val))
+	      #t
+	      #f)
+	  #f))))
