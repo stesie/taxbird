@@ -403,8 +403,10 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 
       store_value = scm_int2num(item);
     }
-    else
+    else {
       g_assert_not_reached();
+      return;
+    }
 
     scm_call_3(forms[current_form]->dataset_write,
 	       (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data"),
