@@ -34,7 +34,9 @@ static SCM taxbird_guile_eval_file_SCM(SCM scm_fn);
 void taxbird_guile_init(void)
 {
   /* search current and taxbird's system directory by default */
-  scm_c_define("tb:scm-directories", scm_list_1(scm_makfrom0str(".")));
+  scm_c_define("tb:scm-directories",
+	       scm_list_2(scm_makfrom0str("."),
+			  scm_makfrom0str(PACKAGE_DATA_DIR "/taxbird/guile")));
 
   scm_c_define("tb:field:text-input", scm_int2num(FIELD_TEXT_INPUT));
   scm_c_define("tb:field:text-output", scm_int2num(FIELD_TEXT_OUTPUT));

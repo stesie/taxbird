@@ -19,3 +19,12 @@ taxbird_SOURCES = \
 
 taxbird_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 
+guilestuffdir = $(datadir)/taxbird/guile
+guilestuff_DATA = basics-addresse.scm \
+	basics-datenlieferant.scm \
+	bundesland-chooser.scm \
+	startup.scm \
+	steuernummer.scm \
+	storage.scm \
+	ustva-2005.scm \
+	validate.scm
