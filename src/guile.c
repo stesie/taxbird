@@ -25,6 +25,7 @@
 #include <string.h>
 #include <glib.h>
 #include <dirent.h>
+#include <sys/stat.h>
 
 #include "guile.h"
 #include "form.h"
@@ -60,7 +61,7 @@ void taxbird_guile_init(void)
    */
   while(scm_ilength(loadpath)) {
     struct dirent *dirent;
-    char *dirname = g_strdup_printf("%s/autoload",
+    char *dirname = g_strdup_printf("%s/autoload/",
 				    SCM_STRING_CHARS(SCM_CAR(loadpath)));
     DIR *dir = opendir(dirname);
 
@@ -68,7 +69,8 @@ void taxbird_guile_init(void)
       while((dirent = readdir(dir))) {
 	char *fname;
 
-	if(dirent->d_type != DT_REG) continue; /* don't load directories :-) */
+	if(*dirent->d_name == '.') continue; /* don't autoload hidden files
+					      * (and '.' or '..' directory) */
 
 	fname = g_strdup_printf("autoload/%s", dirent->d_name);
 	taxbird_guile_eval_file(fname);
@@ -94,7 +96,7 @@ taxbird_guile_eval_file(const char *fn)
   while(scm_ilength(dirlist)) {
     size_t path_len;
     char *buf;
-    FILE *handle;
+    struct stat statbuf;
     SCM path = SCM_CAR(dirlist);
    
     g_return_val_if_fail(SCM_STRINGP(path), -1);
@@ -106,16 +108,15 @@ taxbird_guile_eval_file(const char *fn)
       return -1; /* out of memory */
     }
 
-    handle = fopen(buf, "r");
-    if(handle) {
-      fclose(handle);
-      
+    if(! stat(buf, &statbuf)
+       && ! S_ISDIR(statbuf.st_mode)) {
+      /* not a directory ... */
       scm_c_primitive_load(buf); 
-      free(buf);
+      g_free(buf);
       return 0;
     }
 
-    free(buf);
+    g_free(buf);
 
     /* next element */
     dirlist = SCM_CDR(dirlist);
