@@ -128,7 +128,19 @@
 
 
 
+(define ustva-2005:recalculate
+  (lambda (buffer element value)
+    (let ((list '("Kz51" (lambda(v buffer)
+			   (storage:store buffer "Kz51-calc"
+					  (/ (* (string->number v) 16) 100)))
+		  "Kz86" (lambda(v buffer)
+			   (storage:store buffer "Kz86-calc"
+					  (/ (* (string->number v) 7) 100))))))
 
+      (while (> (length list) 0)
+	     (if (string=? (car list) element)
+		 ((eval (cadr list) (current-module)) value buffer))
+	     (set! list (cddr list))))))
 
 (tb:form-register
  ; form's name and definition
@@ -138,7 +150,9 @@
  storage:retrieve
 
  ; storage function
- storage:store
+ (lambda (buffer element value)
+   (storage:store buffer element value)
+   (ustva-2005:recalculate buffer element value))
 
  ; empty set
  (lambda () '(("vend-id" . "74931"))))
