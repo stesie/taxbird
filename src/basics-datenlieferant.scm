@@ -17,7 +17,6 @@
 
 (define validate:datenlieferant
   (lambda (value buffer field)
-    (display value)(newline)
     ;; all the fields in 'datenlieferant' sheet together must not be longer
     ;; the 90 chars ..
     (let ((totallen (string-length value))
