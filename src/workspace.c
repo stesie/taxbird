@@ -40,6 +40,9 @@
 static void taxbird_ws_fill_tree_store(GtkTreeStore *ts, GtkTreeIter *iter,
 				       SCM dataset);
 
+/* call validation function associated to the given field (w), ret 1 if valid */
+static int taxbird_ws_validate(GtkWidget *w);
+
 static void taxbird_ws_store_event(GtkWidget *w, gpointer user_data);
 
 static void taxbird_ws_retrieve_field(GtkWidget *w, struct taxbird_ws *ws,
@@ -294,6 +297,50 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 
 
 
+/* call validation function associated to the given field (w)
+ * return 1 if contents is valid, 0 in case not
+ */
+static int
+taxbird_ws_validate(GtkWidget *w)
+{
+  GtkWidget *appwin = lookup_widget(w, "taxbird");
+  SCM field = (SCM) gtk_object_get_user_data(GTK_OBJECT(w));
+  /* field points to the ("intname" "name" "desc" validate-func) list */
+  SCM validatfunc;
+  g_return_val_if_fail(SCM_NFALSEP(scm_list_p(field)), 0);
+
+  if(! GTK_IS_ENTRY(w))
+    return 1;    /* consider output fields, choosers etc. to be valid */
+
+  /* validate field's value, in case it's a text entry field */
+  validatfunc = SCM_CADDDR(field);
+
+  if(SCM_SYMBOLP(validatfunc))
+    /* immediate symbol (i.e. defined function), resolve and execute then */
+    validatfunc = scm_c_lookup_ref(SCM_SYMBOL_CHARS(validatfunc));
+
+  if(SCM_NFALSEP(scm_list_p(validatfunc)))
+    /* probably some kind of (lambda (v buf) (validator v)) thingy ... */
+    validatfunc = scm_primitive_eval(validatfunc);
+
+  if(SCM_NFALSEP(scm_procedure_p(validatfunc))) {
+    /* execute validator function */
+    const char *content = gtk_entry_get_text(GTK_ENTRY(w));
+    validatfunc = scm_call_2(validatfunc, scm_makfrom0str(content),
+			     taxbird_ws_get(appwin)->ws_data);
+  }
+
+  if(SCM_BOOLP(validatfunc))
+    return SCM_NFALSEP(validatfunc);
+
+  g_warning("damn, who coded this piece of scheme code? don't know "
+	    "what to do with validator func ...");
+  gh_display(validatfunc);
+  return 0;
+}
+
+
+
 /* callback function called when entry fields are changed,
  * need to validate and store the entered data 
  */
@@ -303,47 +350,12 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
   (void) user_data;
 
   GtkWidget *appwin = lookup_widget(w, "taxbird");
+
   SCM field = (SCM) gtk_object_get_user_data(GTK_OBJECT(w));
-  SCM validatfunc;
-  int valid = 0;
   g_return_if_fail(SCM_NFALSEP(scm_list_p(field)));
 
-  /* field points to the ("intname" "name" "desc" validate-func) list */
-
-  if(GTK_IS_ENTRY(w)) {
-    /* validate field's value, in case it's a text entry field */
-    validatfunc = SCM_CADDDR(field);
-
-    if(SCM_SYMBOLP(validatfunc))
-      /* immediate symbol (i.e. defined function), resolve and execute then */
-      validatfunc = scm_c_lookup_ref(SCM_SYMBOL_CHARS(validatfunc));
-
-    if(SCM_NFALSEP(scm_list_p(validatfunc)))
-      /* probably some kind of (lambda (v buf) (validator v)) thingy ... */
-      validatfunc = scm_primitive_eval(validatfunc);
-
-    if(SCM_NFALSEP(scm_procedure_p(validatfunc))) {
-      /* execute validator function */
-      const char *content = gtk_entry_get_text(GTK_ENTRY(w));
-      validatfunc = scm_call_2(validatfunc, scm_makfrom0str(content),
-			       taxbird_ws_get(appwin)->ws_data);
-    }
-
-    if(SCM_BOOLP(validatfunc))
-      valid = SCM_NFALSEP(validatfunc);
-    else {
-      g_warning("damn, who coded this piece of scheme code? don't know "
-		"what to do with validator func ...");
-      gh_display(validatfunc);
-    }
-  }
-  else {
-    /* consider output fields, choosers etc. to be valid */
-    valid = 1;
-  }
-
   /* store data if it's valid */
-  if(valid) {
+  if(taxbird_ws_validate(w)) {
     SCM store_value;
 
     static GdkColor taxbird_color_okay = { 0, 32767, 32767, 32767 };
@@ -351,36 +363,12 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 
     if(GTK_IS_ENTRY(w))
       store_value = scm_makfrom0str(gtk_entry_get_text(GTK_ENTRY(w)));
+
     else if(GTK_IS_COMBO_BOX(w)) {
-      /* I'm currently unsure whether storing the value itself (i.e. the
-       * text representation) or the offset is more clever. For the time being
-       * I think storing the offset is easier (especially since
-       * gtk_combo_box_get_active_text is not available and would have to be
-       * worked around) ... */
-
-      /* gtk_combo_box_get_active_text is available from Gtk 2.6 on, to work
-       * with wide spread 2.4 as well, work around ... 
-       *
-       * perhaps conditionally compile and use 2.6 function if available!! 
-       */
-      
-      /* store_value =
-       *   scm_take0str(gtk_combo_box_get_active_text(GTK_COMBO_BOX(w)));
-       */
-
       int item = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
       g_return_if_fail(item >= 0);
 
       store_value = scm_int2num(item);
-
-      /* SCM entries = gh_cadddr(field);
-       *
-       * while(item --)
-       *   entries = gh_cdr(entries);
-       *
-       * g_printerr("selected item is '%s'.\n",
-       *            SCM_STRING_CHARS(gh_car(entries)));
-       */
     }
     else
       g_assert_not_reached();
@@ -399,6 +387,7 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
     gtk_widget_modify_bg(w, GTK_STATE_NORMAL, &taxbird_color_red);
   }
 }
+
 
 
 static SCM
