@@ -60,7 +60,7 @@
   '("Steuerfreie Umsätze" '("mit Vorsteuerabzug" ustva-2005:stfr-ums-vost
 			    "ohne Vorsteuerabzug" ustva-2005:stfr-ums-ohne-vost)
     
-;    "Steuerpflichtige Umsätze" ustva-2005:stpfl-ums
+    "Steuerpflichtige Umsätze" ustva-2005:stpfl-ums
 ;    "Umsätze nach § 24 UStG" ustva-2005:stpfl-ums-luf
 ))
 
@@ -96,7 +96,6 @@
 						     "Nr. 2 bis 7 UStG)")
 				      validate:signed-int))))
 
-
 (define ustva-2005:stfr-ums-ohne-vost
   '(tb:field:text-input
     '("Kz48" "Umsätze nach § 4 Nr. 8 bis 28 UStG"
@@ -104,6 +103,27 @@
 		     "(steuerfreie Umsätze ohne Vorsteuerabzug)")
       validate:signed-int)))
 			  
+(define ustva-2005:stpfl-ums
+  '(tb:field:text-input-calc
+    '("Kz51" "zum Steuersatz von 16%"
+      (string-append "Lieferungen und sonstige Leistungen einschl. "
+		     "unentgeltlicher Wertabgaben zum Steuersatz von 16 v.H.")
+      validate:signed-int "Kz51-calc")
+
+    tb:field:text-input-calc
+    '("Kz86" "zum Steuersatz von 7%"
+      (string-append "Lieferungen und sonstige Leistungen einschl. "
+		     "unentgeltlicher Wertabgaben zum Steuersatz von 7 v.H.")
+      validate:signed-int "Kz86-calc")
+
+    tb:field:text-input-input
+    '("Kz35" "andere Steuersätze"
+      (string-append "Lieferungen und sonstige Leistungen einschl. "
+		     "unentgeltlicher Wertabgaben, Umsätze, die anderen "
+		     "Steuersätzen unterliegen (Umsatz)")
+      validate:signed-int
+      "Kz36" #f "Umsätze, die anderen Steuersätzen unterliegen (Steuer)"
+      validate:signed-monetary)))
 
 
 
