@@ -27,6 +27,10 @@ void taxbird_guile_init(void);
 /* evaluate given file, checking it's signature */
 int taxbird_guile_eval_file(const char *fn);
 
+/* check validity of signature file and check referenced file's hash values */
+char *taxbird_guile_check_sig(const char *fn);
 
+/* lookup a file 'fn' in the paths we search .scm files in */
+char *taxbird_guile_dirlist_lookup(const char *fn);
 
 #endif /* TAXBIRD_GUILE_H */
