@@ -1,0 +1,13 @@
+stamp-h.in
+.deps
+configure
+config.h.in
+autom4te.cache
+aclocal.m4
+Makefile.in
+Makefile
+config.h
+config.log
+config.status
+stamp-h
+configure.scan
