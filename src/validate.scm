@@ -42,6 +42,19 @@
 	      #f)))))
 
 
+(define validate:unsigned-int
+  (lambda (value buffer)
+    (if (= (string-length value) 0)
+	#t ; empty
+
+	(if (not (validate:signed-int value buffer))
+	    #f
+
+	    (if (< (string->number value) 0)
+		#f
+		#t)))))
+
+
 ;; make sure the specified value is a signed monetary value, i.e. not more 
 ;; than two cent digits
 ;; FIXME: 123.00000000001 will be accepted, perhaps do some text-based scanning
