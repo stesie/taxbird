@@ -51,7 +51,7 @@ void taxbird_guile_init(void)
 	       scm_int2num(FIELD_TEXT_INPUT_INPUT));
 
   scm_c_define_gsubr("tb:eval-file", 1, 0, 0, taxbird_guile_eval_file_SCM);
-  scm_c_define_gsubr("tb:form-register", 5, 0, 0, taxbird_form_register);
+  scm_c_define_gsubr("tb:form-register", 6, 0, 0, taxbird_form_register);
 
   /* Scan autoload/ directories for files, that should be loaded automatically.
    * However don't load each file from these directories in order, but 
@@ -122,6 +122,7 @@ taxbird_guile_eval_file(const char *fn)
       return -1; /* out of memory */
     }
 
+    g_printerr("taxbird: loading file '%s' ...\n", buf);
     if(! stat(buf, &statbuf)
        && ! S_ISDIR(statbuf.st_mode)) {
       /* not a directory ... */

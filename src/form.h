@@ -35,6 +35,7 @@ struct form {
   SCM dataset;        /* list defining the dataset (sheets and fields) */
   SCM dataset_read;   /* function to read from our dataset */
   SCM dataset_write;  /* function to write to the dataset */
+  SCM dataset_export; /* function to export XML stream */
   SCM dataset_create; /* empty data set */
 };
 
@@ -46,7 +47,8 @@ extern unsigned int forms_num;
 
 /* create a new form (tb:form-register) */
 SCM taxbird_form_register(SCM name, SCM dataset, SCM dataset_read,
-			  SCM dataset_write, SCM dataset_create);
+			  SCM dataset_write, SCM dataset_export,
+			  SCM dataset_create);
 
 /* lookup specified form's id 
  * RETURN: number of registered form, -1 on error
