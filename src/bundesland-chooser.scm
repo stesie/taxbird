@@ -16,10 +16,23 @@
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 (define bundesland:chooser
-  '("land" "Bundesland" (string-append
-			 "Bundesland von dem die erfasste Steuernummer "
-			 "vergeben wurde.")
-    ("Baden-Württemberg" "Bayern" "Berlin" "Brandenburg" "Bremen" "Hamburg"
-     "Hessen" "Mecklenburg-Vorpommern" "Niedersachsen" "Nordrhein-Westfalen"
-     "Rheinland-Pfalz" "Saarland" "Sachsen" "Sachsen-Anhalt"
-     "Schleswig-Holstein" "Thüringen")))
+  (list "land"
+	"Bundesland"
+	"Bundesland von dem die erfasste Steuernummer vergeben wurde."
+
+	'("Baden-Württemberg"
+	  "Bayern"
+	  "Berlin"
+	  "Brandenburg"
+	  "Bremen"
+	  "Hamburg"
+	  "Hessen"
+	  "Mecklenburg-Vorpommern"
+	  "Niedersachsen"
+	  "Nordrhein-Westfalen"
+	  "Rheinland-Pfalz"
+	  "Saarland"
+	  "Sachsen"
+	  "Sachsen-Anhalt"
+	  "Schleswig-Holstein"
+	  "Thüringen")))
