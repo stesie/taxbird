@@ -22,7 +22,7 @@
   (lambda (value buf)
     ;; value is the tax-id as specified by the user
 
-    (let ((land (storage:retrieve buf "land")))
+    (let ((land (string->number (storage:retrieve buf "land"))))
 
       (if (not land)
 	  #f ; federal state not yet specified, we're not able to verify
