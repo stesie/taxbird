@@ -44,14 +44,47 @@
 
 ;; make sure the specified value is a signed monetary value, i.e. not more 
 ;; than two cent digits
+;; FIXME: 123.00000000001 will be accepted, perhaps do some text-based scanning
+;;        also! The question is whether anybody cares ;-)
 (define validate:signed-monetary
   (lambda (value buffer)
     (if (= (string-length value) 0)
 	#t ; empty => zero
 
 	(let ((conv-val (string->number value)))
-	  (if (number? conv-val)
-	      (if (integer? (* 100 conv-val))
-		  #t
-		  #f)
-	      #f)))))
+	  (if (not conv-val)
+	      #f ; NaN => error
+
+	      (let ((conv-val (* 100 conv-val)) (diff #f))
+		(set! diff (- conv-val (floor conv-val)))
+
+		(if (< diff 1e-10) ; due to float pt. arith. we need this :(
+		    #t
+		    #f)))))))
+
+
+
+(define validate:signed-monetary-max
+  (lambda (val buf max)
+    (if (validate:signed-monetary val buf)
+	(let ()
+	  (if (= (string-length val) 0)
+	      (set! val "0"))
+	  
+	  (set! max (if (not max)
+			0  ;- no value assigned yet
+			
+			(if (string? max)
+			    (if (= (string-length max) 0)
+				0
+				(string->number max))
+			    
+			    max)))
+
+	  ;(format #t "comparing: value ~A, max ~A\n" (string->number val) max)
+	  (if (< (string->number val) max)
+	      #t
+	      #f))
+
+	#f))) ;; value didn't validate against signed-monetary ...
+
