@@ -20,7 +20,11 @@
 (tb:eval-file "basics-datenlieferant.scm")
 (tb:eval-file "bundesland-chooser.scm")
 (tb:eval-file "steuernummer.scm")
+(tb:eval-file "validate.scm")
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Umsatzsteuervoranmeldung 2005                                           ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define ustva-2005:definition
   '("Allgemeine Daten" '(tb:field:chooser
 			 bundesland:chooser
@@ -43,12 +47,67 @@
     "Datenlieferant" basics:datenlieferant
     "Steuerpflichtiger" basics:adresse 
 
-    "Umsatzsteuer" '(tb:field:text-input-calc
-		     '("kz01" "Bemessungsgrundlage"
-		       "blafasel Dokumentation 12345 ..."
-		       tb:validate-numerical
-		       "kz02"))
-    ))
+    ;; Vorderseite der Umsatzsteuervoranmeldung
+    "Lieferungen und sonstige Leistungen" ustva-2005:lief-und-so-leistg
+
+))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Lieferungen und sonstige Leistungen                                     ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(define ustva-2005:lief-und-so-leistg
+  '("Steuerfreie Umsätze" '("mit Vorsteuerabzug" ustva-2005:stfr-ums-vost
+			    "ohne Vorsteuerabzug" ustva-2005:stfr-ums-ohne-vost)
+    
+;    "Steuerpflichtige Umsätze" ustva-2005:stpfl-ums
+;    "Umsätze nach § 24 UStG" ustva-2005:stpfl-ums-luf
+))
+
+(define ustva-2005:stfr-ums-vost
+  '("Innerg. Lieferungen" '(tb:field:text-input
+			    '("Kz41" "Abnehmer mit USt-ID"
+			      (string-append "Innergemeinschaftliche "
+					     "Lieferungen (§ 4 Nr. 1 Buchst. b "
+					     "UStG) an Abnehmer mit USt-IdNr.")
+			      validate:signed-int)
+
+			    tb:field:text-input
+			    '("Kz44" "Abnehmer ohne USt-ID (Fahrzeuge)"
+			      (string-append "Innergemeinschaftliche "
+					     "Lieferungen neuer Fahrzeuge an "
+					     "Abnehmer ohne Ust-IdNr.")
+			      validate:signed-int)
+
+			    tb:field:text-input
+			    '("Kz49" "Außerhalb eines Untern. (Fahrzeuge)"
+			      (string-append "Innergemeinschaftliche "
+					     "Lieferungen neuer Fahrzeuge "
+					     "außerhalb eines Unternehmens "
+					     "§ 2a UStG")
+			      validate:signed-int))
+
+    "Weitere steuerfreie Umsätze" '(tb:field:text-input
+				    '("Kz43" "mit Vorsteuerabzug"
+				      (string-append "Weitere steuerfreie "
+						     "Umsätze mit Vorsteuer"
+						     "abzug (z.B. Ausfuhrliefer"
+						     "ungen, Umsätze nach § 4 "
+						     "Nr. 2 bis 7 UStG)")
+				      validate:signed-int))))
+
+
+(define ustva-2005:stfr-ums-ohne-vost
+  '(tb:field:text-input
+    '("Kz48" "Umsätze nach § 4 Nr. 8 bis 28 UStG"
+      (string-append "Umsätze nach § 4 Nr. 8 bis 28 UStG "
+		     "(steuerfreie Umsätze ohne Vorsteuerabzug)")
+      validate:signed-int)))
+			  
+
+
+
+
 
 
 (tb:form-register
