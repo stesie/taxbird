@@ -1,0 +1,80 @@
+# English translation of PACKAGE.
+# Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Stefan Siegl <ssiegl@gmx.de>, 2005.
+# stesie <ssiegl@gmx.de>, 2005.
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-02-10 13:53+0100\n"
+"PO-Revision-Date: 2005-02-10 15:35+0100\n"
+"Last-Translator: Stefan Siegl <ssiegl@gmx.de>\n"
+"Language-Team: German <ssiegl@gmx.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit"
+
+#: src/interface.c:31
+msgid "_New"
+msgstr "_Neu"
+
+#: src/interface.c:84
+msgid "taxbird"
+msgstr "taxbird"
+
+#: src/interface.c:104
+msgid "New File"
+msgstr "Neue Datei"
+
+#: src/interface.c:109
+msgid "Open File"
+msgstr "Datei öffnen"
+
+#: src/interface.c:114
+msgid "Save File"
+msgstr "Datei speichern"
+
+#: src/interface.c:223
+msgid "Choose Base Template"
+msgstr "Basisvorlage auswählen"
+
+#: src/interface.c:235
+msgid "Which template do you want to use as base for the new document?"
+msgstr "Welche Vorlage möchten Sie als Grundlage für das neue Dokument nutzen?"
+
+#: src/interface.c:295
+msgid "taxbird - Choose File"
+msgstr "taxbird - Datei auswählen"
+
+#. TRANSLATORS: Replace this string with your names, one name per line.
+#: src/interface.c:343
+msgid "translator_credits"
+msgstr "Stefan Siegl <ssiegl@gmx.de>"
+
+#: src/interface.c:349
+msgid "(C) 2004,05 Stefan Siegl"
+msgstr "(C) 2004,05 Stefan Siegl"
+
+#: src/interface.c:350
+msgid ""
+"taxbird is a geier-based tax declarations capturing and transfer tool (for "
+"Germany) "
+msgstr ""
+"Taxbird ist ein auf Geier basierendes Werkzeug zum Erfassung und Übermitteln von Steuererklärungen (für Deutschland)"
+
+#: src/callbacks.c:50
+msgid "Name of Template"
+msgstr "Name der Vorlage"
+
+#: src/support.c:60 src/support.c:85
+#, c-format
+msgid "Couldn't find pixmap file: %s"
+msgstr "Konnte Pixmap-Datei nicht finden: %s"
+
+#: src/workspace.c:124
+msgid "Available Sheets"
+msgstr "Vorhandene Blätter"
+
