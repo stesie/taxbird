@@ -226,6 +226,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
   g_return_if_fail(scm_ilength(sheet)%2==0); /* sheet definition must have an 
 					      * even number of elements! */
   while(scm_ilength(sheet)) {
+    SCM ws_field_t_scm;
     int ws_field_t;
     GtkWidget *input, *label;
     SCM specs = SCM_CADR(sheet);
@@ -238,8 +239,16 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
     while(SCM_SYMBOLP(SCM_CAR(specs)))
       specs = scm_primitive_eval(specs);
 
-    ws_field_t = scm_num2int(scm_c_lookup_ref(SCM_SYMBOL_CHARS(SCM_CAR(sheet))),
-			     0, "taxbird_ws_sel_sheet");
+    ws_field_t_scm = SCM_CAR(sheet);
+
+    if(SCM_SYMBOLP(ws_field_t_scm))
+      /* we got a symbol (probably some kind of tb:field:text-input),
+       * not a number --> resolve it. */
+      ws_field_t_scm = scm_primitive_eval(ws_field_t_scm);
+
+    g_return_if_fail(SCM_NUMBERP(ws_field_t_scm));
+    ws_field_t = scm_num2int(ws_field_t_scm, 0, "taxbird_ws_sel_sheet");
+
     input = taxbird_ws_field_creators[ws_field_t].new(specs);
 
     /* we need to attach the widget to the table (thus the widget tree itself)
