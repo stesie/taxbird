@@ -12,3 +12,5 @@ config.status
 stamp-h
 configure.scan
 taxbird
+interface.c
+interface.h

@@ -30,3 +30,10 @@ guilestuff_DATA = basics-addresse.scm \
 	validate.scm
 
 EXTRA_DIST = $(guilestuff_DATA)
+
+BUILT_SOURCES = interface.c interface.h
+MAINTAINER_CLEAN =
+
+interface.h: interface.c
+interface.c: ../taxbird.glade
+	glade-2 -w ../taxbird.glade
