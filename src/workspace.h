@@ -21,13 +21,6 @@
 
 #include <guile/gh.h>
 
-struct taxbird_ws {
-  SCM ws_data;
-  int current_form;
-  char *fname;
-  int changed;
-};
-
 /* create new taxbird workspace */
 void taxbird_ws_new(void);
 
@@ -44,8 +37,5 @@ void taxbird_ws_sel_form(GtkWidget *app_window, int formid);
 
 /* display sheet with provided id in the workspace of app_window */
 void taxbird_ws_sel_sheet(GtkWidget *app_window, const char *sheet);
-
-#define taxbird_ws_get(appwin) \
-  ((struct taxbird_ws *)(gtk_object_get_user_data(GTK_OBJECT(appwin))))
 
 #endif /* TAXBIRD_WORKSPACE_H */

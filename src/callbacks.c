@@ -92,10 +92,10 @@ void
 on_file_save_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
   GtkWidget *appwin = lookup_widget(GTK_WIDGET(menuitem), "taxbird");
-  struct taxbird_ws *ws = taxbird_ws_get(appwin);
+  const char *fname = g_object_get_data(G_OBJECT(appwin), "filename");
 
-  if(ws->fname)
-    taxbird_ws_save(appwin, ws->fname);
+  if(fname)
+    taxbird_ws_save(appwin, fname);
   else
     /* forward to File -> Save As ... */
     on_file_saveas_activate(menuitem, user_data);

@@ -45,7 +45,7 @@ static int taxbird_ws_validate(GtkWidget *w);
 
 static void taxbird_ws_store_event(GtkWidget *w, gpointer user_data);
 
-static void taxbird_ws_retrieve_field(GtkWidget *w, struct taxbird_ws *ws,
+static void taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin, 
 				      const char *field_name);
 
 static gboolean taxbird_ws_show_appbar_help(GtkWidget *widget,
@@ -83,21 +83,13 @@ static SCM taxbird_ws_lookup_sheet(SCM dataset, const char *sheet_name);
 void
 taxbird_ws_new(void)
 {
-  struct taxbird_ws *ws = g_malloc(sizeof(*ws));
   GtkWidget *taxbird = create_taxbird();
-
-  if(! ws || !taxbird) {
-    g_free(ws);
-    if(taxbird) gtk_widget_destroy(taxbird);
-  }
+  if(!taxbird) return;
 
   gtk_widget_show(taxbird);
-
-  gtk_object_set_user_data(GTK_OBJECT(taxbird), ws);
-
-  ws->current_form = -1;
-  ws->fname = NULL;
-  ws->changed = 0;
+  g_object_set_data(G_OBJECT(taxbird), "current_form", (void *) -1);
+  g_object_set_data(G_OBJECT(taxbird), "filename", NULL);
+  g_object_set_data(G_OBJECT(taxbird), "changed", (void *) 0);
 }
 
 
@@ -130,9 +122,14 @@ taxbird_ws_sel_form(GtkWidget *appwin, int formid)
   taxbird_ws_fill_tree_store(tree, NULL, dataset);
   gtk_tree_view_set_model(tv_sheets, GTK_TREE_MODEL(tree));
 
-  taxbird_ws_get(appwin)->current_form = formid;
-  taxbird_ws_get(appwin)->ws_data =
-    scm_list_copy(scm_call_0(forms[formid]->dataset_create));
+  /* store selected form's id with the application window */
+  g_object_set_data(G_OBJECT(appwin), "current_form", (void*) formid);
+
+  /* create a new dataset and attach to the application window */
+  dataset = scm_list_copy(scm_call_0(forms[formid]->dataset_create));
+  g_object_set_data_full(G_OBJECT(appwin), "scm_data",
+			 (void*) scm_gc_protect_object(dataset),
+			 taxbird_ws_unprotect_scm);
 }
 
 
@@ -200,7 +197,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
   GtkWidget *table;
   int item = 0;
   GtkBin *viewport = GTK_BIN(lookup_widget(appwin, "viewport"));
-  int forms_id = taxbird_ws_get(appwin)->current_form;
+  int forms_id = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
   SCM sheet = taxbird_ws_lookup_sheet(forms[forms_id]->dataset, sheetname);
 
   g_return_if_fail(SCM_NFALSEP(scm_list_p(sheet)));
@@ -287,7 +284,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 		       (GtkAttachOptions) (0), 0, 0);
       GLADE_HOOKUP_OBJECT(appwin, input, field_name);
       
-      taxbird_ws_retrieve_field(input, taxbird_ws_get(appwin), field_name);
+      taxbird_ws_retrieve_field(input, appwin, field_name);
 
       /* set callback responsible for displaying help text in appbar */
       g_signal_connect((gpointer) input, "focus-in-event",
@@ -299,8 +296,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
     /* retrieve content of main field, we need to do this after creating
      * the first one since the changed-handler of the main field may try
      * to change the first one */
-    taxbird_ws_retrieve_field(input, taxbird_ws_get(appwin),
-			      SCM_STRING_CHARS(SCM_CAR(specs)));
+    taxbird_ws_retrieve_field(input, appwin, SCM_STRING_CHARS(SCM_CAR(specs)));
     gtk_widget_show(input);
 
     /* care for next item */
@@ -342,8 +338,8 @@ taxbird_ws_validate(GtkWidget *w)
   if(SCM_NFALSEP(scm_procedure_p(validatfunc))) {
     /* execute validator function */
     const char *content = gtk_entry_get_text(GTK_ENTRY(w));
-    validatfunc = scm_call_2(validatfunc, scm_makfrom0str(content),
-			     taxbird_ws_get(appwin)->ws_data);
+    validatfunc = scm_call_2(validatfunc, scm_makfrom0str(content), (SCM)
+			     g_object_get_data(G_OBJECT(appwin), "scm_data"));
   }
 
   if(SCM_BOOLP(validatfunc))
@@ -366,6 +362,7 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
   (void) user_data;
 
   GtkWidget *appwin = lookup_widget(w, "taxbird");
+  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
 
   SCM specs = (SCM) g_object_get_data(G_OBJECT(w), "scm_specs");
   g_return_if_fail(SCM_NFALSEP(scm_list_p(specs)));
@@ -391,8 +388,9 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
     else
       g_assert_not_reached();
 
-    scm_call_3(forms[taxbird_ws_get(appwin)->current_form]->dataset_write,
-	       taxbird_ws_get(appwin)->ws_data, field, store_value);
+    scm_call_3(forms[current_form]->dataset_write,
+	       (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data"),
+	       field, store_value);
 
     if(scm_ilength(specs) > 4) {
       /* there is an associated field, which possibly is some kind of
@@ -406,9 +404,10 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
       w2 = lookup_widget(appwin, SCM_STRING_CHARS(field));
       g_return_if_fail(w2);
 
-      taxbird_ws_retrieve_field(w2, taxbird_ws_get(appwin),
-				SCM_STRING_CHARS(field));
-    }      
+      taxbird_ws_retrieve_field(w2, appwin, SCM_STRING_CHARS(field));
+    }
+
+    g_object_set_data(G_OBJECT(appwin), "changed", (void *) 1);
   }
   else {
     /* draw red border (background) around textbox, to show the chosen value is
@@ -482,11 +481,13 @@ taxbird_ws_lookup_sheet(SCM dataset, const char *needle)
 
 
 static void
-taxbird_ws_retrieve_field(GtkWidget *w, struct taxbird_ws *ws,
+taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
 			  const char *field_name)
 {
-  SCM v = scm_call_2(forms[ws->current_form]->dataset_read,
-		     ws->ws_data, scm_makfrom0str(field_name));
+  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
+  SCM v = scm_call_2(forms[current_form]->dataset_read,
+		     g_object_get_data(G_OBJECT(appwin), "scm_data"),
+		     scm_makfrom0str(field_name));
   
   if(GTK_IS_ENTRY(w)) {
     if(SCM_STRINGP(v)) {
@@ -598,7 +599,6 @@ taxbird_ws_open(GtkWidget *appwin, const char *fname)
 {
   SCM content;
   int formid;
-  struct taxbird_ws *ws = taxbird_ws_get(appwin);
   SCM handle = scm_open_file(scm_makfrom0str(fname),
 			     scm_makfrom0str("r"));
 
@@ -611,15 +611,16 @@ taxbird_ws_open(GtkWidget *appwin, const char *fname)
 
   formid = taxbird_form_get_by_name(SCM_STRING_CHARS(SCM_CAR(content)));
   taxbird_ws_sel_form(appwin, formid);
-		      
-  ws->ws_data = SCM_CADR(content);
 
-  if(ws->fname != fname) {
-    free(ws->fname);
-    ws->fname = strdup(fname);
-  }
+  g_object_set_data_full(G_OBJECT(appwin), "scm_data",
+			 scm_gc_protect_object(SCM_CADR(content)),
+			 taxbird_ws_unprotect_scm);
 
-  ws->changed = 0;
+  if(g_object_get_data(G_OBJECT(appwin), "filename") != fname)
+    g_object_set_data_full(G_OBJECT(appwin), "filename",
+			   g_strdup(fname), g_free);
+
+  g_object_set_data(G_OBJECT(appwin), "changed", (void *) 0);
 }
 
 
@@ -628,8 +629,7 @@ taxbird_ws_open(GtkWidget *appwin, const char *fname)
 void
 taxbird_ws_save(GtkWidget *appwin, const char *fname)
 {
-  struct taxbird_ws *ws = taxbird_ws_get(appwin);
-
+  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
   SCM handle = scm_open_file(scm_makfrom0str(fname),
 			     scm_makfrom0str("w"));
 
@@ -640,17 +640,16 @@ taxbird_ws_save(GtkWidget *appwin, const char *fname)
 			      ";; be warned: BE CAREFUL!!\n;;\n\n'"), handle);
 
   /* write content */
-  scm_write(scm_list_2(scm_makfrom0str(forms[ws->current_form]->name),
-		       taxbird_ws_get(appwin)->ws_data), handle);
+  scm_write(scm_list_2(scm_makfrom0str(forms[current_form]->name),
+		       g_object_get_data(G_OBJECT(appwin),"scm_data")), handle);
 
   scm_close(handle);
 
-  if(ws->fname != fname) {
-    free(ws->fname);
-    ws->fname = strdup(fname);
-  }
+  if(g_object_get_data(G_OBJECT(appwin), "filename") != fname)
+    g_object_set_data_full(G_OBJECT(appwin), "filename",
+			   g_strdup(fname), g_free);
 
-  ws->changed = 0;
+  g_object_set_data(G_OBJECT(appwin), "changed", (void *) 0);
 }
 
 static void
