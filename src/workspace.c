@@ -109,7 +109,16 @@ taxbird_ws_sel_form(GtkWidget *appwin, int formid)
   g_return_if_fail(tv_sheets);
 
   dataset = forms[formid]->dataset;
+
+  if(SCM_NFALSEP(scm_procedure_p(dataset)))
+    /* real dataset (maybe individually) created by a (lambda) */
+    dataset = scm_call_0(dataset);
+    
   g_return_if_fail(SCM_NFALSEP(scm_list_p(dataset)));
+
+  g_object_set_data_full(G_OBJECT(appwin), "sheetdef",
+			 (void*) scm_gc_protect_object(dataset),
+			 taxbird_ws_unprotect_scm);
   
   /* add column */
   renderer = gtk_cell_renderer_text_new();
@@ -197,8 +206,8 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
   GtkWidget *table;
   int item = 0;
   GtkBin *viewport = GTK_BIN(lookup_widget(appwin, "viewport"));
-  int forms_id = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
-  SCM sheet = taxbird_ws_lookup_sheet(forms[forms_id]->dataset, sheetname);
+  SCM sheet = taxbird_ws_lookup_sheet(g_object_get_data(G_OBJECT(appwin),
+							"sheetdef"), sheetname);
 
   g_return_if_fail(SCM_NFALSEP(scm_list_p(sheet)));
   g_return_if_fail(scm_ilength(sheet));
