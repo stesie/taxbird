@@ -24,6 +24,7 @@
 #include <libguile.h>
 #include <string.h>
 #include <glib.h>
+#include <dirent.h>
 
 #include "guile.h"
 #include "form.h"
@@ -33,10 +34,13 @@ static SCM taxbird_guile_eval_file_SCM(SCM scm_fn);
 /* initialize taxbird's guile backend */
 void taxbird_guile_init(void)
 {
+  char *loadpath_home = g_strdup_printf("%s/.taxbird/guile", getenv("HOME"));
+  SCM loadpath = scm_list_3(scm_makfrom0str("."),
+			    scm_take0str(loadpath_home),
+			    scm_makfrom0str(PACKAGE_DATA_DIR "/taxbird/guile"));
+
   /* search current and taxbird's system directory by default */
-  scm_c_define("tb:scm-directories",
-	       scm_list_2(scm_makfrom0str("."),
-			  scm_makfrom0str(PACKAGE_DATA_DIR "/taxbird/guile")));
+  scm_c_define("tb:scm-directories", loadpath);
 
   scm_c_define("tb:field:text-input", scm_int2num(FIELD_TEXT_INPUT));
   scm_c_define("tb:field:text-output", scm_int2num(FIELD_TEXT_OUTPUT));
@@ -48,7 +52,35 @@ void taxbird_guile_init(void)
   scm_c_define_gsubr("tb:eval-file", 1, 0, 0, taxbird_guile_eval_file_SCM);
   scm_c_define_gsubr("tb:form-register", 5, 0, 0, taxbird_form_register);
 
-  taxbird_guile_eval_file("startup.scm");
+  /* Scan autoload/ directories for files, that should be loaded automatically.
+   * However don't load each file from these directories in order, but 
+   * call taxbird_guile_eval_file to always evaluate the first file in the
+   * loadpath chain, i.e. allow the user to overwrite autoload/ files by
+   * putting hisself's in his private directory.
+   */
+  while(scm_ilength(loadpath)) {
+    struct dirent *dirent;
+    char *dirname = g_strdup_printf("%s/autoload",
+				    SCM_STRING_CHARS(SCM_CAR(loadpath)));
+    DIR *dir = opendir(dirname);
+
+    if(dir) {
+      while((dirent = readdir(dir))) {
+	char *fname;
+
+	if(dirent->d_type != DT_REG) continue; /* don't load directories :-) */
+
+	fname = g_strdup_printf("autoload/%s", dirent->d_name);
+	taxbird_guile_eval_file(fname);
+	g_free(fname);
+      }
+
+      closedir(dir);
+      g_free(dirname);
+    }
+
+    loadpath = SCM_CDR(loadpath);
+  }
 }
 
 

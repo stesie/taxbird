@@ -23,13 +23,15 @@ guilestuffdir = $(datadir)/taxbird/guile
 guilestuff_DATA = basics-addresse.scm \
 	basics-datenlieferant.scm \
 	bundesland-chooser.scm \
-	startup.scm \
 	steuernummer.scm \
 	storage.scm \
-	ustva-2005.scm \
 	validate.scm
 
-EXTRA_DIST = $(guilestuff_DATA)
+autoloaddir = $(datadir)/taxbird/guile/autoload
+autoload_DATA = \
+	ustva-2005.scm
+
+EXTRA_DIST = $(guilestuff_DATA) $(autoload_DATA)
 
 BUILT_SOURCES = interface.c interface.h
 MAINTAINER_CLEAN =
