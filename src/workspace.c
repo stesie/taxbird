@@ -497,9 +497,9 @@ taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
       gtk_entry_set_text(GTK_ENTRY(w), "");
   } 
   else if(GTK_IS_COMBO_BOX(w)) {
-    if(SCM_NUMBERP(v))
-      gtk_combo_box_set_active(GTK_COMBO_BOX(w), scm_num2int(v, 0,"taxbird_ws_"
-							     "retrieve_field"));
+    if(SCM_STRINGP(v))
+      gtk_combo_box_set_active(GTK_COMBO_BOX(w), atoi(SCM_STRING_CHARS(v)));
+
     /* don't make a default choice, it's pretty much unlikely we will be
      * right anyway */
   }
