@@ -123,7 +123,14 @@
 		     "Steuersätzen unterliegen (Umsatz)")
       validate:signed-int
       "Kz36" #f "Umsätze, die anderen Steuersätzen unterliegen (Steuer)"
-      validate:signed-monetary)))
+      (lambda(val buf)
+	(if (validate:signed-monetary val buf)
+	    (let ((kz35val (storage:retrieve buf "Kz35")))
+	      (if (= (string-length val) 0) (set! val "0"))
+	      (if (or (not (string? kz35val)) (= (string-length kz35val) 0))
+		  (set! kz35val "0"))
+	      (if (< (string->number val) (string->number kz35val)) #t #f))
+	    #f)))))
 
 
 
