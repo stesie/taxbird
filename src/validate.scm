@@ -27,3 +27,13 @@
 	      ;; FIXME make sure there are only alpha-numerical chars ...
 	      #t)))))
 	  
+
+;; make sure the specified value is a signed integer
+(define validate:signed-int
+  (lambda (value buffer)
+    (let ((conv-val (string->number value)))
+      (if (number? conv-val)
+	  (if (integer? conv-val)
+	      #t
+	      #f)
+	  #f))))
