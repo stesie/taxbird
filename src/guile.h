@@ -19,6 +19,8 @@
 #ifndef TAXBIRD_GUILE_H
 #define TAXBIRD_GUILE_H
 
+#define scm_c_lookup_ref(a) SCM_VARIABLE_REF(scm_c_lookup(a))
+
 /* initialize taxbird's guile backend */
 void taxbird_guile_init(void);
 

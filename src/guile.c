@@ -21,8 +21,9 @@
 #endif
 
 #include <stdio.h>
-#include <guile/gh.h>
+#include <libguile.h>
 #include <string.h>
+#include <glib.h>
 
 #include "guile.h"
 #include "form.h"
@@ -33,15 +34,15 @@ static SCM taxbird_guile_eval_file_SCM(SCM scm_fn);
 void taxbird_guile_init(void)
 {
   /* search current and taxbird's system directory by default */
-  gh_define("tb:scm-directories", scm_list_1(scm_makfrom0str(".")));
+  scm_c_define("tb:scm-directories", scm_list_1(scm_makfrom0str(".")));
 
-  gh_define("tb:field:text-input", gh_int2scm(FIELD_TEXT_INPUT));
-  gh_define("tb:field:text-output", gh_int2scm(FIELD_TEXT_OUTPUT));
-  gh_define("tb:field:chooser", gh_int2scm(FIELD_CHOOSER));
-  gh_define("tb:field:text-input-calc", gh_int2scm(FIELD_TEXT_INPUT_CALC));
+  scm_c_define("tb:field:text-input", scm_int2num(FIELD_TEXT_INPUT));
+  scm_c_define("tb:field:text-output", scm_int2num(FIELD_TEXT_OUTPUT));
+  scm_c_define("tb:field:chooser", scm_int2num(FIELD_CHOOSER));
+  scm_c_define("tb:field:text-input-calc", scm_int2num(FIELD_TEXT_INPUT_CALC));
 
-  gh_new_procedure1_0("tb:eval-file", taxbird_guile_eval_file_SCM);
-  gh_new_procedure5_0("tb:form-register", taxbird_form_register);
+  scm_c_define_gsubr("tb:eval-file", 1, 0, 0, taxbird_guile_eval_file_SCM);
+  scm_c_define_gsubr("tb:form-register", 5, 0, 0, taxbird_form_register);
 
   taxbird_guile_eval_file("startup.scm");
 }
@@ -52,43 +53,39 @@ void taxbird_guile_init(void)
 int
 taxbird_guile_eval_file(const char *fn)
 {
-  size_t fn_len = strlen(fn);
-  SCM dirlist = gh_lookup("tb:scm-directories");
+  SCM dirlist = scm_c_lookup_ref("tb:scm-directories");
 
-  while(! gh_null_p(dirlist)) {
+  while(scm_ilength(dirlist)) {
     size_t path_len;
-    char *buf = gh_scm2newstr(gh_car(dirlist), &path_len);
+    char *buf;
+    FILE *handle;
+    SCM path = SCM_CAR(dirlist);
+   
+    g_return_val_if_fail(SCM_STRINGP(path), -1);
+    path_len = SCM_STRING_LENGTH(path);
 
-    buf = realloc(buf, path_len + fn_len + 2);
+    buf = g_strdup_printf("%s/%s", SCM_STRING_CHARS(path), fn);
     if(! buf) {
       perror(PACKAGE_NAME);
       return -1; /* out of memory */
     }
 
-    buf[path_len++] = '/';
-    memmove(&buf[path_len], fn, fn_len + 1);
-
-    /* filename (with path) is in 'buf' now, try to open */
-    {
-      FILE *handle = fopen(buf, "r");
-
-      if(handle) {
-	fclose(handle);
-
-	/* gh_eval_file_with_standard_handler(buf); */
-	gh_eval_file_with_catch(buf, scm_handle_by_message_noexit);
-	return 0;
-      }
+    handle = fopen(buf, "r");
+    if(handle) {
+      fclose(handle);
+      
+      scm_c_primitive_load(buf); 
+      free(buf);
+      return 0;
     }
 
     free(buf);
 
     /* next element */
-    dirlist = gh_cdr(dirlist);
+    dirlist = SCM_CDR(dirlist);
   }
 
   fprintf(stderr, "cannot find file '%s'.\n", fn);
-  
   return -1;
 }
 
@@ -97,9 +94,7 @@ taxbird_guile_eval_file(const char *fn)
 static SCM 
 taxbird_guile_eval_file_SCM(SCM scm_fn)
 {
-  char *fn = gh_scm2newstr(scm_fn, NULL);
-  int ret = taxbird_guile_eval_file(fn);
-  free(fn);
-  return gh_bool2scm(! ret);
+  g_return_val_if_fail(SCM_STRINGP(scm_fn), SCM_BOOL(0));
+  return SCM_BOOL(! taxbird_guile_eval_file(SCM_STRING_CHARS(scm_fn)));
 }
 

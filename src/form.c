@@ -22,6 +22,8 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <glib.h>
+#include <libguile.h>
 
 #include "form.h"
 
@@ -36,30 +38,32 @@ unsigned int forms_num = 0;
  * RETURN: number of registered form, -1 on error
  */
 SCM
-taxbird_form_register(SCM name, SCM dataset, SCM dataset_read, SCM dataset_write,
-		     SCM dataset_create)
+taxbird_form_register(SCM name, SCM dataset, SCM dataset_read,
+		      SCM dataset_write, SCM dataset_create)
 {
   struct form **new_f = realloc(forms, sizeof(struct form *) * (forms_num + 1));
   
   if(! new_f) {
     perror(PACKAGE_NAME);
-    return gh_bool2scm(0);
+    return SCM_BOOL(0);
   }
   else  
     forms = new_f;
 
   if(! (forms[forms_num] = malloc(sizeof(struct form)))) {
     perror(PACKAGE_NAME);
-    return gh_bool2scm(0);
+    return SCM_BOOL(0);
   }
 
-  forms[forms_num]->name = gh_scm2newstr(name, NULL);
-  forms[forms_num]->dataset = dataset;
-  forms[forms_num]->dataset_read = dataset_read;
-  forms[forms_num]->dataset_write = dataset_write;
-  forms[forms_num]->dataset_create = dataset_create;
+  g_return_val_if_fail(SCM_STRINGP(name), SCM_BOOL(0));
+  forms[forms_num]->name = g_strdup(SCM_STRING_CHARS(name)); 
 
-  return gh_int2scm(forms_num ++);
+  scm_gc_protect_object(forms[forms_num]->dataset = dataset);
+  scm_gc_protect_object(forms[forms_num]->dataset_read = dataset_read);
+  scm_gc_protect_object(forms[forms_num]->dataset_write = dataset_write);
+  scm_gc_protect_object(forms[forms_num]->dataset_create = dataset_create);
+
+  return scm_int2num(forms_num ++);
 }
 
 
