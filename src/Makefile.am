@@ -33,8 +33,12 @@ autoload_DATA = \
 
 EXTRA_DIST = $(guilestuff_DATA) $(autoload_DATA)
 
-BUILT_SOURCES = interface.c interface.h
+BUILT_SOURCES = interface.c interface.h \
+	support.c support.h
 MAINTAINER_CLEAN =
+
+support.h: support.c
+support.c: interface.c
 
 interface.h: interface.c
 interface.c: ../taxbird.glade
