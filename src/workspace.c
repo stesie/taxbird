@@ -61,12 +61,14 @@ static void taxbird_ws_unprotect_scm(gpointer d);
 
 static struct {
   GtkWidget *(*new)(SCM specs);
+  GtkWidget *(*new_2nd)(SCM specs);
 } taxbird_ws_field_creators[] = {
-  { taxbird_ws_create_input }, /* FIELD_TEXT_INPUT */
-  { taxbird_ws_create_output }, /* FIELD_TEXT_OUTPUT */
-  { taxbird_ws_create_chooser }, /* FIELD_CHOOSER */
-  { NULL },
-  { taxbird_ws_create_output }, /* FIELD_TEXT_INPUT_CALC (2nd field) */
+  { taxbird_ws_create_input, NULL },                      /* TEXT_INPUT   */
+  { taxbird_ws_create_output, NULL },                     /* TEXT_OUTPUT  */
+  { taxbird_ws_create_chooser, NULL },                    /* CHOOSER      */
+  { NULL, NULL },
+  { taxbird_ws_create_input, taxbird_ws_create_output },  /* INPUT_CALC   */
+  { taxbird_ws_create_input, taxbird_ws_create_input },   /* INPUT_INPUT  */
 };
 
 
@@ -238,7 +240,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 
     ws_field_t = scm_num2int(scm_c_lookup_ref(SCM_SYMBOL_CHARS(SCM_CAR(sheet))),
 			     0, "taxbird_ws_sel_sheet");
-    input = taxbird_ws_field_creators[ws_field_t & 3].new(specs);
+    input = taxbird_ws_field_creators[ws_field_t].new(specs);
 
     /* we need to attach the widget to the table (thus the widget tree itself)
      * rather early (i.e. before calling the retrieval func) as it might
@@ -248,7 +250,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 			   scm_gc_protect_object(specs),
 			   taxbird_ws_unprotect_scm);
     gtk_table_attach(GTK_TABLE(table), input, 1,
-		     ws_field_t & 4 ? 2 : 3, item, item + 1,
+		     ws_field_t > FIELD_COMBINED_SPLIT ? 2 : 3, item, item + 1,
 		     (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
 		     (GtkAttachOptions) (0), 0, 0);
     GLADE_HOOKUP_OBJECT(appwin, input, 
@@ -275,10 +277,10 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 		     (GtkAttachOptions) (0), 0, 0);
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
 
-    if(ws_field_t & 4) {
+    if(ws_field_t > FIELD_COMBINED_SPLIT) {
       /* second field on same row */
       char *field_name = SCM_STRING_CHARS(SCM_CADDDDR(specs));
-      input = taxbird_ws_field_creators[ws_field_t].new(specs);
+      input = taxbird_ws_field_creators[ws_field_t].new_2nd(specs);
 
       /* insert the widget into the widget tree as early as possible */
       g_object_set_data_full(G_OBJECT(input), "scm_specs",

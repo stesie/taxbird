@@ -20,10 +20,13 @@
 #define TAXBIRD_FORM_H
 
 enum field_type {
-  FIELD_TEXT_INPUT = 0,
-  FIELD_TEXT_OUTPUT = 1,
-  FIELD_CHOOSER = 2,
-  FIELD_TEXT_INPUT_CALC = 0 | 4,
+  FIELD_TEXT_INPUT,
+  FIELD_TEXT_OUTPUT,
+  FIELD_CHOOSER,
+  FIELD_COMBINED_SPLIT, /* combined fields below, i.e. those where there are
+			 * two fields on one row */
+  FIELD_TEXT_INPUT_CALC,
+  FIELD_TEXT_INPUT_INPUT,
 };
 
 struct form {
