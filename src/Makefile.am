@@ -27,11 +27,12 @@ guilestuff_DATA = basics-addresse.scm \
 	storage.scm \
 	validate.scm \
 	xml-writer.scm \
-	export.scm
+	export.scm \
+	ustva-2005.scm
 
 autoloaddir = $(datadir)/taxbird/guile/autoload
 autoload_DATA = \
-	ustva-2005.scm
+	ustva-2005-stub.scm
 
 EXTRA_DIST = $(guilestuff_DATA) $(autoload_DATA)
 

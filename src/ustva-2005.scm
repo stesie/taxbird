@@ -237,26 +237,3 @@
 
     
 
-(tb:form-register
- ; form's name and definition
- "Umsatzsteuervoranmeldung 2005" ustva-2005:definition
-
- ; retrieval function
- storage:retrieve
-
- ; storage function
- (lambda (buffer element value)
-   (storage:store buffer element value)
-   (ustva-2005:recalculate buffer element value))
-
- ; export function
- (lambda (buf)
-   (tb:eval-file "export.scm")
-   (export:make-elster-xml
-    (export:make-transfer-header buf "UStVA" #t)
-    (export:make-nutzdaten-header buf)
-    (export:make-steuerfall buf "UStVA" "200501" (ustva-2005:export buf))))
-
- ; empty set
- (lambda () '(("vend-id" . "74931"))))
-
