@@ -362,12 +362,14 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 
   GtkWidget *appwin = lookup_widget(w, "taxbird");
 
-  SCM field = (SCM) g_object_get_data(G_OBJECT(w), "scm_specs");
-  g_return_if_fail(SCM_NFALSEP(scm_list_p(field)));
+  SCM specs = (SCM) g_object_get_data(G_OBJECT(w), "scm_specs");
+  g_return_if_fail(SCM_NFALSEP(scm_list_p(specs)));
 
   /* store data if it's valid */
   if(taxbird_ws_validate(w)) {
     SCM store_value;
+    SCM field = SCM_CAR(specs);
+    g_return_if_fail(SCM_STRINGP(field));
 
     static GdkColor taxbird_color_okay = { 0, 32767, 32767, 32767 };
     gtk_widget_modify_bg(w, GTK_STATE_NORMAL, &taxbird_color_okay);
@@ -384,11 +386,24 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
     else
       g_assert_not_reached();
 
-    field = SCM_CAR(field);
-    g_return_if_fail(SCM_STRINGP(field));
-
     scm_call_3(forms[taxbird_ws_get(appwin)->current_form]->dataset_write,
 	       taxbird_ws_get(appwin)->ws_data, field, store_value);
+
+    if(scm_ilength(specs) > 4) {
+      /* there is an associated field, which possibly is some kind of
+       * calculated field, re-retrieve it's value
+       */
+      GtkWidget *w2;
+
+      field = SCM_CADDDDR(specs);
+      g_return_if_fail(SCM_STRINGP(field));
+
+      w2 = lookup_widget(appwin, SCM_STRING_CHARS(field));
+      g_return_if_fail(w2);
+
+      taxbird_ws_retrieve_field(w2, taxbird_ws_get(appwin),
+				SCM_STRING_CHARS(field));
+    }      
   }
   else {
     /* draw red border (background) around textbox, to show the chosen value is
