@@ -20,11 +20,6 @@ GETTEXT_PACKAGE=taxbird
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])
 
-dnl Add pointer to the scheme sources of gTaxBird
-test x$prefix = xNONE && prefix="/usr/local"
-AC_DEFINE_UNQUOTED(SCM_SRC_DIR, "$prefix/share/$PACKAGE",
-                   [Path to installed the Guile source files])
-
 dnl Add the languages which your application supports here.
 ALL_LINGUAS="de"
 AM_GLIB_GNU_GETTEXT
