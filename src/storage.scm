@@ -28,6 +28,13 @@
 
 (define storage:store
   (lambda (buffer element value)
+    (if (number? value) (set! value (number->string value)))
+    (storage:store__ buffer element value)
+    ;(write buffer)(newline)
+    ))
+
+(define storage:store__
+  (lambda (buffer element value)
     ;;; FIXME: we expect buffer to always contain at least one element here!
 
     (if (string=? (caar buffer) element)
@@ -35,7 +42,4 @@
 
 	(if(= 1 (length buffer))
 	   (set-cdr! buffer (list (cons element value)))
-	   (storage:store (cdr buffer) element value)))
-
-    ;(display buffer)(newline)
-    ))
+	   (storage:store__ (cdr buffer) element value)))))
