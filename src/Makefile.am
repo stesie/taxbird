@@ -28,3 +28,5 @@ guilestuff_DATA = basics-addresse.scm \
 	storage.scm \
 	ustva-2005.scm \
 	validate.scm
+
+EXTRA_DIST = $(guilestuff_DATA)
