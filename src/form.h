@@ -19,8 +19,6 @@
 #ifndef TAXBIRD_FORM_H
 #define TAXBIRD_FORM_H
 
-#include <guile/gh.h>
-
 enum field_type {
   FIELD_TEXT_INPUT = 0,
   FIELD_TEXT_OUTPUT = 1,
@@ -31,9 +29,9 @@ enum field_type {
 struct form {
   char *name;
 
-  SCM dataset; /* list defining the dataset (sheets and fields) */
-  SCM dataset_read; /* function to read from our dataset */
-  SCM dataset_write; /* function to write to the dataset */
+  SCM dataset;        /* list defining the dataset (sheets and fields) */
+  SCM dataset_read;   /* function to read from our dataset */
+  SCM dataset_write;  /* function to write to the dataset */
   SCM dataset_create; /* empty data set */
 };
 
@@ -45,7 +43,7 @@ extern unsigned int forms_num;
 
 /* create a new form (tb:form-register) */
 SCM taxbird_form_register(SCM name, SCM dataset, SCM dataset_read,
-			 SCM dataset_write, SCM dataset_create);
+			  SCM dataset_write, SCM dataset_create);
 
 /* lookup specified form's id 
  * RETURN: number of registered form, -1 on error
