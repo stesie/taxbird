@@ -16,3 +16,4 @@ interface.c
 interface.h
 support.c
 support.h
+*test*
