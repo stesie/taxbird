@@ -225,6 +225,8 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
   gtk_container_add(GTK_CONTAINER(viewport), table);
 
   /* parse the sheet definition step by step and create the necessary widgets */
+  g_return_if_fail(scm_ilength(sheet)%2==0); /* sheet definition must have an 
+					      * even number of elements! */
   while(scm_ilength(sheet)) {
     int ws_field_t;
     GtkWidget *input, *label;
@@ -256,16 +258,10 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
     GLADE_HOOKUP_OBJECT(appwin, input, 
 			SCM_STRING_CHARS(SCM_CAR(specs)));
     
-    /* retrieve content */
-    taxbird_ws_retrieve_field(input, taxbird_ws_get(appwin),
-			      SCM_STRING_CHARS(SCM_CAR(specs)));
-
     /* set callback responsible for displaying help text in appbar */
     g_signal_connect((gpointer) input, "focus-in-event",
 		     G_CALLBACK(taxbird_ws_show_appbar_help), NULL);
 				  
-    gtk_widget_show(input);
-
     /* add description label */
     g_return_if_fail(SCM_STRINGP(SCM_CADR(specs)));
     label = gtk_label_new(SCM_STRING_CHARS(SCM_CADR(specs)));
@@ -279,7 +275,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
     if(ws_field_t > FIELD_COMBINED_SPLIT) {
       /* second field on same row */
       char *field_name = SCM_STRING_CHARS(SCM_CADDDDR(specs));
-      input = taxbird_ws_field_creators[ws_field_t].new_2nd(specs);
+      GtkWidget *input = taxbird_ws_field_creators[ws_field_t].new_2nd(specs);
 
       /* insert the widget into the widget tree as early as possible */
       g_object_set_data_full(G_OBJECT(input), "scm_specs",
@@ -299,6 +295,14 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
       gtk_widget_show(input);
     }
 
+    /* retrieve content of main field, we need to do this after creating
+     * the first one since the changed-handler of the main field may try
+     * to change the first one */
+    taxbird_ws_retrieve_field(input, taxbird_ws_get(appwin),
+			      SCM_STRING_CHARS(SCM_CAR(specs)));
+    gtk_widget_show(input);
+
+    /* care for next item */
     sheet = SCM_CDDR(sheet);
     item ++;
   }
