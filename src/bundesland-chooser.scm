@@ -16,8 +16,10 @@
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 (define bundesland:chooser
-  (list "land"
-	"Bundesland"
+  (list "Bundesland" ;; line's title
+	
+	tb:field:chooser
+	"land"
 	"Bundesland von dem die erfasste Steuernummer vergeben wurde."
 
 	'("Baden-Württemberg"

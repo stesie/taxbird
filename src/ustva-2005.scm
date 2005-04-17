@@ -36,19 +36,17 @@
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    "Allgemeine Daten"
 
-   (list tb:field:chooser
+   (list 1
+
 	 bundesland:chooser
 
-
-	 tb:field:text-input
-	 (list "stnr"
-	       "Steuernummer"
+	 (list "Steuernummer"
+	       tb:field:text-input
+	       "stnr"
 	       (string-append "Die vom zuständigen Finanzamt vergebene "
 			      "Steuernummer. Eingabe mit Schrägstrichen.")
 	       steuernummer:validate)
 
-
-	 tb:field:chooser
 	 zeitraum:chooser)
    
 
@@ -82,25 +80,27 @@
      (list
       "Innerg. Lieferungen"
 
-      (list tb:field:text-input
-	    (list "Kz41"
-		  "Abnehmer mit USt-ID"
+      (list 2
+
+	    (list "Abnehmer mit USt-ID"
+		  tb:field:text-input
+		  "Kz41"
 		  (string-append "Innergem. Lieferungen (§ 4 Nr. 1 Buchst. b "
 				 "UStG) an Abnehmer mit USt-IdNr.")
 		  validate:signed-int)
 
 
-	    tb:field:text-input
-	    (list "Kz44"
-		  "Abnehmer ohne USt-ID (Fahrzeuge)"
+	    (list "Abnehmer ohne USt-ID (Fahrzeuge)"
+		  tb:field:text-input
+		  "Kz44"
 		  (string-append "Innergem. Lieferungen neuer Fahrzeuge an "
 				 "Abnehmer ohne Ust-IdNr.")
 		  validate:signed-int)
 
 
-	    tb:field:text-input
-	    (list "Kz49"
-		  "Außerhalb eines Unternehmens (Fahrzeuge)"
+	    (list "Außerhalb eines Unternehmens (Fahrzeuge)"
+		  tb:field:text-input
+		  "Kz49"
 		  (string-append "Innergemeinschaftliche Lieferungen neuer "
 				 "Fahrzeuge außerhalb eines Unternehmens "
 				 "§ 2a UStG")
@@ -110,9 +110,11 @@
 
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
       "Weitere steuerfreie Umsätze"
-      (list tb:field:text-input
-	    (list "Kz43"
-		  "mit Vorsteuerabzug"
+      (list 2
+
+	    (list "mit Vorsteuerabzug"
+		  tb:field:text-input
+		  "Kz43"
 		  (string-append "Weitere steuerfreie Umsätze mit Vorsteuer "
 				 "abzug (z.B. Ausfuhrlieferungen, Umsätze nach "
 				 "§ 4 Nr. 2 bis 7 UStG)")
@@ -122,9 +124,11 @@
 	
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      "ohne Vorsteuerabzug"
-     (list tb:field:text-input
-	   (list "Kz48"
-		 "Umsätze nach § 4 Nr. 8 bis 28 UStG"
+     (list 2
+
+	   (list "Umsätze nach § 4 Nr. 8 bis 28 UStG"
+		 tb:field:text-input
+		 "Kz48"
 		 (string-append "Umsätze nach § 4 Nr. 8 bis 28 UStG "
 				"(steuerfreie Umsätze ohne Vorsteuerabzug)")
 		 validate:signed-int)))
@@ -133,41 +137,46 @@
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     "Steuerpflichtige Umsätze"
-    (list tb:field:text-input-calc
-	  (list "Kz51"
-		"zum Steuersatz von 16%"
+    (list 2
+
+	  (list "zum Steuersatz von 16%"
+		tb:field:text-input
+		"Kz51"
 		(string-append "Lieferungen und sonstige Leistungen einschl. "
 			       "unentgeltlicher Wertabgaben "
 			       "zum Steuersatz von 16 v.H.")
 		validate:signed-int
 
 		;; second field ...
-		"Kz51-calc")
+		tb:field:text-output
+		"Kz51-calc" #f #t)
 
 	  
-	  tb:field:text-input-calc
-	  (list "Kz86"
-		"zum Steuersatz von 7%"
+	  
+	  (list "zum Steuersatz von 7%"
+		tb:field:text-input
+		"Kz86"
 		(string-append "Lieferungen und sonstige Leistungen einschl. "
 			       "unentgeltlicher Wertabgaben "
 			       "zum Steuersatz von 7 v.H.")
 		validate:signed-int
 
 		;; second field ...
-		"Kz86-calc")
+		tb:field:text-output
+		"Kz86-calc" #f #t)
 
 
-	  tb:field:text-input-input
-	  (list "Kz35"
-		"andere Steuersätze"
+	  (list "andere Steuersätze"
+		tb:field:text-input
+		"Kz35"
 		(string-append "Lieferungen und sonstige Leistungen einschl. "
 			       "unentgeltlicher Wertabgaben, Umsätze, die "
 			       "anderen Steuersätzen unterliegen (Umsatz)")
 		validate:signed-int
 
 		;; second field
+		tb:field:text-input
 		"Kz36"
-		#f ; no desc for 2nd field ...
 		"Umsätze, die anderen Steuersätzen unterliegen (Steuer)"
 		(lambda(val buf)
 		  (validate:signed-monetary-max val buf
@@ -178,9 +187,11 @@
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     "Umsätze nach § 24 UStG"
-    (list tb:field:text-input
-	  (list "Kz77"
-		"Lief. übriges Gemeinschaftsgeb., Abn. mit USt-IdNr."
+    (list 2
+
+	  (list "Lief. übriges Gemeinschaftsgeb.,\nAbn. mit USt-IdNr."
+		tb:field:text-input
+		"Kz77"
 		(string-append "Umsätze land- und forstwirtschaftl. Betriebe "
 			       "nach § 24 UStG; Lieferungen in das übrige "
 			       "Gemeinschaftsgebiet an Abnehmer *mit* "
@@ -188,9 +199,10 @@
 		validate:signed-int)
 
 
-	  tb:field:text-input-input
-	  (list "Kz76"
-		"Umsätze, Steuer nach § 24 UStG"
+	  
+	  (list "Umsätze, Steuer nach § 24 UStG"
+		tb:field:text-input
+		"Kz76"
 		(string-append "Umsätze land- und forstwirtschaftl. Betriebe "
 			       "nach § 24 UStG; Umsätze für die eine Steuer "
 			       "nach § 24 UStG zu entrichten ist (Sägewerks"
@@ -199,8 +211,8 @@
 		validate:signed-int
 
 		;; second field ...
+		tb:field:text-input
 		"Kz80"
-		#f ; no label ther ...
 		(string-append "Umsätze land- und forstwirtschaftl. Betriebe "
 			       "nach § 24 UStG; Umsätze für die eine Steuer "
 			       "nach § 24 UStG zu entrichten ist (Sägewerks"
@@ -214,45 +226,49 @@
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    "Innergemeinschaftliche Erwerbe"
-   (list tb:field:text-input
-	 (list "Kz91" 
-	       "steuerfrei, § 4b UStG"
+   (list 2
+
+	 (list "steuerfrei, § 4b UStG"
+	       tb:field:text-input
+	       "Kz91" 
 	       "Steuerfreie innergemeinschaftliche Erwerbe nach § 4b UStG" 
 	       validate:signed-int)
 	 
 	 
-	 tb:field:text-input-calc
-	 (list "Kz97"
-	       "zum Steuersatz von 16%"
+	 (list "zum Steuersatz von 16%"
+	       tb:field:text-input
+	       "Kz97"
 	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe "
 			      "zum Steuersatz von 16 v.H.")
 	       validate:signed-int
 	       
 	       ;; second field ...
-	       "Kz97-calc")
+	       tb:field:text-output
+	       "Kz97-calc" #f #t)
 
 	  
-	 tb:field:text-input-calc
-	 (list "Kz93"
-	       "zum Steuersatz von 7%"
+	 (list "zum Steuersatz von 7%"
+	       tb:field:text-input
+	       "Kz93"
 	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe "
 			      "zum Steuersatz von 7 v.H.")
 	       validate:signed-int
 	       
 	       ;; second field ...
-	       "Kz93-calc")
+	       tb:field:text-output
+	       "Kz93-calc" #f #t)
 	 
 	 
-	 tb:field:text-input-input
-	 (list "Kz95"
-	       "andere Steuersätze"
+	 (list "andere Steuersätze"
+	       tb:field:text-input
+	       "Kz95"
 	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe,"
 			      " die anderen Steuersätzen unterliegen (Umsatz)")
 	       validate:signed-int
 
 	       ;; second field
+	       tb:field:text-input
 	       "Kz98"
-	       #f ; no desc for 2nd field ...
 	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe,"
 			      " die anderen Steuersätzen unterliegen (Steuer)")
 	       (lambda(val buf)
@@ -260,17 +276,17 @@
 					       (storage:retrieve buf "Kz95"))))
 	 
 
-	 tb:field:text-input-input
-	 (list "Kz94"
-	       "neue Fahrz., ohne USt-IdNr."
+	 (list "neue Fahrz., ohne USt-IdNr."
+	       tb:field:text-input
+	       "Kz94"
 	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe,"
 			      " neuer Fahrzeuge von Lieferern *ohne* USt-IdNr. "
 			      "zum allgemeinen Steuersatz (Umsatz)")
 	       validate:signed-int
 	       
 	       ;; second field
+	       tb:field:text-input
 	       "Kz96"
-	       #f ; no desc for 2nd field ...
 	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe"
 			      ", neuer Fahrzeuge von Lieferern *ohne* "
 			      "USt-IdNr. zum allgemeinen Steuersatz (Steuer)")
@@ -282,27 +298,29 @@
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    "Ergänzende Angaben zu Umsätzen"
-   (list tb:field:text-input
-	 (list "Kz42"
-	       "Lief. d. 1. Abn. bei innerg. Dreiecksgesch."
+   (list 2
+
+	 (list "Lief. d. 1. Abn. bei innerg. Dreiecksgesch."
+	       tb:field:text-input
+	       "Kz42"
 	       (string-append "Umsätze aus Lieferungen des ersten Abnehmers "
 			      "bei *innergemeinschaftlichen Dreiecksgeschäften*"
 			      " (§ 25b Abs. 2 UStG)")
 	       validate:signed-int)
 
 
-	 tb:field:text-input
-	 (list "Kz60"
-	       "Steuerpfl. Umsätze § 13b UStG"
+	 (list "Steuerpfl. Umsätze § 13b UStG"
+	       tb:field:text-input
+	       "Kz60"
 	       (string-append "Steuerpflichtige Umsätze im Sinne des § 13b "
 			      "Abs. 1 Satz 1 Nr. 1 bis 5 UStG, für die der "
 			      "*Leistungsempfänger* die *Steuer schuldet*")
 	       validate:signed-int)
 
 	 
-	 tb:field:text-input
-	 (list "Kz45"
-	       "im Inland nicht steuerbare Umsätze"
+	 (list "im Inland nicht steuerbare Umsätze"
+	       tb:field:text-input
+	       "Kz45"
 	       "im Inland nicht steuerbare Umsätze"
 	       validate:signed-int))
 
@@ -310,9 +328,11 @@
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    "Umsätze § 13b Abs. 2 UStG"
-   (list tb:field:text-input-input
-	 (list "Kz52"
-	       "Leistg. v. Untern. im Ausland"
+   (list 2
+
+	 (list "Leistg. v. Untern. im Ausland"
+	       tb:field:text-input
+	       "Kz52"
 	       (string-append "Leistungen eines im Ausland ansässigen "
 			      "Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 1 und 5 "
 			      "UStG), für die als Leistungsempfänger "
@@ -320,8 +340,8 @@
 	       validate:signed-int
 
 	       ;; 2nd field
+	       tb:field:text-input
 	       "Kz53"
-	       #f ;; no label
 	       (string-append "Leistungen eines im Ausland ansässigen "
 			      "Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 1 und 5 "
 			      "UStG), für die als Leistungsempfänger "
@@ -331,9 +351,9 @@
 					       (storage:retrieve b "Kz52"))))
 
 
-	 tb:field:text-input-input
-	 (list "Kz73"
-	       "Lief. sichergsübereig. Gegenst., Ums. GrEStG"
+	 (list "Lief. sichergsübereig. Gegenst., Ums. GrEStG"
+	       tb:field:text-input
+	       "Kz73"
 	       (string-append "Lieferungen sicherungsübereigneter Gegenstände "
 			      "und Umsätze, die unter das GrEStG fallen "
 			      "(§ 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG), für die "
@@ -342,8 +362,8 @@
 	       validate:signed-int
 
 	       ;; 2nd field
+	       tb:field:text-input
 	       "Kz74"
-	       #f ;; no label
 	       (string-append "Lieferungen sicherungsübereigneter Gegenstände "
 			      "und Umsätze, die unter das GrEStG fallen "
 			      "(§ 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG), für die "
@@ -354,9 +374,9 @@
 					       (storage:retrieve b "Kz73"))))
 
 
-	 tb:field:text-input-input
-	 (list "Kz84"
-	       "Bauleistungen eines Untern. im Inland"
+	 (list "Bauleistungen eines Untern. im Inland"
+	       tb:field:text-input
+	       "Kz84"
 	       (string-append "Bauleistungen eines im Inland ansässigen "
 			      "Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 4 UStG), "
 			      "für die als Leistungsempfänger Steuer geschuldet"
@@ -364,8 +384,8 @@
 	       validate:signed-int
 
 	       ;; 2nd field
+	       tb:field:text-input
 	       "Kz85"
-	       #f ;; no label
 	       (string-append "Bauleistungen eines im Inland ansässigen "
 			      "Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 4 UStG), "
 			      "für die als Leistungsempfänger Steuer geschuldet"
@@ -375,9 +395,11 @@
 					       (storage:retrieve b "Kz84")))))
 
    "Abziehbare Vorsteuerbeträge"
-   (list tb:field:text-input
-	 (list "Kz66"
-	       "aus Rechnungen anderer Untern."
+   (list 2
+
+	 (list "aus Rechnungen anderer Untern."
+	       tb:field:text-input
+	       "Kz66"
 	       (string-append "Vorsteuerbeträge aus Rechnungen von anderen "
 			      "Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), "
 			      "aus Leistungen im Sinne des § 13a Abs. 1 Nr. 6 "
@@ -387,51 +409,51 @@
 	       validate:signed-monetary)
 
 
-	 tb:field:text-input
-	 (list "Kz61"
-	       "Vorst. aus innergem. Erwerb"
+	 (list "Vorst. aus innergem. Erwerb"
+	       tb:field:text-input
+	       "Kz61"
 	       (string-append "Vorsteuerbeträge aus dem innergemeinschaftlichen"
 			      " Erwerb von Gegenständen (§ 15 Abs. 1 Satz 1 "
 			      "Nr. 3 UStG)")
 	       validate:signed-monetary)
 
 
-	 tb:field:text-input
-	 (list "Kz62"
-	       "Einfuhrumsatzsteuer"
+	 (list "Einfuhrumsatzsteuer"
+	       tb:field:text-input
+	       "Kz62"
 	       (string-append "Entrichtete Einfuhrumsatzsteuer "
 			      "(§ 15 Abs. 1 Satz 1 Nr. 2 UStG)")
 	       validate:signed-monetary)
 
 
-	 tb:field:text-input
-	 (list "Kz67"
-	       "Vorsteuer § 13b"
+	 (list "Vorsteuer § 13b"
+	       tb:field:text-input
+	       "Kz67"
 	       (string-append "Vorsteuerbeträge aus Leistungen im Sinne "
 			      "des § 13b Abs. 1 UStG "
 			      "(§ 15 Abs. 1 Satz 1 Nr. 4 UStG)")
 	       validate:signed-monetary)
 
 
-	 tb:field:text-input
-	 (list "Kz63"
-	       "nach allg. Durchschnittsätze"
+	 (list "nach allg. Durchschnittsätze"
+	       tb:field:text-input
+	       "Kz63"
 	       (string-append "Vorsteuerbeträge, die nach allgemeinen "
 			      "Durchschnittsätzen berechnet sind "
 			      "(§§ 23 und 23a UStG)")
 	       validate:signed-monetary)
 
 
-	 tb:field:text-input
-	 (list "Kz64"
-	       "Berichtigung des Vorsteuerabzugs"
-	       "Berichtigung des Vorsteuerabzugs (§ 15a UStG)"
+	 (list "Berichtigung des Vorsteuerabzugs"
+	       tb:field:text-input
+	       "Kz64"
+      	       "Berichtigung des Vorsteuerabzugs (§ 15a UStG)"
 	       validate:signed-monetary)
 
 	 
-	 tb:field:text-input
-	 (list "Kz59"
-	       "innerg. Lief. neuer Fahrz."
+	 (list "innerg. Lief. neuer Fahrz."
+	       tb:field:text-input
+	       "Kz59"
 	       (string-append "Vorsteuerabzug für innergemeinschaftliche "
 			      "Lieferungen neuer Fahrzeuge außerhalb eines "
 			      "Unternehmens (§ 2a UStG) sowie von Klein"
@@ -440,18 +462,20 @@
 	       validate:signed-monetary))
 
    "Sonstige"
-   (list tb:field:text-input
-	 (list "Kz65"
-	       "Wechsel Bestuerungsform sowie Nachsteuer"
+   (list 2
+
+	 (list "Wechsel Bestuerungsform sowie Nachsteuer"
+	       tb:field:text-input
+	       "Kz65"
 	       (string-append "Steuer infolge Wechsels der Besteuerungsform "
 			      "sowie Nachsteuer auf versteuerte Anzahlungen "
 			      "wegen Steuersatzerhöhung")
 	       validate:signed-monetary)
 
 
-	 tb:field:text-input
-	 (list "Kz69"
-	       "Sonstiges"
+	 (list "Sonstiges"
+	       tb:field:text-input
+	       "Kz69"
 	       (string-append "Steuerbeträge, die vom letzten Abnehmer eines "
 			      "innergemeinschaftlichen Dreiecksgeschäfts "
 			      "geschuldet werden (§ 25b Abs. 2 UStG), "
@@ -464,9 +488,9 @@
 	       validate:signed-monetary)
 
 
-	 tb:field:text-input
-	 (list "Kz39"
-	       "Anrechnung Sonder-VZ"
+	 (list "Anrechnung Sonder-VZ"
+	       tb:field:text-input
+	       "Kz39"
 	       (string-append "Anrechnung (Abzug) der festgesetzten "
 			      "Sondervorauszahlung für Dauerfristverlängerung "
 			      "(nur auszufüllen in der letzten Voranmeldung "

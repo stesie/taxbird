@@ -37,43 +37,66 @@
 
 
 (define basics:datenlieferant
-  '(tb:field:text-output
-    '("vend-id" "Hersteller-ID"
-      "Von der Oberfinanzdirektion München vergebene Hersteller-ID" #t)
+  (list 1
 
-    tb:field:text-input
-    '("name-lieferant" "Name"
-      "Name des Datenlieferanten (ggf. Steuerberater)"
-      (lambda(val buf) (validate:datenlieferant val buf "name-lieferant")))
+	(list "Hersteller-ID"
+	      tb:field:text-output
+	      "vend-id" 
+	      "Von der Oberfinanzdirektion München vergebene Hersteller-ID"
+	      #t)
+
+	(list "Name"
+	      tb:field:text-input
+	      "name-lieferant"
+	      "Name des Datenlieferanten (ggf. Steuerberater)"
+	      (lambda(val buf) 
+		(validate:datenlieferant val buf "name-lieferant")))
     
-    tb:field:text-input
-    '("berufsbez" "Berufsbezeichnung"
-      "Berufsbezeichnung des Beraters"
-      (lambda(val buf) (validate:datenlieferant val buf "berufsbez")))
+	(list "Berufsbezeichnung"
+	      tb:field:text-input
+	      "berufsbez"
+	      "Berufsbezeichnung des Beraters"
+	      (lambda(val buf)
+		(validate:datenlieferant val buf "berufsbez")))
     
-    tb:field:text-input
-    '("vorwahl" "Tel.-Nr. (Vorwahl)"
-      "Tel.-Nr. Datenlieferant/Berater (Vorwahl)"
-      (lambda(val buf) (validate:datenlieferant val buf "vorwahl")))
+	(list "Tel.-Nr. (Vorwahl)"
+	      tb:field:text-input
+	      "vorwahl" 
+	      "Tel.-Nr. Datenlieferant/Berater (Vorwahl)"
+	      (lambda(val buf)
+		(validate:datenlieferant val buf "vorwahl")))
 
-    tb:field:text-input
-    '("anschluss" "Tel.-Nr. (Anschluss)"
-      "Tel.-Nr. Datenlieferant/Berater (Anschluss)"
-      (lambda(val buf) (validate:datenlieferant val buf "anschluss")))
+	(list "Tel.-Nr. (Anschluss)"
+	      tb:field:text-input
+	      "anschluss" 
+	      "Tel.-Nr. Datenlieferant/Berater (Anschluss)"
+	      (lambda(val buf)
+		(validate:datenlieferant val buf "anschluss")))
 
-    tb:field:text-input
-    '("plz-lieferant" "Postleitzahl" "PLZ des Datenlieferanten" #t)
+	(list "Postleitzahl"
+	      tb:field:text-input
+	      "plz-lieferant" 
+	      "PLZ des Datenlieferanten" 
+	      #t) ;; FIXME, validation!!
 
-    tb:field:text-input
-    '("ort-lieferant" "Ort" "Sitzort des Datenlieferanten" #t)
+	(list "Ort"
+	      tb:field:text-input
+	      "ort-lieferant"
+	      "Sitzort des Datenlieferanten" 
+	      #t) ;; FIXME, validation!!
 
-    tb:field:text-input
-    '("land-lieferant" "Land" "Land des Datenlieferanten" #t)
+	(list "Land" 
+	      tb:field:text-input
+	      "land-lieferant" 
+	      "Land des Datenlieferanten"
+	      #t) ;; FIXME, validation
 
-    tb:field:text-input
-    '("mandant" "Name Mandant"
-      "Name des Mandanten (optional, sofern zutreffend aber erwünscht)"
-      (lambda(val buf) (validate:datenlieferant val buf "mandant")))))
+	(list "Name Mandant"
+	      tb:field:text-input
+	      "mandant" 
+	      "Name des Mandanten (optional, sofern zutreffend aber erwünscht)"
+	      (lambda(val buf)
+		(validate:datenlieferant val buf "mandant")))))
 
 
 (define export:generate-datenlieferant

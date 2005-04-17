@@ -18,19 +18,33 @@
 (tb:eval-file "validate.scm")
 
 (define basics:adresse
-  '(tb:field:text-input
-    '("name" "Name" "Name des Steuerpflichtigen"
-      (lambda(value buf) (validate:alphanum value 1 45)))
+  (list 1 ;; one column only
+	
+	(list "Name"
+	      tb:field:text-input
+	      "name"
+	      "Name des Steuerpflichtigen"
+	      (lambda(value buf)
+		(validate:alphanum value 1 45)))
 
-    tb:field:text-input
-    '("strasse" "Straße" (string-append "Straßenname und Hausnummer "
-					"(der Anschrift des Steuerpflichtigen)")
-      (lambda(value buf) (validate:alphanum value 1 30)))
+	(list "Straße" 
+	      tb:field:text-input
+	      "strasse"
+	      (string-append "Straßenname und Hausnummer "
+			     "(der Anschrift des Steuerpflichtigen)")
+	      (lambda(value buf)
+		(validate:alphanum value 1 30)))
 
-    tb:field:text-input
-    '("plz" "PLZ" "Postleitzahl (der Anschrift des Steuerpflichtigen)"
-      (lambda(value buf) (validate:alphanum value 1 12)))
+	(list "PLZ"
+	      tb:field:text-input
+	      "plz"
+	      "Postleitzahl (der Anschrift des Steuerpflichtigen)"
+	      (lambda(value buf)
+		(validate:alphanum value 1 12)))
 
-    tb:field:text-input
-    '("ort" "Ort" "Wohnort (der Anschrift des Steuerpflichtigen)"
-      (lambda(value buf) (validate:alphanum value 1 30)))))
+	(list "Ort"
+	      tb:field:text-input
+	      "ort"
+	      "Wohnort (der Anschrift des Steuerpflichtigen)"
+	      (lambda(value buf)
+		(validate:alphanum value 1 30)))))
