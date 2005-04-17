@@ -190,7 +190,12 @@ taxbird_ws_fill_tree_store(GtkTreeStore *tree, GtkTreeIter *parent, SCM dataset)
     return; /* okay, this sheet is a leaf (holding fields) */
 
   while(scm_ilength(dataset)) {
-    g_return_if_fail(SCM_STRINGP(SCM_CAR(dataset)));
+    if(! SCM_STRINGP(SCM_CAR(dataset))) {
+      g_print("sheet doesn't have sheet name at it's start: ");
+      gh_write(SCM_CAR(dataset));
+      g_print("\n");
+      break;
+    }
 
     gtk_tree_store_append(tree, &iter, parent);
     gtk_tree_store_set(tree, &iter, 0, SCM_STRING_CHARS(SCM_CAR(dataset)), -1);
