@@ -257,13 +257,23 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
     g_return_if_fail(SCM_STRINGP(SCM_CAR(specs)));
 
     GtkWidget *label = gtk_label_new(SCM_STRING_CHARS(SCM_CAR(specs)));
+    gtk_label_set_use_markup(GTK_LABEL(label), 1);
     gtk_label_set_line_wrap(GTK_LABEL(label), 1);
     gtk_widget_show(label);
-    gtk_table_attach(GTK_TABLE(table), label, 0, 1, row, row + 1,
+
+    /* bind the label for the first column only, if there are further fields,
+     * if this is some kind of caption label, bind to the full row */
+    gtk_table_attach(GTK_TABLE(table), label,
+		     0, scm_ilength(specs) == 1 ? columns : 1, row, row + 1,
 		     (GtkAttachOptions) (GTK_FILL),
 		     (GtkAttachOptions) (0), 0, 0);
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
 
+    /* align label to the right, if there are any fields, to the left, if
+     * there aren't, i.e. this is a caption label */
+    gtk_misc_set_alignment(GTK_MISC(label),
+			   scm_ilength(specs) == 1 ? 0 : 1, 0.5);
+    gtk_label_set_justify(GTK_LABEL(label), scm_ilength(specs) == 1 ?
+			  GTK_JUSTIFY_LEFT : GTK_JUSTIFY_RIGHT);
 
     /* generate the fields of this column now ... */
     int column;
@@ -618,6 +628,7 @@ taxbird_ws_create_label(SCM specs)
   (void) specs;
 
   GtkWidget *w = gtk_label_new(SCM_STRING_CHARS(SCM_CADR(specs)));
+  gtk_label_set_use_markup(GTK_LABEL(w), 1);
   return w;
 }
 
