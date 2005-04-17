@@ -48,6 +48,12 @@ static void taxbird_ws_store_event(GtkWidget *w, gpointer user_data);
 static void taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin, 
 				      const char *field_name);
 
+/* Figure out, which sheet's displayed currently and update all the
+ * widgets (calling retrieval function). The widget with the name 
+ * 'exception' is ignore, may be NULL  */
+static void taxbird_ws_update_fields(GtkWidget *appwin, const char *exception);
+
+
 static gboolean taxbird_ws_show_appbar_help(GtkWidget *widget,
                                             GdkEventFocus *event,
                                             gpointer user_data);
@@ -55,20 +61,19 @@ static gboolean taxbird_ws_show_appbar_help(GtkWidget *widget,
 static GtkWidget *taxbird_ws_create_input(SCM specs);
 static GtkWidget *taxbird_ws_create_output(SCM specs);
 static GtkWidget *taxbird_ws_create_chooser(SCM specs);
+static GtkWidget *taxbird_ws_create_label(SCM specs);
 
 /* unprotect referenced SCM (callback for destroy notifications) */
 static void taxbird_ws_unprotect_scm(gpointer d);
 
 static struct {
   GtkWidget *(*new)(SCM specs);
-  GtkWidget *(*new_2nd)(SCM specs);
+
 } taxbird_ws_field_creators[] = {
-  { taxbird_ws_create_input, NULL },                      /* TEXT_INPUT   */
-  { taxbird_ws_create_output, NULL },                     /* TEXT_OUTPUT  */
-  { taxbird_ws_create_chooser, NULL },                    /* CHOOSER      */
-  { NULL, NULL },
-  { taxbird_ws_create_input, taxbird_ws_create_output },  /* INPUT_CALC   */
-  { taxbird_ws_create_input, taxbird_ws_create_input },   /* INPUT_INPUT  */
+  { taxbird_ws_create_input },                      /* TEXT_INPUT   */
+  { taxbird_ws_create_output },                     /* TEXT_OUTPUT  */
+  { taxbird_ws_create_chooser },                    /* CHOOSER      */
+  { taxbird_ws_create_label },                      /* LABEL        */
 };
 
 
@@ -204,10 +209,9 @@ void
 taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 {
   GtkWidget *table;
-  int item = 0;
   GtkBin *viewport = GTK_BIN(lookup_widget(appwin, "viewport"));
-  SCM sheet = taxbird_ws_lookup_sheet(g_object_get_data(G_OBJECT(appwin),
-							"sheetdef"), sheetname);
+  SCM dataset = (SCM) g_object_get_data(G_OBJECT(appwin), "sheetdef");
+  SCM sheet = taxbird_ws_lookup_sheet(dataset, sheetname);
 
   g_return_if_fail(SCM_NFALSEP(scm_list_p(sheet)));
   g_return_if_fail(scm_ilength(sheet));
@@ -221,7 +225,8 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
     gtk_widget_destroy(table);
 
   /* create new widget tree  ... */
-  table = gtk_table_new(scm_ilength(sheet) >> 1, 3, FALSE);
+  int columns = scm_num2int(SCM_CAR(sheet), 0, "taxbird_ws_sel_sheet");
+  table = gtk_table_new(scm_ilength(sheet) - 1, columns, FALSE);
   gtk_container_set_border_width(GTK_CONTAINER(table), 5);
   gtk_table_set_row_spacings(GTK_TABLE(table), 5);
   gtk_table_set_col_spacings(GTK_TABLE(table), 10);
@@ -231,14 +236,12 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
    * widget tree to be set up properly */
   gtk_container_add(GTK_CONTAINER(viewport), table);
 
-  /* parse the sheet definition step by step and create the necessary widgets */
-  g_return_if_fail(scm_ilength(sheet)%2==0); /* sheet definition must have an 
-					      * even number of elements! */
-  while(scm_ilength(sheet)) {
-    SCM ws_field_t_scm;
-    int ws_field_t;
-    GtkWidget *input, *label;
-    SCM specs = SCM_CADR(sheet);
+  /* parse the sheet definition step by step,
+   * and create the necessary widgets */
+  int row;
+  sheet = SCM_CDR(sheet);
+  for(row = 0; scm_ilength(sheet); sheet = SCM_CDR(sheet), row ++) {
+    SCM specs = SCM_CAR(sheet);
       
     if(SCM_SYMBOLP(specs))
       /* refrenced by variable, resolve it */
@@ -248,78 +251,67 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
     while(SCM_SYMBOLP(SCM_CAR(specs)))
       specs = scm_primitive_eval(specs);
 
-    ws_field_t_scm = SCM_CAR(sheet);
 
-    if(SCM_SYMBOLP(ws_field_t_scm))
-      /* we got a symbol (probably some kind of tb:field:text-input),
-       * not a number --> resolve it. */
-      ws_field_t_scm = scm_primitive_eval(ws_field_t_scm);
+    /* first element of 'specs' contains the name of this row,
+     * i.e. what we shall put into the first column label */
+    g_return_if_fail(SCM_STRINGP(SCM_CAR(specs)));
 
-    g_return_if_fail(SCM_NUMBERP(ws_field_t_scm));
-    ws_field_t = scm_num2int(ws_field_t_scm, 0, "taxbird_ws_sel_sheet");
-
-    input = taxbird_ws_field_creators[ws_field_t].new(specs);
-
-    /* we need to attach the widget to the table (thus the widget tree itself)
-     * rather early (i.e. before calling the retrieval func) as it might
-     * use Glade's lookup code
-     */
-    g_object_set_data_full(G_OBJECT(input), "scm_specs",
-			   scm_gc_protect_object(specs),
-			   taxbird_ws_unprotect_scm);
-    gtk_table_attach(GTK_TABLE(table), input, 1,
-		     ws_field_t > FIELD_COMBINED_SPLIT ? 2 : 3, item, item + 1,
-		     (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		     (GtkAttachOptions) (0), 0, 0);
-    GLADE_HOOKUP_OBJECT(appwin, input, 
-			SCM_STRING_CHARS(SCM_CAR(specs)));
-    
-    /* set callback responsible for displaying help text in appbar */
-    g_signal_connect((gpointer) input, "focus-in-event",
-		     G_CALLBACK(taxbird_ws_show_appbar_help), NULL);
-				  
-    /* add description label */
-    g_return_if_fail(SCM_STRINGP(SCM_CADR(specs)));
-    label = gtk_label_new(SCM_STRING_CHARS(SCM_CADR(specs)));
+    GtkWidget *label = gtk_label_new(SCM_STRING_CHARS(SCM_CAR(specs)));
     gtk_label_set_line_wrap(GTK_LABEL(label), 1);
     gtk_widget_show(label);
-    gtk_table_attach(GTK_TABLE(table), label, 0, 1, item, item + 1,
+    gtk_table_attach(GTK_TABLE(table), label, 0, 1, row, row + 1,
 		     (GtkAttachOptions) (GTK_FILL),
 		     (GtkAttachOptions) (0), 0, 0);
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
 
-    if(ws_field_t > FIELD_COMBINED_SPLIT) {
-      /* second field on same row */
-      char *field_name = SCM_STRING_CHARS(SCM_CADDDDR(specs));
-      GtkWidget *input = taxbird_ws_field_creators[ws_field_t].new_2nd(specs);
 
-      /* insert the widget into the widget tree as early as possible */
+    /* generate the fields of this column now ... */
+    int column;
+    specs = SCM_CDR(specs); /* skip the label, we already cared for */
+    for(column = 1; scm_ilength(specs); specs = SCM_CDDDDR(specs), column ++) {
+      if(scm_ilength(specs) < 4) {
+	g_print("field definition expected to be four fields long, got: ");
+	gh_write(specs); g_print("\n");
+	break;
+      }
+
+      if(! SCM_NUMBERP(SCM_CAR(specs))) {
+	g_print("first spec-field expected to be numeric in: ");
+	gh_write(specs); g_print("\n");
+	break;
+      }
+      int input_type = scm_num2int(SCM_CAR(specs), 0, "taxbird_ws_sel_sheet");
+
+      if(! SCM_STRINGP(SCM_CADR(specs))) {
+	g_print("second spec-field expected to be identifier string, near: ");
+	gh_write(specs); g_print("\n");
+	break;
+      }
+      const char *input_name = SCM_STRING_CHARS(SCM_CADR(specs));
+
+      GtkWidget *input = taxbird_ws_field_creators[input_type].new(specs);
+
+      /* we need to attach the widget to the table (i.e. to the widget tree)
+       * rather early (i.e. before calling the retrieval func) as it might
+       * use Glade's lookup code
+       */
       g_object_set_data_full(G_OBJECT(input), "scm_specs",
-			     scm_gc_protect_object(SCM_CDDDDR(specs)),
+			     scm_gc_protect_object(specs),
 			     taxbird_ws_unprotect_scm);
-      gtk_table_attach(GTK_TABLE(table), input, 2, 3, item, item + 1,
-		       (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
+      gtk_table_attach(GTK_TABLE(table), input, column, column + 1, row, 
+		       row + 1, (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
 		       (GtkAttachOptions) (0), 0, 0);
-      GLADE_HOOKUP_OBJECT(appwin, input, field_name);
-      
-      taxbird_ws_retrieve_field(input, appwin, field_name);
-
+      GLADE_HOOKUP_OBJECT(appwin, input, input_name);
+    
       /* set callback responsible for displaying help text in appbar */
       g_signal_connect((gpointer) input, "focus-in-event",
 		       G_CALLBACK(taxbird_ws_show_appbar_help), NULL);
+				  
+      /* retrieve content of main field */
+      taxbird_ws_retrieve_field(input, appwin, input_name);
 
       gtk_widget_show(input);
     }
-
-    /* retrieve content of main field, we need to do this after creating
-     * the first one since the changed-handler of the main field may try
-     * to change the first one */
-    taxbird_ws_retrieve_field(input, appwin, SCM_STRING_CHARS(SCM_CAR(specs)));
-    gtk_widget_show(input);
-
-    /* care for next item */
-    sheet = SCM_CDDR(sheet);
-    item ++;
   }
 
   gtk_widget_show(table);
@@ -334,16 +326,17 @@ static int
 taxbird_ws_validate(GtkWidget *w)
 {
   GtkWidget *appwin = lookup_widget(w, "taxbird");
+
   SCM field = (SCM) g_object_get_data(G_OBJECT(w), "scm_specs");
-  /* field points to the ("intname" "name" "desc" validate-func) list */
-  SCM validatfunc;
+  /* field points to the ("type" "name" "desc" validate-func) list */
+
   g_return_val_if_fail(SCM_NFALSEP(scm_list_p(field)), 0);
 
   if(! GTK_IS_ENTRY(w))
     return 1;    /* consider output fields, choosers etc. to be valid */
 
   /* validate field's value, in case it's a text entry field */
-  validatfunc = SCM_CADDDR(field);
+  SCM validatfunc = SCM_CADDDR(field);
 
   if(SCM_SYMBOLP(validatfunc))
     /* immediate symbol (i.e. defined function), resolve and execute then */
@@ -379,64 +372,129 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 {
   (void) user_data;
 
-  GtkWidget *appwin = lookup_widget(w, "taxbird");
-  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
-
-  SCM specs = (SCM) g_object_get_data(G_OBJECT(w), "scm_specs");
-  g_return_if_fail(SCM_NFALSEP(scm_list_p(specs)));
-
-  /* store data if it's valid */
-  if(taxbird_ws_validate(w)) {
-    SCM store_value;
-    SCM field = SCM_CAR(specs);
-    g_return_if_fail(SCM_STRINGP(field));
-
-    static GdkColor taxbird_color_okay = { 0, 32767, 32767, 32767 };
-    gtk_widget_modify_bg(w, GTK_STATE_NORMAL, &taxbird_color_okay);
-
-    if(GTK_IS_ENTRY(w))
-      store_value = scm_makfrom0str(gtk_entry_get_text(GTK_ENTRY(w)));
-
-    else if(GTK_IS_COMBO_BOX(w)) {
-      int item = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
-      g_return_if_fail(item >= 0);
-
-      store_value = scm_int2num(item);
-    }
-    else {
-      g_assert_not_reached();
-      return;
-    }
-
-    scm_call_3(forms[current_form]->dataset_write,
-	       (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data"),
-	       field, store_value);
-
-    if(scm_ilength(specs) > 4) {
-      /* there is an associated field, which possibly is some kind of
-       * calculated field, re-retrieve it's value
-       */
-      GtkWidget *w2;
-
-      field = SCM_CADDDDR(specs);
-      g_return_if_fail(SCM_STRINGP(field));
-
-      w2 = lookup_widget(appwin, SCM_STRING_CHARS(field));
-      g_return_if_fail(w2);
-
-      taxbird_ws_retrieve_field(w2, appwin, SCM_STRING_CHARS(field));
-    }
-
-    g_object_set_data(G_OBJECT(appwin), "changed", (void *) 1);
-  }
-  else {
+  /* validate field's content */
+  if(! taxbird_ws_validate(w)) {
     /* draw red border (background) around textbox, to show the chosen value is
      * not valid. 
      */
     static GdkColor taxbird_color_red = { 0, 65535, 0, 0 };
     gtk_widget_modify_bg(w, GTK_STATE_NORMAL, &taxbird_color_red);
+
+    return;
+  }
+
+
+  /* field is valid ... 
+   * draw green border around the field */
+  static GdkColor taxbird_color_okay = { 0, 32767, 32767, 32767 };
+  gtk_widget_modify_bg(w, GTK_STATE_NORMAL, &taxbird_color_okay);
+
+
+  /* figure out, what value to store */
+  SCM store_value;
+
+  if(GTK_IS_ENTRY(w))
+    store_value = scm_makfrom0str(gtk_entry_get_text(GTK_ENTRY(w)));
+
+  else if(GTK_IS_COMBO_BOX(w)) {
+    int item = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
+    g_return_if_fail(item >= 0);
+    
+    store_value = scm_int2num(item);
+  }
+  else {
+    g_assert_not_reached();
+    return;
+  }
+
+  
+  /* call storage function ... */
+  SCM specs = (SCM) g_object_get_data(G_OBJECT(w), "scm_specs");
+  g_return_if_fail(SCM_NFALSEP(scm_list_p(specs)));
+
+  SCM field = SCM_CADR(specs);
+  g_return_if_fail(SCM_STRINGP(field));
+
+  GtkWidget *appwin = lookup_widget(w, "taxbird");
+  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
+
+  scm_call_3(forms[current_form]->dataset_write,
+	     (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data"),
+	     field, store_value);
+
+
+  /* set changed flag */
+  g_object_set_data(G_OBJECT(appwin), "changed", (void *) 1);
+
+
+  /* now update all but the current field */
+  taxbird_ws_update_fields(appwin, SCM_STRING_CHARS(field));
+}
+
+
+
+/* Figure out, which sheet's displayed currently and update all the
+ * widgets (calling retrieval function). The widget with the name 
+ * 'exception' is ignore, may be NULL
+ */
+static void
+taxbird_ws_update_fields(GtkWidget *appwin, const char *exception)
+{
+  /* figure out, which sheet's selected */
+  GtkTreeView *tv = GTK_TREE_VIEW(lookup_widget(appwin, "tv_sheets"));
+  GtkTreeSelection *sel = gtk_tree_view_get_selection(tv);
+
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+  if(! gtk_tree_selection_get_selected (sel, &model, &iter))
+    return;
+
+  char *sheetname;
+  gtk_tree_model_get(model, &iter, 0, &sheetname, -1);
+
+  /* lookup the associated SCM structure */
+  SCM dataset = (SCM) g_object_get_data(G_OBJECT(appwin), "sheetdef");
+  SCM sheet = taxbird_ws_lookup_sheet(dataset, sheetname);
+
+  /* get rid of the name */
+  g_free(sheetname);
+
+  g_return_if_fail(SCM_NFALSEP(scm_list_p(sheet)));
+  g_return_if_fail(scm_ilength(sheet));
+
+  g_return_if_fail(! SCM_STRINGP(SCM_CAR(sheet)));
+
+  /* now recurse through the whole sheet (all rows and colums and 
+   * call the retrieval function), to update each field's content
+   */
+  sheet = SCM_CDR(sheet); /* skip the number of columns field */
+  for(; scm_ilength(sheet); sheet = SCM_CDR(sheet)) {
+    SCM specs = SCM_CAR(sheet);
+      
+    if(SCM_SYMBOLP(specs))
+      /* refrenced by variable, resolve it */
+      specs = scm_c_lookup_ref(SCM_SYMBOL_CHARS(specs));
+
+    /* resolve quotes */
+    while(SCM_SYMBOLP(SCM_CAR(specs)))
+      specs = scm_primitive_eval(specs);
+
+    specs = SCM_CDR(specs); /* skip the line name */
+    for(; scm_ilength(specs); specs = SCM_CDDDDR(specs)) {
+      g_return_if_fail(SCM_NUMBERP(SCM_CAR(specs)));
+
+      g_return_if_fail(SCM_STRINGP(SCM_CADR(specs)));
+      const char *input_name = SCM_STRING_CHARS(SCM_CADR(specs));
+
+      /* retrieve content of field ... */
+      if(!exception || strcmp(input_name, exception)) {
+	GtkWidget *input = lookup_widget(appwin, input_name);
+	taxbird_ws_retrieve_field(input, appwin, input_name);
+      }
+    }
   }
 }
+
 
 
 
@@ -549,6 +607,17 @@ taxbird_ws_create_output(SCM specs)
   GtkWidget *w = gtk_entry_new();
   gtk_editable_set_editable(GTK_EDITABLE(w), FALSE);
 
+  return w;
+}
+
+
+
+static GtkWidget *
+taxbird_ws_create_label(SCM specs)
+{
+  (void) specs;
+
+  GtkWidget *w = gtk_label_new(SCM_STRING_CHARS(SCM_CADR(specs)));
   return w;
 }
 
