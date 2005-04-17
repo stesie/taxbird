@@ -77,49 +77,47 @@
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      "mit Vorsteuerabzug"
 
-     (list
-      "Innerg. Lieferungen"
+     (list 2
 
-      (list 2
+	   (list "<b>Innergemeinschaftliche Lieferungen ...</b>")
 
-	    (list "Abnehmer mit USt-ID"
-		  tb:field:text-input
-		  "Kz41"
-		  (string-append "Innergem. Lieferungen (§ 4 Nr. 1 Buchst. b "
-				 "UStG) an Abnehmer mit USt-IdNr.")
-		  validate:signed-int)
-
-
-	    (list "Abnehmer ohne USt-ID (Fahrzeuge)"
-		  tb:field:text-input
-		  "Kz44"
-		  (string-append "Innergem. Lieferungen neuer Fahrzeuge an "
-				 "Abnehmer ohne Ust-IdNr.")
-		  validate:signed-int)
+	   (list "Abnehmer mit USt-ID"
+		 tb:field:text-input
+		 "Kz41"
+		 (string-append "Innergem. Lieferungen (§ 4 Nr. 1 Buchst. b "
+				"UStG) an Abnehmer mit USt-IdNr.")
+		 validate:signed-int)
 
 
-	    (list "Außerhalb eines Unternehmens (Fahrzeuge)"
-		  tb:field:text-input
-		  "Kz49"
-		  (string-append "Innergemeinschaftliche Lieferungen neuer "
-				 "Fahrzeuge außerhalb eines Unternehmens "
-				 "§ 2a UStG")
-		  validate:signed-int))
+	   (list "Abnehmer ohne USt-ID\n(neue Fahrzeuge)"
+		 tb:field:text-input
+		 "Kz44"
+		 (string-append "Innergem. Lieferungen neuer Fahrzeuge an "
+				"Abnehmer ohne Ust-IdNr.")
+		 validate:signed-int)
 
 
+	   (list "Außerhalb eines Unternehmens\n(neue Fahrzeuge)"
+		 tb:field:text-input
+		 "Kz49"
+		 (string-append "Innergemeinschaftliche Lieferungen neuer "
+				"Fahrzeuge außerhalb eines Unternehmens "
+				"§ 2a UStG")
+		 validate:signed-int)
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-      "Weitere steuerfreie Umsätze"
-      (list 2
+	   
+	   ;;;;;;;;;;;;;;;;;;
+	   (list "<b>Weitere steuerfreie Umsätze ...</b>")
 
-	    (list "mit Vorsteuerabzug"
-		  tb:field:text-input
-		  "Kz43"
-		  (string-append "Weitere steuerfreie Umsätze mit Vorsteuer "
-				 "abzug (z.B. Ausfuhrlieferungen, Umsätze nach "
-				 "§ 4 Nr. 2 bis 7 UStG)")
-		  validate:signed-int)))
 
+	   (list "mit Vorsteuerabzug"
+		 tb:field:text-input
+		 "Kz43"
+		 (string-append "Weitere steuerfreie Umsätze mit Vorsteuer "
+				"abzug (z.B. Ausfuhrlieferungen, Umsätze nach "
+				"§ 4 Nr. 2 bis 7 UStG)")
+		 validate:signed-int))
+    
 
 	
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
