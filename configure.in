@@ -38,12 +38,18 @@ dnl Check for libwww (md5 thingy)
 m4_include([libwww.m4])
 LIBWWW_FLAGS
 
-CFLAGS="$CFLAGS $GPGME_CFLAGS $GUILE_CFLAGS $LIBWWW_CFLAGS"
-LDFLAGS="$LDFLAGS $GPGME_LDFLAGS $GUILE_LDFLAGS $LIBWWW_LDFLAGS"
+CFLAGS="$CFLAGS $GPGME_CFLAGS $GUILE_CFLAGS $LIBWWW_CFLAGS $GLIB_CFLAGS"
+LDFLAGS="$LDFLAGS $GPGME_LIBS $GUILE_LDFLAGS $LIBWWW_LDFLAGS $GLIB_LIBS"
+
+dnl Check whether libwww library has md5.h on board (need not be the case)
+AC_CHECK_HEADER([md5.h],, AC_MSG_ERROR([libwww's md5.h missing]))
 
 AC_OUTPUT([
 Makefile
 src/Makefile
+src/guile/Makefile
+src/guile/autoload/Makefile
+src/guile/signatures/Makefile
 po/Makefile.in
 ])
 
