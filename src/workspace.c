@@ -231,7 +231,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 
   /* create new widget tree  ... */
   int columns = scm_num2int(SCM_CAR(sheet), 0, "taxbird_ws_sel_sheet");
-  table = gtk_table_new(scm_ilength(sheet) - 1, columns, FALSE);
+  table = gtk_table_new(scm_ilength(sheet), columns, FALSE);
   gtk_container_set_border_width(GTK_CONTAINER(table), 5);
   gtk_table_set_row_spacings(GTK_TABLE(table), 5);
   gtk_table_set_col_spacings(GTK_TABLE(table), 10);
@@ -241,11 +241,39 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
    * widget tree to be set up properly */
   gtk_container_add(GTK_CONTAINER(viewport), table);
 
+  /* add headline
+   * we want to modify the background color, however the GtkLabel is window-
+   * less, thus we need to surround it with a GtkEventBox and modify that
+   * one's color   */
+  GtkWidget *headline_evbox = gtk_event_box_new();
+  static GdkColor headline_bg = { 0, 0x6000, 0x6000, 0x6000 };
+  gtk_widget_modify_bg(headline_evbox, GTK_STATE_NORMAL, &headline_bg);
+
+  gtk_table_attach(GTK_TABLE(table), headline_evbox, 0, columns + 1, 0, 1,
+		   (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
+		   (GtkAttachOptions) (0), 0, 0);
+
+  /* now create the headline widget itself */
+  char *headline_text = g_strdup_printf("<big><b>%s</b></big>", sheetname);
+  GtkWidget *headline = gtk_label_new(headline_text);
+  g_free(headline_text);
+
+  gtk_label_set_use_markup(GTK_LABEL(headline), 1);
+  gtk_misc_set_alignment(GTK_MISC(headline), 0, 0.5);
+  gtk_misc_set_padding(GTK_MISC(headline), 4, 4);
+
+  static GdkColor headline_fg = { 0, 0xFFFF, 0xFFFF, 0xFFFF };
+  gtk_widget_modify_fg(headline, GTK_STATE_NORMAL, &headline_fg);
+
+  gtk_container_add(GTK_CONTAINER(headline_evbox), headline);
+  gtk_widget_show(headline);
+  gtk_widget_show(headline_evbox);
+
   /* parse the sheet definition step by step,
    * and create the necessary widgets */
   int row;
   sheet = SCM_CDR(sheet);
-  for(row = 0; scm_ilength(sheet); sheet = SCM_CDR(sheet), row ++) {
+  for(row = 1; scm_ilength(sheet); sheet = SCM_CDR(sheet), row ++) {
     SCM specs = SCM_CAR(sheet);
       
     if(SCM_SYMBOLP(specs))
@@ -268,8 +296,8 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 
     /* bind the label for the first column only, if there are further fields,
      * if this is some kind of caption label, bind to the full row */
-    gtk_table_attach(GTK_TABLE(table), label,
-		     0, scm_ilength(specs) == 1 ? columns : 1, row, row + 1,
+    gtk_table_attach(GTK_TABLE(table), label, 0, 
+		     scm_ilength(specs) == 1 ? columns + 1 : 1, row, row + 1,
 		     (GtkAttachOptions) (GTK_FILL),
 		     (GtkAttachOptions) (0), 0, 0);
 
