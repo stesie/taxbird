@@ -69,9 +69,12 @@ void taxbird_guile_init(void)
     if(dir) {
       while((dirent = readdir(dir))) {
 	char *fname;
-
-	if(*dirent->d_name == '.') continue; /* don't autoload hidden files
-					      * (and '.' or '..' directory) */
+	int namelen = strlen(dirent->d_name);
+	
+	/* expect autoload files to end in '.scm', i.e. don't try to
+	 * load Makefile.am, README, etc. */
+	if(namelen < 4) continue;
+	if(strcasecmp(&dirent->d_name[namelen - 4], ".scm")) continue;
 
 	fname = g_strdup_printf("autoload/%s", dirent->d_name);
 	taxbird_guile_eval_file(fname);
