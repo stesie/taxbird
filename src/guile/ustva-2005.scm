@@ -102,7 +102,7 @@
 	  (list "<b>Weitere steuerfreie Umsätze ...</b>")
 
 
-	  (list "mit Vorsteuerabzug"
+	  (list "mit Vorsteuerabzug\n(z.B. Ausfuhrlieferungen)"
 		tb:field:text-input
 		"Kz43"
 		(string-append "Weitere steuerfreie Umsätze mit Vorsteuer "
@@ -168,7 +168,19 @@
 		(lambda(val buf)
 		  (validate:signed-monetary-max val buf
 						(storage:retrieve buf
-								  "Kz35")))))
+								  "Kz35"))))
+
+
+	  (list "<i>Summe</i>"
+
+		tb:field:label "" #f #t ; skip first column
+
+		;; second column ...
+		tb:field:text-output
+		"stpfl-ums"
+		#f
+		#t))
+
 
 
 
@@ -280,7 +292,19 @@
 	       (lambda(val buf)
 		 (validate:signed-monetary-max val buf
 					       (storage:retrieve buf
-								 "Kz94")))))
+								 "Kz94"))))
+
+
+	  (list "<i>Summe</i>"
+
+		tb:field:label "" #f #t ; skip first column
+
+		;; second column ...
+		tb:field:text-output
+		"innerg-erw"
+		#f
+		#t))
+
 
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -399,9 +423,9 @@
 	 (list "Vorst. aus innergem. Erwerb"
 	       tb:field:text-input
 	       "Kz61"
-	       (string-append "Vorsteuerbeträge aus dem innergemeinschaftlichen"
-			      " Erwerb von Gegenständen (§ 15 Abs. 1 Satz 1 "
-			      "Nr. 3 UStG)")
+	       (string-append "Vorsteuerbeträge aus dem innergemeinschaft"
+			      "lichen Erwerb von Gegenständen "
+			      "(§ 15 Abs. 1 Satz 1 Nr. 3 UStG)")
 	       validate:signed-monetary)
 
 
@@ -448,10 +472,11 @@
 			      "(§ 15 Abs. 4a UStG)")
 	       validate:signed-monetary))
 
-   "Sonstige"
+   "Sonstiges"
    (list 2
 
-	 (list "Wechsel Bestuerungsform sowie Nachsteuer"
+	 (list (string-append "Wechsel Bestuerungsform sowie\n"
+			      "Nachsteuer versteuerte Anzahlungen")
 	       tb:field:text-input
 	       "Kz65"
 	       (string-append "Steuer infolge Wechsels der Besteuerungsform "
@@ -460,7 +485,7 @@
 	       validate:signed-monetary)
 
 
-	 (list "Sonstiges"
+	 (list "Diverse Sonstige (Kz69)"
 	       tb:field:text-input
 	       "Kz69"
 	       (string-append "Steuerbeträge, die vom letzten Abnehmer eines "
@@ -475,7 +500,7 @@
 	       validate:signed-monetary)
 
 
-	 (list "Anrechnung Sonder-VZ"
+	 (list "Anrechnung festgesetzte\nSondervorauszahlung"
 	       tb:field:text-input
 	       "Kz39"
 	       (string-append "Anrechnung (Abzug) der festgesetzten "
@@ -503,14 +528,41 @@
 			   (storage:store buffer "Kz97-calc"
 					  (/ (* (string->number v) 16) 100))))))
 
+      ;; recurse through the upper list 'list', looking for the field to
+      ;; use as the calculation base ...
       (while (> (length list) 0)
 	     (if (string=? (car list) element)
 		 (let ()
 		   (if (= (string-length value) 0)
 		       (set! value "0"))
 		   ((eval (cadr list) (current-module)) value buffer)))
-	     (set! list (cddr list))))))
+	     (set! list (cddr list))))
 
+    ;; calculate sum of sheet 'steuerpflichtige umsaetze' => 'stpfl-ums'
+    (let ((fields '("Kz36" "Kz86-calc" "Kz51-calc")) (sum 0))
+      (for-each
+       (lambda (field)
+	 (let ((field-val (storage:retrieve buffer field)))
+	   (if (and field-val (> (string-length field-val) 0))
+	       (set! sum (+ sum (string->number field-val))))))
+
+       fields)
+      (storage:store buffer "stpfl-ums" (number->string sum)))
+
+
+    ;; calculate sum of sheet 'innerg. erw.' => 'innerg-erw'
+    (let ((fields '("Kz96" "Kz98" "Kz93-calc" "Kz97-calc")) (sum 0))
+      (for-each
+       (lambda (field)
+	 (let ((field-val (storage:retrieve buffer field)))
+	   (if (and field-val (> (string-length field-val) 0))
+	       (set! sum (+ sum (string->number field-val))))))
+
+       fields)
+      (storage:store buffer "innerg-erw" (number->string sum)))
+      
+
+))
 
 
 
