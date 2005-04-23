@@ -19,6 +19,8 @@
 #ifndef TAXBIRD_GUILE_H
 #define TAXBIRD_GUILE_H
 
+#include <libguile.h>
+
 #define scm_c_lookup_ref(a) SCM_VARIABLE_REF(scm_c_lookup(a))
 
 /* initialize taxbird's guile backend */
@@ -32,5 +34,9 @@ char *taxbird_guile_check_sig(const char *fn);
 
 /* lookup a file 'fn' in the paths we search .scm files in */
 char *taxbird_guile_dirlist_lookup(const char *fn);
+
+/* our global error handler ... */
+SCM taxbird_guile_global_err_handler(void *data, SCM tag, SCM args);
+
 
 #endif /* TAXBIRD_GUILE_H */

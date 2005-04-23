@@ -275,3 +275,20 @@ taxbird_guile_check_sig_SCM(SCM scm_fn)
   result = taxbird_guile_check_sig(SCM_STRING_CHARS(scm_fn));
   return (result ? scm_take0str(result) : SCM_BOOL(0));
 }
+
+
+/* this is our global error handler, around just everything, even the
+ * Gtk+ main loop, enabling us to warn the user, that our life is over
+ * within a few seconds ...
+ * ... and outputting a stack trace.
+ */
+SCM
+taxbird_guile_global_err_handler(void *data, SCM tag, SCM args)
+{
+  g_critical("global error handler called, damn.\n");
+
+  scm_backtrace();
+  scm_handle_by_message_noexit(data, tag, args);
+
+  return SCM_BOOL(1); /* try to keep the main loop going */
+}

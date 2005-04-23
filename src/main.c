@@ -68,13 +68,35 @@ main_forward(void *closure, int argc, char **argv)
   (void) argc;
   (void) argv;
 
-  /* load taxbird's Guile extension stuff */
-  taxbird_guile_init();
+  SCM main_forward_bootstrap(void *body_data) {
+    (void) body_data;
 
-  /* create initial application window, i.e. workspace(ws) */
-  taxbird_ws_new();
+    /* load taxbird's Guile extension stuff */
+    taxbird_guile_init();
+      
+    /* create initial application window, i.e. workspace(ws) */
+    taxbird_ws_new();
 
-  /* Gtk+ main loop */
-  gtk_main ();
+    return SCM_BOOL(0);
+  }
+
+  if(SCM_NFALSEP(scm_internal_stack_catch(SCM_BOOL(1),
+					  main_forward_bootstrap, NULL,
+					  taxbird_guile_global_err_handler,
+					  NULL)))
+    exit(1); /* abort */
+
+
+
+  SCM main_forward_catchy(void *body_data) {
+    /* Gtk+ main loop */
+    gtk_main ();
+    return SCM_BOOL(0);
+  }
+
+  while(SCM_NFALSEP(scm_internal_stack_catch(SCM_BOOL(1),
+					     main_forward_catchy, NULL,
+					     taxbird_guile_global_err_handler,
+					     NULL)));
 }
 
