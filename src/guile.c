@@ -38,7 +38,8 @@ static SCM taxbird_guile_check_sig_SCM(SCM scm_fn);
 void taxbird_guile_init(void)
 {
   char *loadpath_home = g_strdup_printf("%s/.taxbird/guile", getenv("HOME"));
-  SCM loadpath = scm_list_3(scm_makfrom0str("."),
+  SCM loadpath = scm_list_4(scm_makfrom0str("."),
+			    scm_makfrom0str("guile"),
 			    scm_take0str(loadpath_home),
 			    scm_makfrom0str(PACKAGE_DATA_DIR "/taxbird/guile"));
 
