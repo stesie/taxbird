@@ -22,17 +22,23 @@
   (lambda (value buf)
     ;; value is the tax-id as specified by the user
 
-    (let ((land (string->number (storage:retrieve buf "land"))))
+    (if (or (not value)
+	    (not (storage:retrieve buf "land"))
+	    (not (storage:retrieve buf "zeitraum")))
+	#f
 
-      (if (not land)
-	  #f ; federal state not yet specified, we're not able to verify
-	     ; the entered value this way.
+	;; the field at least have values associated ...
+	(let ((land (string->number (storage:retrieve buf "land"))))
 
-	  ; try converting to elster formated tax id, if it fails,
-	  ; steuernummer:convert returns #f which would be passed on then.
-	  (if (steuernummer:convert land value)
-	      #t
-	      #f)))))
+	  (if (not land)
+	      #f ;; federal state not yet specified, we're not able to verify
+		 ;; the entered value this way.
+
+	      ;; try converting to elster formated tax id, if it fails,
+	      ;; steuernummer:convert returns #f which would be passed on then.
+	      (if (steuernummer:convert land value)
+		  #t
+		  #f))))))
 
 
 
