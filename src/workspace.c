@@ -167,7 +167,7 @@ taxbird_ws_fill_tree_store(GtkTreeStore *tree, GtkTreeIter *parent, SCM dataset)
   GtkTreeIter iter;
 
   if(SCM_SYMBOLP(dataset))
-    dataset = scm_primitive_eval(dataset);
+    dataset = scm_call_0(dataset);
 
   g_return_if_fail(SCM_NFALSEP(scm_list_p(dataset)));
   g_return_if_fail(scm_ilength(dataset));
@@ -181,7 +181,7 @@ taxbird_ws_fill_tree_store(GtkTreeStore *tree, GtkTreeIter *parent, SCM dataset)
     if(! SCM_NUMBERP(symbol))
       /* probably quoted list, or whatever else, interpret it and
        * call filling routine recursively */
-      taxbird_ws_fill_tree_store(tree, parent, scm_primitive_eval(dataset));
+      taxbird_ws_fill_tree_store(tree, parent, scm_call_0(dataset));
 
     return;
   }
@@ -282,7 +282,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 
     /* resolve quotes */
     while(SCM_SYMBOLP(SCM_CAR(specs)))
-      specs = scm_primitive_eval(specs);
+      specs = scm_call_0(specs);
 
 
     /* first element of 'specs' contains the name of this row,
@@ -387,7 +387,7 @@ taxbird_ws_validate(GtkWidget *w)
 
   if(SCM_NFALSEP(scm_list_p(validatfunc)))
     /* probably some kind of (lambda (v buf) (validator v)) thingy ... */
-    validatfunc = scm_primitive_eval(validatfunc);
+    validatfunc = scm_call_0(validatfunc);
 
   if(SCM_NFALSEP(scm_procedure_p(validatfunc))) {
     /* execute validator function */
@@ -520,7 +520,7 @@ taxbird_ws_update_fields(GtkWidget *appwin, const char *exception)
 
     /* resolve quotes */
     while(SCM_SYMBOLP(SCM_CAR(specs)))
-      specs = scm_primitive_eval(specs);
+      specs = scm_call_0(specs);
 
     specs = SCM_CDR(specs); /* skip the line name */
     for(; scm_ilength(specs); specs = SCM_CDDDDR(specs)) {
@@ -545,7 +545,7 @@ static SCM
 taxbird_ws_lookup_sheet(SCM dataset, const char *needle)
 {
   if(SCM_SYMBOLP(dataset))
-    dataset = scm_primitive_eval(dataset);
+    dataset = scm_call_0(dataset);
 
   g_return_val_if_fail(SCM_NFALSEP(scm_list_p(dataset)), SCM_BOOL(0));
   g_return_val_if_fail(scm_ilength(dataset), SCM_BOOL(0));
@@ -554,7 +554,7 @@ taxbird_ws_lookup_sheet(SCM dataset, const char *needle)
     SCM symbol = scm_c_lookup_ref(SCM_SYMBOL_CHARS(SCM_CAR(dataset)));
 
     if(! SCM_NUMBERP(symbol))
-      return taxbird_ws_lookup_sheet(scm_primitive_eval(dataset), needle);
+      return taxbird_ws_lookup_sheet(scm_call_0(dataset), needle);
 
     else
       return SCM_BOOL(0);
@@ -570,7 +570,7 @@ taxbird_ws_lookup_sheet(SCM dataset, const char *needle)
       SCM sheet = SCM_CADR(dataset);
 
       while(SCM_SYMBOLP(sheet))
-	sheet = scm_primitive_eval(sheet);
+	sheet = scm_call_0(sheet);
 
       g_return_val_if_fail(SCM_NFALSEP(scm_list_p(sheet)), SCM_BOOL(0));
 
@@ -581,7 +581,7 @@ taxbird_ws_lookup_sheet(SCM dataset, const char *needle)
       if(SCM_SYMBOLP(SCM_CAR(sheet))) {
 	SCM symbol = scm_c_lookup_ref(SCM_SYMBOL_CHARS(SCM_CAR(sheet)));
 	if(! SCM_NUMBERP(symbol))
-	  sheet = scm_primitive_eval(sheet);
+	  sheet = scm_call_0(sheet);
       }
 
       return sheet;
@@ -711,7 +711,7 @@ taxbird_ws_show_appbar_help(GtkWidget *widget, GdkEventFocus *event,
 
   if(SCM_NFALSEP(scm_list_p(helptext)))
     /* probably a command, execute it */
-    helptext = scm_primitive_eval(helptext);
+    helptext = scm_call_0(helptext);
 
   if(SCM_STRINGP(helptext))
     gnome_appbar_set_status(GNOME_APPBAR(appbar), SCM_STRING_CHARS(helptext));
