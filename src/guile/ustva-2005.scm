@@ -37,7 +37,7 @@
    "Allgemeine Daten"
 
    (list 1
-
+	 zeitraum:chooser
 	 bundesland:chooser
 
 	 (list "Steuernummer"
@@ -45,9 +45,7 @@
 	       "stnr"
 	       (string-append "Die vom zuständigen Finanzamt vergebene "
 			      "Steuernummer. Eingabe mit Schrägstrichen.")
-	       steuernummer:validate)
-
-	 zeitraum:chooser)
+	       steuernummer:validate))
    
 
 
