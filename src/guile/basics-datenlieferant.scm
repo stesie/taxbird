@@ -19,7 +19,7 @@
   (lambda (value buffer field)
     ;; all the fields in 'datenlieferant' sheet together must not be longer
     ;; the 90 chars ..
-    (let ((totallen (string-length value))
+    (let ((totallen (if (string? value) (string-length value) 0))
 	  (fields '("vend-id" "name-lieferant" "berufsbez" "vorwahl"
 		    "anschluss" "mandant")))
 
@@ -39,11 +39,11 @@
 (define basics:datenlieferant
   (list 1
 
-	(list "Hersteller-ID"
-	      tb:field:text-output
-	      "vend-id" 
-	      "Von der Oberfinanzdirektion München vergebene Hersteller-ID"
-	      #t)
+	;;(list "Hersteller-ID"
+	;;      tb:field:text-output
+	;;      "vend-id" 
+	;;      "Von der Oberfinanzdirektion München vergebene Hersteller-ID"
+	;;      #t)
 
 	(list "Name"
 	      tb:field:text-input
