@@ -34,13 +34,20 @@
    (storage:store buffer element value)
    (ustva-2005:recalculate buffer element value))
 
- ; export function
+ ;; export function
  (lambda (buf)
-   (tb:eval-file "export.scm")
-   (export:make-elster-xml
-    (export:make-transfer-header buf "UStVA" #t)
-    (export:make-nutzdaten-header buf)
-    (export:make-steuerfall buf "UStVA" "200501" (ustva-2005:export buf))))
+   (tb:eval-file "revalidate.scm")
+   (if (revalidate:buffer ustva-2005:definition buf)
+       (let ()
+
+	 ;; document's content is valid, let's export it, to make the
+	 ;; IRO know, what nice programs there exist out in the free world ...
+	 (tb:eval-file "export.scm")
+	 (export:make-elster-xml
+	  (export:make-transfer-header buf "UStVA" #t)
+	  (export:make-nutzdaten-header buf)
+	  (export:make-steuerfall buf "UStVA" "200501"
+				  (ustva-2005:export buf))))))
 
  ; empty set
  (lambda () '(("vend-id" . "74931"))))
