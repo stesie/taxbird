@@ -249,10 +249,15 @@ on_execute_activate(GtkToolButton *toolbutton, gpointer user_data)
   struct form *f = forms[(int)g_object_get_data(G_OBJECT(aw), "current_form")];
   SCM data = (SCM) g_object_get_data(G_OBJECT(aw), "scm_data");
   SCM xml_data = scm_call_1(f->dataset_export, data);
-  SCM handle = scm_open_file(scm_makfrom0str("test.xml"), scm_makfrom0str("w"));
+
+  if(SCM_FALSEP(scm_list_p(xml_data)))
+    return; /* exporter function didn't return a list, thus abort here.
+	     * error messages should have been emitted by the called func */
+
+  SCM handle = scm_open_file(scm_makfrom0str("test.xml"),
+			     scm_makfrom0str("w"));
 
   g_printerr("export feature not completed yet, see test.xml for output.\n\n");
-  g_return_if_fail(SCM_NFALSEP(scm_list_p(xml_data)));
 
   taxbird_guile_eval_file("xml-writer.scm");
   scm_call_2(scm_c_lookup_ref("xml-writer:write"), xml_data, handle);
