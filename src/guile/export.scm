@@ -42,6 +42,12 @@
 			  
 			  '("Datei" #f ("Verschluesselung"    #f "PKCS#7v1.5"
 					"Kompression"         #f "GZIP"
+
+					;; setting DatenGroesse to "1", to
+					;; make output file validate against
+					;; schema file, real value inserted
+					;; by libgeier!!
+					"DatenGroesse"        #f "1"
 					"TransportSchluessel" #f #f))
 
 			  '("VersionClient" #f "0.1"))))))
