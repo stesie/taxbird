@@ -17,7 +17,7 @@
 
 (define validate:alphanum
   (lambda (value min max)
-    (let ((length (string-length value)))
+    (let ((length (if (string? value) (string-length value) 0)))
       (if (< length min)
 	  #f ;; length < min -> invalid
 
@@ -31,7 +31,7 @@
 ;; make sure the specified value is a signed integer
 (define validate:signed-int
   (lambda (value buffer)
-    (if (= (string-length value) 0)
+    (if (or (not (string? value)) (= (string-length value) 0))
 	#t ; empty 
 	
 	(let ((conv-val (string->number value)))
@@ -44,7 +44,7 @@
 
 (define validate:unsigned-int
   (lambda (value buffer)
-    (if (= (string-length value) 0)
+    (if (or (not (string? value)) (= (string-length value) 0))
 	#t ; empty
 
 	(if (not (validate:signed-int value buffer))
@@ -61,7 +61,7 @@
 ;;        also! The question is whether anybody cares ;-)
 (define validate:signed-monetary
   (lambda (value buffer)
-    (if (= (string-length value) 0)
+    (if (or (not (string? value)) (= (string-length value) 0))
 	#t ; empty => zero
 
 	(let ((conv-val (string->number value)))
@@ -79,25 +79,29 @@
 
 (define validate:signed-monetary-max
   (lambda (val buf max)
-    (if (validate:signed-monetary val buf)
-	(let ()
-	  (if (= (string-length val) 0)
-	      (set! val "0"))
-	  
-	  (set! max (if (not max)
-			0  ;- no value assigned yet
+    (if (not (validate:signed-monetary val buf))
+	#f
+
+	(if (not (string? val))
+	    #t ; the field may be empty ...
+
+	    ;; okay, valid so far, do real test ...
+	    (let ()
+	      (if (= (string-length val) 0)
+		  (set! val "0"))
+	      
+	      (set! max (if (not max)
+			    0  ;- no value assigned yet
 			
-			(if (string? max)
-			    (if (= (string-length max) 0)
-				0
-				(string->number max))
-			    
-			    max)))
+			    (if (string? max)
+				(if (= (string-length max) 0)
+				    0
+				    (string->number max))
+				
+				max)))
 
-	  ;(format #t "comparing: value ~A, max ~A\n" (string->number val) max)
-	  (if (< (string->number val) max)
-	      #t
-	      #f))
+	      (if (< (string->number val) max)
+		  #t
+		  #f))))))
 
-	#f))) ;; value didn't validate against signed-monetary ...
 
