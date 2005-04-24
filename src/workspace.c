@@ -355,6 +355,11 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
       /* retrieve content of main field */
       taxbird_ws_retrieve_field(input, appwin, input_name);
 
+      /* connect changed signal ... */
+      if(! GTK_IS_LABEL(input))
+	g_signal_connect((gpointer) input, "changed",
+			 G_CALLBACK(taxbird_ws_store_event), NULL);
+
       gtk_widget_show(input);
     }
   }
@@ -636,9 +641,6 @@ taxbird_ws_create_input(SCM specs)
   (void) specs;
 
   GtkWidget *input = gtk_entry_new();
-  g_signal_connect((gpointer) input, "changed",
-		   G_CALLBACK(taxbird_ws_store_event), NULL);
-
   return input;
 }
 
@@ -683,9 +685,6 @@ taxbird_ws_create_chooser(SCM specs)
 			      SCM_STRING_CHARS(SCM_CAR(entries)));
     entries = SCM_CDR(entries);
   }
-
-  g_signal_connect((gpointer) w, "changed",
-		   G_CALLBACK(taxbird_ws_store_event), NULL);
 
   return w;
 }
