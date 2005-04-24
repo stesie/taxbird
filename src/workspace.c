@@ -714,13 +714,8 @@ taxbird_ws_show_appbar_help(GtkWidget *widget, GdkEventFocus *event,
     /* probably a command, execute it */
     helptext = scm_call_0(helptext);
 
-  if(SCM_STRINGP(helptext))
-    gnome_appbar_set_status(GNOME_APPBAR(appbar), SCM_STRING_CHARS(helptext));
-
-  else {
-    g_warning("stumbling over invalid help text, see gh_display's output.\n");
-    gh_display(helptext);
-  }
+  gnome_appbar_set_status(GNOME_APPBAR(appbar), SCM_STRINGP(helptext) ?
+			  SCM_STRING_CHARS(helptext) : "");
 
   return FALSE; /* call other handlers as well */
 }
