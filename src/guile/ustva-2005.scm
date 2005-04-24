@@ -313,7 +313,7 @@
    "Ergänzende Angaben zu Umsätzen"
    (list 2
 
-	 (list "Lief. d. 1. Abn. bei innerg. Dreiecksgesch."
+	 (list "Lief. d. 1. Abnehmers\nbei innergem. Dreiecksgesch."
 	       tb:field:text-input
 	       "Kz42"
 	       (string-append "Umsätze aus Lieferungen des ersten Abnehmers "
@@ -331,7 +331,7 @@
 	       validate:signed-int)
 
 	 
-	 (list "im Inland nicht steuerbare Umsätze"
+	 (list "im Inland nicht\nsteuerbare Umsätze"
 	       tb:field:text-input
 	       "Kz45"
 	       "im Inland nicht steuerbare Umsätze"
@@ -343,7 +343,7 @@
    "Umsätze § 13b Abs. 2 UStG"
    (list 2
 
-	 (list "Leistg. v. Untern. im Ausland"
+	 (list "Leistungen von\nUnternehmern im Ausland"
 	       tb:field:text-input
 	       "Kz52"
 	       (string-append "Leistungen eines im Ausland ansässigen "
@@ -364,7 +364,7 @@
 					       (storage:retrieve b "Kz52"))))
 
 
-	 (list "Lief. sichergsübereig. Gegenst., Ums. GrEStG"
+	 (list "Lief. sichergsübereig. Gegenst.,\nUmsätze unter GrEStG fallend"
 	       tb:field:text-input
 	       "Kz73"
 	       (string-append "Lieferungen sicherungsübereigneter Gegenstände "
@@ -387,7 +387,7 @@
 					       (storage:retrieve b "Kz73"))))
 
 
-	 (list "Bauleistungen eines Untern. im Inland"
+	 (list "Bauleistungen eines\nUnternehmers im Inland"
 	       tb:field:text-input
 	       "Kz84"
 	       (string-append "Bauleistungen eines im Inland ansässigen "
@@ -424,7 +424,7 @@
    "Abziehbare Vorsteuerbeträge"
    (list 2
 
-	 (list "aus Rechnungen anderer Untern."
+	 (list "aus Rechnungen\nanderer Unternehmer"
 	       tb:field:text-input
 	       "Kz66"
 	       (string-append "Vorsteuerbeträge aus Rechnungen von anderen "
@@ -436,7 +436,7 @@
 	       validate:signed-monetary)
 
 
-	 (list "Vorst. aus innergem. Erwerb"
+	 (list "Vorsteuerbeträge aus\ninnergem. Erwerb"
 	       tb:field:text-input
 	       "Kz61"
 	       (string-append "Vorsteuerbeträge aus dem innergemeinschaft"
@@ -453,7 +453,7 @@
 	       validate:signed-monetary)
 
 
-	 (list "Vorsteuer § 13b"
+	 (list "Vorsteuer aus Leistungen\nim Sinne des § 13b UStG"
 	       tb:field:text-input
 	       "Kz67"
 	       (string-append "Vorsteuerbeträge aus Leistungen im Sinne "
@@ -462,7 +462,7 @@
 	       validate:signed-monetary)
 
 
-	 (list "nach allg. Durchschnittsätze"
+	 (list "Vorsteuer, nach allgemeinenen\nDurchschnittsätzen berechnet"
 	       tb:field:text-input
 	       "Kz63"
 	       (string-append "Vorsteuerbeträge, die nach allgemeinen "
@@ -471,14 +471,14 @@
 	       validate:signed-monetary)
 
 
-	 (list "Berichtigung des Vorsteuerabzugs"
+	 (list "Berichtigung des Vorsteuer-\nabzugs (§ 15a UStG)"
 	       tb:field:text-input
 	       "Kz64"
       	       "Berichtigung des Vorsteuerabzugs (§ 15a UStG)"
 	       validate:signed-monetary)
 
 	 
-	 (list "innerg. Lief. neuer Fahrz."
+	 (list "innergem. Lieferungen\nneuer Fahrzeuge"
 	       tb:field:text-input
 	       "Kz59"
 	       (string-append "Vorsteuerabzug für innergemeinschaftliche "
