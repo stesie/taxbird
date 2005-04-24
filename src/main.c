@@ -75,7 +75,11 @@ main_forward(void *closure, int argc, char **argv)
     taxbird_guile_init();
       
     /* create initial application window, i.e. workspace(ws) */
-    taxbird_ws_new();
+    GtkWidget *appwin = taxbird_ws_new();
+    if(! appwin) exit(1); /* abort start */
+
+    if(argc == 2)
+      taxbird_ws_open(appwin, argv[1]);
 
     return SCM_BOOL(0);
   }
