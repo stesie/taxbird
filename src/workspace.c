@@ -85,16 +85,18 @@ static SCM taxbird_ws_lookup_sheet(SCM dataset, const char *sheet_name);
 
 
 /* create new taxbird workspace */
-void
+GtkWidget *
 taxbird_ws_new(void)
 {
   GtkWidget *taxbird = create_taxbird();
-  if(!taxbird) return;
+  if(!taxbird) return NULL;
 
   gtk_widget_show(taxbird);
   g_object_set_data(G_OBJECT(taxbird), "current_form", (void *) -1);
   g_object_set_data(G_OBJECT(taxbird), "filename", NULL);
   g_object_set_data(G_OBJECT(taxbird), "changed", (void *) 0);
+
+  return taxbird;
 }
 
 

@@ -22,7 +22,7 @@
 #include <guile/gh.h>
 
 /* create new taxbird workspace */
-void taxbird_ws_new(void);
+GtkWidget *taxbird_ws_new(void);
 
 /* load taxbird workspace from file */
 void taxbird_ws_open(GtkWidget *app_window, const char *fname);
