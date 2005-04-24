@@ -23,6 +23,8 @@
 (tb:eval-file "validate.scm")
 (tb:eval-file "zeitraum-chooser.scm")
 
+;; we use ice-9 pretty printer to reformat our numbers ...
+(use-modules (ice-9 format))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -403,8 +405,22 @@
 			      " wird - (Steuer)")
 	       (lambda (val b)
 		 (validate:signed-monetary-max val b
-					       (storage:retrieve b "Kz84")))))
+					       (storage:retrieve b "Kz84"))))
 
+
+	 (list "<i>Summe</i>"
+	       tb:field:label "" #f #t ; skip first column
+
+	       ;; second column ...
+	       tb:field:text-output
+	       "13b-sum"
+	       #f
+	       #t))
+
+
+
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    "Abziehbare Vorsteuerbeträge"
    (list 2
 
@@ -470,8 +486,17 @@
 			      "Unternehmens (§ 2a UStG) sowie von Klein"
 			      "unternehmern im Sinne des § 19 Abs. 1 UStG "
 			      "(§ 15 Abs. 4a UStG)")
-	       validate:signed-monetary))
+	       validate:signed-monetary)
 
+	 (list "<i>Summe</i>"
+	       tb:field:text-output
+	       "vorst-sum"
+	       #f
+	       #t))
+
+
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    "Sonstiges"
    (list 2
 
@@ -508,7 +533,27 @@
 			      "(nur auszufüllen in der letzten Voranmeldung "
 			      "des Besteuerungszeitraums, in der Regel "
 			      "Dezember)")
-	       validate:unsigned-int))))
+	       validate:unsigned-int))
+
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   "Abrechnung"
+   (list 1
+
+	 (list "Umsatzsteuer"
+	       tb:field:text-output "ust-sum" #f #t)
+
+	 (list "Vorsteuerbeträge"
+	       tb:field:text-output "vorst-sum" #f #t)
+
+	 (list "Verbleibender Betrag,\nnach Abzug Vorsteuer"
+	       tb:field:text-output "ust-minus-vost" #f #t)
+
+	 ;;;(list "Umsatzsteuer-Voraus-\nzahlung/Überschuss"
+	 ;;;      tb:field:text-output "ust-vz" #f #t)
+
+	 (list "<b>Verbleibende Umsatz-\nsteuer-Vorauszahlung</b>"
+	       tb:field:text-output "Kz83" #f #t))))
 
 
 
@@ -538,31 +583,58 @@
 		   ((eval (cadr list) (current-module)) value buffer)))
 	     (set! list (cddr list))))
 
-    ;; calculate sum of sheet 'steuerpflichtige umsaetze' => 'stpfl-ums'
-    (let ((fields '("Kz36" "Kz86-calc" "Kz51-calc")) (sum 0))
-      (for-each
-       (lambda (field)
-	 (let ((field-val (storage:retrieve buffer field)))
-	   (if (and field-val (> (string-length field-val) 0))
-	       (set! sum (+ sum (string->number field-val))))))
 
-       fields)
-      (storage:store buffer "stpfl-ums" (number->string sum)))
+    ;; calculate various sums in the sheets ..
+    (let ((fields (list "stpfl-ums"  (list "Kz36" "Kz86-calc" "Kz51-calc")
+			"innerg-erw" (list "Kz96" "Kz98" "Kz93-calc"
+					   "Kz97-calc")
+			"13b-sum"    (list "Kz85" "Kz74" "Kz53")
+			"vorst-sum"  (list "Kz66" "Kz61" "Kz62" "Kz67" "Kz63"
+					   "Kz64" "Kz59")
+			"ust-sum"    (list "stpfl-ums" "Kz80" "innerg-erw" 
+					   "13b-sum" "Kz65")
+			"ust-sum+69" (list "ust-sum" "Kz69")))
+	  (sum 0))
+      (while (> (length fields) 0)
+	     (set! sum 0)
+
+	     ;; now calculate the sum of the listed fields
+	     (for-each
+	      (lambda (field)
+		(let ((field-val (storage:retrieve buffer field)))
+		  (if (and field-val (> (string-length field-val) 0))
+		      (set! sum (+ sum (string->number field-val))))))
+
+	      (cadr fields))
+	     
+	     ;; store the result ...
+	     (storage:store buffer (car fields) (number->string sum))
+
+	     ;; forward the list ...
+	     (set! fields (cddr fields))))
 
 
-    ;; calculate sum of sheet 'innerg. erw.' => 'innerg-erw'
-    (let ((fields '("Kz96" "Kz98" "Kz93-calc" "Kz97-calc")) (sum 0))
-      (for-each
-       (lambda (field)
-	 (let ((field-val (storage:retrieve buffer field)))
-	   (if (and field-val (> (string-length field-val) 0))
-	       (set! sum (+ sum (string->number field-val))))))
 
-       fields)
-      (storage:store buffer "innerg-erw" (number->string sum)))
-      
+    ;; calculate various differences in the sheets ..
+    (let ((fields (list "ust-minus-vost" "ust-sum" "vorst-sum"
+			"ust-vz"         "ust-sum+69" "vorst-sum" ; + "Kz69"!
+			"Kz83"           "ust-vz" "Kz39"))
+	  (result 0) (val 0))
 
-))
+      (while (> (length fields) 0)
+	     (set! val (storage:retrieve buffer (cadr fields)))
+	     (set! result (if (and val (> (string-length val) 0))
+			      (string->number val) 0))
+
+	     (set! val (storage:retrieve buffer (caddr fields)))
+	     (if (and val (> (string-length val) 0))
+		 (set! result (- result (string->number val))))
+
+	     ;; store the result ...
+	     (storage:store buffer (car fields) (number->string result))
+
+	     ;; forward the list ...
+	     (set! fields (cdddr fields))))))
 
 
 
@@ -582,12 +654,45 @@
 	  (set! zeitraum (string-append "0" zeitraum)))
 
     (list "Umsatzsteuervoranmeldung" #f
-	  (list "Jahr"         #f "2005"
-		"Zeitraum"     #f zeitraum
-		"Steuernummer" #f (steuernummer:convert land st-nr)
-		"Kz09"         #f (export:generate-kz09 buffer)
-))
-    )))
+	  (append
+	   (list "Jahr"         #f "2005"
+		 "Zeitraum"     #f zeitraum
+		 "Steuernummer" #f (steuernummer:convert land st-nr)
+		 "Kz09"         #f (export:generate-kz09 buffer))
+
+	   ;; finally copy all the Kz?? values from the buffer ...
+	   ;; this can be done in any order, since libgeier will reformat
+	   ;; it for us ...
+	   (let ((result '())
+		 (fields (list "~,2F" (list "Kz36" "Kz39" "Kz53" "Kz59" "Kz61"
+					    "Kz62" "Kz63" "Kz64" "Kz65" "Kz66"
+					    "Kz67" "Kz69" "Kz74" "Kz80" "Kz83"
+					    "Kz85" "Kz96" "Kz98")
+			       "~D"   (list "Kz10" "Kz26" "kz29" "Kz35"
+					    "Kz41" "Kz42" "Kz43" "Kz44" "Kz45"
+					    "Kz48" "Kz49" "Kz51" "Kz52" "Kz60"
+					    "Kz76" "Kz73" "Kz77" "Kz84" "Kz86"
+					    "Kz91" "Kz93" "Kz94" "Kz95" "Kz97"
+					    ))))
+
+	     (while (> (length fields) 0)
+		    (for-each
+		     (lambda (field)
+		       (let ((value (storage:retrieve buffer field)))
+			 (if (and value
+				  (> (string-length value) 0))
+			     (let ((value (format #f (car fields)
+						  (string->number value))))
+			       (set! result
+				     (append result
+					     (list field #f value)))))))
+		     
+		     (cadr fields))
+
+		    ;; forward the list ..
+		    (set! fields (cddr fields)))
+
+	     result))))))
 		  
 
     
