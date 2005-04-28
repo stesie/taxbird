@@ -62,18 +62,24 @@ static GtkWidget *taxbird_ws_create_input(SCM specs);
 static GtkWidget *taxbird_ws_create_output(SCM specs);
 static GtkWidget *taxbird_ws_create_chooser(SCM specs);
 static GtkWidget *taxbird_ws_create_label(SCM specs);
+static GtkWidget *taxbird_ws_create_button(SCM specs);
 
 /* unprotect referenced SCM (callback for destroy notifications) */
 static void taxbird_ws_unprotect_scm(gpointer d);
+
+/* generic callback function for tb:field:button's ... */
+static void taxbird_ws_button_callback(GtkWidget *button, void *data);
 
 static struct {
   GtkWidget *(*new)(SCM specs);
 
 } taxbird_ws_field_creators[] = {
-  { taxbird_ws_create_input },                      /* TEXT_INPUT   */
-  { taxbird_ws_create_output },                     /* TEXT_OUTPUT  */
-  { taxbird_ws_create_chooser },                    /* CHOOSER      */
-  { taxbird_ws_create_label },                      /* LABEL        */
+  { taxbird_ws_create_input },                      /* TEXT_INPUT  :: 0 */
+  { taxbird_ws_create_output },                     /* TEXT_OUTPUT :: 1 */
+  { taxbird_ws_create_chooser },                    /* CHOOSER     :: 2 */
+  { },                                              /*             :: 3 */
+  { taxbird_ws_create_label },                      /* LABEL       :: 4 */
+  { taxbird_ws_create_button },                     /* BUTTON      :: 5 */
 };
 
 
@@ -356,7 +362,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
       taxbird_ws_retrieve_field(input, appwin, input_name);
 
       /* connect changed signal ... */
-      if(! GTK_IS_LABEL(input))
+      if(! (input_type & FIELD_UNCHANGEABLE))
 	g_signal_connect((gpointer) input, "changed",
 			 G_CALLBACK(taxbird_ws_store_event), NULL);
 
@@ -669,6 +675,51 @@ taxbird_ws_create_label(SCM specs)
   return w;
 }
 
+
+
+static GtkWidget *
+taxbird_ws_create_button(SCM specs)
+{
+  (void) specs;
+
+  GtkWidget *w = gtk_button_new_with_label(SCM_STRING_CHARS(SCM_CADR(specs)));
+
+  g_signal_connect((gpointer) w, "clicked",
+		   G_CALLBACK(taxbird_ws_button_callback), NULL);
+
+  return w;
+}
+
+
+
+static void
+taxbird_ws_button_callback(GtkWidget *button, void *data)
+{
+  SCM specs = (SCM) g_object_get_data(G_OBJECT(button), "scm_specs");
+  g_return_if_fail(SCM_NFALSEP(scm_list_p(specs)));
+
+  /* validate field's value, in case it's a text entry field */
+  SCM validatfunc = SCM_CADDDR(specs);
+
+  if(SCM_SYMBOLP(validatfunc))
+    /* immediate symbol (i.e. defined function), resolve and execute then */
+    validatfunc = scm_c_lookup_ref(SCM_SYMBOL_CHARS(validatfunc));
+
+  if(SCM_NFALSEP(scm_list_p(validatfunc)))
+    /* probably some kind of (lambda (v buf) (validator v)) thingy ... */
+    validatfunc = scm_call_0(validatfunc);
+
+  if(SCM_FALSEP(scm_procedure_p(validatfunc))) {
+    /* not a function */
+    g_warning("something strange found, where a procedure was expected: ");
+    gh_display(validatfunc);
+    return;
+  }
+
+  GtkWidget *appwin = lookup_widget(button, "taxbird");
+  scm_call_2(validatfunc, SCM_BOOL(0),
+	     (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data"));
+}
 
 
 static GtkWidget *

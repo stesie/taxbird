@@ -50,6 +50,7 @@ void taxbird_guile_init(void)
   scm_c_define("tb:field:text-output", scm_int2num(FIELD_TEXT_OUTPUT));
   scm_c_define("tb:field:chooser", scm_int2num(FIELD_CHOOSER));
   scm_c_define("tb:field:label", scm_int2num(FIELD_LABEL));
+  scm_c_define("tb:field:button", scm_int2num(FIELD_BUTTON));
 
   scm_c_define_gsubr("tb:eval-file", 1, 0, 0, taxbird_guile_eval_file_SCM);
   scm_c_define_gsubr("tb:check-sig", 1, 0, 0, taxbird_guile_check_sig_SCM);
