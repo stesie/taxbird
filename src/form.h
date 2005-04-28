@@ -23,6 +23,7 @@ enum field_type {
   FIELD_TEXT_INPUT   = 0,
   FIELD_TEXT_OUTPUT  = 1,
   FIELD_CHOOSER      = 2,
+  FIELD_CHECKBOX     = 3,
 
   FIELD_UNCHANGEABLE = 4,
   FIELD_LABEL        = FIELD_UNCHANGEABLE | 0,

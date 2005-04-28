@@ -63,6 +63,7 @@ static GtkWidget *taxbird_ws_create_output(SCM specs);
 static GtkWidget *taxbird_ws_create_chooser(SCM specs);
 static GtkWidget *taxbird_ws_create_label(SCM specs);
 static GtkWidget *taxbird_ws_create_button(SCM specs);
+static GtkWidget *taxbird_ws_create_checkbox(SCM specs);
 
 /* unprotect referenced SCM (callback for destroy notifications) */
 static void taxbird_ws_unprotect_scm(gpointer d);
@@ -77,7 +78,7 @@ static struct {
   { taxbird_ws_create_input },                      /* TEXT_INPUT  :: 0 */
   { taxbird_ws_create_output },                     /* TEXT_OUTPUT :: 1 */
   { taxbird_ws_create_chooser },                    /* CHOOSER     :: 2 */
-  { },                                              /*             :: 3 */
+  { taxbird_ws_create_checkbox },                   /* CHECKBOX    :: 3 */
   { taxbird_ws_create_label },                      /* LABEL       :: 4 */
   { taxbird_ws_create_button },                     /* BUTTON      :: 5 */
 };
@@ -363,7 +364,8 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 
       /* connect changed signal ... */
       if(! (input_type & FIELD_UNCHANGEABLE))
-	g_signal_connect((gpointer) input, "changed",
+	g_signal_connect((gpointer) input,
+			 GTK_IS_TOGGLE_BUTTON(input) ? "toggled" : "changed",
 			 G_CALLBACK(taxbird_ws_store_event), NULL);
 
       gtk_widget_show(input);
@@ -458,7 +460,12 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
     
     store_value = scm_int2num(item);
   }
-  else {
+
+  else if(GTK_IS_TOGGLE_BUTTON(w)) {
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w));
+    store_value = scm_makfrom0str(state ? "1" : "0");
+
+  } else {
     g_assert_not_reached();
     return;
   }
@@ -630,6 +637,7 @@ taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
     else
       gtk_entry_set_text(GTK_ENTRY(w), "");
   } 
+
   else if(GTK_IS_COMBO_BOX(w)) {
     if(SCM_STRINGP(v))
       gtk_combo_box_set_active(GTK_COMBO_BOX(w), atoi(SCM_STRING_CHARS(v)));
@@ -637,6 +645,16 @@ taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
     /* don't make a default choice, it's pretty much unlikely we will be
      * right anyway */
   }
+
+  else if(GTK_IS_TOGGLE_BUTTON(w)) {
+    if(SCM_STRINGP(v))
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w),
+				   atoi(SCM_STRING_CHARS(v)));
+
+    /* we don't make a default choice here, probably off is more sane, 
+     * but who knows ... */
+  }
+
 }
 
 
@@ -672,6 +690,18 @@ taxbird_ws_create_label(SCM specs)
 
   GtkWidget *w = gtk_label_new(SCM_STRING_CHARS(SCM_CADR(specs)));
   gtk_label_set_use_markup(GTK_LABEL(w), 1);
+  return w;
+}
+
+
+
+static GtkWidget *
+taxbird_ws_create_checkbox(SCM specs)
+{
+  (void) specs;
+
+  GtkWidget *w = gtk_check_button_new_with_label(_("Yes!"));
+
   return w;
 }
 
