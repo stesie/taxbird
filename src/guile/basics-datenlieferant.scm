@@ -63,7 +63,7 @@
 
 
 (define basics:datenlieferant
-  (list 1
+  (list 2
 
 	;;(list "Hersteller-ID"
 	;;      tb:field:text-output
@@ -71,33 +71,22 @@
 	;;      "Von der Oberfinanzdirektion München vergebene Hersteller-ID"
 	;;      #t)
 
+	(list "<b>Adressdaten ...</b>")
+
 	(list "Name"
 	      tb:field:text-input
 	      "name-lieferant"
 	      "Name des Datenlieferanten (ggf. Steuerberater)"
 	      (lambda(val buf) 
 		(validate:datenlieferant val buf "name-lieferant")))
-    
-	(list "Berufsbezeichnung\ndes Beraters"
-	      tb:field:text-input
-	      "berufsbez"
-	      "Berufsbezeichnung des Steuerberaters (falls zutreffend)"
-	      (lambda(val buf)
-		(validate:datenlieferant val buf "berufsbez")))
-    
-	(list "Tel.-Nr. (Vorwahl)"
-	      tb:field:text-input
-	      "vorwahl" 
-	      "Tel.-Nr. des Datenlieferanten bzw. Beraters (Vorwahl)"
-	      (lambda(val buf)
-		(validate:datenlieferant val buf "vorwahl")))
 
-	(list "Tel.-Nr. (Anschluss)"
+	(list "Straße" 
 	      tb:field:text-input
-	      "anschluss" 
-	      "Tel.-Nr. des Datenlieferanten bzw. Beraters (Anschluss)"
-	      (lambda(val buf)
-		(validate:datenlieferant val buf "anschluss")))
+	      "strasse-lieferant"
+	      (string-append "Straßenname und Hausnummer "
+			     "(der Anschrift des Datenlieferanten)")
+	      (lambda(value buf)
+		(validate:alphanum value 1 30)))
 
 	(list "Postleitzahl"
 	      tb:field:text-input
@@ -120,6 +109,35 @@
 	      (lambda(val buf)
 		(validate:datenlieferant val buf "land-lieferant")))
 
+
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	(list "<b>Weitere Kommunikationswege ...</b>")
+
+	(list "Tel.-Nr. (Vorwahl)"
+	      tb:field:text-input
+	      "vorwahl" 
+	      "Tel.-Nr. des Datenlieferanten bzw. Beraters (Vorwahl)"
+	      (lambda(val buf)
+		(validate:datenlieferant val buf "vorwahl")))
+
+	(list "Tel.-Nr. (Anschluss)"
+	      tb:field:text-input
+	      "anschluss" 
+	      "Tel.-Nr. des Datenlieferanten bzw. Beraters (Anschluss)"
+	      (lambda(val buf)
+		(validate:datenlieferant val buf "anschluss")))
+
+
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	(list "<b>Weitere Angaben bei Mandatsverhältnis ...</b>")
+
+	(list "Berufsbezeichnung\ndes Beraters"
+	      tb:field:text-input
+	      "berufsbez"
+	      "Berufsbezeichnung des Steuerberaters (falls zutreffend)"
+	      (lambda(val buf)
+		(validate:datenlieferant val buf "berufsbez")))
+    
 	(list "Name Mandant"
 	      tb:field:text-input
 	      "mandant" 

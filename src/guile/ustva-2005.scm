@@ -33,6 +33,8 @@
 (define ustva-2005:definition
   (list
 
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   "Datenlieferant"    basics:datenlieferant
 
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -52,16 +54,7 @@
 
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   "Datenlieferant"    basics:datenlieferant
-
-
-
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   "Steuerpflichtiger" basics:adresse 
-
-
-
-    ;; Vorderseite der Umsatzsteuervoranmeldung ...
+   ;; Vorderseite der Umsatzsteuervoranmeldung ...
    "Lieferungen und sonstige Leistungen" 
 
    (list

@@ -84,7 +84,7 @@
 
 (define export:make-steuerfall-datenlief
   (lambda (buffer)
-    (list "Name"    #f (storage:retrieve buffer "name")
-	  "Strasse" #f (storage:retrieve buffer "strasse")
-	  "PLZ"     #f (storage:retrieve buffer "plz")
-	  "Ort"     #f (storage:retrieve buffer "ort"))))
+    (list "Name"    #f (storage:retrieve buffer "name-lieferant")
+	  "Strasse" #f (storage:retrieve buffer "strasse-lieferant")
+	  "PLZ"     #f (storage:retrieve buffer "plz-lieferant")
+	  "Ort"     #f (storage:retrieve buffer "ort-lieferant"))))
