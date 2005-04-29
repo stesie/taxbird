@@ -166,9 +166,9 @@
 		"Kz36"
 		"Umsätze, die anderen Steuersätzen unterliegen (Steuer)"
 		(lambda(val buf)
-		  (validate:signed-monetary-max val buf
-						(storage:retrieve buf
-								  "Kz35"))))
+		  (let ((maximum (storage:retrieve buf "Kz35")))
+		    (validate:signed-monetary-max val buf maximum))))
+						
 
 
 	  (list "<i>Summe</i>"
@@ -218,8 +218,8 @@
 			       "erzeugnisse, Getränke und alkohol. "
 			       "Flüssigkeiten, z. B. Wein) - Steuer")
 		(lambda (val b)
-		  (validate:signed-monetary-max val b
-						(storage:retrieve b "Kz76"))))))
+		  (let ((maximum (storage:retrieve b "Kz76")))
+		    (validate:signed-monetary-max val b maximum))))))
 
 
 
@@ -237,8 +237,8 @@
 	 (list "zum Steuersatz von 16%"
 	       tb:field:text-input
 	       "Kz97"
-	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe "
-			      "zum Steuersatz von 16 v.H.")
+	       (string-append "Steuerpflichtige innergemeinschaftliche "
+			      "Erwerbe zum Steuersatz von 16 v.H.")
 	       validate:signed-int
 	       
 	       ;; second field ...
@@ -249,8 +249,8 @@
 	 (list "zum Steuersatz von 7%"
 	       tb:field:text-input
 	       "Kz93"
-	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe "
-			      "zum Steuersatz von 7 v.H.")
+	       (string-append "Steuerpflichtige innergemeinschaftliche "
+			      "Erwerbe zum Steuersatz von 7 v.H.")
 	       validate:signed-int
 	       
 	       ;; second field ...
@@ -261,50 +261,53 @@
 	 (list "andere Steuersätze"
 	       tb:field:text-input
 	       "Kz95"
-	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe,"
-			      " die anderen Steuersätzen unterliegen (Umsatz)")
+	       (string-append "Steuerpflichtige innergemeinschaftliche "
+			      "Erwerbe, die anderen Steuersätzen "
+			      "unterliegen (Umsatz)")
 	       validate:signed-int
 
 	       ;; second field
 	       tb:field:text-input
 	       "Kz98"
-	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe,"
-			      " die anderen Steuersätzen unterliegen (Steuer)")
+	       (string-append "Steuerpflichtige innergemeinschaftliche "
+			      "Erwerbe, die anderen Steuersätzen "
+			      "unterliegen (Steuer)")
 	       (lambda(val buf)
-		 (validate:signed-monetary-max val buf
-					       (storage:retrieve buf "Kz95"))))
+		 (let ((maximum (storage:retrieve buf "Kz95")))
+		   (validate:signed-monetary-max val buf maximum))))
 	 
 
 	 (list "neue Fahrz., ohne USt-IdNr."
 	       tb:field:text-input
 	       "Kz94"
-	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe,"
-			      " neuer Fahrzeuge von Lieferern *ohne* USt-IdNr. "
-			      "zum allgemeinen Steuersatz (Umsatz)")
+	       (string-append "Steuerpflichtige innergemeinschaftliche "
+			      "Erwerbe, neuer Fahrzeuge von Lieferern "
+			      "*ohne* USt-IdNr. zum allgemeinen "
+			      "Steuersatz (Umsatz)")
 	       validate:signed-int
 	       
 	       ;; second field
 	       tb:field:text-input
 	       "Kz96"
-	       (string-append "Steuerpflichtige innergemeinschaftliche Erwerbe"
-			      ", neuer Fahrzeuge von Lieferern *ohne* "
-			      "USt-IdNr. zum allgemeinen Steuersatz (Steuer)")
+	       (string-append "Steuerpflichtige innergemeinschaftliche "
+			      "Erwerbe, neuer Fahrzeuge von Lieferern "
+			      "*ohne* USt-IdNr. zum allgemeinen "
+			      "Steuersatz (Steuer)")
 	       (lambda(val buf)
-		 (validate:signed-monetary-max val buf
-					       (storage:retrieve buf
-								 "Kz94"))))
+		 (let ((maximum (storage:retrieve buf "Kz94")))
+		   (validate:signed-monetary-max val buf maximum))))
 
 
-	  (list "<i>Summe</i>"
+	 (list "<i>Summe</i>"
 
-		tb:field:label "" #f #t ; skip first column
+	       tb:field:label "" #f #t ; skip first column
 
-		;; second column ...
-		tb:field:text-output
-		"innerg-erw"
-		#f
-		#t))
-
+	       ;; second column ...
+	       tb:field:text-output
+	       "innerg-erw"
+	       #f
+	       #t))
+   
 
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -315,8 +318,8 @@
 	       tb:field:text-input
 	       "Kz42"
 	       (string-append "Umsätze aus Lieferungen des ersten Abnehmers "
-			      "bei *innergemeinschaftlichen Dreiecksgeschäften*"
-			      " (§ 25b Abs. 2 UStG)")
+			      "bei *innergemeinschaftlichen "
+			      "Dreiecksgeschäften* (§ 25b Abs. 2 UStG)")
 	       validate:signed-int)
 
 
@@ -367,8 +370,8 @@
 	       "Kz73"
 	       (string-append "Lieferungen sicherungsübereigneter Gegenstände "
 			      "und Umsätze, die unter das GrEStG fallen "
-			      "(§ 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG), für die "
-			      "als Leistungsempfänger Steuer geschuldet "
+			      "(§ 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG), für "
+			      "die als Leistungsempfänger Steuer geschuldet "
 			      "wird - (Umsatz)")
 	       validate:signed-int
 
@@ -377,8 +380,8 @@
 	       "Kz74"
 	       (string-append "Lieferungen sicherungsübereigneter Gegenstände "
 			      "und Umsätze, die unter das GrEStG fallen "
-			      "(§ 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG), für die "
-			      "als Leistungsempfänger Steuer geschuldet "
+			      "(§ 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG), für "
+			      "die als Leistungsempfänger Steuer geschuldet "
 			      "wird - (Steuer)")
 	       (lambda (val b)
 		 (validate:signed-monetary-max val b
@@ -390,8 +393,8 @@
 	       "Kz84"
 	       (string-append "Bauleistungen eines im Inland ansässigen "
 			      "Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 4 UStG), "
-			      "für die als Leistungsempfänger Steuer geschuldet"
-			      " wird - (Umsatz)")
+			      "für die als Leistungsempfänger Steuer "
+			      "geschuldet wird - (Umsatz)")
 	       validate:signed-int
 
 	       ;; 2nd field
@@ -399,21 +402,18 @@
 	       "Kz85"
 	       (string-append "Bauleistungen eines im Inland ansässigen "
 			      "Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 4 UStG), "
-			      "für die als Leistungsempfänger Steuer geschuldet"
-			      " wird - (Steuer)")
+			      "für die als Leistungsempfänger Steuer "
+			      "geschuldet wird - (Steuer)")
 	       (lambda (val b)
-		 (validate:signed-monetary-max val b
-					       (storage:retrieve b "Kz84"))))
+		 (let ((maximum (storage:retrieve b "Kz84")))
+		 (validate:signed-monetary-max val b maximum))))
 
 
 	 (list "<i>Summe</i>"
 	       tb:field:label "" #f #t ; skip first column
 
 	       ;; second column ...
-	       tb:field:text-output
-	       "13b-sum"
-	       #f
-	       #t))
+	       tb:field:text-output "13b-sum" #f #t))
 
 
 
