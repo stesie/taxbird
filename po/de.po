@@ -1,6 +1,6 @@
 # German translation of Taxbird
 # Copyright (C) 2005 Stefan Siegl <ssiegl@gmx.de>
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the taxbird package.
 # Stefan Siegl <ssiegl@gmx.de>, 2005.
 # 
 # 
@@ -8,12 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Taxbird 0.1\n"
 "Report-Msgid-Bugs-To: ssiegl@gmx.de\n"
-"POT-Creation-Date: 2005-02-11 22:08+0100\n"
+"POT-Creation-Date: 2005-04-29 14:51+0200\n"
 "PO-Revision-Date: 2005-02-12 13:17+0100\n"
 "Last-Translator: Stefan Siegl <ssiegl@gmx.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/callbacks.c:51
+msgid "Name of Template"
+msgstr "Name der Vorlage"
 
 #: src/interface.c:31
 msgid "_New"
@@ -35,44 +39,44 @@ msgstr "Datei öffnen"
 msgid "Save File"
 msgstr "Datei speichern"
 
-#: src/interface.c:223
+#: src/interface.c:226
 msgid "Choose Base Template"
 msgstr "Basisvorlage auswählen"
 
-#: src/interface.c:235
+#: src/interface.c:238
 msgid "Which template do you want to use as base for the new document?"
 msgstr "Welche Vorlage möchten Sie als Grundlage für das neue Dokument nutzen?"
 
-#: src/interface.c:295
+#: src/interface.c:298
 msgid "taxbird - Choose File"
 msgstr "taxbird - Datei auswählen"
 
 #. TRANSLATORS: Replace this string with your names, one name per line.
-#: src/interface.c:343
+#: src/interface.c:346
 msgid "translator_credits"
 msgstr "Stefan Siegl <ssiegl@gmx.de>"
 
-#: src/interface.c:349
+#: src/interface.c:352
 msgid "(C) 2004,05 Stefan Siegl"
 msgstr "(C) 2004,05 Stefan Siegl"
 
-#: src/interface.c:350
+#: src/interface.c:353
 msgid ""
 "taxbird is a geier-based tax declarations capturing and transfer tool (for "
 "Germany) "
 msgstr ""
-"Taxbird ist ein auf Geier basierendes Werkzeug zum Erfassung und Übermitteln "
+"Taxbird ist ein auf Geier basierendes Werkzeug zum Erfassen und Übermitteln "
 "von Steuererklärungen (für Deutschland)"
-
-#: src/callbacks.c:50
-msgid "Name of Template"
-msgstr "Name der Vorlage"
 
 #: src/support.c:60 src/support.c:85
 #, c-format
 msgid "Couldn't find pixmap file: %s"
 msgstr "Konnte Pixmap-Datei nicht finden: %s"
 
-#: src/workspace.c:116
+#: src/workspace.c:139
 msgid "Available Sheets"
 msgstr "Vorhandene Blätter"
+
+#: src/workspace.c:703
+msgid "Yes!"
+msgstr "Ja!"
