@@ -77,31 +77,31 @@
 
 
 
+;; validation function for fields where you can enter the turnover and the
+;; tax on that turnover. where 'max' is the turnover, buf the storage buffer
+;; and 'val' the tax for the turnover as specified
+;;
+;; allowed values are (max == val == 0) and (val != 0 && val < max && max != 0)
 (define validate:signed-monetary-max
   (lambda (val buf max)
+    (if (string? max) (set! max (string->number max)))
+    (if (not max) (set! max 0)) ;;; max may be #f, if it is either not yet
+                                ;;; stored or was not a number, i.e. "" ...
+    
     (if (not (validate:signed-monetary val buf))
 	#f
 
-	(if (not (string? val))
-	    #t ; the field may be empty ...
+	(let ()
+	  (set! val (if (or (not (string? val))
+			    (= (string-length val) 0)) "0" val))
+	  (set! val (string->number val))
 
-	    ;; okay, valid so far, do real test ...
-	    (let ()
-	      (if (= (string-length val) 0)
-		  (set! val "0"))
-	      
-	      (set! max (if (not max)
-			    0  ;- no value assigned yet
-			
-			    (if (string? max)
-				(if (= (string-length max) 0)
-				    0
-				    (string->number max))
-				
-				max)))
+	  (if (= max 0)
+	      ;; if max is set zero (or empty), don't allow associated field
+	      ;; to have a value assigned (i.e. force it to zero)
+	      (if (= val 0) #t #f)
 
-	      (if (< (string->number val) max)
-		  #t
-		  #f))))))
-
-
+	      ;; otherwise, if max is set, don't allow zero and force 
+	      ;; value to be less than 'max', since the tax you have to pay
+	      ;; for something you earned, shouldn't be 100% ;-)
+	      (if (and (< val max) (not (= val 0))) #t #f))))))
