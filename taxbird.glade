@@ -89,27 +89,7 @@
 			<widget class="GtkImageMenuItem" id="mnu_file_quit">
 			  <property name="visible">True</property>
 			  <property name="stock_item">GNOMEUIINFO_MENU_EXIT_ITEM</property>
-			  <signal name="activate" handler="on_file_quit_activate" object="taxbird" last_modification_time="Sat, 01 Jan 2005 10:25:14 GMT"/>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-		</widget>
-	      </child>
-
-	      <child>
-		<widget class="GtkMenuItem" id="mnu_edit">
-		  <property name="visible">True</property>
-		  <property name="stock_item">GNOMEUIINFO_MENU_EDIT_TREE</property>
-
-		  <child>
-		    <widget class="GtkMenu" id="mnu_edit_menu">
-
-		      <child>
-			<widget class="GtkImageMenuItem" id="mnu_edit_preferences">
-			  <property name="visible">True</property>
-			  <property name="stock_item">GNOMEUIINFO_MENU_PREFERENCES_ITEM</property>
-			  <signal name="activate" handler="on_edit_preferences_activate" last_modification_time="Sat, 25 Dec 2004 16:51:06 GMT"/>
+			  <signal name="activate" handler="on_file_quit_activate" last_modification_time="Sat, 01 Jan 2005 10:25:14 GMT"/>
 			</widget>
 		      </child>
 		    </widget>
@@ -219,20 +199,6 @@
 		<packing>
 		  <property name="expand">False</property>
 		  <property name="homogeneous">False</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkToolButton" id="toolbar_customize">
-		  <property name="visible">True</property>
-		  <property name="stock_id">gtk-preferences</property>
-		  <property name="visible_horizontal">True</property>
-		  <property name="visible_vertical">True</property>
-		  <property name="is_important">False</property>
-		</widget>
-		<packing>
-		  <property name="expand">False</property>
-		  <property name="homogeneous">True</property>
 		</packing>
 	      </child>
 
