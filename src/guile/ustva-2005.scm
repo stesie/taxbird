@@ -16,7 +16,6 @@
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 (tb:eval-file "storage.scm")
-(tb:eval-file "basics-addresse.scm")
 (tb:eval-file "basics-datenlieferant.scm")
 (tb:eval-file "bundesland-chooser.scm")
 (tb:eval-file "steuernummer.scm")
@@ -49,7 +48,13 @@
 	       "stnr"
 	       (string-append "Die vom zuständigen Finanzamt vergebene "
 			      "Steuernummer. Eingabe mit Schrägstrichen.")
-	       steuernummer:validate))
+	       steuernummer:validate)
+
+	 (list "Berichtigte Anmeldung"
+	       tb:field:checkbox
+	       "Kz10"
+	       "Berichtigte Anmeldung"
+	       #t))
    
 
 
@@ -490,7 +495,7 @@
 
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   "Sonstiges"
+   "Sonstige Angaben"
    (list 2
 
 	 (list (string-append "Wechsel Bestuerungsform sowie\n"
@@ -526,7 +531,26 @@
 			      "(nur auszufüllen in der letzten Voranmeldung "
 			      "des Besteuerungszeitraums, in der Regel "
 			      "Dezember)")
-	       validate:unsigned-int))
+	       validate:unsigned-int)
+
+
+	 (list "Verrechnung des Erstattungs-\nbetrages erwünscht"
+	       tb:field:checkbox
+	       "Kz29"
+	       (string-append "Verrechnung des Erstattungsbetrages "
+			      "erwünscht / Erstattungsbetrag ist abgetreten")
+	       #t)
+
+
+	 (list "Einzugsermächtigung wird\nausnahmsweise widerrufen"
+	       tb:field:checkbox
+	       "Kz26"
+	       (string-append "Die Einzugsermächtigung wird ausnahmsweise "
+			      "(z.B. wegen Verrechnungswünschen) für "
+			      "diesen Voranmeldungszeitraum widerrufen. "
+			      "Ein ggf. verbleibender Rest ist gesondert zu "
+			      "entrichten.")
+	       #t))
 
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -661,11 +685,14 @@
 					    "Kz62" "Kz63" "Kz64" "Kz65" "Kz66"
 					    "Kz67" "Kz69" "Kz74" "Kz80" "Kz83"
 					    "Kz85" "Kz96" "Kz98")
-			       "~D"   (list "Kz10" "Kz26" "kz29" "Kz35"
+			       "~D"   (list "Kz35"
 					    "Kz41" "Kz42" "Kz43" "Kz44" "Kz45"
 					    "Kz48" "Kz49" "Kz51" "Kz52" "Kz60"
 					    "Kz76" "Kz73" "Kz77" "Kz84" "Kz86"
 					    "Kz91" "Kz93" "Kz94" "Kz95" "Kz97"
+
+					    ;; checkboxes ...
+					    "Kz10" "Kz26" "Kz29"
 					    ))))
 
 	     (while (> (length fields) 0)
@@ -674,11 +701,16 @@
 		       (let ((value (storage:retrieve buffer field)))
 			 (if (and value
 				  (> (string-length value) 0))
-			     (let ((value (format #f (car fields)
-						  (string->number value))))
-			       (set! result
-				     (append result
-					     (list field #f value)))))))
+			     (let ((out-val (format #f (car fields)
+						    (string->number value))))
+			       
+			       ;; don't write out fields, that are equal to
+			       ;; zero, except for Kz83 which is the total
+			       (if (or (string=? field "Kz83")
+				       (not (= (string->number value) 0)))
+				   (set! result
+					 (append result
+						 (list field #f out-val))))))))
 		     
 		     (cadr fields))
 
