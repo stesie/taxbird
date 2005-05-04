@@ -23,6 +23,9 @@ Usage: $0 sigfile [keyid]
 
 Update the signature file, i.e. refresh the md5 hash value of each file
 in turn and sign the sigfile afterwards using gnupg.
+
+Taxbird expect's pathes to be relative to the guile/ subdirectory. That
+is, you need to execute $0 from this directory.
 EOF
     exit 0
 fi
@@ -45,6 +48,8 @@ for FILE in `cat .sig-update.files`; do
 
 	if which md5 > /dev/null; then
 	    HASH=`md5 < $FILE`
+	elif which md5sum > /dev/null; then
+	    HASH=`md5sum < $FILE | cut -c-32`
 	else
 	    echo "$0: no md5 hasher available, sorry."
 	    exit 1
