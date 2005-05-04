@@ -20,18 +20,12 @@
 #include <config.h>
 #endif
 
-#ifdef VERSION
-/* libwww defines 'VERSION' to it's version in wwwconf.h, to keep the 
- * preprocessor happy, undef our version here 
- */
-#undef VERSION
-#endif
 
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
 #include <ctype.h>
-#include <HTDigest.h> /* for md5 hash calculation, part of w3c's libwww */
+#include <mhash.h>
 
 #include "guile.h"
 
@@ -62,7 +56,7 @@ taxbird_digest_hexdecode(const char *in)
 static int
 taxbird_digest_verify_file(const char *filename, const char *sighash) 
 {
-  HTDigestContext ctx;
+  MHASH ctx;
   unsigned int i;
   char buf[512];
   char *lookup_fn = taxbird_guile_dirlist_lookup(filename);
@@ -71,12 +65,16 @@ taxbird_digest_verify_file(const char *filename, const char *sighash)
   g_free(lookup_fn);
   if(! handle) return 1; /* error */
   
-  HTDigest_init(&ctx, HTDaMD5);
+  ctx = mhash_init(MHASH_MD5);
+  if(ctx == MHASH_FAILED) {
+    fclose(handle);
+    return 1; /* error */
+  }
 
   while((i = fread(buf, 1, sizeof(buf), handle)))
-    HTDigest_update(&ctx, buf, i);
+    mhash(ctx, buf, i);
 
-  HTDigest_final(buf, &ctx);
+  mhash_deinit(ctx, buf);
   fclose(handle);
   
   /* the md5 hash is in 'buf' now ... */
