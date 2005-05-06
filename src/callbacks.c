@@ -24,6 +24,7 @@
 
 #include "callbacks.h"
 #include "interface.h"
+#include "dialog.h"
 #include "support.h"
 #include "workspace.h"
 #include "form.h"
@@ -246,8 +247,17 @@ on_execute_activate(GtkToolButton *toolbutton, gpointer user_data)
   (void) user_data;
 
   GtkWidget *aw = lookup_widget(GTK_WIDGET(toolbutton), "taxbird");
-  struct form *f = forms[(int)g_object_get_data(G_OBJECT(aw), "current_form")];
+  int current_form = (int) g_object_get_data(G_OBJECT(aw), "current_form");
+
+  if(current_form == -1) {
+    taxbird_dialog_error(aw, _("Current document contains no data. "
+			       "What do you want to export from it?"));
+    return;
+  }
+
   SCM data = (SCM) g_object_get_data(G_OBJECT(aw), "scm_data");
+
+  struct form *f = forms[current_form];
   SCM xml_data = scm_call_1(f->dataset_export, data);
 
   if(SCM_FALSEP(scm_list_p(xml_data)))

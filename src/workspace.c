@@ -23,6 +23,7 @@
 #include <gnome.h>
 
 #include "interface.h"
+#include "dialog.h"
 #include "workspace.h"
 #include "form.h"
 #include "guile.h"
@@ -840,8 +841,13 @@ void
 taxbird_ws_save(GtkWidget *appwin, const char *fname)
 {
   int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
-  SCM handle = scm_open_file(scm_makfrom0str(fname),
-			     scm_makfrom0str("w"));
+  if(current_form == -1) {
+    taxbird_dialog_error(appwin, _("Current document contains no data. "
+				   "There's no point in writing it out."));
+    return;
+  }
+
+  SCM handle = scm_open_file(scm_makfrom0str(fname), scm_makfrom0str("w"));
 
   /* write header */
   scm_display(scm_makfrom0str(";; This file was produced using taxbird. \n"
@@ -850,8 +856,9 @@ taxbird_ws_save(GtkWidget *appwin, const char *fname)
 			      ";; be warned: BE CAREFUL!!\n;;\n\n'"), handle);
 
   /* write content */
-  scm_write(scm_list_2(scm_makfrom0str(forms[current_form]->name),
-		       g_object_get_data(G_OBJECT(appwin),"scm_data")), handle);
+  SCM data = g_object_get_data(G_OBJECT(appwin), "scm_data");
+  scm_write(scm_list_2(scm_makfrom0str(forms[current_form]->name), data),
+	    handle);
 
   scm_close(handle);
 
