@@ -27,7 +27,7 @@
 	     ;;(format #t "revalidating sheet ~A\n" (car def))
 	     
 	     (if (number? (car (cadr def)))
-		 (if (not (revalidate:sheet (cadr def) buf))
+		 (if (not (revalidate:sheet (car def) (cadr def) buf))
 		     (set! ret-val #f))
 
 		 ;; another sheet, recurse downwards ...
@@ -43,7 +43,7 @@
 
 
 (define revalidate:sheet
-  (lambda (sheetdef buf)
+  (lambda (sheetname sheetdef buf)
     (if (not (number? (car sheetdef)))
 	(scm-error 'wrong-type-arg #f "car of sheetdef must be a number: ~S"
 		   (car sheetdef) #f))
@@ -73,13 +73,20 @@
 				  (if value #t #f)))
 
 			(if (not (boolean? valid))
-			    (format #t "unexpected validation request ~S\n"
-				    valid))
+			    (tb:dlg-error
+			     (format #f (string-append
+					 "Die Validierungsroutine des Feldes "
+					 "~S ist nicht gültig: ~S")
+				     (cadr rowdef) valid)))
 
 			(if (not valid)
 			    (let ()
-			      (format #t "The value of field ~S is not valid\n"
-				      (caddr rowdef))
+			      (tb:dlg-error
+			       (format #f (string-append
+					   "Auf der Seite ~S sind nicht "
+					   "alle Feldinhalte gültig:\n\n~A")
+				       
+				       sheetname (caddr rowdef)))
 			      (set! ret-val #f))))
 
 		      (set! rowdef (cddddr rowdef))))
