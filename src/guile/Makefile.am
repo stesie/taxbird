@@ -12,6 +12,7 @@ guilestuff_DATA = \
 	validate.scm \
 	xml-writer.scm \
 	export.scm \
+	revalidate.scm \
 	ustva-2005.scm
 
 EXTRA_DIST = $(guilestuff_DATA)
