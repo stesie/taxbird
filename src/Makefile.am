@@ -19,6 +19,7 @@ taxbird_SOURCES = \
         guile.c guile.h \
         form.c form.h \
 	dialog.c dialog.h \
+	sigcheck.c sigcheck.h \
 	digest.c
 
 taxbird_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)

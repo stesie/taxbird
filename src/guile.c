@@ -26,10 +26,10 @@
 #include <glib.h>
 #include <dirent.h>
 #include <sys/stat.h>
-#include <gpgme.h>
 
 #include "guile.h"
 #include "form.h"
+#include "sigcheck.h"
 
 static SCM taxbird_guile_eval_file_SCM(SCM scm_fn);
 static SCM taxbird_guile_check_sig_SCM(SCM scm_fn);
@@ -169,102 +169,6 @@ taxbird_guile_eval_file_SCM(SCM scm_fn)
 {
   g_return_val_if_fail(SCM_STRINGP(scm_fn), SCM_BOOL(0));
   return SCM_BOOL(! taxbird_guile_eval_file(SCM_STRING_CHARS(scm_fn)));
-}
-
-
-
-/* verify signature file's signature and verify referenced file's md5 hashes */
-char *
-taxbird_guile_check_sig(const char *fn)
-{
-  gpgme_ctx_t gpg_ctx;
-  gpgme_data_t dh_file2gpg, dh_gpg2taxbird;
-  gpgme_error_t gpg_error;
-  gpgme_verify_result_t gpg_result;
-  gpgme_key_t gpg_key;
-  size_t content_len;
-  char *content;
-  char *retval = NULL;
-  char *vendid; /* test vendor id */
-  char *lookup_fn = taxbird_guile_dirlist_lookup(fn);
-
-  if(! lookup_fn) {
-    g_printerr(PACKAGE_NAME ": cannot find signature file: %s\n", fn);
-    goto out;
-  }
-
-  if(gpgme_data_new_from_file(&dh_file2gpg, lookup_fn, 1) != GPG_ERR_NO_ERROR){
-    g_printerr(PACKAGE_NAME ": unable to open data handle to gpg.\n");
-    goto out2;
-  }
-
-  if(gpgme_new(&gpg_ctx) != GPG_ERR_NO_ERROR) {
-    g_printerr(PACKAGE_NAME ": cannot allocate gpgme context.\n");
-    goto out3;
-  }
-
-  if(gpgme_data_new(&dh_gpg2taxbird) != GPG_ERR_NO_ERROR) {
-    g_printerr(PACKAGE_NAME ": unable to open in-memory handle from gpg.\n");
-    goto out4;
-  }
-
-  gpg_error = gpgme_op_verify(gpg_ctx, dh_file2gpg, NULL, dh_gpg2taxbird);
-  if(gpg_error != GPG_ERR_NO_ERROR) {
-    g_printerr(PACKAGE_NAME ": cannot verify gpg signature. sorry.\n");
-    goto out5;
-  }
-
-  if(!(gpg_result = gpgme_op_verify_result(gpg_ctx))) {
-    g_printerr(PACKAGE_NAME ": cannot verify gpg signature. sorry.\n");
-    goto out5;
-  }
-
-  if(gpg_result->signatures->summary
-     & ~(GPGME_SIGSUM_VALID | GPGME_SIGSUM_GREEN)) {
-    g_printerr(PACKAGE_NAME ": signature of %s is not valid.\n", fn);
-    goto out5;
-  }
-
-  /* okay, signature is valid. extract vendor-id now ... */
-  if(gpgme_get_key(gpg_ctx, gpg_result->signatures->fpr, &gpg_key, 0)
-     != GPG_ERR_NO_ERROR || !gpg_key) {
-    g_printerr(PACKAGE_NAME ": cannot find public key in gpg keyring.\n");
-    goto out5;
-  }
-
-  if(strlen(gpg_key->uids->comment) != 13 
-     || strncmp(gpg_key->uids->comment, "Taxbird:", 8)) {
-    g_printerr(PACKAGE_NAME ": invalid gpg-key comment: '%s'.\n", 
-	       gpg_key->uids->comment);
-    goto out5;
-  }
-
-  vendid = g_strdup(gpg_key->uids->comment + 8);
-  g_printerr(PACKAGE_NAME ": signature on '%s' seems valid; vendor-id: %5s.\n",
-	     fn, vendid);
-
-  /* now check md5 signatures ... */
-  content = gpgme_data_release_and_get_mem(dh_gpg2taxbird, &content_len);
-  content = realloc(content, content_len + 1);
-  if(! content) goto out4; 
-  content[content_len] = 0;
-
-  if(! taxbird_digest_verify(content))
-    retval = vendid;
-
-  free(content);
-  goto out4; /* gpgme data handle already released */
-
- out5:
-  gpgme_data_release(dh_gpg2taxbird);
- out4:
-  gpgme_release(gpg_ctx);
- out3:
-  gpgme_data_release(dh_file2gpg);
- out2:
-  g_free(lookup_fn);
- out:
-  return retval;
 }
 
 

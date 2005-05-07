@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,05 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2005 Stefan Siegl <ssiegl@gmx.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -16,24 +16,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef TAXBIRD_GUILE_H
-#define TAXBIRD_GUILE_H
+#ifndef TAXBIRD_SIGCHECK_H
+#define TAXBIRD_SIGCHECK_H
 
-#include <libguile.h>
+/* check validity of signature file and check referenced file's hash values */
+char *taxbird_guile_check_sig(const char *fn);
 
-#define scm_c_lookup_ref(a) SCM_VARIABLE_REF(scm_c_lookup(a))
-
-/* initialize taxbird's guile backend */
-void taxbird_guile_init(void);
-
-/* evaluate given file */
-int taxbird_guile_eval_file(const char *fn);
-
-/* lookup a file 'fn' in the paths we search .scm files in */
-char *taxbird_guile_dirlist_lookup(const char *fn);
-
-/* our global error handler ... */
-SCM taxbird_guile_global_err_handler(void *data, SCM tag, SCM args);
-
-
-#endif /* TAXBIRD_GUILE_H */
+#endif /* TAXBIRD_SIGCHECK_H */
