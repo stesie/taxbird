@@ -4,7 +4,8 @@ SUBDIRS =
 
 signaturesdir = $(datadir)/taxbird/guile/signatures
 signatures_DATA = \
-	sigtest.sig
+	ustva-2005.sig
 
-EXTRA_DIST = $(signatures_DATA)
+EXTRA_DIST = $(signatures_DATA) \
+	sigtest.sig # don't install sigtest.sig signature
 

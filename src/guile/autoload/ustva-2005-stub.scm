@@ -38,7 +38,11 @@
  (lambda (buf)
    (tb:eval-file "revalidate.scm")
    (if (revalidate:buffer ustva-2005:definition buf)
-       (let ()
+       (let ((sig-result (tb:check-sig "signatures/ustva-2005.sig")))
+
+	 ;; overwrite storage vendor id ...
+	 (if (list? sig-result)
+	     (storage:store buf "vend-id" (car sig-result))) 
 
 	 ;; document's content is valid, let's export it, to make the
 	 ;; IRO know, what nice programs there exist out in the free world ...
