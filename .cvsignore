@@ -12,3 +12,4 @@ stamp-h*
 configure.scan
 mkinstalldirs
 taxbird-*.tar.gz
+depcomp
