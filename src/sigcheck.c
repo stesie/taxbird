@@ -16,16 +16,26 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#define _GNU_SOURCE
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include <gnome.h>
 #include <gpgme.h>
+#include <unistd.h>
+#include <dirent.h>
 
 #include "sigcheck.h"
 #include "dialog.h"
 #include "guile.h"
+
+/* import all keys available from the public-keys directory */
+static void taxbird_sigcheck_import_keys(void);
+
+/* import the public keys stored in the file with the provided name */
+static void taxbird_sigcheck_import_key(const char *fname);
 
 
 /* verify signature file's signature and verify referenced file's md5 hashes */
@@ -42,6 +52,7 @@ taxbird_guile_check_sig(const char *fn)
   char *retval = NULL;
   char *vendid; /* test vendor id */
   char *lookup_fn = taxbird_guile_dirlist_lookup(fn);
+  int retry = 0; /* whether to automatically call this function again */
 
   if(! lookup_fn) {
     char *msg = g_strdup_printf(_("Unable to find required signature "
@@ -104,10 +115,20 @@ taxbird_guile_check_sig(const char *fn)
 	      "Please use taxbird-update.sh to update your Taxbird "
 	      "installation.");
 
-    else if(gpg_result->signatures->summary & GPGME_SIGSUM_KEY_MISSING)
+    else if(gpg_result->signatures->summary & GPGME_SIGSUM_KEY_MISSING) {
+      static int gpg_keys_imported = 0;
+      if(! gpg_keys_imported && ++ gpg_keys_imported) {
+	/* automatically try to import all available gpg keys,
+	 * and try once more ... */
+	taxbird_sigcheck_import_keys();
+	retry = 1;
+	goto out5;
+      }
+
       msg = _("Key for signature file %s is not available. "
-	      "Please make sure gpg is able to verify the digital "
-	      "signature.\n");
+	      "Please make sure gpg is able to verify "
+	      "digital signatures.\n");
+    }
 
     else
       msg = _("Unable to verify signature of %s");
@@ -151,8 +172,77 @@ taxbird_guile_check_sig(const char *fn)
  out2:
   g_free(lookup_fn);
  out:
-  return retval;
+  return retry ? taxbird_guile_check_sig(fn) : retval;
 }
 
 
 
+static void
+taxbird_sigcheck_import_keys(void)
+{
+  char *cwd = get_current_dir_name();
+  if(! cwd) return; /* damn, shall we complain? */
+
+  chdir(PACKAGE_DATA_DIR "/taxbird/pubkeys");
+
+  DIR *dir = opendir(".");
+  if(dir) {
+    struct dirent *dirent;
+
+    while((dirent = readdir(dir)))
+      if(dirent->d_name[0] != '.') /* don't import . and .. (dirs) and
+				    * hidden files */
+	taxbird_sigcheck_import_key(dirent->d_name);
+
+    closedir(dir);
+  }
+
+  chdir(cwd);
+  free(cwd);
+}
+
+
+
+/* import the public keys stored in the file with the provided name */
+static void
+taxbird_sigcheck_import_key(const char *fname)
+{
+  int err = 0;
+  gpgme_data_t keyfile;
+  gpgme_ctx_t ctx;
+
+  if(gpgme_data_new_from_file(&keyfile, fname, 1) != GPG_ERR_NO_ERROR) {
+    err = 1;
+    goto out;
+  }
+
+  if(gpgme_new(&ctx) != GPG_ERR_NO_ERROR) {
+    err = 1;
+    goto out2;
+  }
+
+  if(gpgme_op_import(ctx, keyfile) != GPG_ERR_NO_ERROR) {
+    err = 1;
+    goto out3;
+  }
+
+ out3:
+  gpgme_release(ctx);
+
+ out2:
+  gpgme_data_release(keyfile);
+
+ out:
+  if(err) {
+    char *msg = g_strdup_printf(_("The GPG public key file '%s' could "
+				  "not be imported successfully. You "
+				  "will not be able to use the signature "
+				  "mechanism this way."), fname);
+    taxbird_dialog_error(NULL, msg);
+    g_free(msg);
+  }
+  else {
+    g_printerr(PACKAGE_NAME ": gpg public keys from '%s' "
+	       "successfully imported\n", fname);
+  }
+}
