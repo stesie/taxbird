@@ -36,67 +36,165 @@ static void taxbird_sigcheck_import_keys(void);
 /* import the public keys stored in the file with the provided name */
 static void taxbird_sigcheck_import_key(const char *fname);
 
+/* verify signature on file FILE and extract vendor-id and contents on
+ * success (returning 0),  on failure return 1 */
+static int taxbird_sigcheck_verify(const char *filename, 
+				   char **vendor_id, char **output);
 
-/* verify signature file's signature and verify referenced file's md5 hashes */
-char *
-taxbird_guile_check_sig(const char *fn)
+static char *taxbird_sigcheck_get_id(const char *filename);
+
+
+/* verify signature file's signature and verify referenced file's md5
+ * hashes afterwards.
+ * 
+ * RETURN: 0 on success, 1 on failure */
+int 
+taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id)
 {
-  gpgme_ctx_t gpg_ctx;
-  gpgme_data_t dh_file2gpg, dh_gpg2taxbird;
-  gpgme_error_t gpg_error;
-  gpgme_verify_result_t gpg_result;
-  gpgme_key_t gpg_key;
-  size_t content_len;
-  char *content;
-  char *retval = NULL;
-  char *vendid; /* test vendor id */
+  int err = 0;
+  char *err_msg = NULL;
+
+  g_return_val_if_fail(fn, 1);
+
+  /* look for the real file **************************************************/
   char *lookup_fn = taxbird_guile_dirlist_lookup(fn);
-  int retry = 0; /* whether to automatically call this function again */
-
   if(! lookup_fn) {
-    char *msg = g_strdup_printf(_("Unable to find required signature "
-				  "file '%s' in the Taxbird path."), fn);
-    taxbird_dialog_error(NULL, msg);
-    g_free(msg); 
-
+    err_msg = _("Unable to find required signature file '%s' in "
+		"the Taxbird path.");
+    err = 1;
     goto out;
   }
 
-  if(gpgme_data_new_from_file(&dh_file2gpg, lookup_fn, 1) != GPG_ERR_NO_ERROR){
-    taxbird_dialog_error(NULL, _("Unable to convert handle of signature "
-				 "file to a libgpgme data handle.")); 
-    goto out2;
+
+
+  /* extract signature $Id: sigcheck.c,v 1.4 2005-05-07 16:33:40 stesie Exp $ ************************************************/
+  
+  if(! (*sig_id = taxbird_sigcheck_get_id(lookup_fn))) {
+    err_msg = _("Signature's $Id: entry is not valid, "
+		"while checking signature %s");
+    err = 1;
+    goto out;
   }
 
-  if(gpgme_new(&gpg_ctx) != GPG_ERR_NO_ERROR) {
-    taxbird_dialog_error(NULL, _("Cannot allocate libgpgme context, "
-				 "sorry."));
-    goto out3;
+
+
+  /* verify the signature on the signature file ******************************/
+  char *content;
+  if(taxbird_sigcheck_verify(lookup_fn, vendor_id, &content)) {
+    err_msg = NULL;
+    err = 1;
+    goto out;
   }
 
-  if(gpgme_data_new(&dh_gpg2taxbird) != GPG_ERR_NO_ERROR) {
-    taxbird_dialog_error(NULL, _("Unable to open in-memory handle from "
-				 "GPG, using libgpgme."));
+
+
+  /* now check md5 signatures ... *******************************************/
+  if(taxbird_digest_verify(content)) {
+    err_msg = _("The MD5-Checksums from the signature file %s do "
+		"not match the corresponding checksums of the installed "
+		"source files. Sorry, you either want "
+		"to self-sign your modified sources or want to "
+		"install unmodified, original ones.\n\n"
+		"If you've found a bug in one in the Guile sources, please "
+		"don't hesitate but publish your solution to the "
+		"taxbird@taxbird.de mailing list.");
+    err = 1;
     goto out4;
   }
 
-  gpg_error = gpgme_op_verify(gpg_ctx, dh_file2gpg, NULL, dh_gpg2taxbird);
+
+ out4:
+  g_free(content);
+
+ out:
+  g_free(lookup_fn);
+
+  if(err_msg) {
+    err_msg = g_strdup_printf(err_msg, fn);
+    taxbird_dialog_error(NULL, err_msg);
+    g_free(err_msg);
+  }
+
+  return err;
+}
+
+
+
+static char *
+taxbird_sigcheck_get_id(const char *filename) 
+{
+  int fd = open(filename, O_RDONLY);
+  if(fd < 0) return NULL;
+
+  unsigned char buf[128];
+  ssize_t chars_read = read(fd, buf, sizeof(buf));
+
+  if(chars_read < 0) return NULL;
+  buf[chars_read < sizeof(buf) ? chars_read : sizeof(buf) - 1] = 0;
+
+  if(strncmp("$Id: ", buf, 5)) return NULL;
+
+  unsigned char *p = strchr(buf + 5, '$');
+  if(! p) return NULL;
+
+  *p = 0; /* \0-terminate $Id: string */
+
+  return g_strdup(buf + 5); 
+}
+
+
+/* verify signature on file FILE and extract vendor-id and contents on
+ * success (returning 0),  on failure return 1 */
+static int
+taxbird_sigcheck_verify(const char *filename, char **vendor_id, char **output)
+{
+  int retry = 0;
+  int err = 0;
+  char *msg = NULL;
+
+  gpgme_data_t file;
+  if(gpgme_data_new_from_file(&file, filename, 1) != GPG_ERR_NO_ERROR){
+    msg = _("Unable to open signature file %s.");
+    err = 1;
+    goto out2;
+  }
+
+  gpgme_ctx_t gpg_ctx;
+  if(gpgme_new(&gpg_ctx) != GPG_ERR_NO_ERROR) {
+    err = 1;
+    goto out3;
+  }
+
+  gpgme_data_t content;
+  if(gpgme_data_new(&content) != GPG_ERR_NO_ERROR) {
+    err = 1;
+    goto out4;
+  }
+
+
+
+  /* well, everything's prepared, call gpg now, to verify the signature ******/
+  gpgme_error_t gpg_error = gpgme_op_verify(gpg_ctx, file, NULL, content);
   if(gpg_error != GPG_ERR_NO_ERROR) {
-    taxbird_dialog_error(NULL, _("GPG signature is not valid. Sorry.\n"));
+    err = 1;
     goto out5;
   }
 
+  gpgme_verify_result_t gpg_result;
   if(!(gpg_result = gpgme_op_verify_result(gpg_ctx))) {
-    taxbird_dialog_error(NULL, _("GPG signature is not valid. Sorry.\n"));
+    err = 1;
     goto out5;
   }
 
+
+
+  /* check the signature's status, possibly choosing a suitable error mesg. */
+  gpgme_key_t gpg_key;
   if((gpg_result->signatures->summary &
       ~(GPGME_SIGSUM_VALID | GPGME_SIGSUM_GREEN))
      || (gpgme_get_key(gpg_ctx, gpg_result->signatures->fpr, &gpg_key, 0)
 	 != GPG_ERR_NO_ERROR)
      || ! gpg_key) {
-    char *msg = NULL;
 
     if(gpg_result->signatures->summary & GPGME_SIGSUM_KEY_REVOKED)
       msg = _("The Taxbird signature (%s) is not valid anymore. "
@@ -125,53 +223,70 @@ taxbird_guile_check_sig(const char *fn)
       }
 
       msg = _("Key for signature file %s is not available. "
-	      "Please make sure gpg is able to verify "
+	      "Please make sure GPG is able to verify "
 	      "digital signatures.\n");
     }
 
-    else
-      msg = _("Unable to verify signature of %s");
-
-    msg = g_strdup_printf(msg, fn);
-    taxbird_dialog_error(NULL, msg);
-    g_free(msg);
-
+    err = 1;
     goto out5;
   }
 
+
+
+  /* try to extract the key's comment */
   if(strlen(gpg_key->uids->comment) != 13 
      || strncmp(gpg_key->uids->comment, "Taxbird:", 8)) {
     char *msg = g_strdup_printf(_("Invalid comment on gpg-key '%s'. "
 				  "Checking signature file %s."),
-				gpg_key->uids->comment, fn);
+				gpg_key->uids->comment, filename);
     taxbird_dialog_error(NULL, msg);
     goto out5;
   }
 
-  vendid = g_strdup(gpg_key->uids->comment + 8);
 
-  /* now check md5 signatures ... */
-  content = gpgme_data_release_and_get_mem(dh_gpg2taxbird, &content_len);
-  content = realloc(content, content_len + 1);
-  if(! content) goto out4; 
-  content[content_len] = 0;
 
-  if(! taxbird_digest_verify(content))
-    retval = vendid;
+  /* copy the vendor id back to our callee */
+  *vendor_id = g_strdup(gpg_key->uids->comment + 8);
 
-  free(content);
+
+
+  /* finally copy the signed content itself */
+  size_t content_len;
+  *output = gpgme_data_release_and_get_mem(content, &content_len);
+  *output = realloc(*output, content_len + 1);
+  if(! content) {
+    err = 1;
+    goto out4; 
+  }
+
+  (*output)[content_len] = 0;
+
   goto out4; /* gpgme data handle already released */
 
  out5:
-  gpgme_data_release(dh_gpg2taxbird);
+  gpgme_data_release(content);
+
  out4:
   gpgme_release(gpg_ctx);
+
  out3:
-  gpgme_data_release(dh_file2gpg);
+  gpgme_data_release(file);
+
  out2:
-  g_free(lookup_fn);
- out:
-  return retry ? taxbird_guile_check_sig(fn) : retval;
+  
+  if(retry)
+    return taxbird_sigcheck_verify(filename, vendor_id, output);
+  
+  if(err) {
+    if(! msg)
+      msg = _("Unable to check the validity of the signature file %s.");
+
+    msg = g_strdup_printf(msg, filename);
+    taxbird_dialog_error(NULL, msg);
+    g_free(msg);
+  }
+  
+  return err;
 }
 
 
