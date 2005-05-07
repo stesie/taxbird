@@ -8,7 +8,4 @@ autoload_DATA = \
 
 EXTRA_DIST = $(autoload_DATA) \
 	sigtest.scm \
-	debugging.scm # we don't install this by default, copy it
-		      # to one of the autoload/ directories, if you'd
-		      # like to have it
-
+	debugging.scm
