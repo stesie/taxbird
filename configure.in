@@ -11,7 +11,7 @@ AC_PROG_CC
 AM_PROG_CC_STDC
 AC_HEADER_STDC
 
-pkg_modules="libgnomeui-2.0"
+pkg_modules="libgnomeui-2.0 libgtkhtml-2.0"
 PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
 AC_SUBST(PACKAGE_CFLAGS)
 AC_SUBST(PACKAGE_LIBS)
@@ -43,6 +43,10 @@ AC_CHECK_FUNC([get_current_dir_name],
 	                 [Define to 1 if system supports _GNU_SOURCE])
 	       AC_DEFINE(HAVE_GET_CURRENT_DIR_NAME, 1,
 	                 [Define to 1 if you have get_current_dir_name])],)
+
+# check for geier tool
+AC_PATH_PROG(GEIER_PATH, geier)
+AC_DEFINE_UNQUOTED(GEIER_PATH, "$GEIER_PATH", [Path to your geier binary])
 
 CFLAGS="$CFLAGS $GPGME_CFLAGS $GUILE_CFLAGS $GLIB_CFLAGS"
 LDFLAGS="$LDFLAGS $GPGME_LIBS $GUILE_LDFLAGS $GLIB_LIBS"
