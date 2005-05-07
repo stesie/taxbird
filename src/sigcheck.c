@@ -16,8 +16,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#define _GNU_SOURCE
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -26,6 +24,7 @@
 #include <gpgme.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <fcntl.h>
 
 #include "sigcheck.h"
 #include "dialog.h"
@@ -180,8 +179,13 @@ taxbird_guile_check_sig(const char *fn)
 static void
 taxbird_sigcheck_import_keys(void)
 {
+#ifdef HAVE_GET_CURRENT_DIR_NAME
   char *cwd = get_current_dir_name();
   if(! cwd) return; /* damn, shall we complain? */
+#else
+  int cwd = open(".", O_RDONLY);
+  if(cwd < 0) return;
+#endif /* ... ! HAVE_GET_CURRENT_DIR_NAME */
 
   chdir(PACKAGE_DATA_DIR "/taxbird/pubkeys");
 
@@ -197,8 +201,14 @@ taxbird_sigcheck_import_keys(void)
     closedir(dir);
   }
 
+
+#ifdef HAVE_GET_CURRENT_DIR_NAME
   chdir(cwd);
   free(cwd);
+#else
+  fchdir(cwd);
+  close(cwd);
+#endif /* ... ! HAVE_GET_CURRENT_DIR_NAME */
 }
 
 

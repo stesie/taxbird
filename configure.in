@@ -37,6 +37,13 @@ AM_PATH_GPGME(1.0.0,, AC_MSG_ERROR([libgpgme missing.]))
 AC_CHECK_LIB(mhash, MD5Init,, AC_MSG_ERROR([mhash library missing.]))
 AC_CHECK_HEADER(mhash.h,, AC_MSG_ERROR([mhash.h include file missing.]))
 
+# check for get_current_dir_name
+AC_CHECK_FUNC([get_current_dir_name], 
+	      [AC_DEFINE(_GNU_SOURCE, [], 
+	                 [Define to 1 if system supports _GNU_SOURCE])
+	       AC_DEFINE(HAVE_GET_CURRENT_DIR_NAME, 1,
+	                 [Define to 1 if you have get_current_dir_name])],)
+
 CFLAGS="$CFLAGS $GPGME_CFLAGS $GUILE_CFLAGS $GLIB_CFLAGS"
 LDFLAGS="$LDFLAGS $GPGME_LIBS $GUILE_LDFLAGS $GLIB_LIBS"
 
