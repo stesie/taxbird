@@ -89,4 +89,11 @@ A: Sie haben zwar Glade-2 installiert, allerdings eine Variante, die
    keine Gnome-Unterstützung bietet. Unter Debian GNU/Linux ist zum
    Beispiel das Paket glade-gnome-2 zu installieren, nicht glade-2.
 
-$Id: README,v 1.3 2005-05-04 22:18:02 stesie Exp $
+F: ./configure script complains:
+   "Package openssl was not found in the pkg-config search path"
+
+A: Sie haben entweder OpenSSL überhaupt nicht installiert, oder zumindest
+   die zumindest die Datei openssl.pc Datei ist nicht im Pfad. Unter Debian
+   GNU/Linux ist das Paket libssl-dev nebst Abhängigkeiten zu installieren.
+
+$Id: README,v 1.4 2005-05-07 20:18:53 stesie Exp $
