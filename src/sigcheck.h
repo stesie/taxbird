@@ -19,7 +19,11 @@
 #ifndef TAXBIRD_SIGCHECK_H
 #define TAXBIRD_SIGCHECK_H
 
-/* check validity of signature file and check referenced file's hash values */
-char *taxbird_guile_check_sig(const char *fn);
+/* verify signature file's signature and verify referenced file's md5
+ * hashes afterwards.
+ * 
+ * RETURN: 0 on success, 1 on failure */
+int taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id);
+
 
 #endif /* TAXBIRD_SIGCHECK_H */

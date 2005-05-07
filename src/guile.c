@@ -176,12 +176,15 @@ taxbird_guile_eval_file_SCM(SCM scm_fn)
 static SCM
 taxbird_guile_check_sig_SCM(SCM scm_fn)
 {
-  char *result;
-
   g_return_val_if_fail(SCM_STRINGP(scm_fn), SCM_BOOL(0));
 
-  result = taxbird_guile_check_sig(SCM_STRING_CHARS(scm_fn));
-  return (result ? scm_take0str(result) : SCM_BOOL(0));
+  char *vendor_id;
+  char *sig_id;
+
+  if(taxbird_sigcheck(SCM_STRING_CHARS(scm_fn), &vendor_id, &sig_id))
+    return SCM_BOOL(0); /* error */
+
+  return scm_list_2(scm_take0str(vendor_id), scm_take0str(sig_id));
 }
 
 
