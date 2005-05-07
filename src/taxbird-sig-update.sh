@@ -66,7 +66,7 @@ if test "$2" = ""; then
 
     echo -n "$0: extracting keyid ... "
     KEYID=`gpg --verify $1 2>&1 | \
-           perl -ne 'if(m/ID ([1-9A-Z]{8})/){print "$1\n";}'`
+           perl -ne 'if(m/ID ([0-9A-F]{8})/){print "$1\n";}'`
 
     if [ "$KEYID" = "" ]; then
 	echo "failed."
@@ -90,7 +90,15 @@ fi
 }
 
 set -e
-gpg --armor --clearsign --local-user $KEYID < .sig-update > .sig-update.signed
+
+if grep -q -e "-----BEGIN PGP SIGNED MESSAGE-----" < $1; then
+	perl -pe 'm/-----BEGIN PGP SIGNED MESSAGE-----/ and exit;' < $1 \
+		> .sig-update.signed
+else
+	echo '$Id: taxbird-sig-update.sh,v 1.3 2005-05-07 16:34:52 stesie Exp $' > .sig-update.signed
+fi
+
+gpg --armor --clearsign --local-user $KEYID < .sig-update >> .sig-update.signed
 rm -f .sig-update
 mv -f .sig-update.signed $1
     
