@@ -21,7 +21,7 @@
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="enable_layout_config">True</property>
-  <signal name="delete_event" handler="gtk_main_quit" last_modification_time="Sat, 01 Jan 2005 10:47:23 GMT"/>
+  <signal name="delete_event" handler="on_file_close_activate" last_modification_time="Sun, 08 May 2005 15:47:23 GMT"/>
 
   <child internal-child="dock">
     <widget class="BonoboDock" id="dock">
@@ -76,6 +76,14 @@
 			  <property name="visible">True</property>
 			  <property name="stock_item">GNOMEUIINFO_MENU_SAVE_AS_ITEM</property>
 			  <signal name="activate" handler="on_file_saveas_activate" last_modification_time="Sat, 25 Dec 2004 16:51:06 GMT"/>
+			</widget>
+		      </child>
+
+		      <child>
+			<widget class="GtkImageMenuItem" id="mnu_file_close">
+			  <property name="visible">True</property>
+			  <property name="stock_item">GNOMEUIINFO_MENU_CLOSE_ITEM</property>
+			  <signal name="activate" handler="on_file_close_activate" last_modification_time="Sun, 08 May 2005 15:47:06 GMT"/>
 			</widget>
 		      </child>
 
