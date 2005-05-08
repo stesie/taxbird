@@ -45,3 +45,7 @@ void
 on_file_send_activate                  (GtkMenuItem     *menuitem,
                                         gpointer         user_data);
 
+gboolean
+on_file_close_activate                 (GtkWidget       *widget,
+                                        GdkEvent        *event,
+                                        gpointer         user_data);
