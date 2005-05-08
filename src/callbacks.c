@@ -240,13 +240,14 @@ on_choose_file_OK_clicked(GtkButton *button, gpointer user_data)
 }
 
 
-/* execute, i.e. export, button clicked */
+
+/* send data, i.e. export, button clicked */
 void
-on_execute_activate(GtkToolButton *toolbutton, gpointer user_data)
+on_file_send_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
   (void) user_data;
 
-  GtkWidget *aw = lookup_widget(GTK_WIDGET(toolbutton), "taxbird");
+  GtkWidget *aw = lookup_widget(GTK_WIDGET(menuitem), "taxbird");
   int current_form = (int) g_object_get_data(G_OBJECT(aw), "current_form");
 
   if(current_form == -1) {
@@ -258,4 +259,5 @@ on_execute_activate(GtkToolButton *toolbutton, gpointer user_data)
   taxbird_export(aw);
 
 }
+
 

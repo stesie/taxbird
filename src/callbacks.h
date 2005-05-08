@@ -28,8 +28,6 @@ void
 on_help_about_activate                 (GtkMenuItem     *menuitem,
                                         gpointer         user_data);
 
-
-
 void
 on_choose_template_OK_clicked          (GtkButton       *button,
                                         gpointer         user_data);
@@ -44,5 +42,6 @@ on_choose_file_OK_clicked              (GtkButton       *button,
                                         gpointer         user_data);
 
 void
-on_execute_activate                    (GtkToolButton   *toolbutton,
+on_file_send_activate                  (GtkMenuItem     *menuitem,
                                         gpointer         user_data);
+
