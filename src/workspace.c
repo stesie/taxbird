@@ -91,6 +91,9 @@ static struct {
 static SCM taxbird_ws_lookup_sheet(SCM dataset, const char *sheet_name);
 
 
+/* list of all application windows */
+GSList *taxbird_windows = NULL;
+
 
 /* create new taxbird workspace */
 GtkWidget *
@@ -103,6 +106,9 @@ taxbird_ws_new(void)
   g_object_set_data(G_OBJECT(taxbird), "current_form", (void *) -1);
   g_object_set_data(G_OBJECT(taxbird), "filename", NULL);
   g_object_set_data(G_OBJECT(taxbird), "changed", (void *) 0);
+
+  /* add new window to the list of windows */
+  taxbird_windows = g_slist_prepend(taxbird_windows, taxbird);
 
   return taxbird;
 }
