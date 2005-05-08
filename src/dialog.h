@@ -22,4 +22,7 @@
 /* display a common error dialog with the given message (in modal mode) */
 void taxbird_dialog_error(GtkWidget *parent, const char *message);
 
+/* display a yes/no/cancel dialog with the given message (in modal mode) */
+int taxbird_dialog_yes_no_cancel(GtkWidget *parent, const char *message);
+
 #endif /* TAXBIRD_DIALOG_H */

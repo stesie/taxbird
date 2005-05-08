@@ -24,10 +24,45 @@
 void 
 taxbird_dialog_error(GtkWidget *parent, const char *message)
 {
-  GtkWidget *dialog = gtk_message_dialog_new(parent,
-					     GTK_DIALOG_DESTROY_WITH_PARENT,
+  GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
+					     GTK_DIALOG_MODAL,
 					     GTK_MESSAGE_ERROR,
 					     GTK_BUTTONS_CLOSE, message);
   gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy (dialog);
 }
+
+
+
+/* display a yes/no/cancel dialog with the given message (in modal mode) */
+int 
+taxbird_dialog_yes_no_cancel(GtkWidget *parent, const char *message)
+{
+  GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
+					     GTK_DIALOG_MODAL,
+					     GTK_MESSAGE_QUESTION,
+					     GTK_BUTTONS_NONE, message);
+
+  GtkWidget *but;
+
+  but = gtk_button_new_from_stock("gtk-cancel");
+  gtk_widget_show(but);
+  gtk_dialog_add_action_widget(GTK_DIALOG(dialog), but, GTK_RESPONSE_CANCEL);
+  GTK_WIDGET_SET_FLAGS(but, GTK_CAN_DEFAULT);
+
+  but = gtk_button_new_from_stock("gtk-no");
+  gtk_widget_show(but);
+  gtk_dialog_add_action_widget(GTK_DIALOG(dialog), but, GTK_RESPONSE_NO);
+  GTK_WIDGET_SET_FLAGS(but, GTK_CAN_DEFAULT);
+
+  but = gtk_button_new_from_stock("gtk-yes");
+  gtk_widget_show(but);
+  gtk_dialog_add_action_widget(GTK_DIALOG(dialog), but, GTK_RESPONSE_YES);
+  GTK_WIDGET_SET_FLAGS(but, GTK_CAN_DEFAULT);
+
+  int resp = gtk_dialog_run (GTK_DIALOG (dialog));
+  gtk_widget_destroy (dialog);
+
+  return resp;
+}
+
