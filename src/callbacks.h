@@ -49,3 +49,13 @@ gboolean
 on_file_close_activate                 (GtkWidget       *widget,
                                         GdkEvent        *event,
                                         gpointer         user_data);
+
+gboolean
+on_export_druid_cancel                 (GtkWidget       *widget,
+                                        GdkEvent        *event,
+                                        gpointer         user_data);
+
+void
+on_export_druid_finish                 (GnomeDruidPage  *gnomedruidpage,
+                                        GtkWidget       *widget,
+                                        gpointer         user_data);

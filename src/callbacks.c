@@ -317,3 +317,31 @@ on_file_close_activate(GtkWidget *widget, GdkEvent *event, gpointer user)
 }
 
 
+
+gboolean
+on_export_druid_cancel                 (GtkWidget       *widget,
+                                        GdkEvent        *event,
+                                        gpointer         user_data)
+{
+  /* we don't have to disallocate any data - the associated data 
+   * structure will be unprotected and then garbage collected */
+
+  widget = lookup_widget(widget, "dlgExportConfirmation");
+  gtk_widget_destroy(widget);
+
+  return FALSE; /* close dialog, for delete-event */
+}
+
+
+void
+on_export_druid_finish(GnomeDruidPage *page, GtkWidget *widget,
+		       gpointer user_data)
+{
+  GtkWidget *confirm_dlg = lookup_widget(widget, "dlgExportConfirmation");
+
+  if(taxbird_export_bottom_half(confirm_dlg))
+    return; /* error occured */
+
+  gtk_widget_destroy(confirm_dlg);
+}
+

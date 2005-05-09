@@ -21,4 +21,6 @@
 
 void taxbird_export(GtkWidget *appwin);
 
+int taxbird_export_bottom_half(GtkWidget *confirm_dlg);
+
 #endif /* ... TAXBIRD_EXPORT_H */
