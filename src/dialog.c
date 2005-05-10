@@ -34,6 +34,19 @@ taxbird_dialog_error(GtkWidget *parent, const char *message)
 
 
 
+/* display a common info dialog with the given message (in modal mode) */
+void 
+taxbird_dialog_info(GtkWidget *parent, const char *message)
+{
+  GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
+					     GTK_DIALOG_MODAL,
+					     GTK_MESSAGE_INFO,
+					     GTK_BUTTONS_CLOSE, message);
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+}
+
+
 /* display a yes/no/cancel dialog with the given message (in modal mode) */
 int 
 taxbird_dialog_yes_no_cancel(GtkWidget *parent, const char *message)
