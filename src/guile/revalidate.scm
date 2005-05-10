@@ -63,7 +63,11 @@
 		      ;;(write (cadddr rowdef)) (newline)
 
 		      (let ((valid (cadddr rowdef))
+			    (type (car rowdef))
 			    (value (storage:retrieve buf (cadr rowdef))))
+
+			(if (= type tb:field:button)
+			    (set! valid #t))
 
 			(if (procedure? valid)
 			    (set! valid (valid value buf)))
