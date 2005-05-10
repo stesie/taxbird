@@ -29,6 +29,7 @@
 #include "sigcheck.h"
 #include "dialog.h"
 #include "guile.h"
+#include "digest.h"
 
 /* import all keys available from the public-keys directory */
 static void taxbird_sigcheck_import_keys(void);
@@ -67,7 +68,7 @@ taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id)
 
 
 
-  /* extract signature $Id: sigcheck.c,v 1.5 2005-05-07 20:08:32 stesie Exp $ ************************************************/
+  /* extract signature $Id: sigcheck.c,v 1.6 2005-05-10 19:35:42 stesie Exp $ ************************************************/
   
   if(! (*sig_id = taxbird_sigcheck_get_id(lookup_fn))) {
     err_msg = _("Signature's $Id: entry is not valid, "
@@ -130,7 +131,8 @@ taxbird_sigcheck_get_id(const char *filename)
   ssize_t chars_read = read(fd, buf, sizeof(buf));
 
   if(chars_read < 0) return NULL;
-  buf[chars_read < sizeof(buf) ? chars_read : sizeof(buf) - 1] = 0;
+  buf[(size_t)chars_read < sizeof(buf) ? 
+      (size_t)chars_read : sizeof(buf) - 1] = 0;
 
   if(strncmp("$Id: ", buf, 5)) return NULL;
 

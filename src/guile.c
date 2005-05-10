@@ -30,6 +30,7 @@
 #include "guile.h"
 #include "form.h"
 #include "sigcheck.h"
+#include "dialog.h"
 
 static SCM taxbird_guile_eval_file_SCM(SCM scm_fn);
 static SCM taxbird_guile_check_sig_SCM(SCM scm_fn);

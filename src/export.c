@@ -190,7 +190,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
     }
   }
 
-  g_return_if_fail(fd_to_lpr >= 0);
+  g_return_val_if_fail(fd_to_lpr >= 0, 1);
 
 
   /* send the data, finally **************************************************/
@@ -221,7 +221,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
     /* xsltifying process exited abnormally */
     taxbird_dialog_error(confirm_dlg,
 			 _("Unable to send the exported document."));
-    return;
+    return 1;
   }
 
   
@@ -236,7 +236,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
        || (WEXITSTATUS(exit_status))) {
       taxbird_dialog_error(confirm_dlg,
 			   _("Printer process exited abnormally."));
-      return;
+      return 1;
     }
   }
 
@@ -435,6 +435,8 @@ taxbird_export_launch_subproc(int *to, int *from)
 static void
 taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc, SCM data)
 {
+  (void) appwin;  /* unused for the moment */
+
   GtkWidget *confirm_dlg = create_dlgExportConfirmation();
 
   GtkWidget *htmlview = lookup_widget(confirm_dlg, "htmlview");
@@ -442,7 +444,7 @@ taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc, SCM data)
 
   g_object_set_data_full(G_OBJECT(confirm_dlg), "data", 
 			 (void*) scm_gc_protect_object(data),
-			 scm_gc_unprotect_object);
+			 (GDestroyNotify) scm_gc_unprotect_object);
 
   gtk_widget_show(confirm_dlg);
 }

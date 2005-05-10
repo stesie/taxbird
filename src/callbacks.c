@@ -29,6 +29,7 @@
 #include "workspace.h"
 #include "form.h"
 #include "guile.h"
+#include "export.h"
 
 
 /* callback function for 
@@ -275,6 +276,9 @@ on_file_send_activate(GtkMenuItem *menuitem, gpointer user_data)
 gboolean
 on_file_close_activate(GtkWidget *widget, GdkEvent *event, gpointer user)
 {
+  (void) event;
+  (void) user;
+
   GtkWidget *aw = lookup_widget(GTK_WIDGET(widget), "taxbird");
   int changed = (int)g_object_get_data(G_OBJECT(aw), "changed");
 
@@ -292,11 +296,11 @@ on_file_close_activate(GtkWidget *widget, GdkEvent *event, gpointer user)
 
     switch(resp) {
     case GTK_RESPONSE_YES:
-      on_file_save_activate(widget, NULL);
+      on_file_save_activate((GtkMenuItem *) widget, NULL);
 
       /* re-read changed flag, abort if changes haven't been saved */
       changed = (int)g_object_get_data(G_OBJECT(aw), "changed");
-      if(changed) return; /* abort */
+      if(changed) return TRUE; /* abort */
       break;
 
     case GTK_RESPONSE_NO:
@@ -323,6 +327,9 @@ on_export_druid_cancel                 (GtkWidget       *widget,
                                         GdkEvent        *event,
                                         gpointer         user_data)
 {
+  (void) event;
+  (void) user_data;
+
   /* we don't have to disallocate any data - the associated data 
    * structure will be unprotected and then garbage collected */
 
@@ -337,6 +344,9 @@ void
 on_export_druid_finish(GnomeDruidPage *page, GtkWidget *widget,
 		       gpointer user_data)
 {
+  (void) page;
+  (void) user_data;
+
   GtkWidget *confirm_dlg = lookup_widget(widget, "dlgExportConfirmation");
 
   if(taxbird_export_bottom_half(confirm_dlg))

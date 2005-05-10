@@ -21,7 +21,7 @@ taxbird_SOURCES = \
 	dialog.c dialog.h \
 	sigcheck.c sigcheck.h \
 	export.c export.h \
-	digest.c
+	digest.c digest.h
 
 taxbird_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 

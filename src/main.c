@@ -93,6 +93,8 @@ main_forward(void *closure, int argc, char **argv)
 
 
   SCM main_forward_catchy(void *body_data) {
+    (void) body_data;
+
     /* Gtk+ main loop */
     gtk_main ();
     return SCM_BOOL(0);

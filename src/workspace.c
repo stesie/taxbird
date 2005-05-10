@@ -732,6 +732,8 @@ taxbird_ws_create_button(SCM specs)
 static void
 taxbird_ws_button_callback(GtkWidget *button, void *data)
 {
+  (void) data;
+
   SCM specs = (SCM) g_object_get_data(G_OBJECT(button), "scm_specs");
   g_return_if_fail(SCM_NFALSEP(scm_list_p(specs)));
 
