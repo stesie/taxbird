@@ -64,27 +64,70 @@
 	  ))))
 
 
+
+(define steuernummer:length-expectations
+  '((5 5)      ; Baden Württemberg
+    (3 3 5)    ; Bayern
+    (2 3 5)    ; Berlin
+    (3 3 5)    ; Brandenburg
+    (2 3 5)    ; Bremen
+    (2 3 5)    ; Hamburg
+    (3 3 5)    ; Hessen
+    (3 3 5)    ; Mecklenburg-Vorpommern
+    (2 3 5)    ; Niedersachsen
+    (3 4 4)    ; Nordrhein-Westfalen
+    (2 3 5)    ; Rheinland-Pfalz
+    (3 3 5)    ; Saarland
+    (3 3 5)    ; Sachsen
+    (3 3 5)    ; Sachsen-Anhalt
+    (2 3 5)    ; Schleswig-Holstein
+    (3 3 5)))  ; Thüringen
+
+
+(define steuernummer:help
+  (lambda (val buf)
+    (let ((land (storage:retrieve buf "land")))
+      (if (and (string? land) (> (string-length land) 0))
+	  (let ((specs   steuernummer:length-expectations)
+		(example ""))
+	    (set! land (string->number land))
+	    (while (> land 0)
+		   (set! specs (cdr specs))
+		   (set! land (- land 1)))
+	    (set! specs (car specs))
+
+	    ;; we got e.g. '(3 3 5) as specs now ...
+	    (while (> (length specs) 0)
+		   (set! example (string-append 
+				  example
+				  (substring "12345" 0 (car specs))))
+		   (set! specs (cdr specs))
+		   (if (> (length specs) 0)
+		       (set! example (string-append example "/"))))
+
+	    (tb:dlg-info
+	     (format #f (string-append "Die Eingabe der Steuernummer muss "
+				       "in der Form eingegeben werden, wie "
+				       "diese auf dem Steuerbescheid "
+				       "abgedruckt ist (inklusive der "
+				       "Finanzamtsnummer).\n\n"
+				       "Zum Beispiel: ~A\n\n"
+				       "(Alternativ kann die Eingabe durch "
+				       "Leerzeichen getrennt erfolgen)")
+		     example)))
+
+	  ;; else ... (no land chosen)
+	  (tb:dlg-error (string-append "Bitte wählen Sie vor Eingabe "
+				       "der Steuernummer das Bundesland "
+				       "aus, welches für die Verarbeitung "
+				       "der Daten zuständig ist."))))))
+
 ; do further validation on the splitted fields and form the new tax id
 (define steuernummer:convert:splitted
   (lambda (land split-id)
     (let ((valid #t)
 	  (length-check-id split-id)
-	  (length-expectation '((5 5)      ; Baden W�rttemberg
-				(3 3 5)    ; Bayern
-				(2 3 5)    ; Berlin
-				(3 3 5)    ; Brandenburg
-				(2 3 5)    ; Bremen
-				(2 3 5)    ; Hamburg
-				(3 3 5)    ; Hessen
-				(3 3 5)    ; Mecklenburg-Vorpommern
-				(2 3 5)    ; Niedersachsen
-				(3 4 4)    ; Nordrhein-Westfalen
-				(2 3 5)    ; Rheinland-Pfalz
-				(3 3 5)    ; Saarland
-				(3 3 5)    ; Sachsen
-				(3 3 5)    ; Sachsen-Anhalt
-				(2 3 5)    ; Schleswig-Holstein
-				(3 3 5)))  ; Th�ringen
+	  (length-expectation steuernummer:length-expectations)
 	  (prefixes '(#f "9" "11" "3" "24" "22" "26" "4" "23"
 			 "5" "27" "1" "3" "3" "21" "4"))
 	  (prefix #t))

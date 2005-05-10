@@ -39,7 +39,7 @@
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    "Allgemeine Daten"
 
-   (list 1
+   (list 2
 	 zeitraum:chooser
 	 bundesland:chooser
 
@@ -48,7 +48,12 @@
 	       "stnr"
 	       (string-append "Die vom zuständigen Finanzamt vergebene "
 			      "Steuernummer. Eingabe mit Schrägstrichen.")
-	       steuernummer:validate)
+	       steuernummer:validate
+
+	       tb:field:button
+	       "?"
+	       #f
+	       steuernummer:help)
 
 	 (list "Berichtigte Anmeldung"
 	       tb:field:checkbox
