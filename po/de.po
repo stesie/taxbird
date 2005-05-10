@@ -8,36 +8,86 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Taxbird 0.1\n"
 "Report-Msgid-Bugs-To: ssiegl@gmx.de\n"
-"POT-Creation-Date: 2005-04-29 14:51+0200\n"
-"PO-Revision-Date: 2005-02-12 13:17+0100\n"
+"POT-Creation-Date: 2005-05-10 20:32+0200\n"
+"PO-Revision-Date: 2005-05-10 20:44+0200\n"
 "Last-Translator: Stefan Siegl <ssiegl@gmx.de>\n"
+"Language-Team: German <ssiegl@gmx.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
-#: src/callbacks.c:51
+#: src/callbacks.c:52
 msgid "Name of Template"
 msgstr "Name der Vorlage"
+
+#: src/callbacks.c:194
+msgid "Unable to create new document. Sorry."
+msgstr "Neues Dokument kann nicht angelegt werden. Entschuldigung."
+
+#: src/callbacks.c:265
+msgid "Current document contains no data. What do you want to export from it?"
+msgstr ""
+"Aktuelles Dokument enthält keine Daten. Was möchten Sie daraus exportieren?"
+
+#: src/callbacks.c:284
+msgid "(yet unnamed)"
+msgstr "(bisher unbenannt)"
+
+#: src/callbacks.c:286
+#, c-format
+msgid ""
+"Your recent changes to the document %s haven't been stored to disk so far. "
+"Do you want them to be stored now?"
+msgstr ""
+"Ihre neuesten Änderungen am Dokument %s wurden bisher noch nicht "
+"gespeichert. Möchten Sie, dass Sie jetzt gespeichert werden?"
+
+#: src/workspace.c:146
+msgid "Available Sheets"
+msgstr "Vorhandene Blätter"
+
+#: src/workspace.c:710
+msgid "Yes!"
+msgstr "Ja!"
+
+#: src/workspace.c:851
+msgid "Current document contains no data. There's no point in writing it out."
+msgstr ""
+"Das aktuelle Dokument enthält keine Daten. Es macht keinen Sinn, es zu "
+"speichern."
+
+#: src/support.c:60 src/support.c:85
+#, c-format
+msgid "Couldn't find pixmap file: %s"
+msgstr "Konnte Pixmap-Datei nicht finden: %s"
 
 #: src/interface.c:31
 msgid "_New"
 msgstr "_Neu"
 
-#: src/interface.c:84
+#: src/interface.c:38
+msgid "S_end Data ..."
+msgstr "Daten s_enden ..."
+
+#: src/interface.c:86
 msgid "taxbird"
 msgstr "taxbird"
 
-#: src/interface.c:104
+#: src/interface.c:106
 msgid "New File"
 msgstr "Neue Datei"
 
-#: src/interface.c:109
+#: src/interface.c:111
 msgid "Open File"
 msgstr "Datei öffnen"
 
-#: src/interface.c:114
+#: src/interface.c:116
 msgid "Save File"
 msgstr "Datei speichern"
+
+#: src/interface.c:124
+msgid "Send Data"
+msgstr "Daten Senden"
 
 #: src/interface.c:226
 msgid "Choose Base Template"
@@ -68,15 +118,249 @@ msgstr ""
 "Taxbird ist ein auf Geier basierendes Werkzeug zum Erfassen und Übermitteln "
 "von Steuererklärungen (für Deutschland)"
 
-#: src/support.c:60 src/support.c:85
+#: src/interface.c:402
+msgid "taxbird - Send Data"
+msgstr "taxbird - Daten senden"
+
+#: src/interface.c:414 src/interface.c:562
+msgid "taxbird - Send Data Druid ..."
+msgstr "taxbird - Daten-Sende-Druide ..."
+
+#: src/interface.c:415
+msgid ""
+"As you probably know, Taxbird is currently somewhat in beta (or maybe even "
+"alpha-alike) state. Therefore it may happen, that generated export data is "
+"somewhat incorrect.\n"
+"\n"
+"In order to be sure, there are no differences between the data you want to "
+"send and the data that is actually sent, you can review the collected data "
+"on the following sheet (which is the output of an XSLT transformation with "
+"stylesheets being provided by the Inland Revenue Office).\n"
+"\n"
+"In case there are differences, click the cancel button and apply the needed "
+"changes. If there is a bug in Taxbird, please consider asking the "
+"taxbird@taxbird.de mailing list for help.\n"
+"\n"
+"Please mind furthermore, that you need to file a declaration of "
+"participation before the inland revenue office will accept data that was "
+"sent using Taxbird."
+msgstr ""
+"Wie Sie vermutlich wissen, befindet sich Taxbird gegenwärtig in Beta (oder "
+"vielleicht sogar Alpha-ähnlichem) Zustand. Deshalb kann es passieren, dass "
+"die generierten Exportdaten bedingt unrichtig sind.\n"
+"\n"
+"Um sicher zu gehen, dass keine Unterschiede zwischen den Daten, die Sie "
+"senden möchten, und denen, die tatsächlich gesendet werden, bestehen, können "
+"Sie die gesammelten Daten auf dem folgenden Blatt durchsehen (wobei es sich "
+"um die Ausgabe einer XSLT-Umwandlung handelt, erstellt mit den von der "
+"Finanzverwaltung zur Verfügung gestellten Stylesheets).\n"
+"\n"
+"Im Falle, dass Differenzen bestehen, klicken Sie bitte auf die Abbrechen-"
+"Schaltfläche und nehmen Sie die benötigten Änderungen vor. Sollte sich ein "
+"Fehler in Taxbird befinden, erwägen Sie bitte, auf der taxbird@taxbird.de "
+"Mailing-Liste nach Rat zu fragen.\n"
+"\n"
+"Bitte bedenken Sie weiter, dass Sie eine Teilnahmeerklärung abgeben müssen, "
+"bevor das Finanzamt die mit Taxbird übermittelten Daten akzeptiert."
+
+#: src/interface.c:421
+msgid "Please review the gathered data ..."
+msgstr "Bitte überprüfen Sie die erfassten Daten ..."
+
+#: src/interface.c:441
+msgid "Store gathered data to XML File?"
+msgstr "Erfasste Daten in XML-Datei abspeichern?"
+
+#: src/interface.c:454
+msgid "Save exported data to a Coala-XML File?"
+msgstr "Exportierte Daten in eine Coala-XML Datei abspeichern?"
+
+#: src/interface.c:460
+msgid "Filename:"
+msgstr "Dateiname."
+
+#: src/interface.c:480
+msgid "Send the data to the IRO?"
+msgstr "Daten an das Finanzamt senden?"
+
+#: src/interface.c:486
+msgid "Call GEIER to send the gathered data to the inland revenue office"
+msgstr "GEIER aufrufen, um die erfassten Daten an das Finanzamt zu übermitteln"
+
+#: src/interface.c:507
+msgid "Print Transmission Protocol using:"
+msgstr "Übermittlungsprotokoll ausdrucken mit:"
+
+#: src/interface.c:520
+msgid "/usr/bin/lpr"
+msgstr "/usr/bin/lpr"
+
+#: src/interface.c:529
+msgid "Store Transmission Protocol to the following file:"
+msgstr "Übermittlungsprotokoll in folgender Datei abspeichern:"
+
+#: src/interface.c:553
+msgid "<b>Transmission Protocol ...</b>"
+msgstr "<b>Übermittlungsprotokoll ...</b>"
+
+#: src/interface.c:563
+msgid ""
+"Finally all data has been gathered, in order to send the data to the inland "
+"revenue office. \n"
+"\n"
+"In order to do so now, please make sure, your internet connection is "
+"properly set up and hit the \"Apply\" button.\n"
+"\n"
+"If you want to make any more changes to the document, hit \"Cancel\" and do "
+"so now. To change what you have selected in this druid, just hit the the "
+"button called \"Back\".\n"
+"\n"
+"\n"
+"\n"
+"Thank you for using Taxbird!"
+msgstr ""
+"Nun wurden alle Daten erfasst, um die Daten an das Finanzamt zu senden. \n"
+"\n"
+"Um dies jetzt durchzuführen, stellen Sie bitte sicher, dass Ihre Internet-"
+"Verbindung korrekt aufgebaut ist und klicken Sie die Anwenden-Schaltfläche "
+"an.\n"
+"\n"
+"Falls Sie weitere Veränderungen am Dokument vornehmen möchten, klicken Sie "
+"auf \"Abbrechen\" und nehmen diese vor. Um die Angaben zu ändern, die Sie in "
+"diesem Druiden vorgenommen haben, klicken Sie einfach auf die Schaltfläche "
+"\"Zurück\".\n"
+"\n"
+"\n"
+"\n"
+"Danke, dass Sie Taxbird benutzen!"
+
+#. xsltifying process exited abnormally
+#: src/export.c:99
+msgid ""
+"Unable to validate and xsltify the exported document. Sorry, but this should "
+"not happen. \n"
+"\n"
+"Please consider posting to the taxbird@taxbird.de mailing list."
+msgstr ""
+"Das exportierte Dokument konnte nicht validiert und XSLT-verwandelt werden. Entschuldigung, aber das sollte nicht passieren. \n"
+"\n"
+"Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
+
+#: src/export.c:136
+msgid ""
+"You told to store Coala-XML to a file, however didn't specify a filename."
+msgstr ""
+"Sie haben ausgewählt, das Coala-XML in eine Datei abzuspeichern, jedoch keinen Dateinamen festgelegt."
+
+#: src/export.c:145
+msgid "Unable to create Coala-XML file."
+msgstr "Coala-XML Datei kann nicht erstellt werden."
+
+#: src/export.c:172
+msgid "Unable to fork print process, please verify the specified command"
+msgstr "Der Druckprozess konnte nicht gestartet werden, bitte überprüfen Sie den angegebenen Dateinamen."
+
+#: src/export.c:188
+msgid "Unable to create protocol file."
+msgstr "Protokolldatei kann nicht erstellt werden."
+
+#: src/export.c:223
+msgid "Unable to send the exported document."
+msgstr "Exportiertes Dokument kann nicht gesendet werden."
+
+#: src/export.c:238
+msgid "Printer process exited abnormally."
+msgstr "Druckprozess endete auf unnormale Weise."
+
+#: src/export.c:255
+msgid "Cannot fork sub-process, sorry."
+msgstr "Unterprozess kann nicht gestartet werden, Entschuldigung."
+
+#: src/sigcheck.c:62
 #, c-format
-msgid "Couldn't find pixmap file: %s"
-msgstr "Konnte Pixmap-Datei nicht finden: %s"
+msgid "Unable to find required signature file '%s' in the Taxbird path."
+msgstr "Die benötigte Signaturdatei '%s' kann nicht im Taxbird-Pfad gefunden werden."
 
-#: src/workspace.c:139
-msgid "Available Sheets"
-msgstr "Vorhandene Blätter"
+#: src/sigcheck.c:73
+#, c-format
+msgid "Signature's $Id: entry is not valid, while checking signature %s"
+msgstr "Die $Id: der Signatur ist nicht gültig (beim Prüfen der Signatur %s)"
 
-#: src/workspace.c:703
-msgid "Yes!"
-msgstr "Ja!"
+#: src/sigcheck.c:93
+#, c-format
+msgid ""
+"The MD5-Checksums from the signature file %s do not match the corresponding "
+"checksums of the installed source files. Sorry, you either want to self-sign "
+"your modified sources or want to install unmodified, original ones.\n"
+"\n"
+"If you've found a bug in one in the Guile sources, please don't hesitate but "
+"publish your solution to the taxbird@taxbird.de mailing list."
+msgstr ""
+"Die MD5-Prüfsummen aus der Signaturdatei %s stimmen nicht mit den Prüfsummen der installierten Quelldateien überein. Entschuldigung, Sie möchten entweder die modifizierten Quellen selbst signieren oder die unveränderten, originalen Dateien installieren.\n"
+"\n"
+"Wenn Sie einen Fehler in einer der Guile Quelldateien entdeckt haben, zögern Sie bitten nicht, Ihre Lösung auf der taxbird@taxbird.de Mailing-Liste zu veröffentlichen. "
+
+#: src/sigcheck.c:157
+#, c-format
+msgid "Unable to open signature file %s."
+msgstr "Konnte Signaturdatei %s nicht öffnen."
+
+#: src/sigcheck.c:200
+#, c-format
+msgid ""
+"The Taxbird signature (%s) is not valid anymore. It's public key has been "
+"revoked. \n"
+"\n"
+"Please use taxbird-update.sh to update your installation."
+msgstr ""
+"Die Taxbird Signatur (%s) ist nicht mehr gültig. Der öffentliche Schlüssel wurde zurückgezogen.\n"
+"\n"
+"Bitte verwenden Sie taxbird-update.sh um Ihre Installation zu aktualisieren."
+
+#: src/sigcheck.c:205
+#, c-format
+msgid ""
+"The Taxbird signature on %s is not valid anymore. It's public key has "
+"expired.\n"
+"\n"
+"Please update your taxbird installation, using taxbird-update.sh"
+msgstr "Die Taxbird Signatur von %s ist nicht mehr gültig. Der öffentliche Schlüssel ist abgelaufen. \n"
+"\n"
+"Bitte aktualisieren Sie Ihre Taxbird Installation mit taxbird-update.sh"
+
+#: src/sigcheck.c:211
+#, c-format
+msgid ""
+"The Taxbird signature on %s has expired. \n"
+"\n"
+"Please use taxbird-update.sh to update your Taxbird installation."
+msgstr ""
+"Die Taxbird Signatur von %s ist abgelaufen. \n"
+"\n"
+"Bitte verwenden Sie taxbird-update.sh um Ihre Taxbird Installation zu aktualisieren."
+
+#: src/sigcheck.c:225
+#, c-format
+msgid ""
+"Key for signature file %s is not available. Please make sure GPG is able to "
+"verify digital signatures.\n"
+msgstr "Der Schlüssel für die Signaturdatei %s ist nicht verfügbar. Bitte stellen Sie sicher, dass GPG in der Lage ist, digitale Signaturen zu überprüfen.\n"
+
+#: src/sigcheck.c:239
+#, c-format
+msgid "Invalid comment on gpg-key '%s'. Checking signature file %s."
+msgstr "Ungültiger Kommentar des GPG-Schlüssels '%s'. Beim Überprüfen der Signaturdatei %s."
+
+#: src/sigcheck.c:282
+#, c-format
+msgid "Unable to check the validity of the signature file %s."
+msgstr "Die Gültigkeit der Signaturdatei %s konnte nicht überprüft werden."
+
+#: src/sigcheck.c:362
+#, c-format
+msgid ""
+"The GPG public key file '%s' could not be imported successfully. You will "
+"not be able to use the signature mechanism this way."
+msgstr ""
+"Der GPG-Schlüsseldatei '%s' konnte nicht erfolgreich importiert werden. Sie werden nicht in der Lage sein, den Signaturmechanismus auf diesem Wege zu verwenden."
+
