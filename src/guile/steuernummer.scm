@@ -15,6 +15,7 @@
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+(tb:eval-file "storage.scm")
 
 ; validation func bound to text entries where the user is expected to enter
 ; the id under which the declaration shall be filed ...
@@ -163,9 +164,10 @@
 					(- (string-length (car split-id))
 					   (- 4 (string-length prefix))))
 			     
-			     (make-string (- 4 (string-length
-						(cadr split-id)))
-					  #\0)
+			     ;;(make-string (- 4 (string-length
+			     ;;			(cadr split-id)))
+			     ;;		  #\0)
+			     "0"
 			     (cadr split-id)
 			     
 			     (caddr split-id)))))))
