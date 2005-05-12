@@ -78,7 +78,8 @@
 	      "name-lieferant"
 	      "Name des Datenlieferanten (ggf. Steuerberater)"
 	      (lambda(val buf) 
-		(validate:datenlieferant val buf "name-lieferant")))
+		(and (validate:datenlieferant val buf "name-lieferant")
+		     (validate:alphanum val 1 45))))
 
 	(list "Straße" 
 	      tb:field:text-input
@@ -93,14 +94,16 @@
 	      "plz-lieferant" 
 	      "PLZ des Datenlieferanten" 
 	      (lambda(val buf)
-		(validate:datenlieferant val buf "plz-lieferant")))
+		(and (validate:datenlieferant val buf "plz-lieferant")
+		     (validate:alphanum val 1 12))))
 
 	(list "Ort"
 	      tb:field:text-input
 	      "ort-lieferant"
 	      "Sitzort des Datenlieferanten" 
 	      (lambda(val buf)
-		(validate:datenlieferant val buf "ort-lieferant")))
+		(and (validate:datenlieferant val buf "ort-lieferant")
+		     (validate:alphanum val 1 30))))
 
 	(list "Land" 
 	      tb:field:text-input
