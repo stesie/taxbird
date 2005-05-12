@@ -8,4 +8,5 @@ autoload_DATA = \
 
 EXTRA_DIST = $(autoload_DATA) \
 	sigtest.scm \
+	steuernummer-test.scm \
 	debugging.scm
