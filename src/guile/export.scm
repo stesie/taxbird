@@ -26,17 +26,20 @@
 
 
 (define export:make-transfer-header
-  (lambda (store daten-art testmerker)
+  (lambda (store daten-art sig-result)
     (append '("TransferHeader" (("version" "7")))
 	    (list (append (list "Verfahren" #f "ElsterAnmeldung"
 				"DatenArt"  #f daten-art
 				"Vorgang"   #f "send-NoSig")
       
-			  (if testmerker 
-			      '("Testmerker"   #f "700000004"
-				"HerstellerID" #f "74931")
-			      (append "HerstellerID" #f 
-				      (storage:retrieve store "vend-id")))
+			  (if (list? sig-result)
+			      ;; prepare to send real data ...
+			      (list "Testmerker"   #f "000000000"
+				    "HerstellerID" #f (car sig-result))
+			      
+			      ;; generate a test case ...
+			      (list "Testmerker"   #f "700000004"
+				    "HerstellerID" #f "74931"))
 
 			  (export:generate-datenlieferant store)
 			  
@@ -56,9 +59,10 @@
 		    
     
 (define export:make-nutzdaten-header
-  (lambda (store)
+  (lambda (store sig-result)
     (tb:eval-file "steuernummer.scm")
     (let ((land (string->number (storage:retrieve store "land")))
+	  (sig-id (if (list? sig-result) (cadr sig-result) "(not assigned)"))
 	  (st-nummer #f))
 
       (set! st-nummer
@@ -68,8 +72,9 @@
 	    (append
 	     (list "NutzdatenTicket" #f "123456" ; FIXME
 		   "Empfaenger" '(("id" "F")) (substring st-nummer 0 4)
-		   "Hersteller" #f '("ProduktName"    #f "Taxbird"
-				     "ProduktVersion" #f "V. 0.1"))
+		   "Hersteller" #f (list "ProduktName"    #f "Taxbird"
+					 "ProduktVersion" #f sig-id))
+
 	     (export:generate-datenlieferant store))))))
 
 
@@ -78,7 +83,8 @@
   (lambda (buffer art version content)
     (list "Anmeldungssteuern" (list (list "art" art) (list "version" version))
 	  (list "DatenLieferant"   #f (export:make-steuerfall-datenlief buffer)
-		"Erstellungsdatum" #f "20050212" ; FIXME
+		"Erstellungsdatum" #f (strftime "%Y%m%d"
+						(localtime (current-time)))
 		"Steuerfall"       #f content))))
 
 
