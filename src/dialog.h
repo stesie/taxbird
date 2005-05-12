@@ -19,6 +19,8 @@
 #ifndef TAXBIRD_DIALOG_H
 #define TAXBIRD_DIALOG_H
 
+#include <gnome.h>
+
 /* display a common error dialog with the given message (in modal mode) */
 void taxbird_dialog_error(GtkWidget *parent, const char *message);
 
