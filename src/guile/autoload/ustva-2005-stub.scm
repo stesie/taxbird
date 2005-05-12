@@ -40,16 +40,12 @@
    (if (revalidate:buffer ustva-2005:definition buf)
        (let ((sig-result (tb:check-sig "signatures/ustva-2005.sig")))
 
-	 ;; overwrite storage vendor id ...
-	 (if (list? sig-result)
-	     (storage:store buf "vend-id" (car sig-result))) 
-
 	 ;; document's content is valid, let's export it, to make the
 	 ;; IRO know, what nice programs there exist out in the free world ...
 	 (tb:eval-file "export.scm")
 	 (export:make-elster-xml
-	  (export:make-transfer-header buf "UStVA" #t)
-	  (export:make-nutzdaten-header buf)
+	  (export:make-transfer-header buf "UStVA" sig-result)
+	  (export:make-nutzdaten-header buf sig-result)
 	  (export:make-steuerfall buf "UStVA" "200501"
 				  (ustva-2005:export buf))))))
 
