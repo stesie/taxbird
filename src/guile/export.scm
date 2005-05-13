@@ -70,7 +70,7 @@
 
       (list "NutzdatenHeader" '(("version" "9"))
 	    (append
-	     (list "NutzdatenTicket" #f "123456" ; FIXME
+	     (list "NutzdatenTicket" #f (number->string (random 10000000))
 		   "Empfaenger" '(("id" "F")) (substring st-nummer 0 4)
 		   "Hersteller" #f (list "ProduktName"    #f "Taxbird"
 					 "ProduktVersion" #f sig-id))
