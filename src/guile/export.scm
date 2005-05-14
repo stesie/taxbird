@@ -19,7 +19,8 @@
 
 (define export:make-elster-xml
   (lambda (transfer-header nutzdaten-header nutzdaten)
-    (list "Elster" '(("xmlns" "http://www.elster.de/2002/XMLSchema"))
+    (list "Elster" '(("xmlns" "http://www.elster.de/2002/XMLSchema")
+		     ("xmlns:elster" "http://www.elster.de/2002/XMLSchema"))
 	  (append transfer-header
 		  (list "DatenTeil" #f
 			(list "Nutzdatenblock" #f
