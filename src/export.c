@@ -78,6 +78,17 @@ taxbird_export(GtkWidget *appwin)
     return; /* exporter function didn't return a list, thus abort here.
 	     * error messages should have been emitted by the called func */
 
+#if 0 
+  /* debug: dump the generated xml to test.xml file before xsltification */
+  int fd = open("test.xml", O_WRONLY | O_CREAT | O_TRUNC,
+		S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR | S_IWGRP | S_IWOTH);
+  if(fd < 0) {
+    taxbird_dialog_error(NULL, _("Unable to create test.xml file."));
+    return;
+  }
+
+  taxbird_export_write(data, fd);
+#endif
 
   /* launch xsltifyer and write the gathered data to it **********************/
   int fd_from_xsltifyer;
