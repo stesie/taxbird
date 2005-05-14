@@ -1,0 +1,122 @@
+#! /bin/sh
+# Copyright(C) 2005 Stefan Siegl <ssiegl@gmx.de>
+# taxbird - free program to interface with German IRO's Elster/Coala
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#/
+
+prefix=@prefix@
+TAXBIRD_PATH=@datadir@/taxbird/
+
+CVS=/usr/bin/cvs
+CVS_ZFLAG=-z6
+CVSROOT=:pserver:anonymous@cvs.g-n-u.de:/cvsroot
+
+export CVSROOT
+
+cat <<__FOO
+Pleased to meet you!
+
+This is taxbird-update.sh \$Revision: 1.1 $,
+your fully automatic taxbird updater...
+
+__FOO
+
+if test ! -x $CVS; then
+    cat <<__FOO
+I see, you don't have CVS installed.
+This is kinda bad, since it's necessary for doing the update.
+
+Sorry.
+__FOO
+    exit 1
+fi
+
+if test "$UID" -eq "0"; then
+    echo "I see, you're root. This is perfect, we can update for all users."
+    echo
+    cd $TAXBIRD_PATH
+else
+    echo "You don't have root priviledges, updating for $USER only ..."
+    echo
+    mkdir -p $HOME/.taxbird/
+    cd $HOME/.taxbird/
+fi
+
+
+test -e $HOME/.cvspass || touch $HOME/.cvspass
+
+
+### DOWNLOAD NEW GUILE SOURCES ################################################
+
+echo -n "updating guile sources ... "
+if test -e guile/CVS/Repository; then
+    # repository already available, do update
+    (cd guile/; $CVS -Qr $CVS_ZFLAG up -r stable) || \
+	(echo "failed. Sorry."; exit 1)
+
+else
+    # we need to do a complete checkout ...
+    $CVS -Qr $CVS_ZFLAG co -d guile -r stable -RP \
+	taxbird/taxbird/src/guile || \
+	(echo "failed. Sorry."; exit 1)
+fi
+echo "done."
+
+
+### DOWNLOAD NEW PUBLIC KEYS ##################################################
+echo -n "refreshing public keys ... "
+if test -e pubkeys/CVS/Repository; then
+    # update module ...
+    (cd pubkeys/; $CVS -Qr $CVS_ZFLAG up) || \
+	(echo "failed. Sorry."; exit 1)
+else
+    # we need to do a fresh checkout ...
+    $CVS -Qr $CVS_ZFLAG co -d pubkeys -RP \
+	taxbird/taxbird/src/pubkeys || \
+	(echo "failed. Sorry."; exit 1)
+fi
+echo "done."
+
+
+
+### IMPORT NEW PUBLIC KEYS IF NECESSARY #######################################
+echo 
+if test $UID -ne 0; then
+    echo -n "you're not root, therefore import the keys now ... "
+    for FILE in pubkeys/*.pub; do
+	gpg --import $FILE >/dev/null 2>/dev/null || \
+	    echo "unable to import public key from $FILE. Sorry."
+    done
+fi
+echo "done. "
+
+
+
+### say goodbye ...
+cat <<__FOO
+
+Congratulations! 
+I was able to successfully update your Taxbird installation.
+
+Please run this script regularly, especially since Taxbird is
+currently somewhat in alpha-alike or maybe beta stage, and
+bugs are expected to be there.
+
+Thank you for using taxbird!
+
+__FOO
+
+exit 0
