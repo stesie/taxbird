@@ -36,7 +36,13 @@
       
 			  (if (list? sig-result)
 			      ;; prepare to send real data ...
-			      (list "Testmerker"   #f "000000000"
+			      (list "Testmerker"   #f (if (string=? 
+							   (car sig-result)
+							   "74931")
+					; set testmerker, in any case, if the
+					; vendor-id is 74931 ...
+							  "700000004"
+							  "000000000")
 				    "HerstellerID" #f (car sig-result))
 			      
 			      ;; generate a test case ...
