@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = guile
+SUBDIRS = guile pubkeys
 
 INCLUDES = \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
@@ -25,13 +25,8 @@ taxbird_SOURCES = \
 
 taxbird_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 
-gnupgkeysdir = $(datadir)/taxbird/pubkeys
-gnupgkeys_DATA = \
-	stesie.pub
-
 EXTRA_DIST = \
 	taxbird-sig-update.sh \
-	$(gnupgkeys_DATA) \
 	readline.scm \
 	taxbird-sig-update.sh
 

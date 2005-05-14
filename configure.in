@@ -57,6 +57,7 @@ src/Makefile
 src/guile/Makefile
 src/guile/autoload/Makefile
 src/guile/signatures/Makefile
+src/pubkeys/Makefile
 po/Makefile.in
 ])
 
