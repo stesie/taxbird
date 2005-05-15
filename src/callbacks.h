@@ -59,3 +59,8 @@ void
 on_export_druid_finish                 (GnomeDruidPage  *gnomedruidpage,
                                         GtkWidget       *widget,
                                         gpointer         user_data);
+
+gboolean
+on_taxbird_configure                   (GtkWidget       *widget,
+                                        GdkEventConfigure *event,
+                                        gpointer         user_data);

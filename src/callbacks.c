@@ -355,3 +355,29 @@ on_export_druid_finish(GnomeDruidPage *page, GtkWidget *widget,
   gtk_widget_destroy(confirm_dlg);
 }
 
+
+
+/* Handle configure-event of main app-window, i.e. resize the helptext
+ * part of the window to a suitable size. On resize events caused by the
+ * user, make sure the helptext windows sticks to its previous size, i.e.
+ * always shrink/enlarge the upper (sheet's widgets) part */
+gboolean
+on_taxbird_configure(GtkWidget *widget, GdkEventConfigure *event,
+		     gpointer user_data)
+{
+  static int old_height = 0;
+
+  widget = lookup_widget(widget, "vpane");
+  g_return_val_if_fail(widget, FALSE);
+
+  if(old_height)
+    gtk_paned_set_position(GTK_PANED(widget),
+			   event->height - old_height + 
+			   gtk_paned_get_position(GTK_PANED(widget)));
+  else
+    gtk_paned_set_position(GTK_PANED(widget), event->height - 165);
+    
+  old_height = event->height;
+  return FALSE;
+}
+
