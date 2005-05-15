@@ -57,8 +57,6 @@
 
 ;; make sure the specified value is a signed monetary value, i.e. not more 
 ;; than two cent digits
-;; FIXME: 123.00000000001 will be accepted, perhaps do some text-based scanning
-;;        also! The question is whether anybody cares ;-)
 (define validate:signed-monetary
   (lambda (value buffer)
     (if (or (not (string? value)) (= (string-length value) 0))
@@ -68,12 +66,20 @@
 	  (if (not conv-val)
 	      #f ; NaN => error
 
-	      (let ((conv-val (* 100 conv-val)) (diff #f))
-		(set! diff (- conv-val (floor conv-val)))
+	      (let ((split-val (string-split value #\.))
+		    (valid #f))
 
-		(if (< diff 1e-10) ; due to float pt. arith. we need this :(
-		    #t
-		    #f)))))))
+		;; if there is no comma, it's alright ...
+		(if (= (length split-val) 1)
+		    (set! valid #t))
+
+		;; if there is _one_ comma, it might be okay ...
+		(if (= (length split-val) 2)
+		    ;; ... if the second string is not more than 2 digits long
+		    (if (<= (string-length (cadr split-val)) 2)
+			(set! valid #t)))
+
+		valid))))))
 
 
 
