@@ -1,0 +1,79 @@
+taxbird - Gnome-2 based application to create Elster (Geier) XML files
+Copyright (C) 2005 Stefan Siegl <ssiegl@gmx.de>, Germany
+
+
+Um Steuerdaten im Rahmen des Elster-Verfahrens an die deutsche
+Finanzverwaltung übermitteln zu können, ist eine sog. Hersteller-ID von
+nöten, die einem Hersteller im Rahmen eines Prüfungsverfahrens von der
+Oberfinanzdirektion München zuerkannt wird.
+
+Taxbird verfügt gegenwärtig über keine solche Identifikationnummer und
+kann deshalb keine Echtfälle übermitteln. 
+
+Die Hersteller-ID wird immer einer bestimmten (natürlichen oder
+juristischen) Personen zugeteilt. Das heißt, wer selbst Veränderungen an
+Taxbird vornehmen möchte, benötigt auch selbst eine Hersteller-ID bzw.
+muss jemanden finden, der für den Code mit seiner Hersteller-ID "bürgt".
+
+
+
+Integration der Hersteller-ID in Taxbird
+----------------------------------------
+ Um sicher zu gehen, dass die jeweilige Hersteller-ID nur zusammen mit
+ den bestätigten, unveränderten Quellen verwendet wird, werden die 
+ Quellen digital signiert. Werden diese verändert, so ist die Signatur
+ ungültig, und in Folge dessen werden automatisch Testmerker gesetzt.
+
+
+
+Eigene Hersteller-ID mit Taxbird verwenden
+------------------------------------------
+ Angenommen, Sie haben ein eigenes Formular zu Taxbird hinzugefügt und
+ möchten dieses selbst verteilen, so benötigen Sie zwingend eine eigene
+ Hersteller-ID. Um das Formular in Taxbird nebst Hersteller-ID zu
+ integrieren, muss wie folgt vorgegangen werden:
+
+ 1. der Quellcode für das Formular muss (tb:check-sig $signatur_name)
+    aufrufen und das Ergebnis an die export:-Funktionen weiterreichen
+    (siehe auch das ustva-2005 Formular)
+ 
+ 2. mit GPG muss ein neuer Schlüssel angelegt werden, dessen
+    Kommentarfeld "Taxbird:12345" enthalten, ohne die Anführungszeichen,
+    12345 sei die Hersteller-ID
+
+ 3. die Signaturdatei ($signatur_name) muss Paare aus MD5-Summe sowie
+    Dateiname enthalten und digital signiert werden
+ 
+ 4. in die Signaturdatei muss in die erste Zeile eine CVS-$Id: mit
+    aufgenommen werden, hierzu einfach "$Id: README.vendor-id,v 1.1 2005-05-15 13:13:08 stesie Exp $" einfügen und die Datei
+    einchecken
+ 
+ 5. Funktionstest
+
+ Bitte beachten Sie, dass die Revisionskontrolle laut
+ Steuerdatenübermittlungsverordnung (StDÜV) erforderlich ist.
+
+
+
+Hersteller-ID und selbst behobene Programmfehler
+------------------------------------------------
+ Sollte ein Programmfehler in den Datenhaltungskomponenten von Taxbird
+ vorliegen - dessen Beseitigung wird zwangsläufig die digitale Signatur
+ brechen - so können ohne weiteres vorgehen keine Echtdaten mehr
+ übermittelt werden.
+
+ Abhilfe kann hier nur durch erneutes Erstellen der Signaturdatei
+ erfolgen, entweder seitens des Herstellers der jeweiligen Formular-
+ komponente oder seitens des Anwenders, sofern dieser eine eigene
+ Hersteller-ID besitzt.
+
+
+
+Verbliebene Fragen
+------------------
+ Bitte wenden Sie sich an die Taxbird-Mailingliste: taxbird@taxbird.de
+
+
+
+$Id: README.vendor-id,v 1.1 2005-05-15 13:13:08 stesie Exp $
+
