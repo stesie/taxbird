@@ -20,6 +20,7 @@
 #  include <config.h>
 #endif
 
+#include <libgtkhtml/gtkhtml.h>
 #include <gnome.h>
 
 #include "callbacks.h"
@@ -365,6 +366,7 @@ gboolean
 on_taxbird_configure(GtkWidget *widget, GdkEventConfigure *event,
 		     gpointer user_data)
 {
+  (void) user_data;
   static int old_height = 0;
 
   widget = lookup_widget(widget, "vpane");
@@ -379,5 +381,19 @@ on_taxbird_configure(GtkWidget *widget, GdkEventConfigure *event,
     
   old_height = event->height;
   return FALSE;
+}
+
+
+GtkWidget*
+htmlview_create (gchar *widget_name, gchar *string1, gchar *string2,
+                gint int1, gint int2)
+{
+  (void) widget_name;
+  (void) string1;
+  (void) string2;
+  (void) int1;
+  (void) int2;
+
+  return html_view_new();
 }
 

@@ -64,3 +64,7 @@ gboolean
 on_taxbird_configure                   (GtkWidget       *widget,
                                         GdkEventConfigure *event,
                                         gpointer         user_data);
+
+GtkWidget*
+htmlview_create (gchar *widget_name, gchar *string1, gchar *string2,
+                gint int1, gint int2);

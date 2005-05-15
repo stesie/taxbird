@@ -685,10 +685,10 @@ Please mind furthermore, that you need to file a declaration of participation be
 		  <child>
 		    <widget class="Custom" id="htmlview">
 		      <property name="visible">True</property>
-		      <property name="creation_function">html_view_new</property>
+		      <property name="creation_function">htmlview_create</property>
 		      <property name="int1">0</property>
 		      <property name="int2">0</property>
-		      <property name="last_modification_time">Sun, 08 May 2005 08:40:33 GMT</property>
+		      <property name="last_modification_time">Sun, 15 May 2005 13:22:32 GMT</property>
 		    </widget>
 		  </child>
 		</widget>
