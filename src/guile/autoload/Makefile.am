@@ -7,6 +7,5 @@ autoload_DATA = \
 	ustva-2005-stub.scm
 
 EXTRA_DIST = $(autoload_DATA) \
-	sigtest.scm \
 	steuernummer-test.scm \
 	debugging.scm
