@@ -106,22 +106,21 @@
 		   (if (> (length specs) 0)
 		       (set! example (string-append example "/"))))
 
-	    (tb:dlg-info
-	     (format #f (string-append "Die Eingabe der Steuernummer muss "
-				       "in der Form eingegeben werden, wie "
-				       "diese auf dem Steuerbescheid "
-				       "abgedruckt ist (inklusive der "
-				       "Finanzamtsnummer).\n\n"
-				       "Zum Beispiel: ~A\n\n"
-				       "(Alternativ kann die Eingabe durch "
-				       "Leerzeichen getrennt erfolgen)")
-		     example)))
+	    (format #f (string-append "Die Eingabe der Steuernummer muss "
+				      "in der Form eingegeben werden, wie "
+				      "diese auf dem Steuerbescheid "
+				      "abgedruckt ist (inklusive der "
+				      "Finanzamtsnummer).\n\n"
+				      "Zum Beispiel: ~A\n\n"
+				      "(Alternativ kann die Eingabe durch "
+				      "Leerzeichen getrennt erfolgen)")
+		    example))
 
 	  ;; else ... (no land chosen)
-	  (tb:dlg-error (string-append "Bitte wählen Sie vor Eingabe "
-				       "der Steuernummer das Bundesland "
-				       "aus, welches für die Verarbeitung "
-				       "der Daten zuständig ist."))))))
+	  (string-append "Bitte wählen Sie vor Eingabe "
+			 "der Steuernummer das Bundesland "
+			 "aus, welches für die Verarbeitung "
+			 "der Daten zuständig ist.")))))
 
 ; do further validation on the splitted fields and form the new tax id
 (define steuernummer:convert:splitted
