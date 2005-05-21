@@ -1,3 +1,5 @@
+;;               -*- mode: Scheme; coding: utf-8 -*-
+;;
 ;; Copyright(C) 2005 Stefan Siegl <ssiegl@gmx.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
@@ -17,47 +19,51 @@
 
 (define validate:datenlieferant
   (lambda (value buffer field)
-    (and (if (let ((berufsbez (if (string=? field "berufsbez")
-				  value
-				  (storage:retrieve buffer "berufsbez"))))
+    (let ((berufsbez (if (string=? field "berufsbez") value
+			 (storage:retrieve buffer "berufsbez"))))
 
-	       (and (string? berufsbez)
-		    (> (string-length berufsbez) 0)))
+      ;;(format #t "validate:datenlieferant F:~S, V:~S, B:~S~%"
+      ;;        field value berufsbez)
 
-	     ;; berufsbez. set, therefore we'll try to generate a full kz09
-	     (validate:kz09-maxlen value buffer field)
+      (and (or (not (and (string? berufsbez)
+			 (> (string-length berufsbez) 0)))
 
-	     ;; we're not going to generate kz09, therefore don't care for
-	     ;; maximum length ...
-	     #t)
+	       ;; berufsbez. set, therefore we'll try to generate a full kz09
+	       (validate:kz09-maxlen value buffer field))
 
-	 (if (string=? field "berufsbez")
-	     #t ;; empty field would be okay (won't generate kz09 in case)
+	   (or (string=? field "berufsbez")
 
-	     (and 
-	      (string? value) ;;; in other case, make sure we've got a 
-	                      ;;; string associated, that's at least one
-	                      ;;; character long.
-	      (> (string-length value) 0))))))
+	       (and 
+		(string? value) ;;; in other case, make sure we've got a 
+	                        ;;; string associated, that's at least one
+	                        ;;; character long.
+		(> (string-length value) 0)))
+
+	   #t)))) ;; make sure we definitely return #t if valid ...
+
 
 
 (define validate:kz09-maxlen
   (lambda (value buffer field)
     ;; all the fields in 'datenlieferant' sheet together must not be longer
     ;; the 90 chars ..
-    (let ((totallen (if (string? value) (string-length value) 0))
+    (let ((totallen 0)
 	  (fields '("vend-id" "name-lieferant" "berufsbez" "vorwahl"
 		    "anschluss" "mandant")))
 
       (while (> (length fields) 0)
-	     (if (not (string=? (car fields) field))
-		 (let ((field-val (storage:retrieve buffer (car fields))))
-		   (if (string? field-val)
-		       (set! totallen
-			     (+ totallen (string-length field-val))))))
+	     (let ((field-val (if (string=? (car fields) field) value
+				  (storage:retrieve buffer (car fields)))))
+
+	       ;;;(format #t "length of field ~S: ~S~%" 
+	       ;;;        (car fields) (string-length field-val))
+
+	       (if (string? field-val)
+		   (set! totallen
+			 (+ totallen (string-length field-val)))))
 	     (set! fields (cdr fields)))
 
-      ;;(display "length of fields together: ") (display totallen) (newline)
+      ;;(format #t "length of fields together: ~S~%" totallen)      
       (if (> totallen 90) #f #t))))
 
 
