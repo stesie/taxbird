@@ -1,3 +1,5 @@
+;;               -*- mode: Scheme; coding: utf-8 -*-
+;;
 ;; Copyright(C) 2005 Stefan Siegl <ssiegl@gmx.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
@@ -18,68 +20,62 @@
 (define validate:alphanum
   (lambda (value min max)
     (let ((length (if (string? value) (string-length value) 0)))
-      (if (< length min)
-	  #f ;; length < min -> invalid
+      (and (>= length min)
+	   (<= length max)))))
+           ;;; FIXME! add some checks, making sure that 
+           ;;; there are alphanumeric characters only ....
 
-	  (if (> length max)
-	      #f ;; length > max -> invalid
 
-	      ;; FIXME make sure there are only alpha-numerical chars ...
-	      #t)))))
-	  
 
 ;; make sure the specified value is a signed integer
 (define validate:signed-int
   (lambda (value buffer)
-    (if (or (not (string? value)) (= (string-length value) 0))
-	#t ; empty 
-	
-	(let ((conv-val (string->number value)))
-	  (if (number? conv-val)
-	      (if (integer? conv-val)
-		  #t
-		  #f)
-	      #f)))))
+    (and (or (not (string? value))
+	     (= (string-length value) 0)
+
+	     (let ((conv-val (string->number value)))
+	       (and (number? conv-val)
+		    (integer? conv-val))))
+
+	 #t))) ; make sure to return #t not (not #f) !!
+
 
 
 (define validate:unsigned-int
   (lambda (value buffer)
-    (if (or (not (string? value)) (= (string-length value) 0))
-	#t ; empty
+    (and (or (not (string? value)) 
+	     (= (string-length value) 0)
 
-	(if (not (validate:signed-int value buffer))
-	    #f
+	     (and (validate:signed-int value buffer)
+		  (>= (string->number value) 0)))
 
-	    (if (< (string->number value) 0)
-		#f
-		#t)))))
+	 #t))) ; make sure to return #t if valid, not (not #f) !!
+
 
 
 ;; make sure the specified value is a signed monetary value, i.e. not more 
 ;; than two cent digits
 (define validate:signed-monetary
   (lambda (value buffer)
-    (if (or (not (string? value)) (= (string-length value) 0))
-	#t ; empty => zero
+    (and (or (not (string? value))
+	     (= (string-length value) 0)
 
-	(let ((conv-val (string->number value)))
-	  (if (not conv-val)
-	      #f ; NaN => error
+	     (let ((conv-val (string->number value)))
+	       (and conv-val  ;; NaN ??
 
-	      (let ((split-val (string-split value #\.))
-		    (valid #f))
+		    (let ((split-val (string-split value #\.)))
+		      (or 
+		       ;; if there is no comma, it's alright ...
+		       (= (length split-val) 1)
 
-		;; if there is no comma, it's alright ...
-		(if (= (length split-val) 1)
-		    (set! valid #t))
+		       ;; if there is _one_ comma, it might be okay ...
+		       (and (= (length split-val) 2)
+			   ;; ... if the second string is not more 
+			   ;; than 2 digits long
+			    (<= (string-length (cadr split-val)) 2)))))))
 
-		;; if there is _one_ comma, it might be okay ...
-		(if (= (length split-val) 2)
-		    ;; ... if the second string is not more than 2 digits long
-		    (if (<= (string-length (cadr split-val)) 2)
-			(set! valid #t)))
+	 #t))) ;; make sure to return #t if valid.
 
-		valid))))))
 
 
 
@@ -93,21 +89,21 @@
     (if (string? max) (set! max (string->number max)))
     (if (not max) (set! max 0)) ;;; max may be #f, if it is either not yet
                                 ;;; stored or was not a number, i.e. "" ...
-    
-    (if (not (validate:signed-monetary val buf))
-	#f
 
-	(let ()
-	  (set! val (if (or (not (string? val))
-			    (= (string-length val) 0)) "0" val))
-	  (set! val (string->number val))
+    (and (validate:signed-monetary val buf)
 
-	  (if (= max 0)
-	      ;; if max is set zero (or empty), don't allow associated field
-	      ;; to have a value assigned (i.e. force it to zero)
-	      (if (= val 0) #t #f)
+	 (let ()
+	   (set! val (if (or (not (string? val))
+			     (= (string-length val) 0)) "0" val))
+	   (set! val (string->number val))
 
-	      ;; otherwise, if max is set, don't allow zero and force 
-	      ;; value to be less than 'max', since the tax you have to pay
-	      ;; for something you earned, shouldn't be 100% ;-)
-	      (if (and (< val max) (not (= val 0))) #t #f))))))
+	   (if (= max 0)
+	       ;; if max is set zero (or empty), don't allow associated field
+	       ;; to have a value assigned (i.e. force it to zero)
+	       (= val 0)
+
+	       ;; otherwise, if max is set, don't allow zero and force 
+	       ;; value to be less than 'max', since the tax you have to pay
+	       ;; for something you earned, shouldn't be 100% ;-)
+	       (and (< val max) 
+		    (not (= val 0))))))))

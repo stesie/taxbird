@@ -1,3 +1,5 @@
+;;               -*- mode: Scheme; coding: utf-8 -*-
+;;
 ;; Copyright(C) 2005 Stefan Siegl <ssiegl@gmx.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
@@ -23,23 +25,18 @@
   (lambda (value buf)
     ;; value is the tax-id as specified by the user
 
-    (if (or (not value)
-	    (not (storage:retrieve buf "land"))
-	    (not (storage:retrieve buf "zeitraum")))
-	#f
+    (let ((land (storage:retrieve buf "land")))
+      (and value
+	   land
+	   (string->number land)
 
-	;; the field at least have values associated ...
-	(let ((land (string->number (storage:retrieve buf "land"))))
+	   ;; try converting to elster formated tax id, if it fails,
+	   ;; returns #f
+	   (steuernummer:convert (string->number land) value)
+	   #t))))  ;;; this makes sure, we return #t if valid, and not the
+                   ;;; return value of steuernummer:convert, i.e. the tax-id
 
-	  (if (not land)
-	      #f ;; federal state not yet specified, we're not able to verify
-		 ;; the entered value this way.
 
-	      ;; try converting to elster formated tax id, if it fails,
-	      ;; steuernummer:convert returns #f which would be passed on then.
-	      (if (steuernummer:convert land value)
-		  #t
-		  #f))))))
 
 
 
@@ -58,11 +55,8 @@
 	  ; try splitting by spaces ...
 	  (set! split-id (string-split entered-id #\ )))
 
-      (if (= (length split-id) pieces)
-	  (steuernummer:convert:splitted land split-id)
-
-	  #f ; cannot split id into three pieces, sorry ...
-	  ))))
+      (and (= (length split-id) pieces)
+	   (steuernummer:convert:splitted land split-id)))))
 
 
 
@@ -122,6 +116,8 @@
 			 "aus, welches für die Verarbeitung "
 			 "der Daten zuständig ist.")))))
 
+
+
 ; do further validation on the splitted fields and form the new tax id
 (define steuernummer:convert:splitted
   (lambda (land split-id)
@@ -149,26 +145,21 @@
 	     (set! length-expectation (cdr length-expectation))
 	     (set! length-check-id (cdr length-check-id)))
 
-      (if (not valid)
-	  #f ; return error ...
-	  
-	  ;; special combination routine for ba-wue
-	  (if (not prefix)
-	      (string-append "28" (substring (car split-id) 0 2)
-			     "0" (substring (car split-id) 2)
-			     (cadr split-id))
+      (and valid
+	   (if (not prefix)
+	       ;; special combination routine for ba-wue
+	       (string-append "28" (substring (car split-id) 0 2)
+			      "0" (substring (car split-id) 2)
+			      (cadr split-id))
 	      
-	      (string-append prefix
-			     (substring (car split-id)
-					(- (string-length (car split-id))
-					   (- 4 (string-length prefix))))
+	       (string-append prefix
+			      (substring (car split-id)
+					 (- (string-length (car split-id))
+					    (- 4 (string-length prefix))))
 			     
-			     ;;(make-string (- 4 (string-length
-			     ;;			(cadr split-id)))
-			     ;;		  #\0)
-			     "0"
-			     (cadr split-id)
-			     
-			     (caddr split-id)))))))
+			      "0"
+			      (cadr split-id)
+			      
+			      (caddr split-id)))))))
 
 	    
