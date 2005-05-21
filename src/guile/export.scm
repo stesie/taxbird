@@ -17,6 +17,10 @@
 
 (use-modules (ice-9 regex))
 
+;; seed pseudo random number generator
+(set! *random-state* (seed->random-state (current-time)))
+
+
 (define export:make-elster-xml
   (lambda (transfer-header nutzdaten-header nutzdaten)
     (list "Elster" '(("xmlns" "http://www.elster.de/2002/XMLSchema")
