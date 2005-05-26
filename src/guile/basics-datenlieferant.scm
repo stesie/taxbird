@@ -169,7 +169,9 @@
 
 (define export:generate-kz09
   (lambda (store)
-    (let ((berufsbez (storage:retrieve store "berufsbez")))
+    (let ((berufsbez (storage:retrieve store "berufsbez"))
+	  (mandant   (storage:retrieve store "mandant")))
+
       (if (and berufsbez
 	       (> (string-length berufsbez) 0))
 
@@ -180,7 +182,7 @@
 			 berufsbez "*"
 			 (storage:retrieve store "vorwahl") "*"
 			 (storage:retrieve store "anschluss") "*"
-			 (storage:retrieve store "mandant"))
+			 (if mandant mandant ""))
 
 	  ;; berufsbez. is not set - as it shall be set only for tax 
 	  ;; advisors etc., we can assume the person who sends the data
