@@ -243,8 +243,19 @@ on_choose_file_OK_clicked(GtkButton *button, gpointer user_data)
     if(gtk_file_chooser_get_action(GTK_FILE_CHOOSER(dialog)) == 
        GTK_FILE_CHOOSER_ACTION_SAVE)
       taxbird_ws_save(appwindow, fname);
-    else
-      taxbird_ws_open(appwindow, fname);
+    else {
+      /* check whether the passed taxbird appwin reference already has a 
+       * template associated, if yes, create a new window */
+      int cf = (int) g_object_get_data(G_OBJECT(appwindow), "current_form");
+      if(cf != -1)
+	appwindow = taxbird_ws_new();
+
+      if(appwindow)
+	taxbird_ws_open(appwindow, fname);
+
+      else
+	taxbird_dialog_error(NULL, _("Unable to open document. Sorry."));
+    }
 
     g_free(fname);
   }
