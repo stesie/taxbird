@@ -13,3 +13,9 @@ configure.scan
 mkinstalldirs
 taxbird-*.tar.gz
 depcomp
+config.guess
+config.sub
+autoscan.log
+INSTALL
+missing
+install-sh
