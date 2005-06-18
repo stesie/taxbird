@@ -794,7 +794,7 @@ taxbird_ws_show_appbar_help(GtkWidget *widget, GdkEventFocus *event,
   g_return_val_if_fail(SCM_NFALSEP(scm_list_p(specs)), 0);
   if(scm_ilength(specs) < 3) {
     /* no help text assigned, clear status line */
-    gtk_label_set_text(GTK_LABEL(helpw), "");
+    gtk_label_set_markup(GTK_LABEL(helpw), "");
     return FALSE; /* continue with next handler, if any. */
   }
 
@@ -816,8 +816,8 @@ taxbird_ws_show_appbar_help(GtkWidget *widget, GdkEventFocus *event,
     helptext = scm_call_2(helptext, SCM_BOOL(0), (SCM)
 			  g_object_get_data(G_OBJECT(appwin), "scm_data"));
 
-  gtk_label_set_text(GTK_LABEL(helpw),
-		     SCM_STRINGP(helptext) ? SCM_STRING_CHARS(helptext) : "");
+  gtk_label_set_markup(GTK_LABEL(helpw), SCM_STRINGP(helptext) ? 
+		       SCM_STRING_CHARS(helptext) : "");
 
   return FALSE; /* call other handlers as well */
 }
