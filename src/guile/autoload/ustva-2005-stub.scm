@@ -50,5 +50,5 @@
 				  (ustva-2005:export buf))))))
 
  ; empty set
- (lambda () '(("vend-id" . "74931"))))
+ (lambda () '(("vend-id" . "74931") ("land-lieferant" . "Deutschland"))))
 

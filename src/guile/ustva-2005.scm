@@ -32,28 +32,57 @@
 (define ustva-2005:definition
   (list
 
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   "Datenlieferant"    basics:datenlieferant
-
-
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    "Allgemeine Daten"
 
-   (list 1
-	 zeitraum:chooser
-	 bundesland:chooser
+   (list
 
-	 (list "Steuernummer"
-	       tb:field:text-input
-	       "stnr"
-	       steuernummer:help
-	       steuernummer:validate)
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    "Stammdaten"
 
-	 (list "Berichtigte Anmeldung"
-	       tb:field:checkbox
-	       "Kz10"
-	       "Berichtigte Anmeldung"
-	       #t))
+    (list
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    "Datenlieferant"    basics:datenlieferant
+
+    "Finanzamtsverbindung"
+    (list 1
+	  bundesland:chooser
+
+	  (list "Steuernummer"
+		tb:field:text-input
+		"stnr"
+		steuernummer:help
+		steuernummer:validate)))
+
+    
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    "Aktuelle Voranmeldung"
+
+    (list 1
+	  zeitraum:chooser
+
+	  (list "Berichtigte Anmeldung"
+		tb:field:checkbox
+		"Kz10"
+		"Berichtigte Anmeldung"
+		#t)
+	  
+	  (list "Verrechnung des Erstattungs-\nbetrages erwünscht"
+		tb:field:checkbox
+		"Kz29"
+		(string-append "Verrechnung des Erstattungsbetrages "
+			       "erwünscht / Erstattungsbetrag ist abgetreten")
+		#t)
+	  
+
+	  (list "Einzugsermächtigung wird\nausnahmsweise widerrufen"
+		tb:field:checkbox
+		"Kz26"
+		(string-append "Die Einzugsermächtigung wird ausnahmsweise "
+			       "(z.B. wegen Verrechnungswünschen) für "
+			       "diesen Voranmeldungszeitraum widerrufen. "
+			       "Ein ggf. verbleibender Rest ist gesondert zu "
+			       "entrichten.")
+		#t)))
    
 
 
@@ -93,7 +122,7 @@
 		"Kz49"
 		(string-append "Innergemeinschaftliche Lieferungen neuer "
 			       "Fahrzeuge außerhalb eines Unternehmens "
-			       "§ 2a UStG")
+			       "(§ 2a UStG)")
 		validate:signed-int)
 
 	  
@@ -178,21 +207,19 @@
 		tb:field:text-output
 		"stpfl-ums"
 		#f
-		#t))
+		#t)
 
 
 
+	  (list "<big><b>Umsätze nach § 24 UStG</b></big>")
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    "Umsätze nach § 24 UStG"
-    (list 2
-
-	  (list "Lief. übriges Gemeinschaftsgeb.,\nAbn. mit USt-IdNr."
+	  (list (string-append "Lief. übriges Gemeinschaftsgeb.,\n"
+			       "an Abnehmer <b>mit</b> USt-IdNr.")
 		tb:field:text-input
 		"Kz77"
 		(string-append "Umsätze land- und forstwirtschaftl. Betriebe "
 			       "nach § 24 UStG; Lieferungen in das übrige "
-			       "Gemeinschaftsgebiet an Abnehmer *mit* "
+			       "Gemeinschaftsgebiet an Abnehmer <b>mit</b> "
 			       "USt-IdNr.")
 		validate:signed-int)
 
@@ -226,12 +253,16 @@
    "Innergemeinschaftliche Erwerbe"
    (list 2
 
+	 (list "<big><b>Steuerfreie innergem. Erwerbe ...</b></big>")
+
 	 (list "steuerfrei, § 4b UStG"
 	       tb:field:text-input
 	       "Kz91" 
 	       "Steuerfreie innergemeinschaftliche Erwerbe nach § 4b UStG" 
 	       validate:signed-int)
-	 
+
+	 (list (string-append "<big><b>Steuerpflichtige "
+			      "innergem. Erwerbe ...</b></big>"))
 	 
 	 (list "zum Steuersatz von 16%"
 	       tb:field:text-input
@@ -276,12 +307,15 @@
 		   (validate:signed-monetary-max val buf maximum))))
 	 
 
-	 (list "neue Fahrz., ohne USt-IdNr."
+	 (list "<b>neuer Fahrzeuge ...</b>")
+
+	 (list (string-append "von Lieferern <b>ohne</b> USt-IdNr.\n"
+			      "zum allgemeinen Steuersatz")
 	       tb:field:text-input
 	       "Kz94"
 	       (string-append "Steuerpflichtige innergemeinschaftliche "
 			      "Erwerbe, neuer Fahrzeuge von Lieferern "
-			      "*ohne* USt-IdNr. zum allgemeinen "
+			      "<b>ohne</b> USt-IdNr. zum allgemeinen "
 			      "Steuersatz (Umsatz)")
 	       validate:signed-int
 	       
@@ -290,7 +324,7 @@
 	       "Kz96"
 	       (string-append "Steuerpflichtige innergemeinschaftliche "
 			      "Erwerbe, neuer Fahrzeuge von Lieferern "
-			      "*ohne* USt-IdNr. zum allgemeinen "
+			      "<b>ohne</b> USt-IdNr. zum allgemeinen "
 			      "Steuersatz (Steuer)")
 	       (lambda(val buf)
 		 (let ((maximum (storage:retrieve buf "Kz94")))
@@ -313,12 +347,12 @@
    "Ergänzende Angaben zu Umsätzen"
    (list 2
 
-	 (list "Lief. d. 1. Abnehmers\nbei innergem. Dreiecksgesch."
+	 (list "Lief. des 1. Abnehmers\nbei innergem. Dreiecksgesch."
 	       tb:field:text-input
 	       "Kz42"
 	       (string-append "Umsätze aus Lieferungen des ersten Abnehmers "
-			      "bei *innergemeinschaftlichen "
-			      "Dreiecksgeschäften* (§ 25b Abs. 2 UStG)")
+			      "bei <b>innergemeinschaftlichen "
+			      "Dreiecksgeschäften</b> (§ 25b Abs. 2 UStG)")
 	       validate:signed-int)
 
 
@@ -327,7 +361,8 @@
 	       "Kz60"
 	       (string-append "Steuerpflichtige Umsätze im Sinne des § 13b "
 			      "Abs. 1 Satz 1 Nr. 1 bis 5 UStG, für die der "
-			      "*Leistungsempfänger* die *Steuer schuldet*")
+			      "<b>Leistungsempfänger</b> die "
+			      "<b>Steuer schuldet</b>")
 	       validate:signed-int)
 
 	 
@@ -415,6 +450,19 @@
 	       tb:field:text-output "13b-sum" #f #t))
 
 
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   "Wechsel Besteuerungsform / Nachsteuer"
+   (list 1
+	 
+	 (list (string-append "Wechsel Bestuerungsform sowie\n"
+			      "Nachsteuer versteuerte Anzahlungen")
+	       tb:field:text-input
+	       "Kz65"
+	       (string-append "Steuer infolge Wechsels der Besteuerungsform "
+			      "sowie Nachsteuer auf versteuerte Anzahlungen "
+			      "wegen Steuersatzerhöhung")
+	       validate:signed-monetary))
+
 
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -475,7 +523,7 @@
 	       validate:signed-monetary)
 
 	 
-	 (list "innergem. Lieferungen\nneuer Fahrzeuge"
+	 (list "Vorsteuerabzug für innergem.\nLieferungen neuer Fahrzeuge"
 	       tb:field:text-input
 	       "Kz59"
 	       (string-append "Vorsteuerabzug für innergemeinschaftliche "
@@ -496,15 +544,6 @@
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    "Sonstige Angaben"
    (list 2
-
-	 (list (string-append "Wechsel Bestuerungsform sowie\n"
-			      "Nachsteuer versteuerte Anzahlungen")
-	       tb:field:text-input
-	       "Kz65"
-	       (string-append "Steuer infolge Wechsels der Besteuerungsform "
-			      "sowie Nachsteuer auf versteuerte Anzahlungen "
-			      "wegen Steuersatzerhöhung")
-	       validate:signed-monetary)
 
 
 	 (list "Diverse Sonstige (Kz69)"
@@ -530,26 +569,7 @@
 			      "(nur auszufüllen in der letzten Voranmeldung "
 			      "des Besteuerungszeitraums, in der Regel "
 			      "Dezember)")
-	       validate:unsigned-int)
-
-
-	 (list "Verrechnung des Erstattungs-\nbetrages erwünscht"
-	       tb:field:checkbox
-	       "Kz29"
-	       (string-append "Verrechnung des Erstattungsbetrages "
-			      "erwünscht / Erstattungsbetrag ist abgetreten")
-	       #t)
-
-
-	 (list "Einzugsermächtigung wird\nausnahmsweise widerrufen"
-	       tb:field:checkbox
-	       "Kz26"
-	       (string-append "Die Einzugsermächtigung wird ausnahmsweise "
-			      "(z.B. wegen Verrechnungswünschen) für "
-			      "diesen Voranmeldungszeitraum widerrufen. "
-			      "Ein ggf. verbleibender Rest ist gesondert zu "
-			      "entrichten.")
-	       #t))
+	       validate:unsigned-int))
 
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
