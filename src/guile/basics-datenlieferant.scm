@@ -114,7 +114,7 @@
 	(list "Land" 
 	      tb:field:text-input
 	      "land-lieferant" 
-	      "Land des Datenlieferanten"
+	      "Land des Datenlieferanten (Staat)"
 	      (lambda(val buf)
 		(validate:datenlieferant val buf "land-lieferant")))
 
