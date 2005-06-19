@@ -40,7 +40,7 @@
     "Stammdaten"
 
     (list
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     "Datenlieferant"    basics:datenlieferant
 
     "Finanzamtsverbindung"
@@ -54,7 +54,7 @@
 		steuernummer:validate)))
 
     
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     "Aktuelle Voranmeldung"
 
     (list 1
@@ -700,19 +700,24 @@
 	   ;; this can be done in any order, since libgeier will reformat
 	   ;; it for us ...
 	   (let ((result '())
-		 (fields (list "~,2F" (list "Kz36" "Kz39" "Kz53" "Kz59" "Kz61"
-					    "Kz62" "Kz63" "Kz64" "Kz65" "Kz66"
-					    "Kz67" "Kz69" "Kz74" "Kz80" "Kz83"
-					    "Kz85" "Kz96" "Kz98")
-			       "~D"   (list "Kz35"
-					    "Kz41" "Kz42" "Kz43" "Kz44" "Kz45"
-					    "Kz48" "Kz49" "Kz51" "Kz52" "Kz60"
-					    "Kz76" "Kz73" "Kz77" "Kz84" "Kz86"
-					    "Kz91" "Kz93" "Kz94" "Kz95" "Kz97"
+		 (fields (list (lambda (val)
+				 (format #f "~,2F" (string->number val)))
+			       (list "Kz36" "Kz39" "Kz53" "Kz59" "Kz61"
+				     "Kz62" "Kz63" "Kz64" "Kz65" "Kz66"
+				     "Kz67" "Kz69" "Kz74" "Kz80" "Kz83"
+				     "Kz85" "Kz96" "Kz98")
 
-					    ;; checkboxes ...
-					    "Kz10" "Kz26" "Kz29"
-					    ))))
+			       (lambda (val)
+				 (format #f "~D" (inexact->exact 
+						  (string->number val))))
+			       (list "Kz35" "Kz41" "Kz42" "Kz43" "Kz44" "Kz45"
+				     "Kz48" "Kz49" "Kz51" "Kz52" "Kz60"
+				     "Kz76" "Kz73" "Kz77" "Kz84" "Kz86"
+				     "Kz91" "Kz93" "Kz94" "Kz95" "Kz97"
+
+				     ;; checkboxes ...
+				     "Kz10" "Kz26" "Kz29"
+				     ))))
 
 	     (while (> (length fields) 0)
 		    (for-each
@@ -720,9 +725,7 @@
 		       (let ((value (storage:retrieve buffer field)))
 			 (if (and value
 				  (> (string-length value) 0))
-			     (let ((out-val (format #f (car fields)
-						    (string->number value))))
-			       
+			     (let ((out-val ((car fields) value)))
 			       ;; don't write out fields, that are equal to
 			       ;; zero, except for Kz83 which is the total
 			       (if (or (string=? field "Kz83")
