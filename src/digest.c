@@ -21,11 +21,12 @@
 #endif
 
 
+#include <openssl/md5.h>
+
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
 #include <ctype.h>
-#include <mhash.h>
 
 #include "guile.h"
 
@@ -56,7 +57,7 @@ taxbird_digest_hexdecode(const char *in)
 static int
 taxbird_digest_verify_file(const char *filename, const char *sighash) 
 {
-  MHASH ctx;
+  MD5_CTX ctx;
   unsigned int i;
   char buf[512];
   char *lookup_fn = taxbird_guile_dirlist_lookup(filename);
@@ -65,16 +66,12 @@ taxbird_digest_verify_file(const char *filename, const char *sighash)
   g_free(lookup_fn);
   if(! handle) return 1; /* error */
   
-  ctx = mhash_init(MHASH_MD5);
-  if(ctx == MHASH_FAILED) {
-    fclose(handle);
-    return 1; /* error */
-  }
+  MD5_Init(&ctx); 
 
   while((i = fread(buf, 1, sizeof(buf), handle)))
-    mhash(ctx, buf, i);
+    MD5_Update(&ctx, buf, i);
 
-  mhash_deinit(ctx, buf);
+  MD5_Final(buf, &ctx);
   fclose(handle);
   
   /* the md5 hash is in 'buf' now ... */
@@ -92,13 +89,13 @@ taxbird_digest_verify_file(const char *filename, const char *sighash)
  * return: 0 is okay, 1 or errno on error
  */
 int
-taxbird_digest_verify(const char *sig)
+taxbird_digest_verify(const char *sig, size_t len)
 {
   char buf[64];
-  const char *ptr;
+  const char *ptr, *end = sig + len;
   unsigned int i;
 
-  while(*sig) {
+  while(sig < end && *sig) {
     if(isspace(*sig)) {
       /* ignore leading whitespace */
       sig ++;
@@ -132,6 +129,8 @@ taxbird_digest_verify(const char *sig)
 
     memcpy(buf, sig + 34, i);
     buf[i] = 0; /* terminate */
+
+    if(i > 0 && buf[i - 1] == 13) buf[i - 1] = 0; /* strip \r char */
 
     g_printerr(PACKAGE_NAME ": verifying hash of %s: ", buf);
     if(taxbird_digest_verify_file(buf, taxbird_digest_hexdecode(sig))) {

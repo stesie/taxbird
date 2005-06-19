@@ -19,10 +19,10 @@
 
 if test "$1" = "--help" -o "$1" = "-h"; then
     cat <<EOF
-Usage: $0 sigfile [keyid]
+Usage: $0 sigfile cert-file privkey-file
 
 Update the signature file, i.e. refresh the md5 hash value of each file
-in turn and sign the sigfile afterwards using gnupg.
+in turn and sign the sigfile afterwards using openssl s/mime.
 
 Taxbird expect's pathes to be relative to the guile/ subdirectory. That
 is, you need to execute $0 from this directory.
@@ -30,75 +30,47 @@ EOF
     exit 0
 fi
 
-test -e $1 || {
+(test "x$1" != "x" && test -e "$1") || {
     echo $0: specified signature file does not exist: $1
+    exit 1
+}
+
+(test "x$2" != "x" && test -e "$2") || {
+    echo $0: specified certificate file does not exist: $2
+    exit 1
+}
+
+(test "x$3" != "x" && test -e "$3") || {
+    echo $0: specified private key file does not exist: $3
     exit 1
 }
 
 # extract names of files which shalt be signed
 rm -f .sig-update.files
-gpg --decrypt $1 2>/dev/null > .sig-update.files || \
+openssl smime -noverify -verify -in $1 > .sig-update.files || \
     cat $1 > .sig-update.files # ... do it the brute force way ...
 
 # generate new signature file ...
 rm -f .sig-update
-for FILE in `cat .sig-update.files`; do
+for FILE in `tr -d "\r" < .sig-update.files`; do
     if [ -e $FILE ]; then
 	echo "$0: adding md5 hash of file: $FILE"
 
-	if which md5 > /dev/null; then
-	    HASH=`md5 < $FILE`
-	elif which md5sum > /dev/null; then
-	    HASH=`md5sum < $FILE | cut -c-32`
-	else
-	    echo "$0: no md5 hasher available, sorry."
-	    exit 1
-	fi
-    
+	HASH=`openssl md5 < $FILE`
 	echo "$HASH  $FILE" >> .sig-update
     fi
 done
 
 rm -f .sig-update.files
-if test "$2" = ""; then
-    # extract key id from old signature
-    unset LANG
-
-    echo -n "$0: extracting keyid ... "
-    KEYID=`gpg --verify $1 2>&1 | \
-           perl -ne 'if(m/ID ([0-9A-F]{8})/){print "$1\n";}'`
-
-    if [ "$KEYID" = "" ]; then
-	echo "failed."
-	exit 1
-    fi
-
-    echo $KEYID
-else
-    KEYID=$2;
-fi
-
-(gpg --list-secret-keys 2>/dev/null | grep -ie $KEYID > /dev/null) || {
-    echo "$0: secret key not available: $KEYID"
-    echo "Sorry."
-    exit 1
-}
-
-(gpg --decrypt $1 2>/dev/null | diff .sig-update - > /dev/null) && {
-    echo "$0: signature file unchanged. stopping here."
-    exit 0
-}
 
 set -e
-
-if grep -q -e "-----BEGIN PGP SIGNED MESSAGE-----" < $1; then
-	perl -pe 'm/-----BEGIN PGP SIGNED MESSAGE-----/ and exit;' < $1 \
-		> .sig-update.signed
-else
-	echo '$Id: taxbird-sig-update.sh,v 1.3 2005-05-07 16:34:52 stesie Exp $' > .sig-update.signed
-fi
-
-gpg --armor --clearsign --local-user $KEYID < .sig-update >> .sig-update.signed
+openssl smime -sign -signer $2 -inkey $3 -in .sig-update \
+    -out .sig-update.signed
 rm -f .sig-update
-mv -f .sig-update.signed $1
+
+cat $2 > $1
+echo "Taxbird-Id: \$Id: taxbird-sig-update.sh,v 1.4 2005-06-19 15:22:14 stesie Exp $1,v 0.9 (not checked in yet) \$" >> $1
+tail -n +1 .sig-update.signed >> $1
+
+rm -f .sig-update.signed
     

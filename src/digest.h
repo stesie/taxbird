@@ -25,7 +25,7 @@
  *
  * return: 0 is okay, 1 or errno on error
  */
-int taxbird_digest_verify(const char *sig);
+int taxbird_digest_verify(const char *sig, int len);
 
 
 #endif /* ... TAXBIR_DIGEST_H */

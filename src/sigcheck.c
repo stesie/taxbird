@@ -21,7 +21,6 @@
 #endif
 
 #include <gnome.h>
-#include <gpgme.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <fcntl.h>
@@ -31,24 +30,21 @@
 #include "guile.h"
 #include "digest.h"
 
-/* import all keys available from the public-keys directory */
-static void taxbird_sigcheck_import_keys(void);
-
-/* import the public keys stored in the file with the provided name */
-static void taxbird_sigcheck_import_key(const char *fname);
-
-/* verify signature on file FILE and extract vendor-id and contents on
- * success (returning 0),  on failure return 1 */
-static int taxbird_sigcheck_verify(const char *filename, 
-				   char **vendor_id, char **output);
+#include <openssl/pkcs7.h>
+#include <openssl/bio.h>
+#include <openssl/buffer.h>
+#include <openssl/x509.h>
+#include <openssl/x509_vfy.h>
+#include <openssl/evp.h>
 
 static char *taxbird_sigcheck_get_id(const char *filename);
 
+static X509_STORE *taxbird_sigcheck_make_empty_store(void);
 
 /* verify signature file's signature and verify referenced file's md5
  * hashes afterwards.
  * 
- * RETURN: 0 on success, 1 on failure */
+ * RETURN: 0 on success, anything else on failure */
 int 
 taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id)
 {
@@ -68,7 +64,7 @@ taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id)
 
 
 
-  /* extract signature $Id: sigcheck.c,v 1.6 2005-05-10 19:35:42 stesie Exp $ ************************************************/
+  /* extract signature $Id: ************************************************/
   
   if(! (*sig_id = taxbird_sigcheck_get_id(lookup_fn))) {
     err_msg = _("Signature's $Id: entry is not valid, "
@@ -79,18 +75,53 @@ taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id)
 
 
 
-  /* verify the signature on the signature file ******************************/
-  char *content;
-  if(taxbird_sigcheck_verify(lookup_fn, vendor_id, &content)) {
-    err_msg = NULL;
-    err = 1;
+  OpenSSL_add_all_digests();
+
+  /* now verify the signature and it's contents itself *********************/
+  BIO *in = BIO_new_file(lookup_fn, "r");
+
+  if(! in) {
+    err_msg = _("Unable to open signature file %s to do verification");
+    err = 2;
     goto out;
   }
 
+  BIO *indata = NULL;
+  PKCS7 *p7 = SMIME_read_PKCS7(in, &indata);
+  if(! p7) {
+    err_msg = _("Unable to parse S/MIME signature %s, to do verification");
+    err = 2;
+    goto out2;
+  }
 
+  BIO *out = BIO_new(BIO_s_mem());
+  if(! out) {
+    err_msg = _("Unable to allocate BIO buffer, while trying to verify %s");
+    err = 2;
+    goto out3;
+  }
+
+  X509_STORE *store = taxbird_sigcheck_make_empty_store();
+  if(! store) {
+    err_msg = _("Unable to allocate X.509 store, trying to verify %s");
+    err = 2;
+    goto out3b;
+  }
+
+  ERR_clear_error();
+  if(! PKCS7_verify(p7, NULL, store, indata, out,
+		    PKCS7_NOVERIFY)) {
+    err_msg = _("This S/MIME signature on %s is not valid, sorry. Please "
+		"try to install an unmodified version.");
+    err = 2;
+    goto out4;
+  }
+  
+  BUF_MEM *content;
+  BIO_get_mem_ptr(out, &content);
 
   /* now check md5 signatures ... *******************************************/
-  if(taxbird_digest_verify(content)) {
+  if(taxbird_digest_verify(content->data, content->length)) {
     err_msg = _("The MD5-Checksums from the signature file %s do "
 		"not match the corresponding checksums of the installed "
 		"source files. Sorry, you either want "
@@ -104,8 +135,44 @@ taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id)
   }
 
 
+  /* finally extract vendor-id from used X.509 certificate ******************/
+  STACK_OF(X509) *stack = NULL;
+  if(! (stack = PKCS7_get0_signers(p7, NULL, PKCS7_NOVERIFY))) {
+    err_msg = _("Unable to read X.509 certificate from signature %s.");
+    err = 2; /* OpenSSL error */
+    goto out4;
+  }
+
+  X509 *cert = sk_X509_value(stack, 0);
+  X509_NAME *name = X509_get_issuer_name(cert);
+  char *buf = X509_NAME_oneline(name, 0, 0), *p;
+
+  if((p = strstr(buf, "/OU=")) && (p += 4) && p[5] == '/') {
+    p[5] = 0;
+
+    if(! (*vendor_id = strdup(p))) {
+      err_msg = _("Not enough memory to store vendor id from signature %s.");
+      err = 1;
+    }
+  } else {
+    err_msg = _("Unable to extract vendor id from issuer name (signatur %s)");
+    err = 1;
+  }
+  
+  OPENSSL_free(buf);
+  sk_X509_free(stack);
+
  out4:
-  g_free(content);
+  X509_STORE_free(store);
+
+ out3b:
+  BIO_free(out);
+
+ out3: 
+  PKCS7_free(p7);
+
+ out2:
+  BIO_free(in);
 
  out:
   g_free(lookup_fn);
@@ -113,7 +180,15 @@ taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id)
   if(err_msg) {
     err_msg = g_strdup_printf(err_msg, fn);
     taxbird_dialog_error(NULL, err_msg);
+    /* g_printerr("%s\n", err_msg); */
     g_free(err_msg);
+  }
+
+  if(err == 2) {
+    /* OpenSSL error, emit detailed error message to stderr */
+    ERR_load_BIO_strings();
+    ERR_load_PKCS7_strings();
+    ERR_print_errors_fp(stderr);
   }
 
   return err;
@@ -124,252 +199,49 @@ taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id)
 static char *
 taxbird_sigcheck_get_id(const char *filename) 
 {
-  int fd = open(filename, O_RDONLY);
-  if(fd < 0) return NULL;
-
-  unsigned char buf[128];
-  ssize_t chars_read = read(fd, buf, sizeof(buf));
-
-  if(chars_read < 0) return NULL;
-  buf[(size_t)chars_read < sizeof(buf) ? 
-      (size_t)chars_read : sizeof(buf) - 1] = 0;
-
-  if(strncmp("$Id: ", buf, 5)) return NULL;
-
-  unsigned char *p = strchr(buf + 5, '$');
-  if(! p) return NULL;
-
-  *p = 0; /* \0-terminate $Id: string */
-
-  return g_strdup(buf + 5); 
-}
-
-
-/* verify signature on file FILE and extract vendor-id and contents on
- * success (returning 0),  on failure return 1 */
-static int
-taxbird_sigcheck_verify(const char *filename, char **vendor_id, char **output)
-{
-  int retry = 0;
-  int err = 0;
-  char *msg = NULL;
-
-  gpgme_data_t file;
-  if(gpgme_data_new_from_file(&file, filename, 1) != GPG_ERR_NO_ERROR){
-    msg = _("Unable to open signature file %s.");
-    err = 1;
-    goto out2;
-  }
-
-  gpgme_ctx_t gpg_ctx;
-  if(gpgme_new(&gpg_ctx) != GPG_ERR_NO_ERROR) {
-    err = 1;
-    goto out3;
-  }
-
-  gpgme_data_t content;
-  if(gpgme_data_new(&content) != GPG_ERR_NO_ERROR) {
-    err = 1;
-    goto out4;
-  }
-
-
-
-  /* well, everything's prepared, call gpg now, to verify the signature ******/
-  gpgme_error_t gpg_error = gpgme_op_verify(gpg_ctx, file, NULL, content);
-  if(gpg_error != GPG_ERR_NO_ERROR) {
-    err = 1;
-    goto out5;
-  }
-
-  gpgme_verify_result_t gpg_result;
-  if(!(gpg_result = gpgme_op_verify_result(gpg_ctx))) {
-    err = 1;
-    goto out5;
-  }
-
-
-
-  /* check the signature's status, possibly choosing a suitable error mesg. */
-  gpgme_key_t gpg_key;
-  if((gpg_result->signatures->summary &
-      ~(GPGME_SIGSUM_VALID | GPGME_SIGSUM_GREEN))
-     || (gpgme_get_key(gpg_ctx, gpg_result->signatures->fpr, &gpg_key, 0)
-	 != GPG_ERR_NO_ERROR)
-     || ! gpg_key) {
-
-    if(gpg_result->signatures->summary & GPGME_SIGSUM_KEY_REVOKED)
-      msg = _("The Taxbird signature (%s) is not valid anymore. "
-	      "It's public key has been revoked. \n\n"
-	      "Please use taxbird-update.sh to update your installation.");
-
-    else if(gpg_result->signatures->summary & GPGME_SIGSUM_KEY_EXPIRED)
-      msg = _("The Taxbird signature on %s is not valid anymore. "
-	      "It's public key has expired.\n\n"
-	      "Please update your taxbird installation, using "
-	      "taxbird-update.sh");
-
-    else if(gpg_result->signatures->summary & GPGME_SIGSUM_SIG_EXPIRED)
-      msg = _("The Taxbird signature on %s has expired. \n\n"
-	      "Please use taxbird-update.sh to update your Taxbird "
-	      "installation.");
-
-    else if(gpg_result->signatures->summary & GPGME_SIGSUM_KEY_MISSING) {
-      static int gpg_keys_imported = 0;
-      if(! gpg_keys_imported && ++ gpg_keys_imported) {
-	/* automatically try to import all available gpg keys,
-	 * and try once more ... */
-	taxbird_sigcheck_import_keys();
-	retry = 1;
-	goto out5;
-      }
-
-      msg = _("Key for signature file %s is not available. "
-	      "Please make sure GPG is able to verify "
-	      "digital signatures.\n");
+  FILE *handle = fopen(filename, "r");
+  if(! handle) return NULL;
+ 
+  unsigned char buf[256];
+  while(fgets(buf, sizeof(buf), handle)) 
+    if(! strncmp("Taxbird-Id: $Id: ", buf, 17)) {
+      fclose(handle);
+      
+      unsigned char *p = strchr(buf + 17, '$');
+      if(! p) return NULL;
+      
+      *p = 0; /* \0-terminate $Id: string */
+      return g_strdup(buf + 17); 
     }
-
-    err = 1;
-    goto out5;
-  }
-
-
-
-  /* try to extract the key's comment */
-  if(strlen(gpg_key->uids->comment) != 13 
-     || strncmp(gpg_key->uids->comment, "Taxbird:", 8)) {
-    char *msg = g_strdup_printf(_("Invalid comment on gpg-key '%s'. "
-				  "Checking signature file %s."),
-				gpg_key->uids->comment, filename);
-    taxbird_dialog_error(NULL, msg);
-    goto out5;
-  }
-
-
-
-  /* copy the vendor id back to our callee */
-  *vendor_id = g_strdup(gpg_key->uids->comment + 8);
-
-
-
-  /* finally copy the signed content itself */
-  size_t content_len;
-  *output = gpgme_data_release_and_get_mem(content, &content_len);
-  *output = realloc(*output, content_len + 1);
-  if(! content) {
-    err = 1;
-    goto out4; 
-  }
-
-  (*output)[content_len] = 0;
-
-  goto out4; /* gpgme data handle already released */
-
- out5:
-  gpgme_data_release(content);
-
- out4:
-  gpgme_release(gpg_ctx);
-
- out3:
-  gpgme_data_release(file);
-
- out2:
-  
-  if(retry)
-    return taxbird_sigcheck_verify(filename, vendor_id, output);
-  
-  if(err) {
-    if(! msg)
-      msg = _("Unable to check the validity of the signature file %s.");
-
-    msg = g_strdup_printf(msg, filename);
-    taxbird_dialog_error(NULL, msg);
-    g_free(msg);
-  }
-  
-  return err;
+ 
+  fclose(handle);
+  return NULL;
 }
 
 
 
-static void
-taxbird_sigcheck_import_keys(void)
+static X509_STORE *
+taxbird_sigcheck_make_empty_store(void)
 {
-#ifdef HAVE_GET_CURRENT_DIR_NAME
-  char *cwd = get_current_dir_name();
-  if(! cwd) return; /* damn, shall we complain? */
-#else
-  int cwd = open(".", O_RDONLY);
-  if(cwd < 0) return;
-#endif /* ... ! HAVE_GET_CURRENT_DIR_NAME */
+  X509_LOOKUP *lookup;
+  X509_STORE *new_store = X509_STORE_new();
+  if(! new_store) return NULL;
 
-  if(chdir(PACKAGE_DATA_DIR "/taxbird/pubkeys")) return;
+  lookup = X509_STORE_add_lookup(new_store, X509_LOOKUP_file());
+  if(! lookup) goto end;
+  X509_LOOKUP_load_file(lookup, NULL, X509_FILETYPE_DEFAULT);
 
-  DIR *dir = opendir(".");
-  if(dir) {
-    struct dirent *dirent;
+  lookup = X509_STORE_add_lookup(new_store, X509_LOOKUP_hash_dir());
+  if(! lookup) goto end;
+  X509_LOOKUP_add_dir(lookup, NULL, X509_FILETYPE_DEFAULT);
 
-    while((dirent = readdir(dir)))
-      if(dirent->d_name[0] != '.') /* don't import . and .. (dirs) and
-				    * hidden files */
-	taxbird_sigcheck_import_key(dirent->d_name);
+  X509_STORE_set_flags(new_store, 0);
+  return new_store;
 
-    closedir(dir);
-  }
-
-
-#ifdef HAVE_GET_CURRENT_DIR_NAME
-  chdir(cwd);
-  free(cwd);
-#else
-  fchdir(cwd);
-  close(cwd);
-#endif /* ... ! HAVE_GET_CURRENT_DIR_NAME */
+ end:
+  X509_STORE_free(new_store);
+  return NULL;
 }
 
 
 
-/* import the public keys stored in the file with the provided name */
-static void
-taxbird_sigcheck_import_key(const char *fname)
-{
-  int err = 0;
-  gpgme_data_t keyfile;
-  gpgme_ctx_t ctx;
-
-  if(gpgme_data_new_from_file(&keyfile, fname, 1) != GPG_ERR_NO_ERROR) {
-    err = 1;
-    goto out;
-  }
-
-  if(gpgme_new(&ctx) != GPG_ERR_NO_ERROR) {
-    err = 1;
-    goto out2;
-  }
-
-  if(gpgme_op_import(ctx, keyfile) != GPG_ERR_NO_ERROR) {
-    err = 1;
-    goto out3;
-  }
-
- out3:
-  gpgme_release(ctx);
-
- out2:
-  gpgme_data_release(keyfile);
-
- out:
-  if(err) {
-    char *msg = g_strdup_printf(_("The GPG public key file '%s' could "
-				  "not be imported successfully. You "
-				  "will not be able to use the signature "
-				  "mechanism this way."), fname);
-    taxbird_dialog_error(NULL, msg);
-    g_free(msg);
-  }
-  else {
-    g_printerr(PACKAGE_NAME ": gpg public keys from '%s' "
-	       "successfully imported\n", fname);
-  }
-}

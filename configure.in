@@ -11,7 +11,7 @@ AC_PROG_CC
 AM_PROG_CC_STDC
 AC_HEADER_STDC
 
-pkg_modules="libgnomeui-2.0 libgtkhtml-2.0"
+pkg_modules="libgnomeui-2.0 libgtkhtml-2.0 openssl"
 PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
 AC_SUBST(PACKAGE_CFLAGS)
 AC_SUBST(PACKAGE_LIBS)
@@ -30,20 +30,6 @@ dnl Check for GNU Guile
 GUILE_FLAGS
 GUILE_MODULE_REQUIRED(ice-9 format)
 
-dnl Check for mhash/gpgme (crypto support for vendor ids)
-AM_PATH_GPGME(1.0.0,, AC_MSG_ERROR([libgpgme missing.]))
-#AC_CHECK_HEADER(gpgme.h,, AC_MSG_ERROR([libgpgme header files missing.]))
-
-AC_CHECK_LIB(mhash, MD5Init,, AC_MSG_ERROR([mhash library missing.]))
-AC_CHECK_HEADER(mhash.h,, AC_MSG_ERROR([mhash.h include file missing.]))
-
-# check for get_current_dir_name
-AC_CHECK_FUNC([get_current_dir_name], 
-	      [AC_DEFINE(_GNU_SOURCE, [], 
-	                 [Define to 1 if system supports _GNU_SOURCE])
-	       AC_DEFINE(HAVE_GET_CURRENT_DIR_NAME, 1,
-	                 [Define to 1 if you have get_current_dir_name])],)
-
 # check for geier tool
 AC_PATH_PROG(GEIER_PATH, geier)
 AC_DEFINE_UNQUOTED(GEIER_PATH, "$GEIER_PATH", [Path to your geier binary])
@@ -57,7 +43,6 @@ src/Makefile
 src/guile/Makefile
 src/guile/autoload/Makefile
 src/guile/signatures/Makefile
-src/pubkeys/Makefile
 src/taxbird-update.sh
 po/Makefile.in
 ])
