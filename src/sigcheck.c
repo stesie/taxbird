@@ -36,6 +36,7 @@
 #include <openssl/x509.h>
 #include <openssl/x509_vfy.h>
 #include <openssl/evp.h>
+#include <openssl/err.h>
 
 static char *taxbird_sigcheck_get_id(const char *filename);
 
