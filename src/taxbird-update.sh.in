@@ -31,7 +31,7 @@ export CVSROOT
 cat <<__FOO
 Pleased to meet you!
 
-This is taxbird-update.sh \$Revision: 1.3 $,
+This is taxbird-update.sh \$Revision: 1.4 $,
 your fully automatic taxbird updater...
 
 __FOO
@@ -45,6 +45,12 @@ Sorry.
 __FOO
     exit 1
 fi
+
+test "x$UID" = "x" && export UID="`id -u`"
+test "x$UID" = "x" && {
+    echo "Unable to find out what you user-id is. Sorry."
+    exit 1
+}
 
 if test "$UID" -eq "0"; then
     echo "I see, you're root. This is perfect, we can update for all users."
