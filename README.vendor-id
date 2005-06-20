@@ -7,14 +7,13 @@ Finanzverwaltung übermitteln zu können, ist eine sog. Hersteller-ID von
 nöten, die einem Hersteller im Rahmen eines Prüfungsverfahrens von der
 Oberfinanzdirektion München zuerkannt wird.
 
-Taxbird verfügt gegenwärtig über keine solche Identifikationnummer und
-kann deshalb keine Echtfälle übermitteln. 
-
 Die Hersteller-ID wird immer einer bestimmten (natürlichen oder
 juristischen) Personen zugeteilt. Das heißt, wer selbst Veränderungen an
 Taxbird vornehmen möchte, benötigt auch selbst eine Hersteller-ID bzw.
 muss jemanden finden, der für den Code mit seiner Hersteller-ID "bürgt".
-
+Taxbird verfügt inzwischen über eine solche Identifikations- 
+nummer. Diese kann jedoch nur immer zusammen mit den unveränderten
+Originalquellen verwendet werden.
 
 
 Integration der Hersteller-ID in Taxbird
@@ -37,16 +36,22 @@ Eigene Hersteller-ID mit Taxbird verwenden
     aufrufen und das Ergebnis an die export:-Funktionen weiterreichen
     (siehe auch das ustva-2005 Formular)
  
- 2. mit GPG muss ein neuer Schlüssel angelegt werden, dessen
-    Kommentarfeld "Taxbird:12345" enthalten, ohne die Anführungszeichen,
-    12345 sei die Hersteller-ID
+ 2. mit OpenSSL muss ein neues Zertifikat angelegt werden, dessen
+    OU-Wert die Hersteller-ID enthält. Hierzu kann das beigefügte
+    Skript taxbird-make-cert.sh verwendet werden.
 
  3. die Signaturdatei ($signatur_name) muss Paare aus MD5-Summe sowie
-    Dateiname enthalten und digital signiert werden
+    Dateiname enthalten und digital signiert werden. Hierzu muss
+    zuerst, zum Beispiel mit 'ls -1 --co=no', eine Datei angelegt
+    werden, die die Dateinamen enthält, die in die Signatur mit
+    einfließen sollen. Daraufhin ist taxbird-sig-update.sh aufzurufen,
+    um die Signatur selbst zu erstellen.
  
- 4. in die Signaturdatei muss in die erste Zeile eine CVS-$Id: mit
-    aufgenommen werden, hierzu einfach "$Id: README.vendor-id,v 1.1 2005-05-15 13:13:08 stesie Exp $" einfügen und die Datei
-    einchecken
+ 4. die Signaturdatei muss in ein CVS eingecheckt werden. Dadurch wird
+    der $Id-Wert in der Datei ausgefüllt. Diese Id wird in die
+    exportierten Daten mit eingefügt, sodass später ggf. festgestellt
+    werden kann, welche (evtl. fehlerhafte) Dateiversion zur
+    Erstellung des XML-Datensatz geführt hat.
  
  5. Funktionstest
 
@@ -75,5 +80,5 @@ Verbliebene Fragen
 
 
 
-$Id: README.vendor-id,v 1.1 2005-05-15 13:13:08 stesie Exp $
+$Id: README.vendor-id,v 1.2 2005-06-20 12:32:16 stesie Exp $
 
