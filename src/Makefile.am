@@ -30,7 +30,7 @@ taxbird_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 EXTRA_DIST = \
 	taxbird-sig-update.sh \
 	readline.scm \
-	taxbird-sig-update.sh
+	taxbird-sig-makecert.sh
 
 BUILT_SOURCES = interface.c interface.h \
 	support.c support.h

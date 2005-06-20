@@ -5,7 +5,10 @@ SUBDIRS = src po
 EXTRA_DIST = \
 	autogen.sh \
 	taxbird.glade \
-	taxbird.gladep
+	taxbird.gladep \
+	README.vendor-id \
+	README.OpenSSL \
+	COPYING.OpenSSL_exception
 
 install-data-local:
 	@$(NORMAL_INSTALL)
