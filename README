@@ -1,3 +1,4 @@
+			-*- mode: auto-fill; coding: utf-8 -*-
 taxbird - Gnome-2 based application to create Elster (Geier) XML files
 
 Copyright (C) 2004,05 Stefan Siegl <ssiegl@gmx.de>, Germany
@@ -18,10 +19,17 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+The taxbird GUI as well as libgeier make use of the OpenSSL library, 
+to which both the OpenSSL and the original SSLeay copyrights apply.
+See README.OpenSSL for details. This product includes cryptographic
+software written by Eric Young (eay@cryptsoft.com).
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Elster ist das deutsche Projekt zur elektronischen Abgabe
 von Steuererklärungen, siehe <http://www.elster.de>.
 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Taxbird ist ein Projekt, zur elektronischen Übermittlung von
 Steuerdaten im Rahmen freier Software. Es besteht zum Einen aus
@@ -155,4 +163,4 @@ A: Der $Id: Wert der Signatur passt nicht zur installierten Programm-
 
 Vielen Dank, dass Sie Taxbird verwenden!
 
-$Id: README,v 1.6 2005-06-20 12:31:02 stesie Exp $
+$Id: README,v 1.7 2005-06-20 12:42:40 stesie Exp $
