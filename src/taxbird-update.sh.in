@@ -24,12 +24,14 @@ CVS=/usr/bin/cvs
 CVS_ZFLAG=-z6
 CVSROOT=:pserver:anonymous@cvs.g-n-u.de:/cvsroot
 
+STABLE=openssl_stable
+
 export CVSROOT
 
 cat <<__FOO
 Pleased to meet you!
 
-This is taxbird-update.sh \$Revision: 1.2 $,
+This is taxbird-update.sh \$Revision: 1.3 $,
 your fully automatic taxbird updater...
 
 __FOO
@@ -62,14 +64,14 @@ test -e $HOME/.cvspass || touch $HOME/.cvspass
 ### DOWNLOAD NEW GUILE SOURCES ################################################
 
 echo -n "updating guile sources ... "
-if test -e guile/CVS/Repository; then
+if test -e "guile/CVS/Repository"; then
     # repository already available, do update
-    (cd guile/; $CVS -Qr $CVS_ZFLAG up -r stable) || \
+    (cd guile/; $CVS -Qr $CVS_ZFLAG up -r $STABLE) || \
 	(echo "failed. Sorry."; exit 1)
 
 else
     # we need to do a complete checkout ...
-    $CVS -Qr $CVS_ZFLAG co -d guile.new -r stable -RP \
+    $CVS -Qr $CVS_ZFLAG co -d guile.new -r $STABLE -RP \
 	taxbird/taxbird/src/guile || \
 	(echo "failed. Sorry."; exit 1)
 
@@ -78,39 +80,6 @@ else
     mv -f guile.new guile || (echo "failed. Sorry."; exit 1)
 fi
 echo "done."
-
-
-### DOWNLOAD NEW PUBLIC KEYS ##################################################
-echo -n "refreshing public keys ... "
-if test -e pubkeys/CVS/Repository; then
-    # update module ...
-    (cd pubkeys/; $CVS -Qr $CVS_ZFLAG up) || \
-	(echo "failed. Sorry."; exit 1)
-else
-    # we need to do a fresh checkout ...
-    $CVS -Qr $CVS_ZFLAG co -d pubkeys.new -RP \
-	taxbird/taxbird/src/pubkeys || \
-	(echo "failed. Sorry."; exit 1)
-
-    # replace old pubkeys by new ones ...
-    rm -rf pubkeys  || (echo "failed. Sorry."; exit 1)
-    mv -f pubkeys.new pubkeys  || (echo "failed. Sorry."; exit 1)
-fi
-echo "done."
-
-
-
-### IMPORT NEW PUBLIC KEYS IF NECESSARY #######################################
-echo 
-if test $UID -ne 0; then
-    echo -n "you're not root, therefore import the keys now ... "
-    for FILE in pubkeys/*.pub; do
-	gpg --import $FILE >/dev/null 2>/dev/null || \
-	    echo "unable to import public key from $FILE. Sorry."
-    done
-fi
-echo "done. "
-
 
 
 ### say goodbye ...
@@ -122,6 +91,12 @@ I was able to successfully update your Taxbird installation.
 Please run this script regularly, especially since Taxbird is
 currently somewhat in alpha-alike or maybe beta stage, and
 bugs are expected to be there.
+
+Furthermore please mind that this script only updates sheet
+descriptions etc. (the stuff written in guile scripting language).
+It does NOT update the (binary) application itself, therefore if
+there is a new taxbird or libgeier release you should manually
+install this one as well.
 
 Thank you for using taxbird!
 
