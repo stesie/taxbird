@@ -1,8 +1,8 @@
 dnl Process this file with autoconf to produce a configure script.
 
 #AC_INIT(configure.in)
-AC_INIT(taxbird, 0.1, [ssiegl@gmx.de])
-AM_INIT_AUTOMAKE(taxbird, 0.1, [ssiegl@gmx.de])
+AC_INIT(taxbird, 0.2, [taxbird@taxbird.de])
+AM_INIT_AUTOMAKE(taxbird, 0.2, [taxbird@taxbird.de])
 AM_MAINTAINER_MODE
 AM_CONFIG_HEADER(config.h)
 
@@ -25,8 +25,6 @@ ALL_LINGUAS="de"
 AM_GLIB_GNU_GETTEXT
 
 dnl Check for GNU Guile
-#AC_CHECK_HEADER(guile/gh.h,, AC_MSG_ERROR([GNU Guile include files missing.]))
-#AC_CHECK_LIB(guile, gh_define,, AC_MSG_ERROR([GNU Guile libraries missing.]))
 GUILE_FLAGS
 GUILE_MODULE_REQUIRED(ice-9 format)
 
