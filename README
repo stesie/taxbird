@@ -68,10 +68,9 @@ $ make install
 
 Benötigte Bibliotheken:
 -----------------------
-GNU Guile 1.6.7
-libmhash 0.9.1-1
-libgpgme 1.0.2-1 (mind. Version 1.0)
-libgnomeui-2.0 (Gnome Development Libraries) 2.8.0
+GNU Guile 1.6.7 (andere können funktionieren)
+OpenSSL 0.9.5 oder später
+libgnomeui-2.0 (Gnome Development Libraries)
 libgtkhtml-2.0 (GtkHTML Widget)
 
 
@@ -92,6 +91,17 @@ Um den CVS-Tree kompilieren zu können, werden weiter benötigt:
 autoconf (GNU Autoconf) 2.59
 automake (GNU Automake) 1.4-p6
 Glade-2 2.6.8 (mit Gnome-Unterstützung)
+
+
+
+Teilnahmeerklärung
+------------------
+
+Bevor Sie mit Taxbird Echtdaten an das Finanzamt übermitteln können
+(betroffen sind sowohl Lohnsteueranmeldungen als auch Umsatzsteuer-
+voranmeldungen) ist eine sog. Teilnahmeerklärung abzugeben. Das hierzu
+notwendige Formular können Sie auf den Seiten der Finanzverwaltung
+unter https://www.elster.de/doc/teilnahmeerklaerung.pdf herunterladen.
 
 
 
@@ -132,9 +142,17 @@ A: Die Felder werden seitens dem von der Finanzverwaltung zur Verfügung
    einen Berater erfolgt. Wenn das Feld Berufsbezeichnung
    (unter Datenlieferant) ausgefüllt wird, müssten die Daten erscheinen.
 
+F: Nach einem Klick auf "Daten Senden" erscheint die Fehlermeldung
+   "Die $Id: der Signatur ist nicht gültig (beim Prüfen der Signatur
+    signatures/ustva-2005.sig)" - Export nur als Testdaten möglich
 
-
+A: Der $Id: Wert der Signatur passt nicht zur installierten Programm-
+   version von Taxbird. Vermutlich haben Sie noch eine "alte" GnuPG-
+   Signatur installiert, die installierte Taxbird-Version (ab 0.2)
+   erwartet jedoch eine OpenSSL-Signaturdatei.
+   Bitte führen Sie 'taxbird-update.sh' an der Konsole aus, daraufhin
+   müsste das Problem behoben sein.
 
 Vielen Dank, dass Sie Taxbird verwenden!
 
-$Id: README,v 1.5 2005-05-14 12:53:59 stesie Exp $
+$Id: README,v 1.6 2005-06-20 12:31:02 stesie Exp $
