@@ -1,5 +1,5 @@
 # libgeier spec file, used to drive rpmbuild.
-# Spec File Version $Id: taxbird.spec.in,v 1.2 2005-06-21 13:54:27 stesie Exp $
+# Spec File Version $Id: taxbird.spec.in,v 1.3 2005-06-21 14:00:24 stesie Exp $
 
 #
 # Define vendor and version
@@ -92,7 +92,7 @@ Diese Software ist zur Zeit im ALPHA Stadium!
 #
 # Copy documentation files
 #
-mkdir -p /var/tmp/taxbird-stesie//usr/local/share/doc/packages/taxbird
+mkdir -p %{buildroot}/%{_prefix}/share/doc/packages/@PACKAGE@/
 for A in AUTHORS ChangeLog COPYING COPYING.OpenSSL_exception NEWS README \
 	README.OpenSSL README.vendor-id THANKS; do 
 	test -e $A && /usr/bin/install -c -m 644 $A \
@@ -128,8 +128,8 @@ done
 %defattr(-,root,root)
 %{_bindir}/*
 %{_datadir}/%{name}/*
-%{_prefix}/share/locale/*/LC_MESSAGES/taxbird.mo
-%{_prefix}/share/doc/packages/taxbird/*
+%{_prefix}/share/locale/*/LC_MESSAGES/@PACKAGE@.mo
+%{_prefix}/share/doc/packages/@PACKAGE@/*
 
 %changelog
 * Tue Jun 21 2005 Stefan Siegl <stesie@brokenpipe.de> - 0.1
