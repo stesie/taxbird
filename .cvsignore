@@ -20,3 +20,4 @@ INSTALL
 missing
 install-sh
 taxbird.spec
+build-stamp
