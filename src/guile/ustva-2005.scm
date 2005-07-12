@@ -675,7 +675,7 @@
 
 
 (define ustva-2005:export
-  (lambda (buffer)
+  (lambda (buffer sig-result)
     (let ((zeitraum (string->number (storage:retrieve buffer "zeitraum")))
 	  (land     (string->number (storage:retrieve buffer "land")))
 	  (st-nr    (storage:retrieve buffer "stnr")))
@@ -694,7 +694,7 @@
 	   (list "Jahr"         #f "2005"
 		 "Zeitraum"     #f zeitraum
 		 "Steuernummer" #f (steuernummer:convert land st-nr)
-		 "Kz09"         #f (export:generate-kz09 buffer))
+		 "Kz09"         #f (export:generate-kz09 buffer sig-result))
 
 	   ;; finally copy all the Kz?? values from the buffer ...
 	   ;; this can be done in any order, since libgeier will reformat

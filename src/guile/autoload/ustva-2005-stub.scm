@@ -47,7 +47,7 @@
 	  (export:make-transfer-header buf "UStVA" sig-result)
 	  (export:make-nutzdaten-header buf sig-result)
 	  (export:make-steuerfall buf "UStVA" "200501"
-				  (ustva-2005:export buf))))))
+				  (ustva-2005:export buf sig-result))))))
 
  ; empty set
  (lambda () '(("vend-id" . "74931") ("land-lieferant" . "Deutschland"))))

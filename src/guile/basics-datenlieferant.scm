@@ -168,16 +168,17 @@
 
 
 (define export:generate-kz09
-  (lambda (store)
+  (lambda (store sig-result)
     (let ((berufsbez (storage:retrieve store "berufsbez"))
-	  (mandant   (storage:retrieve store "mandant")))
+	  (mandant   (storage:retrieve store "mandant"))
+	  (vendor-id (if (list? sig-result) (car sig-result) "74931")))
 
       (if (and berufsbez
 	       (> (string-length berufsbez) 0))
 
 	  ;; berufsbez. is set, i.e. there's some advisor, that files this
 	  ;; tax declaration -> write out kz09 tag ...
-	  (string-append (storage:retrieve store "vend-id") "*"
+	  (string-append vendor-id "*"
 			 (storage:retrieve store "name-lieferant") "*"
 			 berufsbez "*"
 			 (storage:retrieve store "vorwahl") "*"
@@ -187,4 +188,4 @@
 	  ;; berufsbez. is not set - as it shall be set only for tax 
 	  ;; advisors etc., we can assume the person who sends the data
 	  ;; is the same as the person who has to pay, i.e. don't fill kz09
-	  (storage:retrieve store "vend-id")))))
+	  vendor-id))))
