@@ -22,57 +22,70 @@
 	  "\n\n"))
 
 (define xml-writer:write
-  (lambda (xml port)
-    (if (not (port? port))
-	(scm-error 'wrong-type-arg #f "ARG 2, exporting port: ~S"
-		   (list port) #f))
-
-    (display "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n" port)
-    (xml-writer:write-doit xml port 0)))
+  (lambda (xml)
+    (string-append "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n"
+		   (xml-writer:write-doit xml 0))))
 
 (define xml-writer:write-doit
-  (lambda (xml port indent)
+  (lambda (xml indent)
     (if (not (list? xml))
 	(scm-error 'wrong-type-arg #f "ARG 1, expecting list: ~S"
 		   (list xml) #f))
-    (if (not (port? port))
-	(scm-error 'wrong-type-arg #f "ARG 2, exporting port: ~S"
-		   (list port) #f))
     (if (not (= (modulo (length xml) 3) 0))
 	(scm-error 'wrong-type-arg #f "length of xml-data not modulo 3: ~S (~S)"
 		   (list (length xml) xml) #f))
 
-    (while (not (null? xml))
-	   (if (not (string? (car xml)))
-	       (scm-error 'wrong-type-arg #f "expecting string as car: ~S"
-			  (list xml) #f))
+    (let ((result ""))
+      (while (not (null? xml))
+	     (if (not (string? (car xml)))
+		 (scm-error 'wrong-type-arg #f "expecting string as car: ~S"
+			    (list xml) #f))
 	   
-	   (display (make-string (* 2 indent) #\ ) port) ; indent starttag
-	   (format port "<~A" (car xml)) ; write starttag
+	     (set! result
+		   (string-append result
+				  (make-string (* 2 indent) #\ ) ; indent!
+				  (format #f "<~A" (car xml)))) ; starttag
 	   
-	   ; write out attributes (if any) ...
-	   (if (list? (cadr xml))
-	       (let ((attrs (cadr xml)))
-		 (while (not (null? attrs))
-			(format port " ~A=~S" (caar attrs) (cadar attrs))
-			(set! attrs (cdr attrs)))))
+	     ;; write out attributes (if any) ...
+	     (if (list? (cadr xml))
+		 (let ((attrs (cadr xml)))
+		   (while (not (null? attrs))
+			  (set! result
+				(string-append result
+					       (format #f " ~A=~S"
+						       (caar attrs)
+						       (cadar attrs))))
+			  (set! attrs (cdr attrs)))))
 	   
-	   (if (not (caddr xml))
-	       (display "/" port)) ; no content specified, close immediately
+	     (if (not (caddr xml))
+		 ;; no content specified, close immediately
+		 (set! result (string-append result "/")))
 	   
-	   (display ">" port) ; end of starttag
+	     ;; end of starttag
+	     (set! result (string-append result ">"))
+
 	   
-	   (if (string? (caddr xml))
-	       (display (caddr xml) port)
-	       (if (list? (caddr xml))
-		   (let ()
-		     (newline port)
-		     (xml-writer:write-doit (caddr xml) port (+ indent 1))
-		     (display (make-string (* 2 indent) #\ ) port))))
+	     (if (string? (caddr xml))
+		 (set! result (string-append result (caddr xml)))
+
+		 ;; not a string, recurse to handle child elements ...
+		 (if (list? (caddr xml))
+		     (let ()
+		       (set! result
+			     (string-append result "\n"
+					    (xml-writer:write-doit (caddr xml)
+								   (+ indent 1))
+					    (make-string (* 2 indent) #\ ))))))
 	   
-	   (if (caddr xml)
-	       (format port "</~A>" (car xml))) ; write endtag
+	     (if (caddr xml)
+		 (set! result
+		       (string-append result
+				      (format #f "</~A>" (car xml))))) ; endtag
 	   
-	   (newline port)
-	   ; forward xml-data list and continue ...
-	   (set! xml (cdddr xml)))))
+	     (set! result (string-append result "\n"))
+
+	     ;; forward xml-data list and continue ...
+	     (set! xml (cdddr xml)))
+
+      ;; return result
+      result)))
