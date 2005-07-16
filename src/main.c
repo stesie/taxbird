@@ -21,6 +21,7 @@
 #endif
 
 #include <gnome.h>
+#include <geier.h>
 
 #include "interface.h"
 #include "support.h"
@@ -47,8 +48,15 @@ main (int argc, char *argv[])
                       GNOME_PARAM_APP_DATADIR, PACKAGE_DATA_DIR,
                       NULL);
 
+  /* initialize GEIER library */
+  geier_init(0); /* don't create debug output */
+
   /* initialize Guile backend */
   scm_boot_guile(argc, argv, main_forward, NULL);
+
+  /* leaving taxbird, deinitialize libgeier */
+  geier_exit();
+
   return 0;
 }
 

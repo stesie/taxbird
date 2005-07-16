@@ -26,6 +26,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include <geier.h>
+
 #include "interface.h"
 #include "dialog.h"
 #include "support.h"
@@ -37,31 +39,14 @@
  * like to write out */
 static SCM taxbird_export_call_backend(GtkWidget *appwin);
 
-/* launch the xsltifying process */
-static pid_t taxbird_export_launch_xsltifyer(int *to, int *from);
-
-/* launch the dispatching process  */ 
-static pid_t taxbird_export_launch_dispatcher(int *to, int *from);
-
 /* fork a subprocess, RETURN: -1 on error, 0 == child, pid == parent */
 static pid_t taxbird_export_launch_subproc(int *to, int *from);
 
 typedef pid_t (* taxbird_export_subproc) (int *to, int *from);
 
-/* launch subprocess and write export data to it */
-static pid_t taxbird_export_fork_and_write(taxbird_export_subproc proc,
-					   SCM data, int *read_fd);
-					   
 /* ask the user whether the exported data is okay */
 static void taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc,
 				    SCM data);
-
-/* read html source from file descriptor FD and return a freshly allocated
- * HtmlDocument, NULL on error.  */
-static HtmlDocument *taxbird_export_make_htmldoc(int fd);
-
-/* export XML data to filedescriptor FD_TO_XSLSTIFYER */
-static void taxbird_export_write(SCM data, int fd_to_xsltifyer);
 
 /* launch the given command CMD (whether CMD may even contain arguments)
  * RETURN: pid of child on success, -1 on failure */
@@ -78,49 +63,67 @@ taxbird_export(GtkWidget *appwin)
     return; /* exporter function didn't return a list, thus abort here.
 	     * error messages should have been emitted by the called func */
 
-#if 0 
-  /* debug: dump the generated xml to test.xml file before xsltification */
-  int fd = open("test.xml", O_WRONLY | O_CREAT | O_TRUNC,
-		S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR | S_IWGRP | S_IWOTH);
-  if(fd < 0) {
-    taxbird_dialog_error(NULL, _("Unable to create test.xml file."));
+  /* export data into a c-string *********************************************/
+  taxbird_guile_eval_file("xml-writer.scm");
+  data = scm_call_1(scm_c_lookup_ref("xml-writer:write"), data);
+
+  g_return_if_fail(SCM_STRINGP(data));
+  const char *data_text = SCM_STRING_CHARS(data);
+  const int data_text_len = strlen(data_text);
+
+  /* initialize libgeier */
+  geier_context *ctx = geier_context_new();
+  if(! ctx) {
+    taxbird_dialog_error(appwin, _("Unable to initialize libgeier context"));
     return;
   }
 
-  taxbird_export_write(data, fd);
-#endif
-
-  /* launch xsltifyer and write the gathered data to it **********************/
-  int fd_from_xsltifyer;
-  pid_t pid = taxbird_export_fork_and_write(taxbird_export_launch_xsltifyer,
-					    data, &fd_from_xsltifyer);
-  HtmlDocument *doc = taxbird_export_make_htmldoc(fd_from_xsltifyer);
-  close(fd_from_xsltifyer);
-
-  int exit_status;
-  pid_t waitpid_result = waitpid(pid, &exit_status, 0);
-  g_return_if_fail(waitpid_result == pid);
-
-  if((WIFEXITED(exit_status) && WEXITSTATUS(exit_status))
-     || (WIFSIGNALED(exit_status))) {
-    if(WIFSIGNALED(exit_status))
-      g_printerr("got deadly signal: %d\n", WTERMSIG(exit_status));
-
-    /* xsltifying process exited abnormally */
-    taxbird_dialog_error(appwin, _("Unable to validate and xsltify the "
+  /* try to validate resulting xml document against schema file */
+  if(geier_validate_text(ctx, geier_format_unencrypted,
+			 data_text, data_text_len)) {
+    taxbird_dialog_error(appwin, _("Unable to validate the "
+				   "exported document. Sorry, but this "
+				   "should not happen. \n\nPlease consider "
+				   "contacting the taxbird@taxbird.de "
+				   "mailing list."));
+    geier_context_free(ctx);
+    return;
+  }
+	
+  /* xsltify gathered data */
+  unsigned char *data_xslt;
+  size_t data_xslt_len;
+  if(geier_xsltify_text(ctx, data_text, data_text_len,
+			&data_xslt, &data_xslt_len)) {
+    taxbird_dialog_error(appwin, _("Unable to xsltify the "
 				   "exported document. Sorry, but this "
 				   "should not happen. \n\nPlease consider "
 				   "posting to the taxbird@taxbird.de "
 				   "mailing list."));
-    if(doc) html_document_clear(doc);
+    geier_context_free(ctx);
     return;
   }
 
-  g_return_if_fail(doc); /* if we cannot read from the xsltifier,
-			  * it most probably exitted with non-zero exit
-			  * status anyways. */
+  geier_context_free(ctx);
 
+  /* now convert xslt-result to HtmlDocument */
+  HtmlDocument *doc = html_document_new();
+  if(! doc) {
+    taxbird_dialog_error(appwin, _("Unable to allocate HtmlDocument."));
+    return;
+  }
 
+  if(! html_document_open_stream(doc, "text/html")) {
+    html_document_clear(doc);
+    taxbird_dialog_error(appwin, _("Unable to call open_stream"
+				   "on allocated HtmlDocument."));
+    return;
+  }
+
+  html_document_write_stream(doc, data_xslt, data_xslt_len);
+  html_document_close_stream(doc);
+
+  free(data_xslt);
 
   /* ask the user, whether it's okay to send the data ************************/
   taxbird_export_ask_user(appwin, doc, data);
@@ -136,6 +139,10 @@ int
 taxbird_export_bottom_half(GtkWidget *confirm_dlg)
 {
   SCM data = (SCM)g_object_get_data(G_OBJECT(confirm_dlg), "data");
+  g_return_val_if_fail(SCM_STRINGP(data), 1);
+
+  const char *data_text = SCM_STRING_CHARS(data);
+  const int data_text_len = strlen(data_text);
 
   /* dump the generated Coala-XML to a file, if requested ********************/
   GtkWidget *store = lookup_widget(confirm_dlg, "store");
@@ -157,7 +164,8 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
       return 1;
     }
 
-    taxbird_export_write(data, fd);
+    write(fd, data_text, data_text_len);
+    close(fd);
   }
 
 
@@ -165,9 +173,15 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   /*** check whether we are requested to send the data to the IRO ************/
   GtkWidget *send = lookup_widget(confirm_dlg, "send");
   if(! gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(send)))
-    return 0; /* close the druid */
+    return 0; /* close the druid, we shalt not send the data */
 
 
+  geier_context *ctx = geier_context_new();
+  if(! ctx) {
+    taxbird_dialog_error(confirm_dlg,
+			 _("Unable to initialize libgeier context."));
+    return 1;
+  }
 
   /*** create filedescriptor for protocol output *****************************/
   pid_t pid_print = 0;
@@ -183,6 +197,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
       taxbird_dialog_error(confirm_dlg, _("Unable to fork print process, "
 					  "please verify the specified "
 					  "command"));
+      geier_context_free(ctx);
       return 1;
     }    
   }
@@ -197,47 +212,64 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
 
     if(fd_to_lpr < 0) {
       taxbird_dialog_error(confirm_dlg, _("Unable to create protocol file."));
+      geier_context_free(ctx);
       return 1;
     }
   }
 
   g_return_val_if_fail(fd_to_lpr >= 0, 1);
 
-
   /* send the data, finally **************************************************/
-  int fd_from_dispatcher;
-  pid_t pid = taxbird_export_fork_and_write(taxbird_export_launch_dispatcher,
-					    data, &fd_from_dispatcher);
-
-
-
-  /* copy the data read from the geier subprocess and push to protocol
-   * output, i.e. either /usr/bin/lpr or $FILE *******************************/
-  char buf[4096]; /* TODO force this to be equal to the page size,
-		   * this should allow the best performance */
-  ssize_t bytes_read;
-  while((bytes_read = read(fd_from_dispatcher, buf, sizeof(buf))) > 0)
-    write(fd_to_lpr, buf, bytes_read);
-
-  close(fd_from_dispatcher);
-  close(fd_to_lpr);
-
-
-
-  /*** wait for dispatcher process to exit ***********************************/
-  int exit_status;
-  if((waitpid(pid, &exit_status, 0) != pid)
-     || (! WIFEXITED(exit_status))
-     || (WEXITSTATUS(exit_status))) {
-    /* xsltifying process exited abnormally */
+  unsigned char *data_return;
+  size_t data_return_len;
+  if(geier_send_text(ctx, data_text, data_text_len,
+		     &data_return, &data_return_len)) {
     taxbird_dialog_error(confirm_dlg,
 			 _("Unable to send the exported document."));
+
+    if(fd_from_lpr >= 0) close(fd_from_lpr);
+    close(fd_to_lpr);
     return 1;
   }
 
-  
+  char *error_msg = geier_get_clearing_error_text(ctx, data_return,
+						  data_return_len);
+  if(error_msg) {
+    char *msg = g_strdup_printf(_("Unable to send the tax declaration to the "
+				  "inland revenue office, the error message, "
+				  "returned by the clearing host was: \n\n%s"),
+				error_msg);
+    taxbird_dialog_error(confirm_dlg, msg);
+    free(msg);
+    free(data_return);
+    if(fd_from_lpr >= 0) close(fd_from_lpr);
+    close(fd_to_lpr);
+    return 1;
+  }
+
+  /** now run xsltify to generate protocol for user */
+  unsigned char *data_xslt;
+  size_t data_xslt_len;
+  if(geier_xsltify_text(ctx, data_return, data_return_len,
+			&data_xslt, &data_xslt_len)) {
+    taxbird_dialog_error(confirm_dlg, _("Unable to generate the transmission "
+					"protocol. This is a local error, THIS "
+					"IS, YOUR DATA HAS BEEN SENT TO THE "
+					"INLAND REVENUE OFFICE AND IT WAS "
+					"ACCEPTED."));
+    free(data_return);
+    if(fd_from_lpr >= 0) close(fd_from_lpr);
+    close(fd_to_lpr);
+    return 1;
+  }
+
+  write(fd_to_lpr, data_xslt, data_xslt_len);
+  close(fd_to_lpr);
+
   /*** wait for lpr process to exit ******************************************/
   if(fd_from_lpr != -1) {
+    int exit_status;
+    unsigned char buf[256];
     while(read(fd_from_lpr, buf, sizeof(buf)));
 
     close(fd_from_lpr);
@@ -246,48 +278,15 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
        || (! WIFEXITED(exit_status))
        || (WEXITSTATUS(exit_status))) {
       taxbird_dialog_error(confirm_dlg,
-			   _("Printer process exited abnormally."));
+			   _("Printer process exited abnormally, "
+			     "your data has been sent however."));
       return 1;
     }
   }
 
+  taxbird_dialog_info(NULL, _("Your data was sent to the inland "
+			      "revenue office and has been accepted"));
   return 0; /* hey, we did it. :) */
-}
-
-
-/* launch subprocess and write export data to it */
-static pid_t
-taxbird_export_fork_and_write(taxbird_export_subproc proc, SCM data, int *fd)
-{
-  int fd_to_xsltifyer, fd_from_xsltifyer;
-  pid_t pid_xsltifyer = proc(&fd_to_xsltifyer, &fd_from_xsltifyer);
-
-  if(pid_xsltifyer == -1) {
-    taxbird_dialog_error(NULL, _("Cannot fork sub-process, sorry."));
-    return -1;
-  }
-
-  taxbird_export_write(data, fd_to_xsltifyer);
-
-  *fd = fd_from_xsltifyer;
-  return pid_xsltifyer;
-}
-
-
-
-/* export XML data to filedescriptor FD_TO_XSLSTIFYER */
-static void
-taxbird_export_write(SCM data, int fd_to_xsltifyer)
-{
-  /* map fd_to_xsltifyer filedescriptor to guile port */
-  SCM handle = scm_fdes_to_port(fd_to_xsltifyer, "w",
-				scm_makfrom0str("fd-to-xsltifyer"));
-
-  /* export previously generated data to xsltifyer process */
-  taxbird_guile_eval_file("xml-writer.scm");
-  scm_call_2(scm_c_lookup_ref("xml-writer:write"), data, handle);
-  scm_close(handle);
-  /* FIXME: do we have to close(fd_to_xsltifyer) ?? */
 }
 
 
@@ -304,40 +303,6 @@ taxbird_export_call_backend(GtkWidget *appwin)
 
   /* call exporter function of current template */
   return scm_call_1(forms[current_form]->dataset_export, data);
-}
-
-
-
-/* launch the xsltifying process 
- * RETURN: pid of child on success, -1 on failure */
-static pid_t 
-taxbird_export_launch_xsltifyer(int *to, int *from)
-{
-  pid_t child = taxbird_export_launch_subproc(to, from);
-  if(child != 0) return child; /* main process || error -> get out */
-
-  /** launch geier */
-  execlp(GEIER_PATH, "geier", "--dry-run", "--xsltify", "--validate", NULL);
-
-  /** if execlp fails, die. */
-  exit(255);
-}
-
-
-
-/* launch the dispatching process 
- * RETURN: pid of child on success, -1 on failure */
-static pid_t 
-taxbird_export_launch_dispatcher(int *to, int *from)
-{
-  pid_t child = taxbird_export_launch_subproc(to, from);
-  if(child != 0) return child; /* main process || error -> get out */
-
-  /** launch geier */
-  execlp(GEIER_PATH, "geier", "--xsltify", NULL);
-
-  /** if execlp fails, die. */
-  exit(255);
 }
 
 
@@ -462,26 +427,3 @@ taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc, SCM data)
 
 
 
-/* read html source from file descriptor FD and return a freshly allocated
- * HtmlDocument, NULL on error.  */
-static HtmlDocument *
-taxbird_export_make_htmldoc(int fd)
-{
-  g_return_val_if_fail(fd >= 0, NULL);
-
-  HtmlDocument *doc = html_document_new();
-  if(! doc) return NULL;
-
-  if(! html_document_open_stream(doc, "text/html")) {
-    html_document_clear(doc);
-    return NULL;
-  }
-
-  unsigned char buf[4096]; /* FIXME, maybe define to page size */
-  size_t bytes_read;
-  while((bytes_read = read(fd, buf, sizeof(buf))))
-    html_document_write_stream(doc, buf, bytes_read);
-  
-  html_document_close_stream(doc);
-  return doc;
-}
