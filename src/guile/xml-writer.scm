@@ -16,12 +16,20 @@
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 (display (string-append
-	  "Guile'd XML-Writer, Version 0.1 *alpha*\n"
-	  "Copyright(C) 2005 Stefan Siegl <ssiegl@gmx.de>\n"
+	  "Guile'd XML-Writer, Version 0.2\n"
+	  "Copyright(C) 2005 Stefan Siegl <stesie@brokenpipe.de>\n"
 	  "This is free software, covered by the GNU General Public License."
 	  "\n\n"))
 
 (define xml-writer:write
+  (lambda (xml port)
+    (if (not (port? port))
+	(scm-error 'wrong-type-arg #f "ARG 2, exporting port: ~S"
+		   (list port) #f))
+
+    (display (xml-writer:export xml) port)))
+
+(define xml-writer:export
   (lambda (xml)
     (string-append "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n"
 		   (xml-writer:write-doit xml 0))))
