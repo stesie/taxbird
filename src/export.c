@@ -65,7 +65,7 @@ taxbird_export(GtkWidget *appwin)
 
   /* export data into a c-string *********************************************/
   taxbird_guile_eval_file("xml-writer.scm");
-  data = scm_call_1(scm_c_lookup_ref("xml-writer:write"), data);
+  data = scm_call_1(scm_c_lookup_ref("xml-writer:export"), data);
 
   g_return_if_fail(SCM_STRINGP(data));
   const char *data_text = SCM_STRING_CHARS(data);
