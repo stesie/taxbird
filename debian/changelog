@@ -1,3 +1,11 @@
+taxbird (0.3-1) unstable; urgency=low
+
+  * display success message when data has been sent successfully
+  * directly link against libgeier instead of forking off command line tool
+  * check for returned error messages
+
+ -- Stefan Siegl <stesie@brokenpipe.de>  Sat, 23 Jul 2005 13:50:49 +0200
+
 taxbird (0.2-1) unstable; urgency=low
 
   * Initial release
