@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Taxbird 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-20 14:40+0200\n"
-"PO-Revision-Date: 2005-05-10 20:44+0200\n"
+"POT-Creation-Date: 2005-07-23 13:58+0200\n"
+"PO-Revision-Date: 2005-07-23 14:07+0200\n"
 "Last-Translator: Stefan Siegl <ssiegl@gmx.de>\n"
 "Language-Team: German <ssiegl@gmx.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/callbacks.c:54
 msgid "Name of Template"
@@ -25,9 +25,8 @@ msgid "Unable to create new document. Sorry."
 msgstr "Neues Dokument kann nicht angelegt werden. Entschuldigung."
 
 #: src/callbacks.c:257
-#, fuzzy
 msgid "Unable to open document. Sorry."
-msgstr "Neues Dokument kann nicht angelegt werden. Entschuldigung."
+msgstr "Das Dokument kann nicht geöffnet werden. Entschuldigung."
 
 #: src/callbacks.c:278
 msgid "Current document contains no data. What do you want to export from it?"
@@ -46,6 +45,100 @@ msgid ""
 msgstr ""
 "Ihre neuesten Änderungen am Dokument %s wurden bisher noch nicht "
 "gespeichert. Möchten Sie, dass Sie jetzt gespeichert werden?"
+
+#: src/export.c:77
+msgid "Unable to initialize libgeier context"
+msgstr "Der libgeier Kontext konnte nicht initialisiert werden."
+
+#: src/export.c:84
+msgid ""
+"Unable to validate the exported document. Sorry, but this should not "
+"happen. \n"
+"\n"
+"Please consider contacting the taxbird@taxbird.de mailing list."
+msgstr ""
+"Das exportierte Dokument konnte nicht validiert werden."
+"Entschuldigung, aber das sollte nicht passieren. \n"
+"\n"
+"Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
+
+#: src/export.c:98
+msgid ""
+"Unable to xsltify the exported document. Sorry, but this should not "
+"happen. \n"
+"\n"
+"Please consider posting to the taxbird@taxbird.de mailing list."
+msgstr ""
+"Das exportierte Dokument konnte nicht XSLT-verwandelt werden. "
+"Entschuldigung, aber das sollte nicht passieren. \n"
+"\n"
+"Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
+
+#: src/export.c:112
+msgid "Unable to allocate HtmlDocument."
+msgstr "Konnte HtmlDocument nicht alloziieren."
+
+#: src/export.c:118
+msgid "Unable to call open_streamon allocated HtmlDocument."
+msgstr "open_stream konnte nicht auf das alloziierte HtmlDocument angewandt werden"
+
+#: src/export.c:154
+msgid ""
+"You told to store Coala-XML to a file, however didn't specify a filename."
+msgstr ""
+"Sie haben ausgewählt, das Coala-XML in eine Datei abzuspeichern, jedoch "
+"keinen Dateinamen festgelegt."
+
+#: src/export.c:163
+msgid "Unable to create Coala-XML file."
+msgstr "Coala-XML Datei kann nicht erstellt werden."
+
+#: src/export.c:182
+msgid "Unable to initialize libgeier context."
+msgstr "libgeier Kontext konnte nicht initialisiert werden."
+
+#: src/export.c:197
+msgid "Unable to fork print process, please verify the specified command"
+msgstr ""
+"Der Druckprozess konnte nicht gestartet werden, bitte überprüfen Sie den "
+"angegebenen Dateinamen."
+
+#: src/export.c:214
+msgid "Unable to create protocol file."
+msgstr "Protokolldatei kann nicht erstellt werden."
+
+#: src/export.c:228
+msgid "Unable to send the exported document."
+msgstr "Exportiertes Dokument kann nicht gesendet werden."
+
+#: src/export.c:238
+#, c-format
+msgid ""
+"Unable to send the tax declaration to the inland revenue office, the error "
+"message, returned by the clearing host was: \n"
+"\n"
+"%s"
+msgstr ""
+"Die Steuererklärung konnte nicht an das Finanzamt gesendet werden,"
+"die von der Clearingstelle zurückgegebene Fehlermeldung war:\n"
+"\n"
+"%s"
+
+#: src/export.c:255
+msgid ""
+"Unable to generate the transmission protocol. This is a local error, THIS "
+"IS, YOUR DATA HAS BEEN SENT TO THE INLAND REVENUE OFFICE AND IT WAS ACCEPTED."
+msgstr ""
+"Das Übertragungsprotokoll konnte nicht generiert werden. Dies ist ein lokaler Fehler,"
+"DAS BEDEUTET, DASS IHRE DATEN AN DAS FINANZAMT ÜBERMITTELT UND AKZEPTIERT WURDEN."
+
+#: src/export.c:281
+msgid "Printer process exited abnormally, your data has been sent however."
+msgstr "Druckprozess endete auf unnormale Weise, Ihre Daten wurden jedoch gesendet."
+
+#: src/export.c:287
+msgid "Your data was sent to the inland revenue office and has been accepted"
+msgstr "Ihre Daten wurden an das Finanzamt übermittelt und wurden akzeptiert."
 
 #: src/interface.c:31
 msgid "_New"
@@ -77,7 +170,7 @@ msgstr "Daten Senden"
 
 #: src/interface.c:175
 msgid "<b><i>Thank you for using Taxbird!</i></b>"
-msgstr ""
+msgstr "<b><i>Vielen Dank, dass Sie Taxbird verwenden!</i></b>"
 
 #: src/interface.c:261
 msgid "Choose Base Template"
@@ -224,6 +317,79 @@ msgstr ""
 "\n"
 "Danke, dass Sie Taxbird benutzen!"
 
+#: src/sigcheck.c:60
+#, c-format
+msgid "Unable to find required signature file '%s' in the Taxbird path."
+msgstr ""
+"Die benötigte Signaturdatei '%s' kann nicht im Taxbird-Pfad gefunden werden."
+
+#: src/sigcheck.c:71
+#, c-format
+msgid "Signature's $Id: entry is not valid, while checking signature %s"
+msgstr "Die $Id: der Signatur ist nicht gültig (beim Prüfen der Signatur %s)"
+
+#: src/sigcheck.c:85
+#, c-format
+msgid "Unable to open signature file %s to do verification"
+msgstr "Konnte Signaturdatei %s nicht öffnen, um die Überprüfung durchzuführen"
+
+#: src/sigcheck.c:93
+#, c-format
+msgid "Unable to parse S/MIME signature %s, to do verification"
+msgstr "Die S/MIME Signatur %s konnte nicht gelesen werden, um sie zu überprüfen"
+
+#: src/sigcheck.c:100
+#, c-format
+msgid "Unable to allocate BIO buffer, while trying to verify %s"
+msgstr "BIO-Puffer konnte beim Versuch, %s zu überprüfen, nicht alloziiert werden"
+
+#: src/sigcheck.c:107
+#, c-format
+msgid "Unable to allocate X.509 store, trying to verify %s"
+msgstr "Beim Versuch, %s zu überprüfen, konnte kein X.509 store alloziiert werden"
+
+#: src/sigcheck.c:115
+#, c-format
+msgid ""
+"This S/MIME signature on %s is not valid, sorry. Please try to install an "
+"unmodified version."
+msgstr ""
+"Die S/MIME Signatur auf %s ist nicht gültig. Entschuldigung. Bitte versuchen Sie, eine unmodifizierte Version zu installieren."
+
+#: src/sigcheck.c:126
+#, c-format
+msgid ""
+"The MD5-Checksums from the signature file %s do not match the corresponding "
+"checksums of the installed source files. Sorry, you either want to self-sign "
+"your modified sources or want to install unmodified, original ones.\n"
+"\n"
+"If you've found a bug in one in the Guile sources, please don't hesitate but "
+"publish your solution to the taxbird@taxbird.de mailing list."
+msgstr ""
+"Die MD5-Prüfsummen aus der Signaturdatei %s stimmen nicht mit den "
+"Prüfsummen der installierten Quelldateien überein. Entschuldigung, Sie "
+"möchten entweder die modifizierten Quellen selbst signieren oder die unverä"
+"nderten, originalen Dateien installieren.\n"
+"\n"
+"Wenn Sie einen Fehler in einer der Guile Quelldateien entdeckt haben, "
+"zögern Sie bitten nicht, Ihre Lösung auf der taxbird@taxbird.de Mailing-"
+"Liste zu veröffentlichen. "
+
+#: src/sigcheck.c:142
+#, c-format
+msgid "Unable to read X.509 certificate from signature %s."
+msgstr "Das X.509-Zertifikat konnte nicht aus der Signatur %s gelesen werden."
+
+#: src/sigcheck.c:155
+#, c-format
+msgid "Not enough memory to store vendor id from signature %s."
+msgstr "Nicht genügen Arbeitsspeicher, um die Hersteller-ID aus der Signatur %s zu speichern."
+
+#: src/sigcheck.c:159
+#, c-format
+msgid "Unable to extract vendor id from issuer name (signatur %s)"
+msgstr "Die Hersteller-ID konnte nicht aus dem Ausstellernamen extrahiert werden (Signatur %s)"
+
 #: src/support.c:60 src/support.c:85
 #, c-format
 msgid "Couldn't find pixmap file: %s"
@@ -242,126 +408,3 @@ msgid "Current document contains no data. There's no point in writing it out."
 msgstr ""
 "Das aktuelle Dokument enthält keine Daten. Es macht keinen Sinn, es zu "
 "speichern."
-
-#~ msgid ""
-#~ "Unable to validate and xsltify the exported document. Sorry, but this "
-#~ "should not happen. \n"
-#~ "\n"
-#~ "Please consider posting to the taxbird@taxbird.de mailing list."
-#~ msgstr ""
-#~ "Das exportierte Dokument konnte nicht validiert und XSLT-verwandelt "
-#~ "werden. Entschuldigung, aber das sollte nicht passieren. \n"
-#~ "\n"
-#~ "Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
-
-#~ msgid ""
-#~ "You told to store Coala-XML to a file, however didn't specify a filename."
-#~ msgstr ""
-#~ "Sie haben ausgewählt, das Coala-XML in eine Datei abzuspeichern, jedoch "
-#~ "keinen Dateinamen festgelegt."
-
-#~ msgid "Unable to create Coala-XML file."
-#~ msgstr "Coala-XML Datei kann nicht erstellt werden."
-
-#~ msgid "Unable to fork print process, please verify the specified command"
-#~ msgstr ""
-#~ "Der Druckprozess konnte nicht gestartet werden, bitte überprüfen Sie den "
-#~ "angegebenen Dateinamen."
-
-#~ msgid "Unable to create protocol file."
-#~ msgstr "Protokolldatei kann nicht erstellt werden."
-
-#~ msgid "Unable to send the exported document."
-#~ msgstr "Exportiertes Dokument kann nicht gesendet werden."
-
-#~ msgid "Printer process exited abnormally."
-#~ msgstr "Druckprozess endete auf unnormale Weise."
-
-#~ msgid "Cannot fork sub-process, sorry."
-#~ msgstr "Unterprozess kann nicht gestartet werden, Entschuldigung."
-
-#~ msgid "Unable to find required signature file '%s' in the Taxbird path."
-#~ msgstr ""
-#~ "Die benötigte Signaturdatei '%s' kann nicht im Taxbird-Pfad gefunden "
-#~ "werden."
-
-#~ msgid "Signature's $Id: entry is not valid, while checking signature %s"
-#~ msgstr ""
-#~ "Die $Id: der Signatur ist nicht gültig (beim Prüfen der Signatur %s)"
-
-#~ msgid ""
-#~ "The MD5-Checksums from the signature file %s do not match the "
-#~ "corresponding checksums of the installed source files. Sorry, you either "
-#~ "want to self-sign your modified sources or want to install unmodified, "
-#~ "original ones.\n"
-#~ "\n"
-#~ "If you've found a bug in one in the Guile sources, please don't hesitate "
-#~ "but publish your solution to the taxbird@taxbird.de mailing list."
-#~ msgstr ""
-#~ "Die MD5-Prüfsummen aus der Signaturdatei %s stimmen nicht mit den "
-#~ "Prüfsummen der installierten Quelldateien überein. Entschuldigung, Sie "
-#~ "möchten entweder die modifizierten Quellen selbst signieren oder die "
-#~ "unveränderten, originalen Dateien installieren.\n"
-#~ "\n"
-#~ "Wenn Sie einen Fehler in einer der Guile Quelldateien entdeckt haben, "
-#~ "zögern Sie bitten nicht, Ihre Lösung auf der taxbird@taxbird.de Mailing-"
-#~ "Liste zu veröffentlichen. "
-
-#~ msgid "Unable to open signature file %s."
-#~ msgstr "Konnte Signaturdatei %s nicht öffnen."
-
-#~ msgid ""
-#~ "The Taxbird signature (%s) is not valid anymore. It's public key has been "
-#~ "revoked. \n"
-#~ "\n"
-#~ "Please use taxbird-update.sh to update your installation."
-#~ msgstr ""
-#~ "Die Taxbird Signatur (%s) ist nicht mehr gültig. Der öffentliche "
-#~ "Schlüssel wurde zurückgezogen.\n"
-#~ "\n"
-#~ "Bitte verwenden Sie taxbird-update.sh um Ihre Installation zu "
-#~ "aktualisieren."
-
-#~ msgid ""
-#~ "The Taxbird signature on %s is not valid anymore. It's public key has "
-#~ "expired.\n"
-#~ "\n"
-#~ "Please update your taxbird installation, using taxbird-update.sh"
-#~ msgstr ""
-#~ "Die Taxbird Signatur von %s ist nicht mehr gültig. Der öffentliche "
-#~ "Schlüssel ist abgelaufen. \n"
-#~ "\n"
-#~ "Bitte aktualisieren Sie Ihre Taxbird Installation mit taxbird-update.sh"
-
-#~ msgid ""
-#~ "The Taxbird signature on %s has expired. \n"
-#~ "\n"
-#~ "Please use taxbird-update.sh to update your Taxbird installation."
-#~ msgstr ""
-#~ "Die Taxbird Signatur von %s ist abgelaufen. \n"
-#~ "\n"
-#~ "Bitte verwenden Sie taxbird-update.sh um Ihre Taxbird Installation zu "
-#~ "aktualisieren."
-
-#~ msgid ""
-#~ "Key for signature file %s is not available. Please make sure GPG is able "
-#~ "to verify digital signatures.\n"
-#~ msgstr ""
-#~ "Der Schlüssel für die Signaturdatei %s ist nicht verfügbar. Bitte stellen "
-#~ "Sie sicher, dass GPG in der Lage ist, digitale Signaturen zu überprüfen.\n"
-
-#~ msgid "Invalid comment on gpg-key '%s'. Checking signature file %s."
-#~ msgstr ""
-#~ "Ungültiger Kommentar des GPG-Schlüssels '%s'. Beim Überprüfen der "
-#~ "Signaturdatei %s."
-
-#~ msgid "Unable to check the validity of the signature file %s."
-#~ msgstr "Die Gültigkeit der Signaturdatei %s konnte nicht überprüft werden."
-
-#~ msgid ""
-#~ "The GPG public key file '%s' could not be imported successfully. You will "
-#~ "not be able to use the signature mechanism this way."
-#~ msgstr ""
-#~ "Der GPG-Schlüsseldatei '%s' konnte nicht erfolgreich importiert werden. "
-#~ "Sie werden nicht in der Lage sein, den Signaturmechanismus auf diesem "
-#~ "Wege zu verwenden."
