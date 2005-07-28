@@ -1,5 +1,5 @@
 # libgeier spec file, used to drive rpmbuild.
-# Spec File Version $Id: taxbird.spec.in,v 1.3 2005-06-21 14:00:24 stesie Exp $
+# Spec File Version $Id: taxbird.spec.in,v 1.4 2005-07-28 20:59:11 stesie Exp $
 
 #
 # Define vendor and version
@@ -47,7 +47,7 @@ BuildRequires: guile
 BuildRequires: glade >= 2.0.0
 Requires:      openssl       >= 0.9.6
 Requires:      libgnomeui libgtkhtml
-Requires:      libgeier
+Requires:      libgeier >= 0.3
 Requires:      guile
 
 #
