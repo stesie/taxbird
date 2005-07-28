@@ -38,8 +38,17 @@ Sowie aus 'Taxbird' einer grafischen (auf Gnome-2 basierenden)
 Oberfläche zur Erfassung von Elster-XML Daten.
 
 Gegenwärtig befindet sich Taxbird noch in der Entwicklungsphase, das
-heißt, die Übermittlung von Echtdaten ist nicht möglich (mangels
-Hersteller-ID). Vorerst wird mittels Taxbird nur die Übermittlung von
+heißt, dass es hin- und wieder mal zu mehr oder weniger großen
+Problemen, sprich Programmfehlern, kommen könnte. Sollte dies der Fall
+sein, wird um Kontaktaufnahme mit der taxbird@taxbird.de Mailing-Liste
+gebeten, sodass der Fehler ausgebügelt werden kann.
+
+Die Übermittlung von Echtdaten ist inzwischen möglich. Die hierzu
+erforderliche Hersteller-ID wurde seitens der Oberfinanzdirektion
+München erteilt. Details zum Verfahren können in der Datei
+README.vendor-id in diesem Verzeichnis nachgelesen werden.
+
+Vorerst wird mittels Taxbird nur die Übermittlung von
 Umsatzsteuervoranmeldungen möglich sein. Die Abgabe von
 Lohnsteueranmeldungen ist vorgesehen. Wann die Übermittlung der
 Jahreserklärungen (hauptsächlich Einkommensteuererklärungen) möglich
@@ -50,8 +59,14 @@ Die Formulare (gegenwärtig nur die Umsatzsteuervoranmeldung 2005) sind
 mittels Skriptsprache in Taxbird hinterlegt. So ist es möglich, ohne
 große Programmierkenntnisse eigene (weitere) Formulare hinzuzufügen,
 sowie bestehende zu Überarbeiten. Die Anwendung selbst muss nicht neu
-kompiliert werden. Auf diese Art und Weise ist auch ein Online-Update
-kein großer Akt.
+kompiliert werden. 
+
+Auf diese Art und Weise ist auch ein Online-Update kein großer
+Akt. Grundsätzliche sollte von dieser Update-Möglichkeit regelmäßig
+Gebrauch gemacht werden, eben weil sich das Produkt noch in der
+Entwicklungsphase befindet. Rufen Sie hierzu den Befehl
+taxbird-update.sh auf, das erste Mal möglichst gleich nach
+erfolgreicher Installation.
 
 
 
@@ -161,6 +176,7 @@ A: Der $Id: Wert der Signatur passt nicht zur installierten Programm-
    Bitte führen Sie 'taxbird-update.sh' an der Konsole aus, daraufhin
    müsste das Problem behoben sein.
 
+
 Vielen Dank, dass Sie Taxbird verwenden!
 
-$Id: README,v 1.7 2005-06-20 12:42:40 stesie Exp $
+$Id: README,v 1.8 2005-07-28 20:58:19 stesie Exp $
