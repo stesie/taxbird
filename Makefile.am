@@ -8,7 +8,8 @@ EXTRA_DIST = \
 	taxbird.gladep \
 	README.vendor-id \
 	README.OpenSSL \
-	COPYING.OpenSSL_exception
+	COPYING.OpenSSL_exception \
+	taxbird.spec
 
 install-data-local:
 	@$(NORMAL_INSTALL)
@@ -30,4 +31,16 @@ dist-hook:
 	    fi \
 	  done \
 	fi
+
+# Rule for building the rpm
+rpm:    $(PACKAGE).spec dist
+	rpmbuild="rpm" && \
+	if [ `rpm --version | awk '{ print $$3 }'` > /dev/null ]; then rpmbuild="rpmbuild"; fi && \
+	$$rpmbuild -ta $(PACKAGE)-$(VERSION).tar.gz
+
+# Rule for only building the source rpm
+srpm: $(PACKAGE).spec dist
+	rpmbuild="rpm" && \
+	if [ `rpm --version | awk '{ print $$3 }'` > /dev/null ]; then rpmbuild="rpmbuild"; fi && \
+	$$rpmbuild --nodeps -ts $(PACKAGE)-$(VERSION).tar.gz
 
