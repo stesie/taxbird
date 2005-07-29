@@ -1,5 +1,5 @@
-# libgeier spec file, used to drive rpmbuild.
-# Spec File Version $Id: taxbird.spec.in,v 1.5 2005-07-29 16:04:24 stesie Exp $
+# taxbird spec file, used to drive rpmbuild.
+# Spec File Version $Id: taxbird.spec.in,v 1.6 2005-07-29 16:08:24 stesie Exp $
 
 #
 # Define vendor and version
