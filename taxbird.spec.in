@@ -1,5 +1,5 @@
 # libgeier spec file, used to drive rpmbuild.
-# Spec File Version $Id: taxbird.spec.in,v 1.4 2005-07-28 20:59:11 stesie Exp $
+# Spec File Version $Id: taxbird.spec.in,v 1.5 2005-07-29 16:04:24 stesie Exp $
 
 #
 # Define vendor and version
@@ -12,15 +12,6 @@
 %define VENDOR_VERS
 %define suse_version 0
 %endif
-
-#
-# Defaults for directories
-#
-%define _prefix			@prefix@
-
-#
-# Set SuSE specific directories
-#
 
 Summary:	@PACKAGE@ - GUI zur Erfassung und Abgabe von Steuererklärungen
 Name:           @PACKAGE@
