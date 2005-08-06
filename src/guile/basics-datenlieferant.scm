@@ -127,14 +127,16 @@
 	      "vorwahl" 
 	      "Tel.-Nr. des Datenlieferanten bzw. Beraters (Vorwahl)"
 	      (lambda(val buf)
-		(validate:datenlieferant val buf "vorwahl")))
+		(and (validate:datenlieferant val buf "vorwahl")
+		     (validate:unsigned-int val buf))))
 
 	(list "Tel.-Nr. (Anschluss)"
 	      tb:field:text-input
 	      "anschluss" 
 	      "Tel.-Nr. des Datenlieferanten bzw. Beraters (Anschluss)"
 	      (lambda(val buf)
-		(validate:datenlieferant val buf "anschluss")))
+		(and (validate:datenlieferant val buf "anschluss")
+		     (validate:unsigned-int val buf))))
 
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
