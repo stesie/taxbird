@@ -36,6 +36,9 @@
 
 (define xml-writer:write-doit
   (lambda (xml indent)
+    ;; load string-replace function needed by use-entities ...
+    (tb:eval-file "string.scm")
+
     (if (not (list? xml))
 	(scm-error 'wrong-type-arg #f "ARG 1, expecting list: ~S"
 		   (list xml) #f))
@@ -74,7 +77,8 @@
 
 	   
 	     (if (string? (caddr xml))
-		 (set! result (string-append result (caddr xml)))
+		 (set! result (string-append result 
+					     (use-entities (caddr xml))))
 
 		 ;; not a string, recurse to handle child elements ...
 		 (if (list? (caddr xml))
@@ -97,3 +101,13 @@
 
       ;; return result
       result)))
+
+
+(define use-entities 
+  (lambda (str)
+    (set! str (string-replace str #\& "&amp;"))
+    (set! str (string-replace str #\< "&lt;"))
+    (set! str (string-replace str #\> "&gt;"))
+
+    str))
+
