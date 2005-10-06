@@ -32,7 +32,11 @@
  ; storage function
  (lambda (buffer element value)
    (storage:store buffer element value)
-   (ustva-2005:recalculate buffer element value))
+
+   ;; if the stored value is Kz?? call the recalculation function ...
+   (if (and (= (string-length element) 4)
+	    (string=? (substring element 0 2) "Kz"))
+       (ustva-2005:recalculate buffer element value)))
 
  ;; export function
  (lambda (buf)
