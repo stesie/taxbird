@@ -21,6 +21,7 @@
 #endif
 
 #include <gnome.h>
+#include <assert.h>
 
 #include "interface.h"
 #include "dialog.h"
@@ -92,6 +93,9 @@ static struct {
  */
 static SCM taxbird_ws_lookup_sheet(SCM dataset, const char *sheet_name);
 
+/* set this to true to disable the storage hook,
+ * this is thought to be set while the fields are loaded */
+static int taxbird_ws_disable_storage_hook = 0;
 
 /* list of all application windows */
 GSList *taxbird_windows = NULL;
@@ -287,6 +291,9 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
   gtk_widget_show(headline);
   gtk_widget_show(headline_evbox);
 
+  /* disable storage hook */
+  taxbird_ws_disable_storage_hook = 1;
+
   /* parse the sheet definition step by step,
    * and create the necessary widgets */
   int row;
@@ -381,6 +388,10 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
     }
   }
 
+  /* reenable storage hook */
+  taxbird_ws_disable_storage_hook = 0;
+
+  /* finally display all the cruft */
   gtk_widget_show(table);
 }
 
@@ -439,6 +450,9 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 {
   (void) user_data;
 
+  if(taxbird_ws_disable_storage_hook)
+    return;
+
   /* fetch specs for the selected field (GtkWidget *w) */
   SCM specs = (SCM) g_object_get_data(G_OBJECT(w), "scm_specs");
   g_return_if_fail(SCM_NFALSEP(scm_list_p(specs)));
@@ -452,12 +466,7 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
   g_return_if_fail(SCM_STRINGP(plain_helptext));
 
   /* validate field's content */
-  if(taxbird_ws_validate(w)) {
-    /* the field's content is valid, display unmodified help text */
-    gtk_label_set_markup(GTK_LABEL(helpw), SCM_STRING_CHARS(plain_helptext));
-
-  }
-  else {
+  if(! taxbird_ws_validate(w)) {
     /* the field's content is invalid, prepend warning to the bottom bar */
     char *helptext = 
       g_strdup_printf("<span foreground=\"red\" weight=\"bold\">%s</span>"
@@ -512,6 +521,11 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 
   /* now update all but the current field */
   taxbird_ws_update_fields(appwin, SCM_STRING_CHARS(field));
+
+
+  /* write out the current field's unmodified helptext,
+   * this is to replace error-message enhanced versions, etc. */
+  gtk_label_set_markup(GTK_LABEL(helpw), SCM_STRING_CHARS(plain_helptext));
 }
 
 
@@ -523,6 +537,9 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 static void
 taxbird_ws_update_fields(GtkWidget *appwin, const char *exception)
 {
+  assert(taxbird_ws_disable_storage_hook == 0);
+  taxbird_ws_disable_storage_hook = 1;
+
   /* figure out, which sheet's selected */
   GtkTreeView *tv = GTK_TREE_VIEW(lookup_widget(appwin, "tv_sheets"));
   GtkTreeSelection *sel = gtk_tree_view_get_selection(tv);
@@ -576,6 +593,8 @@ taxbird_ws_update_fields(GtkWidget *appwin, const char *exception)
       }
     }
   }
+
+  taxbird_ws_disable_storage_hook = 0;
 }
 
 
