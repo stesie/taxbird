@@ -17,7 +17,7 @@
 
 (tb:eval-file "storage.scm")
 (tb:eval-file "datenlieferant.scm")
-(tb:eval-file "bundesland-chooser.scm")
+(tb:eval-file "bundesland.scm")
 (tb:eval-file "steuernummer.scm")
 (tb:eval-file "validate.scm")
 (tb:eval-file "zeitraum.scm")
