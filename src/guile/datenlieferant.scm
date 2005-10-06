@@ -85,6 +85,7 @@
 	      "Name des Datenlieferanten (ggf. Steuerberater)"
 	      (lambda(val buf) 
 		(and (validate:datenlieferant val buf "name-lieferant")
+		     (not (string-index val #\*)) ;; because of Kz09 field!
 		     (validate:alphanum val 1 45))))
 
 	(list "Straße" 
@@ -128,6 +129,7 @@
 	      "Tel.-Nr. des Datenlieferanten bzw. Beraters (Vorwahl)"
 	      (lambda(val buf)
 		(and (validate:datenlieferant val buf "vorwahl")
+		     (not (string-index val #\*)) ;; because of Kz09 field!
 		     (validate:unsigned-int val buf))))
 
 	(list "Tel.-Nr. (Anschluss)"
@@ -136,6 +138,7 @@
 	      "Tel.-Nr. des Datenlieferanten bzw. Beraters (Anschluss)"
 	      (lambda(val buf)
 		(and (validate:datenlieferant val buf "anschluss")
+		     (not (string-index val #\*)) ;; because of Kz09 field!
 		     (validate:unsigned-int val buf))))
 
 
@@ -147,14 +150,16 @@
 	      "berufsbez"
 	      "Berufsbezeichnung des Steuerberaters (falls zutreffend)"
 	      (lambda(val buf)
-		(validate:datenlieferant val buf "berufsbez")))
+		(and (not (string-index val #\*)) ;; because of Kz09 field!
+		     (validate:datenlieferant val buf "berufsbez"))))
     
 	(list "Name Mandant"
 	      tb:field:text-input
 	      "mandant" 
 	      "Name des Mandanten (optional, sofern zutreffend aber erwünscht)"
 	      (lambda(val buf)
-		(validate:kz09-maxlen val buf "mandant")))))
+		(and (not (string-index val #\*)) ;; because of Kz09 field!
+		     (validate:kz09-maxlen val buf "mandant"))))))
 
 
 (define export:generate-datenlieferant
