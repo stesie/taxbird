@@ -4,7 +4,7 @@ SUBDIRS = autoload signatures
 
 guilestuffdir = $(datadir)/taxbird/guile
 guilestuff_DATA = \
-	basics-datenlieferant.scm \
+	datenlieferant.scm \
 	bundesland-chooser.scm \
 	zeitraum.scm \
 	steuernummer.scm \

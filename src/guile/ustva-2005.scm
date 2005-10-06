@@ -16,7 +16,7 @@
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 (tb:eval-file "storage.scm")
-(tb:eval-file "basics-datenlieferant.scm")
+(tb:eval-file "datenlieferant.scm")
 (tb:eval-file "bundesland-chooser.scm")
 (tb:eval-file "steuernummer.scm")
 (tb:eval-file "validate.scm")
