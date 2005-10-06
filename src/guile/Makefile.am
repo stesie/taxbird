@@ -6,7 +6,7 @@ guilestuffdir = $(datadir)/taxbird/guile
 guilestuff_DATA = \
 	basics-datenlieferant.scm \
 	bundesland-chooser.scm \
-	zeitraum-chooser.scm \
+	zeitraum.scm \
 	steuernummer.scm \
 	storage.scm \
 	validate.scm \

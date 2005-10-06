@@ -20,7 +20,7 @@
 (tb:eval-file "bundesland-chooser.scm")
 (tb:eval-file "steuernummer.scm")
 (tb:eval-file "validate.scm")
-(tb:eval-file "zeitraum-chooser.scm")
+(tb:eval-file "zeitraum.scm")
 
 ;; we use ice-9 pretty printer to reformat our numbers ...
 (use-modules (ice-9 format))
