@@ -598,16 +598,16 @@
   (lambda (buffer element value)
     (let ((list '("Kz51" (lambda(v buffer)
 			   (storage:store buffer "Kz51-calc"
-					  (/ (* (string->number v) 16) 100)))
+					  (/ (* (ms->number v) 16) 100)))
 		  "Kz86" (lambda(v buffer)
 			   (storage:store buffer "Kz86-calc"
-					  (/ (* (string->number v) 7) 100)))
+					  (/ (* (ms->number v) 7) 100)))
 		  "Kz93" (lambda(v buffer)
 			   (storage:store buffer "Kz93-calc"
-					  (/ (* (string->number v) 7) 100)))
+					  (/ (* (ms->number v) 7) 100)))
 		  "Kz97" (lambda(v buffer)
 			   (storage:store buffer "Kz97-calc"
-					  (/ (* (string->number v) 16) 100))))))
+					  (/ (* (ms->number v) 16) 100))))))
 
       ;; recurse through the upper list 'list', looking for the field to
       ;; use as the calculation base ...
@@ -639,7 +639,7 @@
 	      (lambda (field)
 		(let ((field-val (storage:retrieve buffer field)))
 		  (if (and field-val (> (string-length field-val) 0))
-		      (set! sum (+ sum (string->number field-val))))))
+		      (set! sum (+ sum (ms->number field-val))))))
 
 	      (cadr fields))
 	     
@@ -660,11 +660,11 @@
       (while (> (length fields) 0)
 	     (set! val (storage:retrieve buffer (cadr fields)))
 	     (set! result (if (and val (> (string-length val) 0))
-			      (string->number val) 0))
+			      (ms->number val) 0))
 
 	     (set! val (storage:retrieve buffer (caddr fields)))
 	     (if (and val (> (string-length val) 0))
-		 (set! result (- result (string->number val))))
+		 (set! result (- result (ms->number val))))
 
 	     ;; store the result ...
 	     (storage:store buffer (car fields) (number->string result))
@@ -701,7 +701,7 @@
 	   ;; it for us ...
 	   (let ((result '())
 		 (fields (list (lambda (val)
-				 (format #f "~,2F" (string->number val)))
+				 (format #f "~,2F" (ms->number val)))
 			       (list "Kz36" "Kz39" "Kz53" "Kz59" "Kz61"
 				     "Kz62" "Kz63" "Kz64" "Kz65" "Kz66"
 				     "Kz67" "Kz69" "Kz74" "Kz80" "Kz83"
@@ -709,7 +709,7 @@
 
 			       (lambda (val)
 				 (format #f "~D" (inexact->exact 
-						  (string->number val))))
+						  (ms->number val))))
 			       (list "Kz35" "Kz41" "Kz42" "Kz43" "Kz44" "Kz45"
 				     "Kz48" "Kz49" "Kz51" "Kz52" "Kz60"
 				     "Kz76" "Kz73" "Kz77" "Kz84" "Kz86"
@@ -729,7 +729,7 @@
 			       ;; don't write out fields, that are equal to
 			       ;; zero, except for Kz83 which is the total
 			       (if (or (string=? field "Kz83")
-				       (not (= (string->number value) 0)))
+				       (not (= (ms->number value) 0)))
 				   (set! result
 					 (append result
 						 (list field #f out-val))))))))

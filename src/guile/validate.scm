@@ -17,6 +17,9 @@
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+(tb:eval-file "monetary.scm")
+
+
 (define validate:alphanum
   (lambda (value min max)
     (let ((length (if (string? value) (string-length value) 0)))
@@ -33,7 +36,7 @@
     (and (or (not (string? value))
 	     (= (string-length value) 0)
 
-	     (let ((conv-val (string->number value)))
+	     (let ((conv-val (ms->number value)))
 	       (and (number? conv-val)
 		    (integer? conv-val))))
 
@@ -47,7 +50,7 @@
 	     (= (string-length value) 0)
 
 	     (and (validate:signed-int value buffer)
-		  (>= (string->number value) 0)))
+		  (>= (ms->number value) 0)))
 
 	 #t))) ; make sure to return #t if valid, not (not #f) !!
 
@@ -60,10 +63,17 @@
     (and (or (not (string? value))
 	     (= (string-length value) 0)
 
-	     (let ((conv-val (string->number value)))
-	       (and conv-val  ;; NaN ??
+	     (let ((conv-val value))
+	       (if (string-index conv-val #\,)
 
-		    (let ((split-val (string-split value #\.)))
+		   ;; maybe some german locale number?   e.g.  1.234,56
+		   (let ()
+		     (tb:eval-file "string.scm")
+		     (set! conv-val (string-replace conv-val #\. ""))
+		     (set! conv-val (string-replace conv-val #\, "."))))
+
+	       (and (string->number conv-val)  ;; NaN ??
+		    (let ((split-val (string-split conv-val #\.)))
 		      (or 
 		       ;; if there is no comma, it's alright ...
 		       (= (length split-val) 1)
@@ -86,7 +96,7 @@
 ;; allowed values are (max == val == 0) and (val != 0 && val < max && max != 0)
 (define validate:signed-monetary-max
   (lambda (val buf max)
-    (if (string? max) (set! max (string->number max)))
+    (if (string? max) (set! max (ms->number max)))
     (if (not max) (set! max 0)) ;;; max may be #f, if it is either not yet
                                 ;;; stored or was not a number, i.e. "" ...
 
@@ -95,7 +105,7 @@
 	 (let ()
 	   (set! val (if (or (not (string? val))
 			     (= (string-length val) 0)) "0" val))
-	   (set! val (string->number val))
+	   (set! val (ms->number val))
 
 	   (if (= max 0)
 	       ;; if max is set zero (or empty), don't allow associated field

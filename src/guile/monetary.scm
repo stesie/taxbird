@@ -15,21 +15,18 @@
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-(define string-replace
-  (lambda (string search-char replace)
-    (string-replace__ string search-char replace 0)))
+(define monetary-string->number
+  (lambda (in)
+    (if (string-index in #\,)
 
-(define string-replace__
-  (lambda (string search-char replace start)
-    (let ((pos (string-index string search-char start)))
-      (if pos
+	;; maybe some german locale number?   e.g.  1.234,56
+	(let ()
+	  (tb:eval-file "string.scm")
+	  (set! in (string-replace in #\. ""))
+	  (set! in (string-replace in #\, "."))))
 
-	  (string-replace__
-	   (string-append (if (= pos 0) "" (substring string 0 pos))
-			  replace
-			  (substring string (+ pos 1)))
+    (string->number in)))
 
-	   search-char replace (+ pos (string-length replace)))
 
-	  string))))
-	  
+;; some kind of shortcut for the monetary-string->number function 
+(define ms->number monetary-string->number)
