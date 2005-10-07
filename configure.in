@@ -1,8 +1,8 @@
 dnl Process this file with autoconf to produce a configure script.
 
 #AC_INIT(configure.in)
-AC_INIT(taxbird, 0.3, [taxbird@taxbird.de])
-AM_INIT_AUTOMAKE(taxbird, 0.3, [taxbird@taxbird.de])
+AC_INIT(taxbird, 0.4, [taxbird@taxbird.de])
+AM_INIT_AUTOMAKE(taxbird, 0.4, [taxbird@taxbird.de])
 AM_MAINTAINER_MODE
 AM_CONFIG_HEADER(config.h)
 

@@ -68,6 +68,10 @@ Entwicklungsphase befindet. Rufen Sie hierzu den Befehl
 taxbird-update.sh auf, das erste Mal möglichst gleich nach
 erfolgreicher Installation.
 
+Bitte beachten Sie aber, dass dabei nur jeweils die Formular-
+definitionen aktualisiert werden. Es kann hin und wieder erforderlich
+bzw. ratsam sein, auch die Binärkomponenten zu aktualisieren. 
+
 
 
 Installation der CVS-Version:
@@ -165,6 +169,7 @@ A: Die Felder werden seitens dem von der Finanzverwaltung zur Verfügung
    einen Berater erfolgt. Wenn das Feld Berufsbezeichnung
    (unter Datenlieferant) ausgefüllt wird, müssten die Daten erscheinen.
 
+
 F: Nach einem Klick auf "Daten Senden" erscheint die Fehlermeldung
    "Die $Id: der Signatur ist nicht gültig (beim Prüfen der Signatur
     signatures/ustva-2005.sig)" - Export nur als Testdaten möglich
@@ -179,4 +184,4 @@ A: Der $Id: Wert der Signatur passt nicht zur installierten Programm-
 
 Vielen Dank, dass Sie Taxbird verwenden!
 
-$Id: README,v 1.8 2005-07-28 20:58:19 stesie Exp $
+$Id: README,v 1.9 2005-10-07 22:53:46 stesie Exp $
