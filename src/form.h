@@ -33,7 +33,9 @@ enum field_type {
 struct form {
   char *name;
 
-  SCM dataset;        /* list defining the dataset (sheets and fields) */
+  SCM get_sheet_tree; /* function to retrieve the tree to be displayed */
+  SCM get_sheet;      /* function to retrieve a sheet */
+
   SCM dataset_read;   /* function to read from our dataset */
   SCM dataset_write;  /* function to write to the dataset */
   SCM dataset_export; /* function to export XML stream */
@@ -47,8 +49,12 @@ extern struct form **forms;
 extern unsigned int forms_num;
 
 /* create a new form (tb:form-register) */
-SCM taxbird_form_register(SCM name, SCM dataset, SCM dataset_read,
-			  SCM dataset_write, SCM dataset_export,
+SCM taxbird_form_register(SCM name, 
+			  SCM get_sheet_tree,
+			  SCM get_sheet,
+			  SCM dataset_read,
+			  SCM dataset_write, 
+			  SCM dataset_export,
 			  SCM dataset_create);
 
 /* lookup specified form's id 

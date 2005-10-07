@@ -38,8 +38,9 @@ unsigned int forms_num = 0;
  * RETURN: number of registered form, -1 on error
  */
 SCM
-taxbird_form_register(SCM name, SCM dataset, SCM dataset_read,
-		      SCM dataset_write, SCM dataset_export, SCM dataset_create)
+taxbird_form_register(SCM name, SCM get_sheet_tree, SCM get_sheet,
+		      SCM dataset_read, SCM dataset_write, 
+		      SCM dataset_export, SCM dataset_create)
 {
   struct form **new_f = realloc(forms, sizeof(struct form *) * (forms_num + 1));
   
@@ -58,7 +59,9 @@ taxbird_form_register(SCM name, SCM dataset, SCM dataset_read,
   g_return_val_if_fail(SCM_STRINGP(name), SCM_BOOL(0));
   forms[forms_num]->name = g_strdup(SCM_STRING_CHARS(name)); 
 
-  scm_gc_protect_object(forms[forms_num]->dataset = dataset);
+  scm_gc_protect_object(forms[forms_num]->get_sheet_tree = get_sheet_tree);
+  scm_gc_protect_object(forms[forms_num]->get_sheet = get_sheet);
+
   scm_gc_protect_object(forms[forms_num]->dataset_read = dataset_read);
   scm_gc_protect_object(forms[forms_num]->dataset_write = dataset_write);
   scm_gc_protect_object(forms[forms_num]->dataset_export = dataset_export);

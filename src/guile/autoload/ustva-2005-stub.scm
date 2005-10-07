@@ -17,19 +17,31 @@
 
 
 (tb:form-register
- ; form's name
+ ;; form's name
  "Umsatzsteuervoranmeldung 2005" 
 
- ; definition
+ ;; get sheet tree ------------------------------------------------------------
  (lambda ()
    (tb:eval-file "ustva-2005.scm")
-   ustva-2005:definition)
+   (tb:eval-file "sheettree.scm")
+   (extract-sheet-tree ustva-2005:definition))
 
- ; retrieval function
+
+
+ ;; get sheet ----------------------------------------------------------------- 
+ (lambda (sheetname)
+   (tb:eval-file "ustva-2005.scm")
+   (ustva-2005:get-sheet sheetname))
+
+
+
+ ;; retrieval function --------------------------------------------------------
  (lambda (buffer element)
    (storage:retrieve buffer element))
 
- ; storage function
+
+
+ ;; storage function ----------------------------------------------------------
  (lambda (buffer element value)
    (storage:store buffer element value)
 
@@ -38,7 +50,9 @@
 	    (string=? (substring element 0 2) "Kz"))
        (ustva-2005:recalculate buffer element value)))
 
- ;; export function
+
+
+ ;; export function -----------------------------------------------------------
  (lambda (buf)
    (tb:eval-file "revalidate.scm")
    (if (revalidate:buffer ustva-2005:definition buf)
@@ -53,6 +67,9 @@
 	  (export:make-steuerfall buf "UStVA" "200501"
 				  (ustva-2005:export buf sig-result))))))
 
- ; empty set
- (lambda () '(("vend-id" . "74931") ("land-lieferant" . "Deutschland"))))
+
+
+ ;; empty set -----------------------------------------------------------------
+ (lambda () 
+   '(("vend-id" . "74931") ("land-lieferant" . "Deutschland"))))
 

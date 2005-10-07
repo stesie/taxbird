@@ -88,11 +88,6 @@ static struct {
 };
 
 
-/* scan the provided dataset (guile list) for a sheet named 'sheet_name',
- * and return it's definition
- */
-static SCM taxbird_ws_lookup_sheet(SCM dataset, const char *sheet_name);
-
 /* set this to true to disable the storage hook,
  * this is thought to be set while the fields are loaded */
 static int taxbird_ws_disable_storage_hook = 0;
@@ -126,35 +121,22 @@ taxbird_ws_new(void)
 void
 taxbird_ws_sel_form(GtkWidget *appwin, int formid)
 {
-  SCM dataset;
   GtkTreeViewColumn *column;
-  GtkCellRenderer *renderer;
   GtkTreeStore *tree;
   GtkTreeView *tv_sheets = GTK_TREE_VIEW(lookup_widget(appwin, "tv_sheets"));
 
   g_return_if_fail(formid >= 0);
   g_return_if_fail(tv_sheets);
 
-  dataset = forms[formid]->dataset;
-
-  if(SCM_NFALSEP(scm_procedure_p(dataset)))
-    /* real dataset (maybe individually) created by a (lambda) */
-    dataset = scm_call_0(dataset);
-    
-  g_return_if_fail(SCM_NFALSEP(scm_list_p(dataset)));
-
-  g_object_set_data_full(G_OBJECT(appwin), "sheetdef",
-			 (void*) scm_gc_protect_object(dataset),
-			 taxbird_ws_unprotect_scm);
-  
   /* add column */
-  renderer = gtk_cell_renderer_text_new();
+  GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
   column = gtk_tree_view_column_new_with_attributes(_("Available Sheets"),
 						    renderer, "text", 0, NULL);
   gtk_tree_view_append_column(tv_sheets, column);
 
   /* add names of available sheets */
   tree = gtk_tree_store_new(1, G_TYPE_STRING);
+  SCM dataset = scm_call_0(forms[formid]->get_sheet_tree);
   taxbird_ws_fill_tree_store(tree, NULL, dataset);
   gtk_tree_view_set_model(tv_sheets, GTK_TREE_MODEL(tree));
 
@@ -173,59 +155,34 @@ taxbird_ws_sel_form(GtkWidget *appwin, int formid)
 /* add necessary items (taken from the dataset) to the
  * GtkTreeStore recursively */
 static void
-taxbird_ws_fill_tree_store(GtkTreeStore *tree, GtkTreeIter *parent, SCM dataset)
+taxbird_ws_fill_tree_store(GtkTreeStore *tree, GtkTreeIter *parent, SCM data)
 {
-  /* dataset actually represents a whole tree of sheets with field definitions
-   * included, destinguishing works this way:
-   *
-   * take the car of the dataset list
-   *  - if it's a number it is a constant specifing a field type
-   *    -> the cadr is the definition (label etc.) of the field
-   *
-   *  - if it's a string, it's the name of another sheet
-   *    -> the cadr is the further definition of this sheet (i.e. subsheets
-   *       and fields)
-   */
   GtkTreeIter iter;
 
-  if(SCM_SYMBOLP(dataset))
-    dataset = scm_call_0(dataset);
+  /* if(SCM_SYMBOLP(data))
+   *   data = scm_call_0(data);
+   */
 
-  g_return_if_fail(SCM_NFALSEP(scm_list_p(dataset)));
-  g_return_if_fail(scm_ilength(dataset));
+  g_return_if_fail(SCM_NFALSEP(scm_list_p(data)));
+  g_return_if_fail(scm_ilength(data));
 
-  if(SCM_SYMBOLP(SCM_CAR(dataset))) {
-    SCM symbol = scm_c_lookup_ref(SCM_SYMBOL_CHARS(SCM_CAR(dataset)));
-
-    /* ignore, symbols of number-type as those are the constants we use
-     * to indicate fields, try to evaluate everything else ... */
-
-    if(! SCM_NUMBERP(symbol))
-      /* probably quoted list, or whatever else, interpret it and
-       * call filling routine recursively */
-      taxbird_ws_fill_tree_store(tree, parent, scm_call_0(dataset));
-
-    return;
-  }
-
-  if(SCM_NUMBERP(SCM_CAR(dataset)))
-    return; /* okay, this sheet is a leaf (holding fields) */
-
-  while(scm_ilength(dataset)) {
-    if(! SCM_STRINGP(SCM_CAR(dataset))) {
-      g_print("sheet doesn't have sheet name at it's start: ");
-      gh_write(SCM_CAR(dataset));
+  while(scm_ilength(data)) {
+    if(! SCM_STRINGP(SCM_CAR(data))) {
+      g_print("get-sheet-tree returned non-string object: ");
+      gh_write(SCM_CAR(data));
       g_print("\n");
       break;
     }
 
     gtk_tree_store_append(tree, &iter, parent);
-    gtk_tree_store_set(tree, &iter, 0, SCM_STRING_CHARS(SCM_CAR(dataset)), -1);
+    gtk_tree_store_set(tree, &iter, 0, SCM_STRING_CHARS(SCM_CAR(data)), -1);
+    data = SCM_CDR(data);
 
-    /* create sheet's nodes recursively */
-    taxbird_ws_fill_tree_store(tree, &iter, SCM_CADR(dataset));
-
-    dataset = SCM_CDDR(dataset);
+    if(scm_ilength(data) && SCM_NFALSEP(scm_list_p(SCM_CAR(data)))) {
+      /* create sheet's nodes recursively */
+      taxbird_ws_fill_tree_store(tree, &iter, SCM_CAR(data));
+      data = SCM_CDR(data);
+    }
   }
 }
 
@@ -237,8 +194,15 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 {
   GtkWidget *table;
   GtkBin *viewport = GTK_BIN(lookup_widget(appwin, "viewport"));
-  SCM dataset = (SCM) g_object_get_data(G_OBJECT(appwin), "sheetdef");
-  SCM sheet = taxbird_ws_lookup_sheet(dataset, sheetname);
+  
+  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
+  SCM sheet = scm_call_1(forms[current_form]->get_sheet,
+			 scm_makfrom0str(sheetname));
+
+  /* FIXME, the current sheet structure probably should be cached somewhere,
+   * since it's getting re-retrieve over and over in 
+   * taxbird_ws_update_fields 
+   */
 
   g_return_if_fail(SCM_NFALSEP(scm_list_p(sheet)));
   g_return_if_fail(scm_ilength(sheet));
@@ -552,9 +516,10 @@ taxbird_ws_update_fields(GtkWidget *appwin, const char *exception)
   char *sheetname;
   gtk_tree_model_get(model, &iter, 0, &sheetname, -1);
 
-  /* lookup the associated SCM structure */
-  SCM dataset = (SCM) g_object_get_data(G_OBJECT(appwin), "sheetdef");
-  SCM sheet = taxbird_ws_lookup_sheet(dataset, sheetname);
+  /* retrieve associated SCM structure */
+  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
+  SCM sheet = scm_call_1(forms[current_form]->get_sheet,
+			 scm_makfrom0str(sheetname));
 
   /* get rid of the name */
   g_free(sheetname);
@@ -597,67 +562,6 @@ taxbird_ws_update_fields(GtkWidget *appwin, const char *exception)
   taxbird_ws_disable_storage_hook = 0;
 }
 
-
-
-
-static SCM
-taxbird_ws_lookup_sheet(SCM dataset, const char *needle)
-{
-  if(SCM_SYMBOLP(dataset))
-    dataset = scm_call_0(dataset);
-
-  g_return_val_if_fail(SCM_NFALSEP(scm_list_p(dataset)), SCM_BOOL(0));
-  g_return_val_if_fail(scm_ilength(dataset), SCM_BOOL(0));
-  
-  if(SCM_SYMBOLP(SCM_CAR(dataset))) {
-    SCM symbol = scm_c_lookup_ref(SCM_SYMBOL_CHARS(SCM_CAR(dataset)));
-
-    if(! SCM_NUMBERP(symbol))
-      return taxbird_ws_lookup_sheet(scm_call_0(dataset), needle);
-
-    else
-      return SCM_BOOL(0);
-  }
-    
-  if(SCM_NUMBERP(SCM_CAR(dataset)))
-    return SCM_BOOL(0); /* sheet definition, no more sub-sheets */
-
-  while(scm_ilength(dataset)) {
-    g_return_val_if_fail(SCM_STRINGP(SCM_CAR(dataset)), SCM_BOOL(0));
-
-    if(! strcmp(SCM_STRING_CHARS(SCM_CAR(dataset)), needle)) {
-      SCM sheet = SCM_CADR(dataset);
-
-      while(SCM_SYMBOLP(sheet))
-	sheet = scm_call_0(sheet);
-
-      g_return_val_if_fail(SCM_NFALSEP(scm_list_p(sheet)), SCM_BOOL(0));
-
-      /* now try to find out whether the list is quoted or requires a
-       * procedure to be called (the first symbol may be a numeric
-       * constant (telling the type of field)
-       */
-      if(SCM_SYMBOLP(SCM_CAR(sheet))) {
-	SCM symbol = scm_c_lookup_ref(SCM_SYMBOL_CHARS(SCM_CAR(sheet)));
-	if(! SCM_NUMBERP(symbol))
-	  sheet = scm_call_0(sheet);
-      }
-
-      return sheet;
-    }
-    else {
-      /* try recursing down */
-      SCM retval = taxbird_ws_lookup_sheet(SCM_CADR(dataset), needle);
-
-      if(SCM_NFALSEP(scm_list_p(retval)))
-	return retval; /* got it, pass it back up */
-    }
-
-    dataset = SCM_CDDR(dataset);
-  }
-
-  return SCM_BOOL(0);
-}
 
 
 static void
