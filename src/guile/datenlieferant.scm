@@ -158,8 +158,9 @@
 	      "mandant" 
 	      "Name des Mandanten (optional, sofern zutreffend aber erwünscht)"
 	      (lambda(val buf)
-		(and (not (string-index val #\*)) ;; because of Kz09 field!
-		     (validate:kz09-maxlen val buf "mandant"))))))
+		(or (not val)  ;; empty field is okay ...
+		    (and (not (string-index val #\*)) ;; because of Kz09 field!
+			 (validate:kz09-maxlen val buf "mandant")))))))
 
 
 (define export:generate-datenlieferant
