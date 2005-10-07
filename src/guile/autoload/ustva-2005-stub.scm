@@ -15,61 +15,66 @@
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+(tb:eval-file "versions.scm")
 
-(tb:form-register
- ;; form's name
- "Umsatzsteuervoranmeldung 2005" 
+(and 
+ (require-version 0 4 "Umsatzsteuervoranmeldung 2005")
 
- ;; get sheet tree ------------------------------------------------------------
- (lambda ()
-   (tb:eval-file "ustva-2005.scm")
-   (tb:eval-file "sheettree.scm")
-   (extract-sheet-tree ustva-2005:definition))
+ ;; if version requirement is met, try to add the sheet ...
+ (tb:form-register
+  ;; form's name
+  "Umsatzsteuervoranmeldung 2005" 
 
-
-
- ;; get sheet ----------------------------------------------------------------- 
- (lambda (sheetname)
-   (tb:eval-file "ustva-2005.scm")
-   (ustva-2005:get-sheet sheetname))
+  ;; get sheet tree ------------------------------------------------------------
+  (lambda ()
+    (tb:eval-file "ustva-2005.scm")
+    (tb:eval-file "sheettree.scm")
+    (extract-sheet-tree ustva-2005:definition))
 
 
 
- ;; retrieval function --------------------------------------------------------
- (lambda (buffer element)
-   (storage:retrieve buffer element))
+  ;; get sheet ----------------------------------------------------------------- 
+  (lambda (sheetname)
+    (tb:eval-file "ustva-2005.scm")
+    (ustva-2005:get-sheet sheetname))
 
 
 
- ;; storage function ----------------------------------------------------------
- (lambda (buffer element value)
-   (storage:store buffer element value)
-
-   ;; if the stored value is Kz?? call the recalculation function ...
-   (if (and (= (string-length element) 4)
-	    (string=? (substring element 0 2) "Kz"))
-       (ustva-2005:recalculate buffer element value)))
+  ;; retrieval function --------------------------------------------------------
+  (lambda (buffer element)
+    (storage:retrieve buffer element))
 
 
 
- ;; export function -----------------------------------------------------------
- (lambda (buf)
-   (tb:eval-file "revalidate.scm")
-   (if (revalidate:buffer ustva-2005:definition buf)
-       (let ((sig-result (tb:check-sig "signatures/ustva-2005.sig")))
+  ;; storage function ----------------------------------------------------------
+  (lambda (buffer element value)
+    (storage:store buffer element value)
 
-	 ;; document's content is valid, let's export it, to make the
-	 ;; IRO know, what nice programs there exist out in the free world ...
-	 (tb:eval-file "export.scm")
-	 (export:make-elster-xml
-	  (export:make-transfer-header buf "UStVA" sig-result)
-	  (export:make-nutzdaten-header buf sig-result)
-	  (export:make-steuerfall buf "UStVA" "200501"
-				  (ustva-2005:export buf sig-result))))))
+    ;; if the stored value is Kz?? call the recalculation function ...
+    (if (and (= (string-length element) 4)
+	     (string=? (substring element 0 2) "Kz"))
+	(ustva-2005:recalculate buffer element value)))
 
 
 
- ;; empty set -----------------------------------------------------------------
- (lambda () 
-   '(("vend-id" . "74931") ("land-lieferant" . "Deutschland"))))
+  ;; export function -----------------------------------------------------------
+  (lambda (buf)
+    (tb:eval-file "revalidate.scm")
+    (if (revalidate:buffer ustva-2005:definition buf)
+	(let ((sig-result (tb:check-sig "signatures/ustva-2005.sig")))
+
+	  ;; document's content is valid, let's export it, to make the
+	  ;; IRO know, what nice programs there exist out in the free world ...
+	  (tb:eval-file "export.scm")
+	  (export:make-elster-xml
+	   (export:make-transfer-header buf "UStVA" sig-result)
+	   (export:make-nutzdaten-header buf sig-result)
+	   (export:make-steuerfall buf "UStVA" "200501"
+				   (ustva-2005:export buf sig-result))))))
+
+
+
+  ;; empty set -----------------------------------------------------------------
+  (lambda () 
+    '(("vend-id" . "74931") ("land-lieferant" . "Deutschland")))))
 

@@ -15,6 +15,7 @@ guilestuff_DATA = \
 	string.scm \
 	ustva-2005.scm \
 	validate.scm \
+	versions.scm \
 	xml-writer.scm \
 	zeitraum.scm
 

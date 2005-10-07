@@ -36,6 +36,7 @@ static SCM taxbird_guile_eval_file_SCM(SCM scm_fn);
 static SCM taxbird_guile_check_sig_SCM(SCM scm_fn);
 static SCM taxbird_dialog_error_SCM(SCM message);
 static SCM taxbird_dialog_info_SCM(SCM message);
+static SCM taxbird_get_version(void);
 
 /* initialize taxbird's guile backend */
 void taxbird_guile_init(void)
@@ -59,9 +60,10 @@ void taxbird_guile_init(void)
   scm_c_define_gsubr("tb:eval-file", 1, 0, 0, taxbird_guile_eval_file_SCM);
   scm_c_define_gsubr("tb:check-sig", 1, 0, 0, taxbird_guile_check_sig_SCM);
   scm_c_define_gsubr("tb:form-register", 7, 0, 0, taxbird_form_register);
-
+  
   scm_c_define_gsubr("tb:dlg-error", 1, 0, 0, taxbird_dialog_error_SCM);
   scm_c_define_gsubr("tb:dlg-info", 1, 0, 0, taxbird_dialog_info_SCM);
+  scm_c_define_gsubr("tb:get-version", 0, 0, 0, taxbird_get_version);
 
   /* Scan autoload/ directories for files, that should be loaded automatically.
    * However don't load each file from these directories in order, but 
@@ -241,4 +243,12 @@ taxbird_dialog_info_SCM(SCM message)
 
   taxbird_dialog_info(NULL, SCM_STRING_CHARS(message));
   return message;
+}
+
+
+/* return this taxbird's version number */
+static SCM 
+taxbird_get_version(void)
+{
+  return scm_makfrom0str(PACKAGE_VERSION);
 }
