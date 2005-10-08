@@ -150,8 +150,9 @@
 	      "berufsbez"
 	      "Berufsbezeichnung des Steuerberaters (falls zutreffend)"
 	      (lambda(val buf)
-		(and (not (string-index val #\*)) ;; because of Kz09 field!
-		     (validate:datenlieferant val buf "berufsbez"))))
+		(or (not val)   ;; field may be empty ...
+		    (and (not (string-index val #\*)) ;; because of Kz09 field!
+		         (validate:datenlieferant val buf "berufsbez")))))
     
 	(list "Name Mandant"
 	      tb:field:text-input
