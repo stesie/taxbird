@@ -18,7 +18,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 CVS=/usr/bin/cvs
-STABLE=openssl_stable
+STABLE=mohawk
 
 if test "$1" = "--help" -o "$1" = "-h"; then
     cat <<EOF

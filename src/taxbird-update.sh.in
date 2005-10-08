@@ -24,14 +24,14 @@ CVS=/usr/bin/cvs
 CVS_ZFLAG=-z6
 CVSROOT=:pserver:anonymous@cvs.g-n-u.de:/cvsroot
 
-STABLE=openssl_stable
+STABLE=mohawk
 
 export CVSROOT
 
 cat <<__FOO
 Pleased to meet you!
 
-This is taxbird-update.sh \$Revision: 1.4 $,
+This is taxbird-update.sh \$Revision: 1.5 $,
 your fully automatic taxbird updater...
 
 __FOO
