@@ -21,12 +21,12 @@
 #endif
 
 
-#include <openssl/md5.h>
-
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
 #include <ctype.h>
+
+#include <openssl/md5.h>
 
 #include "guile.h"
 
