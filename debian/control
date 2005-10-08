@@ -2,7 +2,7 @@ Source: taxbird
 Section: gnome
 Priority: optional
 Maintainer: Stefan Siegl <stesie@brokenpipe.de>
-Build-Depends: debhelper (>= 4.0.0), autotools-dev, libssl-dev, pkg-config, libgtkhtml2-dev, libgnomeui-dev, glade-gnome, guile-1.6-dev, libgeier-dev (>= 0.3)
+Build-Depends: debhelper (>= 4.0.0), autotools-dev, libssl-dev, pkg-config, libgtkhtml2-dev, libgnomeui-dev, glade-gnome-2, guile-1.6-dev, libgeier-dev (>= 0.3)
 Standards-Version: 3.6.1
 
 Package: taxbird
