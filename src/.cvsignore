@@ -20,3 +20,5 @@ test*
 autoload
 signatures
 taxbird-update.sh
+*.crt
+*.pem
