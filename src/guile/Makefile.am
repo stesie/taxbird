@@ -5,9 +5,11 @@ SUBDIRS = autoload signatures
 guilestuffdir = $(datadir)/taxbird/guile
 guilestuff_DATA = \
 	bundesland.scm \
+	console.scm \
 	datenlieferant.scm \
 	export.scm \
 	monetary.scm \
+	readline.scm \
 	revalidate.scm \
 	sheettree.scm \
 	steuernummer.scm \

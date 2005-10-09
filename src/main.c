@@ -32,7 +32,8 @@
 /* forwarded main, i.e. with guile support initialized */
 static void main_forward(void *closure, int argc, char **argv);
 
-
+/* whether we're using the console interface or the common gui */
+static int taxbird_enable_console = 0;
 
 int
 main (int argc, char *argv[])
@@ -43,10 +44,24 @@ main (int argc, char *argv[])
   textdomain (GETTEXT_PACKAGE);
 #endif
 
-  gnome_program_init (PACKAGE_NAME, PACKAGE_VERSION, LIBGNOMEUI_MODULE,
-                      argc, argv,
-                      GNOME_PARAM_APP_DATADIR, PACKAGE_DATA_DIR,
-                      NULL);
+  /* scan argument list for `--console' flag before we pass control
+   * to the gnome cruft ...
+   */
+  char **ptr = argv;
+  if(*ptr) do
+    if(! strcmp(*ptr, "--console")) {
+      do ptr[0] = ptr[1]; while(* (++ ptr));
+      argc --;
+      taxbird_enable_console = 1;
+      break;
+    }
+  while(* (++ ptr));
+
+  if(! taxbird_enable_console)
+    gnome_program_init (PACKAGE_NAME, PACKAGE_VERSION, LIBGNOMEUI_MODULE,
+			argc, argv,
+			GNOME_PARAM_APP_DATADIR, PACKAGE_DATA_DIR,
+			NULL);
 
   /* initialize GEIER library */
   geier_init(0); /* don't create debug output */
@@ -81,13 +96,17 @@ main_forward(void *closure, int argc, char **argv)
 
     /* load taxbird's Guile extension stuff */
     taxbird_guile_init();
-      
-    /* create initial application window, i.e. workspace(ws) */
-    GtkWidget *appwin = taxbird_ws_new();
-    if(! appwin) exit(1); /* abort start */
 
-    if(argc == 2)
-      taxbird_ws_open(appwin, argv[1]);
+    if(taxbird_enable_console)
+      taxbird_console_init();
+    else {
+      /* create initial application window, i.e. workspace(ws) */
+      GtkWidget *appwin = taxbird_ws_new();
+      if(! appwin) exit(1); /* abort start */
+      
+      if(argc == 2)
+	taxbird_ws_open(appwin, argv[1]);
+    }
 
     return SCM_BOOL(0);
   }
@@ -103,8 +122,13 @@ main_forward(void *closure, int argc, char **argv)
   SCM main_forward_catchy(void *body_data) {
     (void) body_data;
 
-    /* Gtk+ main loop */
-    gtk_main ();
+    if(taxbird_enable_console) {
+      printf("*** Taxbird Console Interface ***\n");
+      gh_repl(argc, argv);
+    }
+    else 
+      gtk_main (); /* run common application */
+
     return SCM_BOOL(0);
   }
 

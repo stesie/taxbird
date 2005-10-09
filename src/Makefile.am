@@ -14,6 +14,7 @@ bin_PROGRAMS = taxbird
 
 taxbird_SOURCES = \
         main.c \
+	console.c console.h \
         support.c support.h \
         interface.c interface.h \
         callbacks.c callbacks.h \
