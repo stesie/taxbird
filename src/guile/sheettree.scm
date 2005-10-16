@@ -20,10 +20,10 @@
     (let ((sheet-tree '()))
       (while (> (length sheet-def) 0)
 	     
-	     (if (number? (car sheet-def))
+	     (if (string? (cadr sheet-def))
 		 ;; leaf, ignore ...
 		 (set! sheet-def '())
-
+		 
 		 (let ((sub-tree (extract-sheet-tree (cadr sheet-def))))
 		   (set! sheet-tree 
 			 (append sheet-tree 
@@ -44,10 +44,12 @@
 	     (if (string=? (car sheet-def) sheet-name)
 
 		 ;; got it, return it ...
-		 (set! result (cadr sheet-def))
+		 (set! result (if (list? (cadadr sheet-def))
+				  #f ;; not a leaf ...
+				  (cadr sheet-def)))
 
 		 ;; recurse down ...
-		 (if (not (number? (caadr sheet-def)))
+		 (if (list? (cadadr sheet-def))
 		     (set! result (get-sheet sheet-name (cadr sheet-def)))))
 
 	     (set! sheet-def (cddr sheet-def)))
