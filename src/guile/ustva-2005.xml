@@ -808,7 +808,6 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz51-calc">
 		  <property name="visible">True</property>
-		  <property name="tooltip">#f</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">False</property>
 		  <property name="visibility">True</property>
@@ -833,7 +832,6 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz86-calc">
 		  <property name="visible">True</property>
-		  <property name="tooltip">#f</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">False</property>
 		  <property name="visibility">True</property>
@@ -883,7 +881,6 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="stpfl-ums">
 		  <property name="visible">True</property>
-		  <property name="tooltip">#f</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">False</property>
 		  <property name="visibility">True</property>
@@ -1317,7 +1314,6 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz97-calc">
 		  <property name="visible">True</property>
-		  <property name="tooltip">#f</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">False</property>
 		  <property name="visibility">True</property>
@@ -1342,7 +1338,6 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz93-calc">
 		  <property name="visible">True</property>
-		  <property name="tooltip">#f</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">False</property>
 		  <property name="visibility">True</property>
@@ -1492,7 +1487,6 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="innerg-erw">
 		  <property name="visible">True</property>
-		  <property name="tooltip">#f</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">False</property>
 		  <property name="visibility">True</property>
@@ -2545,7 +2539,6 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 	      <child>
 		<widget class="GtkEntry" id="vorst-sum">
 		  <property name="visible">True</property>
-		  <property name="tooltip">#f</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2614,7 +2607,6 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz83">
 		  <property name="visible">True</property>
-		  <property name="tooltip">#f</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
