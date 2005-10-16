@@ -154,14 +154,13 @@
 
 
     ;; calculate various sums in the sheets ..
-    (let ((fields (list "stpfl-ums"  (list "Kz36" "Kz86-calc" "Kz51-calc")
-			"innerg-erw" (list "Kz96" "Kz98" "Kz93-calc"
+    (let ((fields (list "uebertrag"  (list "Kz36" "Kz86-calc" "Kz51-calc"
+			                   "Kz80" "Kz96" "Kz98" "Kz93-calc"
 					   "Kz97-calc")
-			"13b-sum"    (list "Kz85" "Kz74" "Kz53")
+			"ust-sum"    (list "uebertrag" "Kz85" "Kz74" "Kz53"
+					   "Kz65")
 			"vorst-sum"  (list "Kz66" "Kz61" "Kz62" "Kz67" "Kz63"
 					   "Kz64" "Kz59")
-			"ust-sum"    (list "stpfl-ums" "Kz80" "innerg-erw" 
-					   "13b-sum" "Kz65")
 			"ust-sum+69" (list "ust-sum" "Kz69")))
 	  (sum 0))
       (while (> (length fields) 0)

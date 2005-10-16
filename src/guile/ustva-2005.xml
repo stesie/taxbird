@@ -35,7 +35,7 @@
 	  <child>
 	    <widget class="GtkTable" id="seite_1">
 	      <property name="visible">True</property>
-	      <property name="n_rows">32</property>
+	      <property name="n_rows">31</property>
 	      <property name="n_columns">3</property>
 	      <property name="homogeneous">False</property>
 	      <property name="row_spacing">0</property>
@@ -325,34 +325,6 @@ Umsätze § 4 Nr. 2 bis 7 UStG</property>
 	      </child>
 
 	      <child>
-		<widget class="GtkLabel" id="lbl15">
-		  <property name="visible">True</property>
-		  <property name="label">&lt;i&gt;Summe&lt;/i&gt;</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">0</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">14</property>
-		  <property name="bottom_attach">15</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
 		<widget class="GtkLabel" id="lbl17">
 		  <property name="visible">True</property>
 		  <property name="label">Lief. übriges Gemeinschaftsgeb.,
@@ -374,8 +346,8 @@ an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">16</property>
-		  <property name="bottom_attach">17</property>
+		  <property name="top_attach">15</property>
+		  <property name="bottom_attach">16</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -402,8 +374,8 @@ an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">17</property>
-		  <property name="bottom_attach">18</property>
+		  <property name="top_attach">16</property>
+		  <property name="bottom_attach">17</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -430,8 +402,8 @@ an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">18</property>
-		  <property name="bottom_attach">19</property>
+		  <property name="top_attach">17</property>
+		  <property name="bottom_attach">18</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -458,8 +430,8 @@ an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">20</property>
-		  <property name="bottom_attach">21</property>
+		  <property name="top_attach">19</property>
+		  <property name="bottom_attach">20</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -486,8 +458,8 @@ an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">22</property>
-		  <property name="bottom_attach">23</property>
+		  <property name="top_attach">21</property>
+		  <property name="bottom_attach">22</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -514,8 +486,8 @@ an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">23</property>
-		  <property name="bottom_attach">24</property>
+		  <property name="top_attach">22</property>
+		  <property name="bottom_attach">23</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -542,8 +514,8 @@ an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">24</property>
-		  <property name="bottom_attach">25</property>
+		  <property name="top_attach">23</property>
+		  <property name="bottom_attach">24</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -570,8 +542,8 @@ an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">25</property>
-		  <property name="bottom_attach">26</property>
+		  <property name="top_attach">24</property>
+		  <property name="bottom_attach">25</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -599,36 +571,8 @@ zum allgemeinen Steuersatz</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">26</property>
-		  <property name="bottom_attach">27</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl28">
-		  <property name="visible">True</property>
-		  <property name="label">&lt;i&gt;Summe&lt;/i&gt;</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">0</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">27</property>
-		  <property name="bottom_attach">28</property>
+		  <property name="top_attach">25</property>
+		  <property name="bottom_attach">26</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -656,8 +600,8 @@ bei innergem. Dreiecksgesch.</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">29</property>
-		  <property name="bottom_attach">30</property>
+		  <property name="top_attach">27</property>
+		  <property name="bottom_attach">28</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -685,8 +629,8 @@ nach § 13b UStG</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">30</property>
-		  <property name="bottom_attach">31</property>
+		  <property name="top_attach">28</property>
+		  <property name="bottom_attach">29</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -714,8 +658,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">31</property>
-		  <property name="bottom_attach">32</property>
+		  <property name="top_attach">29</property>
+		  <property name="bottom_attach">30</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -871,30 +815,6 @@ steuerbare Umsätze</property>
 		  <property name="right_attach">3</property>
 		  <property name="top_attach">13</property>
 		  <property name="bottom_attach">14</property>
-		  <property name="x_padding">2</property>
-		  <property name="y_padding">2</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkEntry" id="stpfl-ums">
-		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="editable">False</property>
-		  <property name="visibility">True</property>
-		  <property name="max_length">0</property>
-		  <property name="text" translatable="yes"></property>
-		  <property name="has_frame">True</property>
-		  <property name="invisible_char">*</property>
-		  <property name="activates_default">False</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">2</property>
-		  <property name="right_attach">3</property>
-		  <property name="top_attach">14</property>
-		  <property name="bottom_attach">15</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1105,7 +1025,7 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkLabel" id="lbl16">
 		  <property name="visible">True</property>
-		  <property name="label">&lt;big&gt;&lt;b&gt;Umsätze nach § 24 UStG&lt;/b&gt;&lt;/big&gt;</property>
+		  <property name="label">&lt;big&gt;&lt;b&gt;Umsätze Land-/Forstwirtschaft (§ 24 UStG)&lt;/b&gt;&lt;/big&gt;</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1123,8 +1043,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">15</property>
-		  <property name="bottom_attach">16</property>
+		  <property name="top_attach">14</property>
+		  <property name="bottom_attach">15</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -1151,8 +1071,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">19</property>
-		  <property name="bottom_attach">20</property>
+		  <property name="top_attach">18</property>
+		  <property name="bottom_attach">19</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -1179,8 +1099,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">21</property>
-		  <property name="bottom_attach">22</property>
+		  <property name="top_attach">20</property>
+		  <property name="bottom_attach">21</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -1202,8 +1122,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">16</property>
-		  <property name="bottom_attach">17</property>
+		  <property name="top_attach">15</property>
+		  <property name="bottom_attach">16</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1227,8 +1147,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">17</property>
-		  <property name="bottom_attach">18</property>
+		  <property name="top_attach">16</property>
+		  <property name="bottom_attach">17</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1252,8 +1172,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">17</property>
-		  <property name="bottom_attach">18</property>
+		  <property name="top_attach">16</property>
+		  <property name="bottom_attach">17</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1277,8 +1197,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">20</property>
-		  <property name="bottom_attach">21</property>
+		  <property name="top_attach">19</property>
+		  <property name="bottom_attach">20</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1302,8 +1222,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">22</property>
-		  <property name="bottom_attach">23</property>
+		  <property name="top_attach">21</property>
+		  <property name="bottom_attach">22</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1326,8 +1246,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">22</property>
-		  <property name="bottom_attach">23</property>
+		  <property name="top_attach">21</property>
+		  <property name="bottom_attach">22</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1350,8 +1270,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">23</property>
-		  <property name="bottom_attach">24</property>
+		  <property name="top_attach">22</property>
+		  <property name="bottom_attach">23</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1375,8 +1295,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">23</property>
-		  <property name="bottom_attach">24</property>
+		  <property name="top_attach">22</property>
+		  <property name="bottom_attach">23</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1400,8 +1320,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">24</property>
-		  <property name="bottom_attach">25</property>
+		  <property name="top_attach">23</property>
+		  <property name="bottom_attach">24</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1425,8 +1345,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">24</property>
-		  <property name="bottom_attach">25</property>
+		  <property name="top_attach">23</property>
+		  <property name="bottom_attach">24</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1450,8 +1370,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">26</property>
-		  <property name="bottom_attach">27</property>
+		  <property name="top_attach">25</property>
+		  <property name="bottom_attach">26</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1475,32 +1395,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">26</property>
-		  <property name="bottom_attach">27</property>
-		  <property name="x_padding">2</property>
-		  <property name="y_padding">2</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkEntry" id="innerg-erw">
-		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="editable">False</property>
-		  <property name="visibility">True</property>
-		  <property name="max_length">0</property>
-		  <property name="text" translatable="yes"></property>
-		  <property name="has_frame">True</property>
-		  <property name="invisible_char">*</property>
-		  <property name="activates_default">False</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">2</property>
-		  <property name="right_attach">3</property>
-		  <property name="top_attach">27</property>
-		  <property name="bottom_attach">28</property>
+		  <property name="top_attach">25</property>
+		  <property name="bottom_attach">26</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1529,8 +1425,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">28</property>
-		  <property name="bottom_attach">29</property>
+		  <property name="top_attach">26</property>
+		  <property name="bottom_attach">27</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -1552,8 +1448,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">29</property>
-		  <property name="bottom_attach">30</property>
+		  <property name="top_attach">27</property>
+		  <property name="bottom_attach">28</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1577,8 +1473,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">30</property>
-		  <property name="bottom_attach">31</property>
+		  <property name="top_attach">28</property>
+		  <property name="bottom_attach">29</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1602,8 +1498,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">31</property>
-		  <property name="bottom_attach">32</property>
+		  <property name="top_attach">29</property>
+		  <property name="bottom_attach">30</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -1634,6 +1530,58 @@ steuerbare Umsätze</property>
 		  <property name="right_attach">3</property>
 		  <property name="top_attach">2</property>
 		  <property name="bottom_attach">3</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label11">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">&lt;b&gt;Übertrag .....&lt;/b&gt;</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">7</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">30</property>
+		  <property name="bottom_attach">31</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkEntry" id="uebertrag">
+		  <property name="visible">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="editable">False</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char">*</property>
+		  <property name="activates_default">False</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">2</property>
+		  <property name="right_attach">3</property>
+		  <property name="top_attach">30</property>
+		  <property name="bottom_attach">31</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -1678,7 +1626,7 @@ steuerbare Umsätze</property>
 	  <child>
 	    <widget class="GtkTable" id="seite_2">
 	      <property name="visible">True</property>
-	      <property name="n_rows">18</property>
+	      <property name="n_rows">24</property>
 	      <property name="n_columns">3</property>
 	      <property name="homogeneous">False</property>
 	      <property name="row_spacing">0</property>
@@ -1687,7 +1635,7 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkLabel" id="lbl0">
 		  <property name="visible">True</property>
-		  <property name="label">&lt;span size=&quot;xx-large&quot;&gt;&lt;b&gt;Umsätze § 13b Abs. 2 UStG&lt;/b&gt;&lt;/span&gt;</property>
+		  <property name="label">&lt;span size=&quot;xx-large&quot;&gt;&lt;b&gt;Umsätze § 13b Abs. 2 UStG ...&lt;/b&gt;&lt;/span&gt;</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1705,8 +1653,8 @@ steuerbare Umsätze</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">0</property>
-		  <property name="bottom_attach">1</property>
+		  <property name="top_attach">1</property>
+		  <property name="bottom_attach">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -1719,39 +1667,10 @@ steuerbare Umsätze</property>
 Unternehmern im Ausland</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">True</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">0</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">1</property>
-		  <property name="bottom_attach">2</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl2">
-		  <property name="visible">True</property>
-		  <property name="label">Lief. sichergsübereig. Gegenst.,
-Umsätze unter GrEStG fallend</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
+		  <property name="xalign">0</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">5</property>
 		  <property name="ypad">0</property>
@@ -1771,16 +1690,16 @@ Umsätze unter GrEStG fallend</property>
 	      </child>
 
 	      <child>
-		<widget class="GtkLabel" id="lbl3">
+		<widget class="GtkLabel" id="lbl2">
 		  <property name="visible">True</property>
-		  <property name="label">Bauleistungen eines
-Unternehmers im Inland</property>
+		  <property name="label">Lief. sichergsübereig. Gegenst.,
+Umsätze unter GrEStG fallend</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">True</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
+		  <property name="xalign">0</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">5</property>
 		  <property name="ypad">0</property>
@@ -1800,15 +1719,16 @@ Unternehmers im Inland</property>
 	      </child>
 
 	      <child>
-		<widget class="GtkLabel" id="lbl4">
+		<widget class="GtkLabel" id="lbl3">
 		  <property name="visible">True</property>
-		  <property name="label">&lt;i&gt;Summe&lt;/i&gt;</property>
+		  <property name="label">Bauleistungen eines
+Unternehmers im Inland</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">True</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
+		  <property name="xalign">0</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">5</property>
 		  <property name="ypad">0</property>
@@ -1822,35 +1742,6 @@ Unternehmers im Inland</property>
 		  <property name="right_attach">1</property>
 		  <property name="top_attach">4</property>
 		  <property name="bottom_attach">5</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl6">
-		  <property name="visible">True</property>
-		  <property name="label">Wechsel Bestuerungsform sowie
-Nachsteuer versteuerte Anzahlungen</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">0</property>
-		  <property name="ypad">15</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">5</property>
-		  <property name="bottom_attach">6</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -1877,324 +1768,8 @@ Nachsteuer versteuerte Anzahlungen</property>
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">6</property>
-		  <property name="bottom_attach">7</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl8">
-		  <property name="visible">True</property>
-		  <property name="label">aus Rechnungen
-anderer Unternehmer</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">0</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">7</property>
-		  <property name="bottom_attach">8</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl9">
-		  <property name="visible">True</property>
-		  <property name="label">Vorsteuerbeträge aus
-innergem. Erwerb</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">0</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
 		  <property name="top_attach">8</property>
 		  <property name="bottom_attach">9</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl10">
-		  <property name="visible">True</property>
-		  <property name="label">Einfuhrumsatzsteuer</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">0</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">9</property>
-		  <property name="bottom_attach">10</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl11">
-		  <property name="visible">True</property>
-		  <property name="label">Vorsteuer aus Leistungen
-im Sinne des § 13b UStG</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">0</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">10</property>
-		  <property name="bottom_attach">11</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl12">
-		  <property name="visible">True</property>
-		  <property name="label">Vorsteuer, nach allgemeinenen
-Durchschnittsätzen berechnet</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">0</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">11</property>
-		  <property name="bottom_attach">12</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl13">
-		  <property name="visible">True</property>
-		  <property name="label">Berichtigung des Vorsteuer-
-abzugs (§ 15a UStG)</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">0</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">12</property>
-		  <property name="bottom_attach">13</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl14">
-		  <property name="visible">True</property>
-		  <property name="label">Vorsteuerabzug für innergem.
-Lieferungen neuer Fahrzeuge</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">0</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">13</property>
-		  <property name="bottom_attach">14</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl15">
-		  <property name="visible">True</property>
-		  <property name="label">&lt;i&gt;Summe&lt;/i&gt;</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">0</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">14</property>
-		  <property name="bottom_attach">15</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl17">
-		  <property name="visible">True</property>
-		  <property name="label">Diverse Sonstige (Kz69)</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">15</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">15</property>
-		  <property name="bottom_attach">16</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl18">
-		  <property name="visible">True</property>
-		  <property name="label">Anrechnung festgesetzte
-Sondervorauszahlung</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">0</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">16</property>
-		  <property name="bottom_attach">17</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="lbl23">
-		  <property name="visible">True</property>
-		  <property name="label">&lt;big&gt;&lt;b&gt;Verbleibende Umsatz-
-steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">5</property>
-		  <property name="ypad">10</property>
-		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
-		  <property name="angle">0</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">17</property>
-		  <property name="bottom_attach">18</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -2216,8 +1791,8 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">1</property>
-		  <property name="bottom_attach">2</property>
+		  <property name="top_attach">2</property>
+		  <property name="bottom_attach">3</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -2241,8 +1816,8 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">1</property>
-		  <property name="bottom_attach">2</property>
+		  <property name="top_attach">2</property>
+		  <property name="bottom_attach">3</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -2266,8 +1841,8 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">2</property>
-		  <property name="bottom_attach">3</property>
+		  <property name="top_attach">3</property>
+		  <property name="bottom_attach">4</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -2291,8 +1866,8 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">2</property>
-		  <property name="bottom_attach">3</property>
+		  <property name="top_attach">3</property>
+		  <property name="bottom_attach">4</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -2316,8 +1891,8 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">3</property>
-		  <property name="bottom_attach">4</property>
+		  <property name="top_attach">4</property>
+		  <property name="bottom_attach">5</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -2341,8 +1916,8 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">3</property>
-		  <property name="bottom_attach">4</property>
+		  <property name="top_attach">4</property>
+		  <property name="bottom_attach">5</property>
 		  <property name="x_padding">2</property>
 		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
@@ -2376,6 +1951,529 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 	      </child>
 
 	      <child>
+		<widget class="GtkLabel" id="label12">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">&lt;b&gt;Übertrag . . .&lt;/b&gt;</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">0</property>
+		  <property name="bottom_attach">1</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label13">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">&lt;b&gt;Umsatzsteuer . . .&lt;/b&gt;</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">7</property>
+		  <property name="bottom_attach">8</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="lbl15">
+		  <property name="visible">True</property>
+		  <property name="label">&lt;b&gt;Verbleibender Betrag . . .&lt;/b&gt;</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">5</property>
+		  <property name="ypad">7</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">17</property>
+		  <property name="bottom_attach">18</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label14">
+		  <property name="visible">True</property>
+		  <property name="label">&lt;b&gt;Umsatzsteuer-Vorauszahlung/Überschuss&lt;/b&gt; . . .</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">5</property>
+		  <property name="ypad">7</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">20</property>
+		  <property name="bottom_attach">21</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="lbl6">
+		  <property name="visible">True</property>
+		  <property name="label">Steuer infolge Wechsels der Besteuerungsform
+sowie Nachsteuer auf versteuerte Anzahlungen</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">15</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">5</property>
+		  <property name="bottom_attach">6</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkHSeparator" id="hseparator1">
+		  <property name="visible">True</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">2</property>
+		  <property name="right_attach">3</property>
+		  <property name="top_attach">6</property>
+		  <property name="bottom_attach">7</property>
+		  <property name="y_padding">2</property>
+		  <property name="x_options">fill</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="lbl8">
+		  <property name="visible">True</property>
+		  <property name="label">aus Rechnungen anderer Unternehmer</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">5</property>
+		  <property name="ypad">0</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">9</property>
+		  <property name="bottom_attach">10</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="lbl9">
+		  <property name="visible">True</property>
+		  <property name="label">Vorsteuerbeträge aus innergem. Erwerb</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">5</property>
+		  <property name="ypad">0</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">10</property>
+		  <property name="bottom_attach">11</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="lbl10">
+		  <property name="visible">True</property>
+		  <property name="label">Einfuhrumsatzsteuer</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">5</property>
+		  <property name="ypad">0</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">11</property>
+		  <property name="bottom_attach">12</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="lbl11">
+		  <property name="visible">True</property>
+		  <property name="label">Vorsteuer aus Leistungen im Sinne des § 13b UStG</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">5</property>
+		  <property name="ypad">0</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">12</property>
+		  <property name="bottom_attach">13</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="lbl12">
+		  <property name="visible">True</property>
+		  <property name="label">Vorsteuer, nach allgemeinenen Durchschnittsätzen</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">5</property>
+		  <property name="ypad">0</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">13</property>
+		  <property name="bottom_attach">14</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="lbl13">
+		  <property name="visible">True</property>
+		  <property name="label">Berichtigung des Vorsteuerabzugs (§ 15a UStG)</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">5</property>
+		  <property name="ypad">0</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">14</property>
+		  <property name="bottom_attach">15</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="lbl14">
+		  <property name="visible">True</property>
+		  <property name="label">Vorsteuerabzug für innergem. Lieferungen neuer Fahrzeuge</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">5</property>
+		  <property name="ypad">0</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">15</property>
+		  <property name="bottom_attach">16</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkHSeparator" id="hseparator2">
+		  <property name="visible">True</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">2</property>
+		  <property name="right_attach">3</property>
+		  <property name="top_attach">16</property>
+		  <property name="bottom_attach">17</property>
+		  <property name="y_padding">2</property>
+		  <property name="x_options">fill</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="lbl17">
+		  <property name="visible">True</property>
+		  <property name="label">Diverse Sonstige (Kz69)</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">5</property>
+		  <property name="ypad">15</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">18</property>
+		  <property name="bottom_attach">19</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkHSeparator" id="hseparator3">
+		  <property name="visible">True</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">2</property>
+		  <property name="right_attach">3</property>
+		  <property name="top_attach">19</property>
+		  <property name="bottom_attach">20</property>
+		  <property name="y_padding">2</property>
+		  <property name="x_options">fill</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkHSeparator" id="hseparator4">
+		  <property name="visible">True</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">2</property>
+		  <property name="right_attach">3</property>
+		  <property name="top_attach">22</property>
+		  <property name="bottom_attach">23</property>
+		  <property name="y_padding">2</property>
+		  <property name="x_options">fill</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="lbl18">
+		  <property name="visible">True</property>
+		  <property name="label">Anrechnung festgesetzte Sondervorauszahlung</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">5</property>
+		  <property name="ypad">0</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">21</property>
+		  <property name="bottom_attach">22</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="lbl23">
+		  <property name="visible">True</property>
+		  <property name="label">&lt;big&gt;&lt;b&gt;Verbleibende Umsatzsteuer-VZ . . .&lt;/b&gt;&lt;/big&gt;</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">5</property>
+		  <property name="ypad">7</property>
+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		  <property name="width_chars">-1</property>
+		  <property name="single_line_mode">False</property>
+		  <property name="angle">0</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">23</property>
+		  <property name="bottom_attach">24</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkEntry" id="uebertrag">
+		  <property name="visible">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="editable">False</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char">*</property>
+		  <property name="activates_default">False</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">2</property>
+		  <property name="right_attach">3</property>
+		  <property name="top_attach">0</property>
+		  <property name="bottom_attach">1</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkEntry" id="ust-sum">
+		  <property name="visible">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="editable">False</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char">*</property>
+		  <property name="activates_default">False</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">2</property>
+		  <property name="right_attach">3</property>
+		  <property name="top_attach">7</property>
+		  <property name="bottom_attach">8</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
 		<widget class="GtkEntry" id="Kz66">
 		  <property name="visible">True</property>
 		  <property name="tooltip">Vorsteuerbeträge aus Rechnungen von anderen Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen im Sinne des § 13a Abs. 1 Nr. 6 UStG (§ 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgeschäften (§ 25b Abs. 5 UStG)</property>
@@ -2391,8 +2489,10 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">7</property>
-		  <property name="bottom_attach">8</property>
+		  <property name="top_attach">9</property>
+		  <property name="bottom_attach">10</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -2414,8 +2514,10 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">8</property>
-		  <property name="bottom_attach">9</property>
+		  <property name="top_attach">10</property>
+		  <property name="bottom_attach">11</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -2437,8 +2539,10 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">9</property>
-		  <property name="bottom_attach">10</property>
+		  <property name="top_attach">11</property>
+		  <property name="bottom_attach">12</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -2460,8 +2564,10 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">10</property>
-		  <property name="bottom_attach">11</property>
+		  <property name="top_attach">12</property>
+		  <property name="bottom_attach">13</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -2483,8 +2589,10 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">11</property>
-		  <property name="bottom_attach">12</property>
+		  <property name="top_attach">13</property>
+		  <property name="bottom_attach">14</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -2506,8 +2614,10 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">12</property>
-		  <property name="bottom_attach">13</property>
+		  <property name="top_attach">14</property>
+		  <property name="bottom_attach">15</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -2529,18 +2639,20 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">13</property>
-		  <property name="bottom_attach">14</property>
+		  <property name="top_attach">15</property>
+		  <property name="bottom_attach">16</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
 	      </child>
 
 	      <child>
-		<widget class="GtkEntry" id="vorst-sum">
+		<widget class="GtkEntry" id="ust-minus-vost">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="editable">True</property>
+		  <property name="editable">False</property>
 		  <property name="visibility">True</property>
 		  <property name="max_length">0</property>
 		  <property name="text" translatable="yes"></property>
@@ -2551,8 +2663,10 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">14</property>
-		  <property name="bottom_attach">15</property>
+		  <property name="top_attach">17</property>
+		  <property name="bottom_attach">18</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -2574,8 +2688,34 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">15</property>
-		  <property name="bottom_attach">16</property>
+		  <property name="top_attach">18</property>
+		  <property name="bottom_attach">19</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkEntry" id="ust-vz">
+		  <property name="visible">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="editable">False</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char">*</property>
+		  <property name="activates_default">False</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">2</property>
+		  <property name="right_attach">3</property>
+		  <property name="top_attach">20</property>
+		  <property name="bottom_attach">21</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -2597,8 +2737,10 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">16</property>
-		  <property name="bottom_attach">17</property>
+		  <property name="top_attach">21</property>
+		  <property name="bottom_attach">22</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -2608,7 +2750,7 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<widget class="GtkEntry" id="Kz83">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="editable">True</property>
+		  <property name="editable">False</property>
 		  <property name="visibility">True</property>
 		  <property name="max_length">0</property>
 		  <property name="text" translatable="yes"></property>
@@ -2619,8 +2761,10 @@ steuer-Vorauszahlung&lt;/b&gt;&lt;/big&gt;</property>
 		<packing>
 		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
-		  <property name="top_attach">17</property>
-		  <property name="bottom_attach">18</property>
+		  <property name="top_attach">23</property>
+		  <property name="bottom_attach">24</property>
+		  <property name="x_padding">2</property>
+		  <property name="y_padding">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
