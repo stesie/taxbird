@@ -33,7 +33,7 @@
 
 
 
-  ;; get sheet ----------------------------------------------------------------- 
+  ;; get sheet -----------------------------------------------------------------
   (lambda (sheetname)
     (tb:eval-file "ustva-2005.scm")
     (ustva-2005:get-sheet sheetname))
@@ -64,7 +64,7 @@
   ;; export function -----------------------------------------------------------
   (lambda (buf)
     (tb:eval-file "revalidate.scm")
-    (if (revalidate:buffer ustva-2005:definition buf)
+    (if (revalidate:buffer ustva-2005:validate buf)
 	(let ((sig-result (tb:check-sig "signatures/ustva-2005.sig")))
 
 	  ;; document's content is valid, let's export it, to make the

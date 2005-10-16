@@ -21,83 +21,17 @@
 ;; 'def'), emiting a suitable error message if necessary
 ;; RETURN: #t on success, #f on any error
 (define revalidate:buffer 
-  (lambda (def buf)
-    (let ((ret-val #t))
-      (while (> (length def) 0)
-	     ;;(format #t "revalidating sheet ~A\n" (car def))
-	     
-	     (if (number? (car (cadr def)))
-		 (if (not (revalidate:sheet (car def) (cadr def) buf))
-		     (set! ret-val #f))
+  (lambda (validator buf)
+    (let ((rv #t) (copy buf))
+      (while (> (length buf) 0)
+	     (let ((validator-result (validator copy (caar buf) (cdar buf))))
+	       (if (not validator-result)
+		   (tb:dlg-error
+		    (format #f "Der Inhalt des Feldes ~S ist ungültig: ~S"
+			    (caar buf) (cdar buf))))
 
-		 ;; another sheet, recurse downwards ...
-		 (if (not (revalidate:buffer (cadr def) buf))
-		     (set! ret-val #f)))
+	       (set! rv (and rv validator-result)))
+	     (set! buf (cdr buf)))
 
-	     (if (not ret-val)
-		 (set! def '())           ; return immediately ...
-
-		 (set! def (cddr def))))  ; forward definition
-
-      ret-val)))
-
-
-(define revalidate:sheet
-  (lambda (sheetname sheetdef buf)
-    (if (not (number? (car sheetdef)))
-	(scm-error 'wrong-type-arg #f "car of sheetdef must be a number: ~S"
-		   (car sheetdef) #f))
-
-    (set! sheetdef (cdr sheetdef)) ; skip the number of columns ...
-
-    (let ((ret-val #t))
-      (while (and ret-val
-		  (> (length sheetdef) 0))
-
-	     ;;(format #t "caring for row ~S\n" (car (car sheetdef)))
-
-	     (let ((rowdef (cdr (car sheetdef))))
-	       (while (and ret-val
-			   (> (length rowdef) 0))
-			   
-		      ;;(write (cadddr rowdef)) (newline)
-
-		      (let ((valid (cadddr rowdef))
-			    (type (car rowdef))
-			    (value (storage:retrieve buf (cadr rowdef))))
-
-			(if (= type tb:field:button)
-			    (set! valid #t))
-
-			(if (procedure? valid)
-			    (set! valid (valid value buf)))
-
-			(if (list? valid)
-			    (set! valid
-				  (if value #t #f)))
-
-			(if (not (boolean? valid))
-			    (tb:dlg-error
-			     (format #f (string-append
-					 "Die Validierungsroutine des Feldes "
-					 "~S ist nicht gültig: ~S")
-				     (cadr rowdef) valid)))
-
-			(if (not valid)
-			    (let ()
-			      (tb:dlg-error
-			       (format #f (string-append
-					   "Auf der Seite ~S sind nicht "
-					   "alle Feldinhalte gültig:\n\n~A")
-				       
-				       sheetname (caddr rowdef)))
-			      (set! ret-val #f))))
-
-		      (set! rowdef (cddddr rowdef))))
-			
-	     (set! sheetdef (cdr sheetdef)))
-
-      ret-val)))
-	       
-	     
+      rv)))
 	     

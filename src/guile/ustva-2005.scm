@@ -83,8 +83,8 @@
 		       "Kz42" validate:signed-int
 		       "Kz60" validate:signed-int
 		       "Kz45" validate:signed-int
+
 		       "Kz52" validate:signed-int
-		       
 		       "Kz53"
 		       (lambda (val buf)
 			 (let ((maximum (storage:retrieve buf "Kz52")))
@@ -99,7 +99,7 @@
 		       "Kz84" validate:signed-int
 		       "Kz85"
 		       (lambda (val buf)
-			 (let ((maximum (storage:retrieve buf "Kz74")))
+			 (let ((maximum (storage:retrieve buf "Kz84")))
 			   (validate:signed-monetary-max val buf maximum)))
 		       
 		       "Kz65" validate:signed-monetary
@@ -122,7 +122,7 @@
 
 	  (let ()
 	    ;;(format #t "validating ~S => ~S against ~S~%"
-	    ;;	      element value (cadr func))
+	    ;;        element value (cadr func))
 	    ((cadr func) value buffer))))))
       
 
