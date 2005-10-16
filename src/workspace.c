@@ -36,8 +36,6 @@
 			  gtk_widget_ref (widget),              \
 			  (GDestroyNotify) gtk_widget_unref)
 
-#define SCM_CADDDDR(a) SCM_CAR(SCM_CDDDDR(a))
-
 /* add necessary items (taken from the dataset) to the
  * GtkTreeStore recursively */
 static void taxbird_ws_fill_tree_store(GtkTreeStore *ts, GtkTreeIter *iter,
@@ -45,9 +43,8 @@ static void taxbird_ws_fill_tree_store(GtkTreeStore *ts, GtkTreeIter *iter,
 
 static void taxbird_ws_store_event(GtkWidget *w, gpointer user_data);
 
-/* static void taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin, 
- *				      const char *field_name);
- */
+static void taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin, 
+				      const char *field_name);
 
 /* Figure out, which sheet's displayed currently and update all the
  * widgets (calling retrieval function). The widget with the name 
@@ -213,18 +210,37 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
   /* keep a reference to the GladeXML structure */
   g_object_set_data_full(G_OBJECT(appwin), "gladexml", (void *) xml, NULL);
 
+
+  /* make sure not to re-store field's values when loading them all */
+  taxbird_ws_disable_storage_hook = 1;
+
   GList *widgets = glade_xml_get_widget_prefix(xml, "");
   GList *ptr = widgets;
 
-  if(ptr) do {
-    GtkWidget *w = GTK_WIDGET(ptr->data);
-    if(! GTK_IS_LABEL(w))
-      g_signal_connect(w, "focus-in-event",
-		       G_CALLBACK(taxbird_ws_show_appbar_help), NULL);
-  } while((ptr = ptr->next));
+  if(ptr) {
+    do {
+      GtkWidget *w = GTK_WIDGET(ptr->data);
+
+      GLADE_HOOKUP_OBJECT(appwin, w, glade_get_widget_name(w));
+
+      if(! (GTK_IS_LABEL(w) || GTK_IS_TABLE(w))) {
+	g_signal_connect(w, "focus-in-event",
+			 G_CALLBACK(taxbird_ws_show_appbar_help), NULL);
+	g_signal_connect(w, GTK_IS_TOGGLE_BUTTON(w) ? "toggled" : "changed",
+			 G_CALLBACK(taxbird_ws_store_event), NULL);
+
+	taxbird_ws_retrieve_field(w, appwin, glade_get_widget_name(w));
+      }
+    } while((ptr = ptr->next));
+  
+    g_list_free(widgets);
+  }
   
   gtk_container_set_border_width(GTK_CONTAINER(table), 5);
   gtk_container_add(GTK_CONTAINER(viewport), table);
+
+  /* re-enable storage hook */
+  taxbird_ws_disable_storage_hook = 0;
 }
 
 
@@ -240,28 +256,49 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
   if(taxbird_ws_disable_storage_hook)
     return;
 
-  /* fetch specs for the selected field (GtkWidget *w) */
-  SCM specs = (SCM) g_object_get_data(G_OBJECT(w), "scm_specs");
-  g_return_if_fail(SCM_NFALSEP(scm_list_p(specs)));
+  /* figure out, what value to store */
+  SCM sv;
 
+  if(GTK_IS_ENTRY(w))
+    sv = scm_makfrom0str(gtk_entry_get_text(GTK_ENTRY(w)));
+
+  else if(GTK_IS_COMBO_BOX(w)) {
+    int item = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
+    g_return_if_fail(item >= 0);
+    
+    sv = scm_int2num(item);
+  }
+
+  else if(GTK_IS_TOGGLE_BUTTON(w)) {
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w));
+    sv = scm_makfrom0str(state ? "1" : "0");
+
+  } else {
+    g_assert_not_reached();
+    return;
+  }
+  
+  /* call storage function ... */
   GtkWidget *appwin = lookup_widget(w, "taxbird");
+  g_return_if_fail(appwin);
 
-  /* get the plain helptext to display in the bottom bar */
-  //SCM plain_helptext = taxbird_ws_get_helptext(appwin, specs);
+  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
+
+  SCM result = scm_call_3(forms[current_form]->dataset_write,
+			  (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data"),
+			  scm_makfrom0str(glade_get_widget_name(w)), sv);
+
+  GtkTooltipsData *tooltip = gtk_tooltips_data_get(w);
+  const char *plain_helptext = tooltip ? tooltip->tip_text : "";
+
   GtkWidget *helpw = lookup_widget(w, "helptext");
-
-  //g_return_if_fail(SCM_STRINGP(plain_helptext));
-
-
-#if 0
-  /* validate field's content */
-  if(1) {
+  if(SCM_FALSEP(result)) {
     /* the field's content is invalid, prepend warning to the bottom bar */
     char *helptext = 
       g_strdup_printf("<span foreground=\"red\" weight=\"bold\">%s</span>"
 		      "\n\n%s",
 		      _("The current field's content is not valid. "
-			"Sorry."), SCM_STRING_CHARS(plain_helptext));
+			"Sorry."), plain_helptext);
     g_return_if_fail(helptext);
 
     gtk_label_set_markup(GTK_LABEL(helpw), helptext);
@@ -269,52 +306,16 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
     g_free(helptext);
     return;
   }
-#endif     
-  /* figure out, what value to store */
-  SCM store_value;
-
-  if(GTK_IS_ENTRY(w))
-    store_value = scm_makfrom0str(gtk_entry_get_text(GTK_ENTRY(w)));
-
-  else if(GTK_IS_COMBO_BOX(w)) {
-    int item = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
-    g_return_if_fail(item >= 0);
-    
-    store_value = scm_int2num(item);
-  }
-
-  else if(GTK_IS_TOGGLE_BUTTON(w)) {
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w));
-    store_value = scm_makfrom0str(state ? "1" : "0");
-
-  } else {
-    g_assert_not_reached();
-    return;
-  }
-
-  
-  /* call storage function ... */
-  SCM field = SCM_CADR(specs);
-  g_return_if_fail(SCM_STRINGP(field));
-
-  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
-
-  scm_call_3(forms[current_form]->dataset_write,
-	     (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data"),
-	     field, store_value);
-
 
   /* set changed flag */
   g_object_set_data(G_OBJECT(appwin), "changed", (void *) 1);
 
-
   /* now update all but the current field */
-  taxbird_ws_update_fields(appwin, SCM_STRING_CHARS(field));
-
+  taxbird_ws_update_fields(appwin, glade_get_widget_name(w));
 
   /* write out the current field's unmodified helptext,
    * this is to replace error-message enhanced versions, etc. */
-  //gtk_label_set_markup(GTK_LABEL(helpw), SCM_STRING_CHARS(plain_helptext));
+  gtk_label_set_markup(GTK_LABEL(helpw), plain_helptext);
 }
 
 
@@ -329,62 +330,62 @@ taxbird_ws_update_fields(GtkWidget *appwin, const char *exception)
   assert(taxbird_ws_disable_storage_hook == 0);
   taxbird_ws_disable_storage_hook = 1;
 
-  /* figure out, which sheet's selected */
-  GtkTreeView *tv = GTK_TREE_VIEW(lookup_widget(appwin, "tv_sheets"));
-  GtkTreeSelection *sel = gtk_tree_view_get_selection(tv);
+  GladeXML *xml = g_object_get_data(G_OBJECT(appwin), "gladexml");
+  g_return_if_fail(xml);
 
-  GtkTreeModel *model;
-  GtkTreeIter iter;
-  if(! gtk_tree_selection_get_selected (sel, &model, &iter))
-    return;
+  GList *widgets = glade_xml_get_widget_prefix(xml, "");
+  GList *ptr = widgets;
 
-  char *sheetname;
-  gtk_tree_model_get(model, &iter, 0, &sheetname, -1);
+  if(ptr) {
+    do {
+      GtkWidget *w = GTK_WIDGET(ptr->data);
 
-  /* retrieve associated SCM structure */
-  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
-  SCM sheet = scm_call_1(forms[current_form]->get_sheet,
-			 scm_makfrom0str(sheetname));
-
-  /* get rid of the name */
-  g_free(sheetname);
-
-  g_return_if_fail(SCM_NFALSEP(scm_list_p(sheet)));
-  g_return_if_fail(scm_ilength(sheet));
-
-  g_return_if_fail(! SCM_STRINGP(SCM_CAR(sheet)));
-
-  /* now recurse through the whole sheet (all rows and colums and 
-   * call the retrieval function), to update each field's content
-   */
-  sheet = SCM_CDR(sheet); /* skip the number of columns field */
-  for(; scm_ilength(sheet); sheet = SCM_CDR(sheet)) {
-    SCM specs = SCM_CAR(sheet);
-      
-    if(SCM_SYMBOLP(specs))
-      /* refrenced by variable, resolve it */
-      specs = scm_c_lookup_ref(SCM_SYMBOL_CHARS(specs));
-
-    /* resolve quotes */
-    while(SCM_SYMBOLP(SCM_CAR(specs)))
-      specs = scm_call_0(specs);
-
-    specs = SCM_CDR(specs); /* skip the line name */
-    for(; scm_ilength(specs); specs = SCM_CDDDDR(specs)) {
-      g_return_if_fail(SCM_NUMBERP(SCM_CAR(specs)));
-
-      g_return_if_fail(SCM_STRINGP(SCM_CADR(specs)));
-      const char *input_name = SCM_STRING_CHARS(SCM_CADR(specs));
-
-      /* retrieve content of field ... */
-      if(!exception || strcmp(input_name, exception)) {
-	GtkWidget *input = lookup_widget(appwin, input_name);
-	taxbird_ws_retrieve_field(input, appwin, input_name);
-      }
-    }
+      if(strcmp(glade_get_widget_name(w), exception))
+	taxbird_ws_retrieve_field(w, appwin, glade_get_widget_name(w));
+    } while((ptr = ptr->next));
+    
+    g_list_free(widgets);
   }
 
   taxbird_ws_disable_storage_hook = 0;
+}
+
+
+
+static void
+taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
+			  const char *field_name)
+{
+  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
+  SCM v = scm_call_2(forms[current_form]->dataset_read,
+		     g_object_get_data(G_OBJECT(appwin), "scm_data"),
+		     scm_makfrom0str(field_name));
+  
+  if(GTK_IS_ENTRY(w)) {
+    if(SCM_STRINGP(v)) {
+      gtk_entry_set_text(GTK_ENTRY(w), SCM_STRING_CHARS(v));
+    }
+    else
+      gtk_entry_set_text(GTK_ENTRY(w), "");
+  } 
+
+  else if(GTK_IS_COMBO_BOX(w)) {
+    if(SCM_STRINGP(v))
+      gtk_combo_box_set_active(GTK_COMBO_BOX(w), atoi(SCM_STRING_CHARS(v)));
+
+    /* don't make a default choice, it's pretty much unlikely we will be
+     * right anyway */
+  }
+
+  else if(GTK_IS_TOGGLE_BUTTON(w)) {
+    if(SCM_STRINGP(v))
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w),
+				   atoi(SCM_STRING_CHARS(v)));
+
+    /* we don't make a default choice here, probably off is more sane, 
+     * but who knows ... */
+  }
+
 }
 
 
