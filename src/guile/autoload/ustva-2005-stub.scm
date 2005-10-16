@@ -48,7 +48,8 @@
 
   ;; storage function ----------------------------------------------------------
   (lambda (buffer element value)
-    (let ((validity (ustva-2005:validate buffer element value)))
+    (let ((validity (and (ustva-2005:validate buffer element value)
+			 (datenlieferant:validate buffer element value))))
       (if validity
 	(let ()
 	  (storage:store buffer element value)
@@ -64,7 +65,8 @@
   ;; export function -----------------------------------------------------------
   (lambda (buf)
     (tb:eval-file "revalidate.scm")
-    (if (revalidate:buffer ustva-2005:validate buf)
+    (if (and (revalidate:buffer ustva-2005:validate buf)
+	     (revalidate:buffer datenlieferant:validate buf))
 	(let ((sig-result (tb:check-sig "signatures/ustva-2005.sig")))
 
 	  ;; document's content is valid, let's export it, to make the

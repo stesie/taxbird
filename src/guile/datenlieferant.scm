@@ -67,101 +67,72 @@
       (if (> totallen 90) #f #t))))
 
 
+(define datenlieferant:validate
+  (lambda (buffer element value)
+    (let ((validators (list 
+		       "name-lieferant"
+		       (lambda(val buf) 
+			 (and (validate:datenlieferant val buf "name-lieferant")
+			      (not (string-index val #\*))
+			      (validate:alphanum val 1 45)))
 
-(define basics:datenlieferant
-  (list 2
+		       "strasse-lieferant"
+		       (lambda(value buf)
+			 (validate:alphanum value 1 30))
 
-	;;(list "Hersteller-ID"
-	;;      tb:field:text-output
-	;;      "vend-id" 
-	;;      "Von der Oberfinanzdirektion München vergebene Hersteller-ID"
-	;;      #t)
+		       "plz-lieferant" 
+		       (lambda(val buf)
+			 (and (validate:datenlieferant val buf "plz-lieferant")
+			      (validate:alphanum val 1 12)))
 
-	(list "<b>Adressdaten ...</b>")
+		       "ort-lieferant"
+		       (lambda(val buf)
+			 (and (validate:datenlieferant val buf "ort-lieferant")
+			      (validate:alphanum val 1 30)))
 
-	(list "Name"
-	      tb:field:text-input
-	      "name-lieferant"
-	      "Name des Datenlieferanten (ggf. Steuerberater)"
-	      (lambda(val buf) 
-		(and (validate:datenlieferant val buf "name-lieferant")
-		     (not (string-index val #\*)) ;; because of Kz09 field!
-		     (validate:alphanum val 1 45))))
+		       "land-lieferant" 
+		       (lambda(val buf)
+			 (validate:datenlieferant val buf "land-lieferant"))
 
-	(list "Straße" 
-	      tb:field:text-input
-	      "strasse-lieferant"
-	      (string-append "Straßenname und Hausnummer "
-			     "(der Anschrift des Datenlieferanten)")
-	      (lambda(value buf)
-		(validate:alphanum value 1 30)))
+		       "vorwahl" 
+		       (lambda(val buf)
+			 (and (validate:datenlieferant val buf "vorwahl")
+			      (not (string-index val #\*))
+			      (validate:unsigned-int val buf)))
 
-	(list "Postleitzahl"
-	      tb:field:text-input
-	      "plz-lieferant" 
-	      "PLZ des Datenlieferanten" 
-	      (lambda(val buf)
-		(and (validate:datenlieferant val buf "plz-lieferant")
-		     (validate:alphanum val 1 12))))
-
-	(list "Ort"
-	      tb:field:text-input
-	      "ort-lieferant"
-	      "Sitzort des Datenlieferanten" 
-	      (lambda(val buf)
-		(and (validate:datenlieferant val buf "ort-lieferant")
-		     (validate:alphanum val 1 30))))
-
-	(list "Land" 
-	      tb:field:text-input
-	      "land-lieferant" 
-	      "Land des Datenlieferanten (Staat)"
-	      (lambda(val buf)
-		(validate:datenlieferant val buf "land-lieferant")))
+		       "anschluss" 
+		       (lambda(val buf)
+			 (and (validate:datenlieferant val buf "anschluss")
+			      (not (string-index val #\*))
+			      (validate:unsigned-int val buf)))
 
 
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	(list "<b>Weitere Kommunikationswege ...</b>")
-
-	(list "Tel.-Nr. (Vorwahl)"
-	      tb:field:text-input
-	      "vorwahl" 
-	      "Tel.-Nr. des Datenlieferanten bzw. Beraters (Vorwahl)"
-	      (lambda(val buf)
-		(and (validate:datenlieferant val buf "vorwahl")
-		     (not (string-index val #\*)) ;; because of Kz09 field!
-		     (validate:unsigned-int val buf))))
-
-	(list "Tel.-Nr. (Anschluss)"
-	      tb:field:text-input
-	      "anschluss" 
-	      "Tel.-Nr. des Datenlieferanten bzw. Beraters (Anschluss)"
-	      (lambda(val buf)
-		(and (validate:datenlieferant val buf "anschluss")
-		     (not (string-index val #\*)) ;; because of Kz09 field!
-		     (validate:unsigned-int val buf))))
-
-
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	(list "<b>Weitere Angaben bei Mandatsverhältnis ...</b>")
-
-	(list "Berufsbezeichnung\ndes Beraters"
-	      tb:field:text-input
-	      "berufsbez"
-	      "Berufsbezeichnung des Steuerberaters (falls zutreffend)"
-	      (lambda(val buf)
-		(or (not val)   ;; field may be empty ...
-		    (and (not (string-index val #\*)) ;; because of Kz09 field!
-		         (validate:datenlieferant val buf "berufsbez")))))
+		       "berufsbez"
+		       (lambda(val buf)
+			 (or (not val)   ;; field may be empty ...
+			     (and (not (string-index val #\*))
+				  (validate:datenlieferant 
+				   val buf "berufsbez"))))
     
-	(list "Name Mandant"
-	      tb:field:text-input
-	      "mandant" 
-	      "Name des Mandanten (optional, sofern zutreffend aber erwünscht)"
-	      (lambda(val buf)
-		(or (not val)  ;; empty field is okay ...
-		    (and (not (string-index val #\*)) ;; because of Kz09 field!
-			 (validate:kz09-maxlen val buf "mandant")))))))
+		       "mandant" 
+		       (lambda(val buf)
+			 (or (not val)  ;; empty field is okay ...
+			     (and (not (string-index val #\*))
+				  (validate:kz09-maxlen val buf "mandant"))))))
+      
+      (func #f))
+
+      (set! func (member element validators))
+      (if (not func)
+	  (let ()
+	    ;;(format #t "cannot find validator for ~S~%" element)
+	    #t)
+
+	  (let ()
+	    ;;(format #t "validating ~S => ~S against ~S~%"
+	    ;;        element value (cadr func))
+	    ((cadr func) value buffer))))))
+
 
 
 (define export:generate-datenlieferant
