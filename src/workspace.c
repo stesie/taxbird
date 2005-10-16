@@ -223,7 +223,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 
       GLADE_HOOKUP_OBJECT(appwin, w, glade_get_widget_name(w));
 
-      if(! (GTK_IS_LABEL(w) || GTK_IS_TABLE(w))) {
+      if(! (GTK_IS_LABEL(w) || GTK_IS_TABLE(w) || GTK_IS_SEPARATOR(w))) {
 	g_signal_connect(w, "focus-in-event",
 			 G_CALLBACK(taxbird_ws_show_appbar_help), NULL);
 	g_signal_connect(w, GTK_IS_TOGGLE_BUTTON(w) ? "toggled" : "changed",
