@@ -6,6 +6,7 @@ guilestuffdir = $(datadir)/taxbird/guile
 guilestuff_DATA = \
 	bundesland.scm \
 	console.scm \
+	datenlieferant.xml \
 	datenlieferant.scm \
 	export.scm \
 	monetary.scm \
@@ -15,6 +16,7 @@ guilestuff_DATA = \
 	steuernummer.scm \
 	storage.scm \
 	string.scm \
+	ustva-2005.xml \
 	ustva-2005.scm \
 	validate.scm \
 	versions.scm \
