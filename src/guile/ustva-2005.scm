@@ -38,6 +38,94 @@
      "Seite 2"    ("ustva-2005.xml" "seite_2"))))
 
 
+(define ustva-2005:validate
+  (lambda (buffer element value)
+    (let ((validators (list 
+		       "Kz41" validate:signed-int
+		       "Kz44" validate:signed-int
+		       "Kz49" validate:signed-int
+		       "Kz43" validate:signed-int
+		       "Kz48" validate:signed-int
+		       "Kz51" validate:signed-int
+		       "Kz86" validate:signed-int
+		       "Kz35" validate:signed-int
+		       
+		       "Kz36" 
+		       (lambda(val buf)
+			 (let ((maximum (storage:retrieve buf "Kz35")))
+			   (validate:signed-monetary-max val buf maximum)))
+		       
+		       "Kz77" validate:signed-int
+		       "Kz76" validate:signed-int
+		       
+		       "Kz80" 
+		       (lambda (val b)
+			 (let ((maximum (storage:retrieve b "Kz76")))
+			   (validate:signed-monetary-max val b maximum)))
+		       
+		       "Kz91" validate:signed-int
+		       "Kz97" validate:signed-int
+		       "Kz93" validate:signed-int
+		       "Kz95" validate:signed-int
+
+		       "Kz98"
+		       (lambda(val buf)
+			 (let ((maximum (storage:retrieve buf "Kz95")))
+			   (validate:signed-monetary-max val buf maximum)))
+
+		       "Kz94" validate:signed-int
+
+		       "Kz96"
+		       (lambda(val buf)
+			 (let ((maximum (storage:retrieve buf "Kz94")))
+			   (validate:signed-monetary-max val buf maximum)))
+
+		       "Kz42" validate:signed-int
+		       "Kz60" validate:signed-int
+		       "Kz45" validate:signed-int
+		       "Kz52" validate:signed-int
+		       
+		       "Kz53"
+		       (lambda (val buf)
+			 (let ((maximum (storage:retrieve buf "Kz52")))
+			   (validate:signed-monetary-max val buf maximum)))
+
+		       "Kz73" validate:signed-int
+		       "Kz74"
+		       (lambda (val buf)
+			 (let ((maximum (storage:retrieve buf "Kz73")))
+			   (validate:signed-monetary-max val buf maximum)))
+
+		       "Kz84" validate:signed-int
+		       "Kz85"
+		       (lambda (val buf)
+			 (let ((maximum (storage:retrieve buf "Kz74")))
+			   (validate:signed-monetary-max val buf maximum)))
+		       
+		       "Kz65" validate:signed-monetary
+		       "Kz66" validate:signed-monetary
+		       "Kz61" validate:signed-monetary
+		       "Kz62" validate:signed-monetary
+		       "Kz67" validate:signed-monetary
+		       "Kz63" validate:signed-monetary
+		       "Kz64" validate:signed-monetary
+		       "Kz59" validate:signed-monetary
+		       "Kz69" validate:signed-monetary
+		       "Kz39" validate:unsigned-int))
+      (func #f))
+
+      (set! func (member element validators))
+      (if (not func)
+	  (let ()
+	    (format #t "cannot find validator for ~S~%" element)
+	    #t)
+
+	  (let ()
+	    ;;(format #t "validating ~S => ~S against ~S~%"
+	    ;;	      element value (cadr func))
+	    ((cadr func) value buffer))))))
+      
+
 
 (define ustva-2005:recalculate
   (lambda (buffer element value)

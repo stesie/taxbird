@@ -48,13 +48,17 @@
 
   ;; storage function ----------------------------------------------------------
   (lambda (buffer element value)
-    (storage:store buffer element value)
+    (let ((validity (ustva-2005:validate buffer element value)))
+      (if validity
+	(let ()
+	  (storage:store buffer element value)
 
-    ;; if the stored value is Kz?? call the recalculation function ...
-    (if (and (= (string-length element) 4)
-	     (string=? (substring element 0 2) "Kz"))
-	(ustva-2005:recalculate buffer element value)))
+	  ;; if the stored value is Kz?? call the recalculation function ...
+	  (if (and (= (string-length element) 4)
+		   (string=? (substring element 0 2) "Kz"))
+	      (ustva-2005:recalculate buffer element value))))
 
+      validity))
 
 
   ;; export function -----------------------------------------------------------
