@@ -55,12 +55,9 @@ static void taxbird_ws_store_event(GtkWidget *w, gpointer user_data);
 static void taxbird_ws_update_fields(GtkWidget *appwin, const char *exception);
 
 
-/* static SCM taxbird_ws_get_helptext(GtkWidget *appwin, SCM specs);
- *
- * static gboolean taxbird_ws_show_appbar_help(GtkWidget *widget,
- *                                             GdkEventFocus *event,
- *                                             gpointer user_data);
- */
+static gboolean taxbird_ws_show_appbar_help(GtkWidget *widget,
+					    GdkEventFocus *event,
+					    gpointer user_data);
 
 /* unprotect referenced SCM (callback for destroy notifications) */
 static void taxbird_ws_unprotect_scm(gpointer d);
@@ -212,17 +209,22 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 
   g_free(lookup_fn);
   table = glade_xml_get_widget(xml, root);
-  
-  /* gtk_container_set_border_width(GTK_CONTAINER(table), 5);
-   * gtk_table_set_row_spacings(GTK_TABLE(table), 5);
-   * gtk_table_set_col_spacings(GTK_TABLE(table), 10);
-   */
-  
-  /* connect new table to the viewport - we need to do this so early,
-   * as the storage callbacks (using glade's lookup code) require the whole
-   * widget tree to be set up properly */
-  gtk_container_add(GTK_CONTAINER(viewport), table);
 
+  /* keep a reference to the GladeXML structure */
+  g_object_set_data_full(G_OBJECT(appwin), "gladexml", (void *) xml, NULL);
+
+  GList *widgets = glade_xml_get_widget_prefix(xml, "");
+  GList *ptr = widgets;
+
+  if(ptr) do {
+    GtkWidget *w = GTK_WIDGET(ptr->data);
+    if(! GTK_IS_LABEL(w))
+      g_signal_connect(w, "focus-in-event",
+		       G_CALLBACK(taxbird_ws_show_appbar_help), NULL);
+  } while((ptr = ptr->next));
+  
+  gtk_container_set_border_width(GTK_CONTAINER(table), 5);
+  gtk_container_add(GTK_CONTAINER(viewport), table);
 }
 
 
@@ -426,13 +428,9 @@ taxbird_ws_show_appbar_help(GtkWidget *widget, GdkEventFocus *event,
   (void) event;
   (void) user_data;
 
-  SCM specs = (SCM) g_object_get_data(G_OBJECT(widget), "scm_specs");
-  GtkWidget *appwin = lookup_widget(widget, "taxbird");
-  SCM helptext = taxbird_ws_get_helptext(appwin, specs);
+  GtkTooltipsData *tooltip = gtk_tooltips_data_get(widget);
   GtkWidget *helpw = lookup_widget(widget, "helptext");
-
-  g_return_val_if_fail(SCM_STRINGP(helptext), FALSE);
-  gtk_label_set_markup(GTK_LABEL(helpw), SCM_STRING_CHARS(helptext));
+  gtk_label_set_markup(GTK_LABEL(helpw), tooltip ? tooltip->tip_text : "");
   return FALSE; /* call other handlers as well */
 }
 
