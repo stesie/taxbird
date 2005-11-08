@@ -64,6 +64,8 @@
 
   ;; export function -----------------------------------------------------------
   (lambda (buf)
+    (ustva-2005:recalculate buf "" "")
+
     (tb:eval-file "revalidate.scm")
     (if (and (revalidate:buffer ustva-2005:validate buf)
 	     (revalidate:buffer datenlieferant:validate buf))
