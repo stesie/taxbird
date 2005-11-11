@@ -37,6 +37,7 @@ static SCM taxbird_guile_check_sig_SCM(SCM scm_fn);
 static SCM taxbird_dialog_error_SCM(SCM message);
 static SCM taxbird_dialog_info_SCM(SCM message);
 static SCM taxbird_get_version(void);
+static SCM taxbird_activate_sheet(SCM file, SCM root);
 
 /* initialize taxbird's guile backend */
 void taxbird_guile_init(void)
@@ -60,10 +61,10 @@ void taxbird_guile_init(void)
   scm_c_define_gsubr("tb:eval-file", 1, 0, 0, taxbird_guile_eval_file_SCM);
   scm_c_define_gsubr("tb:check-sig", 1, 0, 0, taxbird_guile_check_sig_SCM);
   scm_c_define_gsubr("tb:form-register", 7, 0, 0, taxbird_form_register);
-  
   scm_c_define_gsubr("tb:dlg-error", 1, 0, 0, taxbird_dialog_error_SCM);
   scm_c_define_gsubr("tb:dlg-info", 1, 0, 0, taxbird_dialog_info_SCM);
   scm_c_define_gsubr("tb:get-version", 0, 0, 0, taxbird_get_version);
+  scm_c_define_gsubr("tb:activate-sheet", 2, 0, 0, taxbird_activate_sheet);
 
   /* Scan autoload/ directories for files, that should be loaded automatically.
    * However don't load each file from these directories in order, but 
@@ -251,4 +252,28 @@ static SCM
 taxbird_get_version(void)
 {
   return scm_makfrom0str(PACKAGE_VERSION);
+}
+
+
+static SCM 
+taxbird_activate_sheet(SCM f, SCM r)
+{
+  if(! SCM_STRINGP(f)) {
+    scm_error_scm(scm_c_lookup_ref("wrong-type-arg"),
+		  scm_makfrom0str("tb:activate-sheet"),
+		  scm_makfrom0str("invalid first argument, string expected"),
+		  SCM_EOL, SCM_BOOL(0));
+    return SCM_BOOL(0);
+  }
+
+  if(! SCM_STRINGP(r)) {
+    scm_error_scm(scm_c_lookup_ref("wrong-type-arg"),
+		  scm_makfrom0str("tb:activate-sheet"),
+		  scm_makfrom0str("invalid second argument, string expected"),
+		  SCM_EOL, SCM_BOOL(0));
+    return SCM_BOOL(0);
+  }
+
+  taxbird_ws_activate_sheet(NULL, SCM_STRING_CHARS(f), SCM_STRING_CHARS(r));
+  return SCM_BOOL(1);
 }
