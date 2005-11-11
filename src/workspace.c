@@ -221,13 +221,22 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
     do {
       GtkWidget *w = GTK_WIDGET(ptr->data);
 
+      /* g_printerr("mangling widget: %s\n", glade_get_widget_name(w)); */
       GLADE_HOOKUP_OBJECT(appwin, w, glade_get_widget_name(w));
 
-      if(! (GTK_IS_LABEL(w) || GTK_IS_TABLE(w) || GTK_IS_SEPARATOR(w))) {
+      if(! (GTK_IS_LABEL(w) || GTK_IS_TABLE(w) || GTK_IS_SEPARATOR(w)
+	    || GTK_IS_IMAGE(w))) {
 	g_signal_connect(w, "focus-in-event",
 			 G_CALLBACK(taxbird_ws_show_appbar_help), NULL);
-	g_signal_connect(w, GTK_IS_TOGGLE_BUTTON(w) ? "toggled" : "changed",
-			 G_CALLBACK(taxbird_ws_store_event), NULL);
+	if(GTK_IS_BUTTON(w))
+	  g_signal_connect(w, "clicked",
+			   G_CALLBACK(taxbird_ws_store_event), NULL);
+	else if(GTK_IS_TOGGLE_BUTTON(w))
+	  g_signal_connect(w, "toggled",
+			   G_CALLBACK(taxbird_ws_store_event), NULL);
+	else
+	  g_signal_connect(w, "changed",
+			   G_CALLBACK(taxbird_ws_store_event), NULL);
 
 	taxbird_ws_retrieve_field(w, appwin, glade_get_widget_name(w));
       }
@@ -273,7 +282,12 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w));
     sv = scm_makfrom0str(state ? "1" : "0");
 
-  } else {
+  }
+
+  else if(GTK_IS_BUTTON(w)) 
+    sv = SCM_BOOL(1);
+
+  else {
     g_assert_not_reached();
     return;
   }
