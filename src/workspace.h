@@ -38,6 +38,8 @@ void taxbird_ws_sel_form(GtkWidget *app_window, int formid);
 /* display sheet with provided id in the workspace of app_window */
 void taxbird_ws_sel_sheet(GtkWidget *app_window, const char *sheet);
 
+/* activate a sheet, loaded from the provided file and root widget */
+void taxbird_ws_activate_sheet(GtkWidget *, const char *file, const char *sh);
 
 /* list of all application windows */
 extern GSList *taxbird_windows;

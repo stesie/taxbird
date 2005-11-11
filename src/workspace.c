@@ -69,6 +69,7 @@ static int taxbird_ws_disable_storage_hook = 0;
 /* list of all application windows */
 GSList *taxbird_windows = NULL;
 
+static GtkWidget *taxbird_active_win = NULL;
 
 /* create new taxbird workspace */
 GtkWidget *
@@ -84,6 +85,7 @@ taxbird_ws_new(void)
 
   /* add new window to the list of windows */
   taxbird_windows = g_slist_prepend(taxbird_windows, taxbird);
+  taxbird_active_win = taxbird;
 
   return taxbird;
 }
@@ -95,6 +97,8 @@ taxbird_ws_new(void)
 void
 taxbird_ws_sel_form(GtkWidget *appwin, int formid)
 {
+  if(! appwin) appwin = taxbird_active_win;
+
   GtkTreeViewColumn *column;
   GtkTreeStore *tree;
   GtkTreeView *tv_sheets = GTK_TREE_VIEW(lookup_widget(appwin, "tv_sheets"));
@@ -166,9 +170,6 @@ taxbird_ws_fill_tree_store(GtkTreeStore *tree, GtkTreeIter *parent, SCM data)
 void
 taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 {
-  GtkWidget *table;
-  GtkBin *viewport = GTK_BIN(lookup_widget(appwin, "viewport"));
-  
   int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
   SCM sheet = scm_call_1(forms[current_form]->get_sheet,
 			 scm_makfrom0str(sheetname));
@@ -182,6 +183,15 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
   const char *fn = SCM_STRING_CHARS(SCM_CAR(sheet));
   const char *root = SCM_STRING_CHARS(SCM_CADR(sheet));
 
+  taxbird_ws_activate_sheet(appwin, fn, root);
+}
+
+void 
+taxbird_ws_activate_sheet(GtkWidget *appwin, const char *fn, const char *root)
+{
+  if(! appwin) appwin = taxbird_active_win;
+  g_return_if_fail(appwin);
+
   /* seek the guile search path for the xml file to use ... */
   char *lookup_fn = taxbird_guile_dirlist_lookup(fn);
   if(! lookup_fn) {
@@ -192,6 +202,9 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
   g_printerr(PACKAGE_NAME ": loading '%s' from '%s'\n", root, lookup_fn);
 
   /* remove old widget tree ... */
+  GtkWidget *table;
+  GtkBin *viewport = GTK_BIN(lookup_widget(appwin, "viewport"));
+  
   if((table = GTK_WIDGET(gtk_bin_get_child(viewport))))
     gtk_widget_destroy(table);
 
@@ -210,7 +223,6 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
   /* keep a reference to the GladeXML structure */
   g_object_set_data_full(G_OBJECT(appwin), "gladexml", (void *) xml, NULL);
 
-
   /* make sure not to re-store field's values when loading them all */
   taxbird_ws_disable_storage_hook = 1;
 
@@ -225,7 +237,7 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
       GLADE_HOOKUP_OBJECT(appwin, w, glade_get_widget_name(w));
 
       if(! (GTK_IS_LABEL(w) || GTK_IS_TABLE(w) || GTK_IS_SEPARATOR(w)
-	    || GTK_IS_IMAGE(w))) {
+	    || GTK_IS_IMAGE(w) || GTK_IS_SCROLLED_WINDOW(w))) {
 	g_signal_connect(w, "focus-in-event",
 			 G_CALLBACK(taxbird_ws_show_appbar_help), NULL);
 	if(GTK_IS_BUTTON(w))
@@ -233,6 +245,9 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 			   G_CALLBACK(taxbird_ws_store_event), NULL);
 	else if(GTK_IS_TOGGLE_BUTTON(w))
 	  g_signal_connect(w, "toggled",
+			   G_CALLBACK(taxbird_ws_store_event), NULL);
+	else if(GTK_IS_TREE_VIEW(w))
+	  g_signal_connect(w, "cursor_changed",
 			   G_CALLBACK(taxbird_ws_store_event), NULL);
 	else
 	  g_signal_connect(w, "changed",
@@ -278,6 +293,20 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
     sv = scm_int2num(item);
   }
 
+  else if(GTK_IS_TREE_VIEW(w)) {
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(w));
+
+    if(! gtk_tree_selection_get_selected (sel, &model, &iter))
+      sv = SCM_BOOL(0);
+    else {
+      char *val;
+      gtk_tree_model_get(model, &iter, 0, &val, -1);
+      sv = scm_take0str(val);
+    }
+  }
+
   else if(GTK_IS_TOGGLE_BUTTON(w)) {
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w));
     sv = scm_makfrom0str(state ? "1" : "0");
@@ -291,21 +320,26 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
     g_assert_not_reached();
     return;
   }
-  
-  /* call storage function ... */
+
   GtkWidget *appwin = lookup_widget(w, "taxbird");
   g_return_if_fail(appwin);
+  taxbird_active_win = appwin;
 
-  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
-
-  SCM result = scm_call_3(forms[current_form]->dataset_write,
-			  (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data"),
-			  scm_makfrom0str(glade_get_widget_name(w)), sv);
-
+  /* we need to lookup the help-widget this early, as the widget `w'
+   * might disappear during the scheme call (in case the script decides to
+   * display another sheet, leading in `w' to be destroyed) 
+   */
+  GtkWidget *helpw = lookup_widget(w, "helptext");
+  g_return_if_fail(helpw);
   GtkTooltipsData *tooltip = gtk_tooltips_data_get(w);
   const char *plain_helptext = tooltip ? tooltip->tip_text : "";
 
-  GtkWidget *helpw = lookup_widget(w, "helptext");
+  /* call storage function ... */
+  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
+  SCM result = scm_call_3(forms[current_form]->dataset_write,
+			  (SCM)g_object_get_data(G_OBJECT(appwin), "scm_data"),
+			  scm_makfrom0str(glade_get_widget_name(w)), sv);
+  
   if(SCM_FALSEP(result)) {
     /* the field's content is invalid, prepend warning to the bottom bar */
     char *helptext = 
@@ -325,7 +359,8 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
   g_object_set_data(G_OBJECT(appwin), "changed", (void *) 1);
 
   /* now update all but the current field */
-  taxbird_ws_update_fields(appwin, glade_get_widget_name(w));
+  const char *widget_name = glade_get_widget_name(w);
+  if(widget_name) taxbird_ws_update_fields(appwin, widget_name);
 
   /* write out the current field's unmodified helptext,
    * this is to replace error-message enhanced versions, etc. */
@@ -341,6 +376,8 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 static void
 taxbird_ws_update_fields(GtkWidget *appwin, const char *exception)
 {
+  g_return_if_fail(exception);
+
   assert(taxbird_ws_disable_storage_hook == 0);
   taxbird_ws_disable_storage_hook = 1;
 
@@ -431,6 +468,8 @@ taxbird_ws_button_callback(GtkWidget *button, void *data)
   }
 
   GtkWidget *appwin = lookup_widget(button, "taxbird");
+  taxbird_active_win = appwin;
+
   scm_call_2(validatfunc, SCM_BOOL(0),
 	     (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data"));
 }
