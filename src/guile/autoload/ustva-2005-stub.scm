@@ -25,7 +25,7 @@
   ;; form's name
   "Umsatzsteuervoranmeldung 2005" 
 
-  ;; get sheet tree ------------------------------------------------------------
+  ;; get sheet tree -----------------------------------------------------------
   (lambda ()
     (tb:eval-file "ustva-2005.scm")
     (tb:eval-file "sheettree.scm")
@@ -33,36 +33,38 @@
 
 
 
-  ;; get sheet -----------------------------------------------------------------
+  ;; get sheet ----------------------------------------------------------------
   (lambda (sheetname)
     (tb:eval-file "ustva-2005.scm")
     (ustva-2005:get-sheet sheetname))
 
 
 
-  ;; retrieval function --------------------------------------------------------
+  ;; retrieval function -------------------------------------------------------
   (lambda (buffer element)
     (storage:retrieve buffer element))
 
 
 
-  ;; storage function ----------------------------------------------------------
+  ;; storage function ---------------------------------------------------------
   (lambda (buffer element value)
-    (let ((validity (and (ustva-2005:validate buffer element value)
-			 (datenlieferant:validate buffer element value))))
-      (if validity
-	(let ()
-	  (storage:store buffer element value)
+    (or (datenlieferant:button-demux buffer element)
 
-	  ;; if the stored value is Kz?? call the recalculation function ...
-	  (if (and (= (string-length element) 4)
-		   (string=? (substring element 0 2) "Kz"))
-	      (ustva-2005:recalculate buffer element value))))
+	(let ((validity (and (ustva-2005:validate buffer element value)
+			     (datenlieferant:validate buffer element value))))
+	  (if validity
+	      (let ()
+		(storage:store buffer element value)
+		
+		;; if the stored value is Kz?? call the recalculation function
+		(if (and (= (string-length element) 4)
+			 (string=? (substring element 0 2) "Kz"))
+		    (ustva-2005:recalculate buffer element value))))
+	  
+	  validity)))
 
-      validity))
 
-
-  ;; export function -----------------------------------------------------------
+  ;; export function ----------------------------------------------------------
   (lambda (buf)
     (ustva-2005:recalculate buf "" "")
 
@@ -82,7 +84,11 @@
 
 
 
-  ;; empty set -----------------------------------------------------------------
+  ;; empty set ----------------------------------------------------------------
   (lambda () 
-    '(("vend-id" . "74931") ("land-lieferant" . "Deutschland")))))
+    (append datenlieferant:defaults
+	    '(("vend-id" . "74931") 
+	      ("land-lieferant" . "Deutschland"))))))
+		 
+
 

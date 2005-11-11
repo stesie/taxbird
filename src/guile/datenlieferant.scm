@@ -17,6 +17,51 @@
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+
+
+;; try to load defaults file ...
+(let ((fn (string-append (getenv "HOME") "/.taxbird/datenlieferant.dat")))
+  (or (and (file-exists? fn)
+	   (or (load fn) #t))
+
+      ;; create default set ...
+      (define datenlieferant:defaults '())))
+
+	   
+	 
+	 
+
+(define datenlieferant:button-demux
+  (lambda (buffer field)
+    (if (not (string=? field "store"))
+	#f
+
+	(let ((fn (string-append (getenv "HOME") "/.taxbird/"))
+	      (handle #f)
+	      (fields '("anschluss" "name-lieferant" "berufsbez" 
+			"ort-lieferant" "datenlieferant" "plz-lieferant"
+			"strasse-lieferant" "land-lieferant" "vorwahl")))
+	  (or
+	   (file-exists? fn)
+	   (mkdir fn)) ;; create directory ~/.taxbird/
+
+	  ;; open file ~/.taxbird/datenlieferant.dat ...
+	  (set! fn (string-append fn "datenlieferant.dat"))
+	  (set! handle (open fn (logior O_WRONLY O_CREAT)))
+
+	  ;; store defaults to the file ...
+	  (format handle "(define datenlieferant:defaults '(")
+	  (for-each
+	   (lambda(field)
+	     (format handle "(~S . ~S)" field (storage:retrieve buffer field)))
+	   fields)
+	  (format handle "))~%")
+	  
+	  (close handle)
+	  (load fn)))))
+
+
+
 (define validate:datenlieferant
   (lambda (value buffer field)
     (let ((berufsbez (if (string=? field "berufsbez") value
