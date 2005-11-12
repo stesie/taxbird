@@ -31,6 +31,7 @@
 #include "form.h"
 #include "sigcheck.h"
 #include "dialog.h"
+#include "workspace.h"
 
 static SCM taxbird_guile_eval_file_SCM(SCM scm_fn);
 static SCM taxbird_guile_check_sig_SCM(SCM scm_fn);
@@ -65,6 +66,7 @@ void taxbird_guile_init(void)
   scm_c_define_gsubr("tb:dlg-info", 1, 0, 0, taxbird_dialog_info_SCM);
   scm_c_define_gsubr("tb:get-version", 0, 0, 0, taxbird_get_version);
   scm_c_define_gsubr("tb:activate-sheet", 2, 0, 0, taxbird_activate_sheet);
+  scm_c_define_gsubr("tb:chooser-additem", 2, 0, 0, taxbird_ws_chooser_additem);
 
   /* Scan autoload/ directories for files, that should be loaded automatically.
    * However don't load each file from these directories in order, but 

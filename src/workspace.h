@@ -41,6 +41,9 @@ void taxbird_ws_sel_sheet(GtkWidget *app_window, const char *sheet);
 /* activate a sheet, loaded from the provided file and root widget */
 void taxbird_ws_activate_sheet(GtkWidget *, const char *file, const char *sh);
 
+/* add another item to a chooser */
+SCM taxbird_ws_chooser_additem(SCM chooser, SCM item);
+
 /* list of all application windows */
 extern GSList *taxbird_windows;
 

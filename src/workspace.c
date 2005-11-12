@@ -114,9 +114,9 @@ taxbird_ws_sel_form(GtkWidget *appwin, int formid)
 
   /* add names of available sheets */
   tree = gtk_tree_store_new(1, G_TYPE_STRING);
+  gtk_tree_view_set_model(tv_sheets, GTK_TREE_MODEL(tree));
   SCM dataset = scm_call_0(forms[formid]->get_sheet_tree);
   taxbird_ws_fill_tree_store(tree, NULL, dataset);
-  gtk_tree_view_set_model(tv_sheets, GTK_TREE_MODEL(tree));
 
   /* store selected form's id with the application window */
   g_object_set_data(G_OBJECT(appwin), "current_form", (void*) formid);
@@ -559,4 +559,47 @@ static void
 taxbird_ws_unprotect_scm(gpointer d)
 {
   scm_gc_unprotect_object((SCM)d);
+}
+
+SCM
+taxbird_ws_chooser_additem(SCM chooser, SCM item)
+{
+  if(! SCM_STRINGP(chooser)) {
+    scm_error_scm(scm_c_lookup_ref("wrong-type-arg"),
+		  scm_makfrom0str("tb:chooser-additem"),
+		  scm_makfrom0str("invalid first argument, string expected"),
+		  SCM_EOL, SCM_BOOL(0));
+    return SCM_BOOL(0);
+  }
+
+  if(! SCM_STRINGP(item)) {
+    scm_error_scm(scm_c_lookup_ref("wrong-type-arg"),
+		  scm_makfrom0str("tb:chooser-additem"),
+		  scm_makfrom0str("invalid second argument, string expected"),
+		  SCM_EOL, SCM_BOOL(0));
+    return SCM_BOOL(0);
+  }
+
+  GtkTreeView *view = GTK_TREE_VIEW(lookup_widget(taxbird_active_win,
+						  SCM_STRING_CHARS(chooser)));
+  g_return_if_fail(view);
+
+  GtkTreeStore *tree = GTK_TREE_STORE(gtk_tree_view_get_model(view));
+  if(! tree) {
+    tree = gtk_tree_store_new(1, G_TYPE_STRING);
+
+    /* add column */
+    GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
+    GtkTreeViewColumn *column = 
+      gtk_tree_view_column_new_with_attributes("", renderer, "text", 0, NULL);
+    gtk_tree_view_append_column(view, column);
+
+  }
+
+  GtkTreeIter iter;
+  gtk_tree_store_append(tree, &iter, NULL);
+  gtk_tree_store_set(tree, &iter, 0, SCM_STRING_CHARS(item), -1);
+  gtk_tree_view_set_model(view, GTK_TREE_MODEL(tree));
+
+  return item;
 }
