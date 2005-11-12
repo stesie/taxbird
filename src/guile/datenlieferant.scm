@@ -112,62 +112,65 @@
       (if (> totallen 90) #f #t))))
 
 
+
+(define datenlieferant:validators
+  (list 
+   "name-lieferant"
+   (lambda(val buf) 
+     (and (validate:datenlieferant val buf "name-lieferant")
+	  (not (string-index val #\*))
+	  (validate:alphanum val 1 45)))
+
+   "strasse-lieferant"
+   (lambda(value buf)
+     (validate:alphanum value 1 30))
+
+   "plz-lieferant" 
+   (lambda(val buf)
+     (and (validate:datenlieferant val buf "plz-lieferant")
+	  (validate:alphanum val 1 12)))
+
+   "ort-lieferant"
+   (lambda(val buf)
+     (and (validate:datenlieferant val buf "ort-lieferant")
+	  (validate:alphanum val 1 30)))
+
+   "land-lieferant" 
+   (lambda(val buf)
+     (validate:datenlieferant val buf "land-lieferant"))
+
+   "vorwahl" 
+   (lambda(val buf)
+     (and (validate:datenlieferant val buf "vorwahl")
+	  (not (string-index val #\*))
+	  (validate:unsigned-int val buf)))
+
+   "anschluss" 
+   (lambda(val buf)
+     (and (validate:datenlieferant val buf "anschluss")
+	  (not (string-index val #\*))
+	  (validate:unsigned-int val buf)))
+
+
+   "berufsbez"
+   (lambda(val buf)
+     (or (not val)   ;; field may be empty ...
+	 (and (not (string-index val #\*))
+	      (validate:datenlieferant 
+	       val buf "berufsbez"))))
+   
+   "mandant" 
+   (lambda(val buf)
+     (or (not val)  ;; empty field is okay ...
+	 (and (not (string-index val #\*))
+	      (validate:kz09-maxlen val buf "mandant"))))))
+
+
+
+
 (define datenlieferant:validate
   (lambda (buffer element value)
-    (let ((validators (list 
-		       "name-lieferant"
-		       (lambda(val buf) 
-			 (and (validate:datenlieferant val buf "name-lieferant")
-			      (not (string-index val #\*))
-			      (validate:alphanum val 1 45)))
-
-		       "strasse-lieferant"
-		       (lambda(value buf)
-			 (validate:alphanum value 1 30))
-
-		       "plz-lieferant" 
-		       (lambda(val buf)
-			 (and (validate:datenlieferant val buf "plz-lieferant")
-			      (validate:alphanum val 1 12)))
-
-		       "ort-lieferant"
-		       (lambda(val buf)
-			 (and (validate:datenlieferant val buf "ort-lieferant")
-			      (validate:alphanum val 1 30)))
-
-		       "land-lieferant" 
-		       (lambda(val buf)
-			 (validate:datenlieferant val buf "land-lieferant"))
-
-		       "vorwahl" 
-		       (lambda(val buf)
-			 (and (validate:datenlieferant val buf "vorwahl")
-			      (not (string-index val #\*))
-			      (validate:unsigned-int val buf)))
-
-		       "anschluss" 
-		       (lambda(val buf)
-			 (and (validate:datenlieferant val buf "anschluss")
-			      (not (string-index val #\*))
-			      (validate:unsigned-int val buf)))
-
-
-		       "berufsbez"
-		       (lambda(val buf)
-			 (or (not val)   ;; field may be empty ...
-			     (and (not (string-index val #\*))
-				  (validate:datenlieferant 
-				   val buf "berufsbez"))))
-    
-		       "mandant" 
-		       (lambda(val buf)
-			 (or (not val)  ;; empty field is okay ...
-			     (and (not (string-index val #\*))
-				  (validate:kz09-maxlen val buf "mandant"))))))
-      
-      (func #f))
-
-      (set! func (member element validators))
+    (let ((func (member element datenlieferant:validators)))
       (if (not func)
 	  (let ()
 	    ;;(format #t "cannot find validator for ~S~%" element)

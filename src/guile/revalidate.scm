@@ -21,17 +21,21 @@
 ;; 'def'), emiting a suitable error message if necessary
 ;; RETURN: #t on success, #f on any error
 (define revalidate:buffer 
-  (lambda (validator buf)
-    (let ((rv #t) (copy buf))
-      (while (> (length buf) 0)
-	     (let ((validator-result (validator copy (caar buf) (cdar buf))))
+  (lambda (validator buf validators)
+
+    (let ((rv #t))
+      (while (> (length validators) 0)
+	     (let ((validator-result 
+		    (validator buf (car validators) 
+			       (storage:retrieve buf (car validators)))))
 	       (if (not validator-result)
 		   (tb:dlg-error
 		    (format #f "Der Inhalt des Feldes ~S ist ungültig: ~S"
-			    (caar buf) (cdar buf))))
+			    (car validators)
+			    (storage:retrieve buf (car validators)))))
 
 	       (set! rv (and rv validator-result)))
-	     (set! buf (cdr buf)))
+	     (set! validators (cddr validators)))
 
       rv)))
 	     
