@@ -175,7 +175,8 @@ on_choose_template_OK_clicked(GtkButton *button, gpointer user_data)
 
     sel = gtk_tree_view_get_selection(tv);
     if(! gtk_tree_selection_get_selected (sel, &model, &iter)) {
-      g_printerr("Please select an element from the list!");
+      taxbird_dialog_error(dialog, _("Please select a template "
+				     "from the list."));
       return;
     }
 
