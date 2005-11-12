@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Taxbird 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-23 13:58+0200\n"
-"PO-Revision-Date: 2005-07-23 14:07+0200\n"
+"POT-Creation-Date: 2005-11-12 21:28+0100\n"
+"PO-Revision-Date: 2005-11-12 21:30+0100\n"
 "Last-Translator: Stefan Siegl <ssiegl@gmx.de>\n"
 "Language-Team: German <ssiegl@gmx.de>\n"
 "MIME-Version: 1.0\n"
@@ -57,8 +57,8 @@ msgid ""
 "\n"
 "Please consider contacting the taxbird@taxbird.de mailing list."
 msgstr ""
-"Das exportierte Dokument konnte nicht validiert werden."
-"Entschuldigung, aber das sollte nicht passieren. \n"
+"Das exportierte Dokument konnte nicht validiert werden.Entschuldigung, aber "
+"das sollte nicht passieren. \n"
 "\n"
 "Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
 
@@ -80,7 +80,8 @@ msgstr "Konnte HtmlDocument nicht alloziieren."
 
 #: src/export.c:118
 msgid "Unable to call open_streamon allocated HtmlDocument."
-msgstr "open_stream konnte nicht auf das alloziierte HtmlDocument angewandt werden"
+msgstr ""
+"open_stream konnte nicht auf das alloziierte HtmlDocument angewandt werden"
 
 #: src/export.c:154
 msgid ""
@@ -119,8 +120,8 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Die Steuererklärung konnte nicht an das Finanzamt gesendet werden,"
-"die von der Clearingstelle zurückgegebene Fehlermeldung war:\n"
+"Die Steuererklärung konnte nicht an das Finanzamt gesendet werden,die von "
+"der Clearingstelle zurückgegebene Fehlermeldung war:\n"
 "\n"
 "%s"
 
@@ -129,12 +130,14 @@ msgid ""
 "Unable to generate the transmission protocol. This is a local error, THIS "
 "IS, YOUR DATA HAS BEEN SENT TO THE INLAND REVENUE OFFICE AND IT WAS ACCEPTED."
 msgstr ""
-"Das Übertragungsprotokoll konnte nicht generiert werden. Dies ist ein lokaler Fehler,"
-"DAS BEDEUTET, DASS IHRE DATEN AN DAS FINANZAMT ÜBERMITTELT UND AKZEPTIERT WURDEN."
+"Das Übertragungsprotokoll konnte nicht generiert werden. Dies ist ein "
+"lokaler Fehler,DAS BEDEUTET, DASS IHRE DATEN AN DAS FINANZAMT ÜBERMITTELT "
+"UND AKZEPTIERT WURDEN."
 
 #: src/export.c:281
 msgid "Printer process exited abnormally, your data has been sent however."
-msgstr "Druckprozess endete auf unnormale Weise, Ihre Daten wurden jedoch gesendet."
+msgstr ""
+"Druckprozess endete auf unnormale Weise, Ihre Daten wurden jedoch gesendet."
 
 #: src/export.c:287
 msgid "Your data was sent to the inland revenue office and has been accepted"
@@ -336,17 +339,20 @@ msgstr "Konnte Signaturdatei %s nicht öffnen, um die Überprüfung durchzuführen"
 #: src/sigcheck.c:93
 #, c-format
 msgid "Unable to parse S/MIME signature %s, to do verification"
-msgstr "Die S/MIME Signatur %s konnte nicht gelesen werden, um sie zu überprüfen"
+msgstr ""
+"Die S/MIME Signatur %s konnte nicht gelesen werden, um sie zu überprüfen"
 
 #: src/sigcheck.c:100
 #, c-format
 msgid "Unable to allocate BIO buffer, while trying to verify %s"
-msgstr "BIO-Puffer konnte beim Versuch, %s zu überprüfen, nicht alloziiert werden"
+msgstr ""
+"BIO-Puffer konnte beim Versuch, %s zu überprüfen, nicht alloziiert werden"
 
 #: src/sigcheck.c:107
 #, c-format
 msgid "Unable to allocate X.509 store, trying to verify %s"
-msgstr "Beim Versuch, %s zu überprüfen, konnte kein X.509 store alloziiert werden"
+msgstr ""
+"Beim Versuch, %s zu überprüfen, konnte kein X.509 store alloziiert werden"
 
 #: src/sigcheck.c:115
 #, c-format
@@ -354,7 +360,8 @@ msgid ""
 "This S/MIME signature on %s is not valid, sorry. Please try to install an "
 "unmodified version."
 msgstr ""
-"Die S/MIME Signatur auf %s ist nicht gültig. Entschuldigung. Bitte versuchen Sie, eine unmodifizierte Version zu installieren."
+"Die S/MIME Signatur auf %s ist nicht gültig. Entschuldigung. Bitte versuchen "
+"Sie, eine unmodifizierte Version zu installieren."
 
 #: src/sigcheck.c:126
 #, c-format
@@ -366,14 +373,14 @@ msgid ""
 "If you've found a bug in one in the Guile sources, please don't hesitate but "
 "publish your solution to the taxbird@taxbird.de mailing list."
 msgstr ""
-"Die MD5-Prüfsummen aus der Signaturdatei %s stimmen nicht mit den "
-"Prüfsummen der installierten Quelldateien überein. Entschuldigung, Sie "
-"möchten entweder die modifizierten Quellen selbst signieren oder die unverä"
-"nderten, originalen Dateien installieren.\n"
+"Die MD5-Prüfsummen aus der Signaturdatei %s stimmen nicht mit den Prüfsummen "
+"der installierten Quelldateien überein. Entschuldigung, Sie möchten entweder "
+"die modifizierten Quellen selbst signieren oder die unveränderten, "
+"originalen Dateien installieren.\n"
 "\n"
-"Wenn Sie einen Fehler in einer der Guile Quelldateien entdeckt haben, "
-"zögern Sie bitten nicht, Ihre Lösung auf der taxbird@taxbird.de Mailing-"
-"Liste zu veröffentlichen. "
+"Wenn Sie einen Fehler in einer der Guile Quelldateien entdeckt haben, zögern "
+"Sie bitten nicht, Ihre Lösung auf der taxbird@taxbird.de Mailing-Liste zu "
+"veröffentlichen. "
 
 #: src/sigcheck.c:142
 #, c-format
@@ -383,28 +390,35 @@ msgstr "Das X.509-Zertifikat konnte nicht aus der Signatur %s gelesen werden."
 #: src/sigcheck.c:155
 #, c-format
 msgid "Not enough memory to store vendor id from signature %s."
-msgstr "Nicht genügen Arbeitsspeicher, um die Hersteller-ID aus der Signatur %s zu speichern."
+msgstr ""
+"Nicht genügen Arbeitsspeicher, um die Hersteller-ID aus der Signatur %s zu "
+"speichern."
 
 #: src/sigcheck.c:159
 #, c-format
 msgid "Unable to extract vendor id from issuer name (signatur %s)"
-msgstr "Die Hersteller-ID konnte nicht aus dem Ausstellernamen extrahiert werden (Signatur %s)"
+msgstr ""
+"Die Hersteller-ID konnte nicht aus dem Ausstellernamen extrahiert werden "
+"(Signatur %s)"
 
 #: src/support.c:60 src/support.c:85
 #, c-format
 msgid "Couldn't find pixmap file: %s"
 msgstr "Konnte Pixmap-Datei nicht finden: %s"
 
-#: src/workspace.c:146
+#: src/workspace.c:111
 msgid "Available Sheets"
 msgstr "Vorhandene Blätter"
 
-#: src/workspace.c:710
-msgid "Yes!"
-msgstr "Ja!"
+#: src/workspace.c:348
+msgid "The current field's content is not valid. Sorry."
+msgstr "Der Inhalt des aktuellen Feldes ist nicht gültig. Entschuldigung."
 
-#: src/workspace.c:865
+#: src/workspace.c:531
 msgid "Current document contains no data. There's no point in writing it out."
 msgstr ""
 "Das aktuelle Dokument enthält keine Daten. Es macht keinen Sinn, es zu "
 "speichern."
+
+msgid "Yes!"
+msgstr "Ja!"
