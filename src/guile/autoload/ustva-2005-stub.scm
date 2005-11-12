@@ -16,6 +16,7 @@
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 (tb:eval-file "versions.scm")
+(tb:eval-file "mandverw.scm")
 
 (and 
  (require-version 0 4 "Umsatzsteuervoranmeldung 2005")
@@ -49,6 +50,7 @@
   ;; storage function ---------------------------------------------------------
   (lambda (buffer element value)
     (or (datenlieferant:button-demux buffer element)
+	(mandverw:demux buffer element value)
 
 	(let ((validity (and (ustva-2005:validate buffer element value)
 			     (datenlieferant:validate buffer element value))))
@@ -69,8 +71,10 @@
     (ustva-2005:recalculate buf "" "")
 
     (tb:eval-file "revalidate.scm")
-    (if (and (revalidate:buffer ustva-2005:validate buf)
-	     (revalidate:buffer datenlieferant:validate buf))
+    (if (and (revalidate:buffer ustva-2005:validate buf ustva-2005:validators)
+	     (revalidate:buffer datenlieferant:validate buf 
+				datenlieferant:validators))
+
 	(let ((sig-result (tb:check-sig "signatures/ustva-2005.sig")))
 
 	  ;; document's content is valid, let's export it, to make the
@@ -86,7 +90,8 @@
 
   ;; empty set ----------------------------------------------------------------
   (lambda () 
-    (append datenlieferant:defaults
+    (append (mandverw:return-defaults)
+	    datenlieferant:defaults
 	    '(("vend-id" . "74931") 
 	      ("land-lieferant" . "Deutschland"))))))
 		 
