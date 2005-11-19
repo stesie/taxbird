@@ -28,6 +28,7 @@ taxbird_SOURCES = \
 taxbird_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 
 EXTRA_DIST = \
+	taxbird-print-helper.sh \
 	taxbird-sig-update.sh \
 	taxbird-sig-makecert.sh
 
