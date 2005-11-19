@@ -32,9 +32,9 @@
 (define ustva-2005:definition
   '("Datenlieferant" ("datenlieferant.xml" "datenlieferant")
     
-    "Stammdaten" ("ustva-2005.xml" "stammdaten")
-    "Seite 1"    ("ustva-2005.xml" "seite_1")
-    "Seite 2"    ("ustva-2005.xml" "seite_2")))
+    "Stammdaten" 	("ustva-2005.xml" "stammdaten")
+    "Schnellerfassung"  ("ustva-2005.xml" "schnell")
+    "Formular"		("ustva-2005.xml" "seite_1")))
 
 
 
