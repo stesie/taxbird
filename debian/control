@@ -7,6 +7,7 @@ Standards-Version: 3.6.1
 
 Package: taxbird
 Architecture: any
+Suggests: html2text
 Depends: libssl0.9.7, libgtkhtml2-0, libgnomeui-0, guile-1.6-libs, libgeier (>= 0.3)
 Description: the first free Elster client (German Tax Declarations)
  Taxbird is a GNOME based graphical user interface to gather and send
