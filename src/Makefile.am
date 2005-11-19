@@ -9,6 +9,7 @@ INCLUDES = \
 	@PACKAGE_CFLAGS@ 
 
 bin_PROGRAMS = taxbird
+bin_SCRIPTS = taxbird-print-helper.sh
 
 taxbird_SOURCES = \
         main.c \

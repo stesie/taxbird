@@ -902,7 +902,7 @@ Please mind furthermore, that you need to file a declaration of participation be
 			      <property name="editable">True</property>
 			      <property name="visibility">True</property>
 			      <property name="max_length">0</property>
-			      <property name="text" translatable="yes">/usr/bin/lpr</property>
+			      <property name="text" translatable="yes">taxbird-print-helper.sh</property>
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
