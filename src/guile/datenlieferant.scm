@@ -41,6 +41,7 @@
       ;; open file ~/.taxbird/datenlieferant.dat ...
       (set! fn (string-append fn "datenlieferant.dat"))
       (set! handle (open fn (logior O_WRONLY O_CREAT)))
+      (truncate-file handle 0)
 
       ;; store defaults to the file ...
       (format handle "(define datenlieferant:defaults '(")
