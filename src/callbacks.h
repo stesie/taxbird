@@ -68,3 +68,8 @@ on_taxbird_configure                   (GtkWidget       *widget,
 GtkWidget*
 htmlview_create (gchar *widget_name, gchar *string1, gchar *string2,
                 gint int1, gint int2);
+
+gboolean
+on_templates_button_press_event        (GtkWidget       *widget,
+                                        GdkEventButton  *event,
+                                        gpointer         user_data);

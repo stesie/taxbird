@@ -409,3 +409,15 @@ htmlview_create (gchar *widget_name, gchar *string1, gchar *string2,
   return html_view_new();
 }
 
+
+gboolean
+on_templates_button_press_event        (GtkWidget       *widget,
+                                        GdkEventButton  *event,
+                                        gpointer         user_data)
+{
+  if(event->type == GDK_2BUTTON_PRESS)
+    on_choose_template_OK_clicked(widget, NULL);
+    
+  return FALSE;
+}
+
