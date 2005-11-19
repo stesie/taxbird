@@ -20,14 +20,11 @@
 
 
 ;; try to load defaults file ...
+(define datenlieferant:defaults '())
 (let ((fn (string-append (getenv "HOME") "/.taxbird/datenlieferant.dat")))
-  (or (and (file-exists? fn)
-	   (or (load fn) #t))
+  (and (file-exists? fn)
+       (load fn)))
 
-      ;; create default set ...
-      (define datenlieferant:defaults '())))
-
-	   
 	 
 	 
 
