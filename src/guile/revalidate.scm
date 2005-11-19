@@ -24,15 +24,21 @@
   (lambda (validator buf validators)
 
     (let ((rv #t))
-      (while (> (length validators) 0)
+      (while (and rv (> (length validators) 0))
 	     (let ((validator-result 
 		    (validator buf (car validators) 
 			       (storage:retrieve buf (car validators)))))
 	       (if (not validator-result)
 		   (tb:dlg-error
-		    (format #f "Der Inhalt des Feldes ~S ist ungültig: ~S"
-			    (car validators)
-			    (storage:retrieve buf (car validators)))))
+		    (let ((value (storage:retrieve buf (car validators))))
+		      (if value
+			  (format #f (string-append "Der Inhalt des Feldes "
+						    "~S ist nicht gültig: ~A")
+				  (car validators) value)
+
+			  (format #f (string-append "Das Pflichtfeld ~S "
+						    "ist nicht gefüllt.")
+				  (car validators))))))
 
 	       (set! rv (and rv validator-result)))
 	     (set! validators (cddr validators)))
