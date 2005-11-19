@@ -79,6 +79,10 @@
     (3 3 5)))  ; Thüringen
 
 
+(define steuernummer:help-dialog
+  (lambda (buf)
+    (tb:dlg-info (steuernummer:help #f buf))))
+    
 (define steuernummer:help
   (lambda (val buf)
     (let ((land (storage:retrieve buf "land")))

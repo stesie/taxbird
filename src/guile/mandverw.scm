@@ -35,6 +35,9 @@
     (or (if (not (string=? field "mandverw")) #f
 	    (mandverw:display-chooser buffer))
 
+	(if (not (string=? field "stnr-help")) #f
+	    (steuernummer:help-dialog buffer))
+
 	(if (not (string=? field "new")) #f
 	    (let ()
 	      (tb:activate-sheet "mandverw.xml" "stammdaten")
