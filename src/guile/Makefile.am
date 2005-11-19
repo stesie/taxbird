@@ -9,6 +9,8 @@ guilestuff_DATA = \
 	datenlieferant.xml \
 	datenlieferant.scm \
 	export.scm \
+	mandverw.scm \
+	mandverw.xml \
 	monetary.scm \
 	readline.scm \
 	revalidate.scm \
