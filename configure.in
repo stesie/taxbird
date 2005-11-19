@@ -41,7 +41,6 @@ src/Makefile
 src/guile/Makefile
 src/guile/autoload/Makefile
 src/guile/signatures/Makefile
-src/taxbird-update.sh
 taxbird.spec
 po/Makefile.in
 ])

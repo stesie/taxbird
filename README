@@ -56,21 +56,10 @@ ist, steht noch nicht fest (da die Möglichkeit seitens der
 Finanzverwaltung bisher nicht eingeräumt wurde).
 
 Die Formulare (gegenwärtig nur die Umsatzsteuervoranmeldung 2005) sind
-mittels Skriptsprache in Taxbird hinterlegt. So ist es möglich, ohne
-große Programmierkenntnisse eigene (weitere) Formulare hinzuzufügen,
-sowie bestehende zu Überarbeiten. Die Anwendung selbst muss nicht neu
-kompiliert werden. 
-
-Auf diese Art und Weise ist auch ein Online-Update kein großer
-Akt. Grundsätzliche sollte von dieser Update-Möglichkeit regelmäßig
-Gebrauch gemacht werden, eben weil sich das Produkt noch in der
-Entwicklungsphase befindet. Rufen Sie hierzu den Befehl
-taxbird-update.sh auf, das erste Mal möglichst gleich nach
-erfolgreicher Installation.
-
-Bitte beachten Sie aber, dass dabei nur jeweils die Formular-
-definitionen aktualisiert werden. Es kann hin und wieder erforderlich
-bzw. ratsam sein, auch die Binärkomponenten zu aktualisieren. 
+mittels Skriptsprache und Glade-XML in Taxbird hinterlegt. So ist es
+möglich, ohne große Programmierkenntnisse eigene (weitere) Formulare
+hinzuzufügen, sowie bestehende zu Überarbeiten. Die Anwendung selbst
+muss nicht neu kompiliert werden. 
 
 
 
@@ -78,7 +67,8 @@ Installation der CVS-Version:
 -----------------------------
 
 $ export CFLAGS="-Wall -ggdb" # sofern debugging Symbole gewünscht
-$ ./autogen.sh
+$ autoreconf -i
+$ ./configure
 $ make
 $ make install
 
@@ -178,10 +168,10 @@ A: Der $Id: Wert der Signatur passt nicht zur installierten Programm-
    version von Taxbird. Vermutlich haben Sie noch eine "alte" GnuPG-
    Signatur installiert, die installierte Taxbird-Version (ab 0.2)
    erwartet jedoch eine OpenSSL-Signaturdatei.
-   Bitte führen Sie 'taxbird-update.sh' an der Konsole aus, daraufhin
-   müsste das Problem behoben sein.
+   Sind unter $HOME/.taxbird/guile/ eventuell noch alte Skriptdaten
+   hinterlegt? Falls ja, bitte löschen Sie diese.
 
 
 Vielen Dank, dass Sie Taxbird verwenden!
 
-$Id: README,v 1.9 2005-10-07 22:53:46 stesie Exp $
+$Id: README,v 1.10 2005-11-19 09:23:12 stesie Exp $
