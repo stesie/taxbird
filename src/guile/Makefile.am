@@ -24,4 +24,4 @@ guilestuff_DATA = \
 	zeitraum.scm
 
 EXTRA_DIST = $(guilestuff_DATA)
-
+CLEANFILES = *~ *.bak *.xmlp
