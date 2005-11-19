@@ -8,8 +8,6 @@ INCLUDES = \
 	-DVERSION=\""$(VERSION)"\" \
 	@PACKAGE_CFLAGS@ 
 
-bin_SCRIPTS = taxbird-update.sh
-
 bin_PROGRAMS = taxbird
 
 taxbird_SOURCES = \
