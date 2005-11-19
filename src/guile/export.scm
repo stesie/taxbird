@@ -66,7 +66,7 @@
 					"DatenGroesse"        #f "1"
 					"TransportSchluessel" #f #f))
 
-			  '("VersionClient" #f "0.1"))))))
+			  (list "VersionClient" #f (tb:get-version)))))))
 
   
 (define export:sig-id-regexp
