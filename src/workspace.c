@@ -59,9 +59,6 @@ static gboolean taxbird_ws_show_appbar_help(GtkWidget *widget,
 /* unprotect referenced SCM (callback for destroy notifications) */
 static void taxbird_ws_unprotect_scm(gpointer d);
 
-/* generic callback function for tb:field:button's ... */
-static void taxbird_ws_button_callback(GtkWidget *button, void *data);
-
 /* set this to true to disable the storage hook,
  * this is thought to be set while the fields are loaded */
 static int taxbird_ws_disable_storage_hook = 0;
@@ -442,40 +439,6 @@ taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
 
 
 
-static void
-taxbird_ws_button_callback(GtkWidget *button, void *data)
-{
-  (void) data;
-
-  SCM specs = (SCM) g_object_get_data(G_OBJECT(button), "scm_specs");
-  g_return_if_fail(SCM_NFALSEP(scm_list_p(specs)));
-
-  /* validate field's value, in case it's a text entry field */
-  SCM validatfunc = SCM_CADDDR(specs);
-
-  if(SCM_SYMBOLP(validatfunc))
-    /* immediate symbol (i.e. defined function), resolve and execute then */
-    validatfunc = scm_c_lookup_ref(SCM_SYMBOL_CHARS(validatfunc));
-
-  if(SCM_NFALSEP(scm_list_p(validatfunc)))
-    /* probably some kind of (lambda (v buf) (validator v)) thingy ... */
-    validatfunc = scm_call_0(validatfunc);
-
-  if(SCM_FALSEP(scm_procedure_p(validatfunc))) {
-    /* not a function */
-    g_warning("something strange found, where a procedure was expected: ");
-    gh_display(validatfunc);
-    return;
-  }
-
-  GtkWidget *appwin = lookup_widget(button, "taxbird");
-  taxbird_active_win = appwin;
-
-  scm_call_2(validatfunc, SCM_BOOL(0),
-	     (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data"));
-}
-
-
 static gboolean
 taxbird_ws_show_appbar_help(GtkWidget *widget, GdkEventFocus *event,
 			    gpointer user_data)
@@ -583,7 +546,7 @@ taxbird_ws_chooser_additem(SCM chooser, SCM item)
 
   GtkTreeView *view = GTK_TREE_VIEW(lookup_widget(taxbird_active_win,
 						  SCM_STRING_CHARS(chooser)));
-  g_return_if_fail(view);
+  g_return_val_if_fail(view, SCM_BOOL(0));
 
   GtkTreeStore *tree = GTK_TREE_STORE(gtk_tree_view_get_model(view));
   if(! tree) {
