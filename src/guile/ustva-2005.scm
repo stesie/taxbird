@@ -47,6 +47,8 @@
    "zeitraum" (lambda(val buf)
 		(and val (if (string? val) (string->number val) #t)))
    
+   "stnr" steuernummer:validate
+
    "Kz41" validate:signed-int
    "Kz44" validate:signed-int
    "Kz49" validate:signed-int
