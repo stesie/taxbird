@@ -79,19 +79,32 @@
 
 (define mandverw:store
   (lambda (buffer)
-    (let ((data   (list (cons "land"    (storage:retrieve buffer "land"))
-			(cons "stnr"    (storage:retrieve buffer "stnr"))
-			(cons "mandant" (storage:retrieve buffer "mandant"))))
-	  (stored (member (storage:retrieve buffer "mandant") mandverw:data)))
+    (if (not (and (storage:retrieve buffer "land")
+		  (storage:retrieve buffer "stnr")
+		  (storage:retrieve buffer "mandant")))
 
-      (if stored
-	  (set-car! (cdr stored) data)
-	  (set! mandverw:data 
-		(append (list (storage:retrieve buffer "mandant") data)
-			mandverw:data)))
+	(tb:dlg-error 
+	 (string-append "Die Felder 'Bundesland', 'Steuernummer' sowie "
+			"'Mandantenname' müssen gefüllt sein, bevor der neue "
+			"Eintrag angelegt werden kann."))
 
-      (mandverw:store-file)
-      (mandverw:display-chooser buffer))))
+	(let ((data 
+	       (list (cons "land"    (storage:retrieve buffer "land"))
+		     (cons "stnr"    (storage:retrieve buffer "stnr"))
+		     (cons "mandant" (storage:retrieve buffer "mandant"))))
+	      (stored 
+	       (member (storage:retrieve buffer "mandant") mandverw:data)))
+
+	  (if stored
+	      (set-car! (cdr stored) data)
+	      (set! mandverw:data 
+		    (append (list (storage:retrieve buffer "mandant") data)
+			    mandverw:data)))
+
+	  (mandverw:store-file)
+	  (mandverw:display-chooser buffer)))))
+
+	
 
 
 
