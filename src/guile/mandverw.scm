@@ -35,6 +35,9 @@
     (or (if (not (string=? field "mandverw")) #f
 	    (mandverw:display-chooser buffer))
 
+	(if (not (string=? field "store-mand")) #f
+	    (mandverw:store-defaults buffer))
+
 	(if (not (string=? field "stnr-help")) #f
 	    (steuernummer:help-dialog buffer))
 
@@ -116,6 +119,38 @@
     (if (= (length mandverw:data) 2)
 	(cadr mandverw:data)
 	(list))))
+
+
+(define mandverw:store-defaults
+  (lambda (buffer)
+    (if (or (> (length mandverw:data) 2)
+	    (and (= (length mandverw:data) 2)
+		 (not (string=? (car mandverw:data) "<Standard>"))))
+	
+	(tb:dlg-error (string-append "Es wurden Mandanten in der Mandanten"
+				     "verwaltung angelegt. Um die Funktion "
+				     "'Als Standard' nutzen zu können, müssen "
+				     "diese zuerst gelöscht werden."))
+
+	(if (and (storage:retrieve buffer "land")
+		 (storage:retrieve buffer "stnr"))
+	    (let ()
+	      (set! mandverw:data 
+		    (list "<Standard>"
+			  (list 
+			   (cons "land" (storage:retrieve buffer "land"))
+			   (cons "stnr" (storage:retrieve buffer "stnr")))))
+	      
+	      (mandverw:store-file))
+
+	    (tb:dlg-error (string-append "Die Pflichtfelder 'Bundesland' und "
+					 "'Steuernummer' sind nicht "
+					 "ausgefüllt. Bitte befüllen Sie "
+					 "diese und lösen Sie die Funktion "
+					 "daraufhin noch einmal aus."))))))
+	
+
+
 
 	
 (define mandverw:delete-item
