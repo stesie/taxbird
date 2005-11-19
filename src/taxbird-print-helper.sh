@@ -37,13 +37,28 @@ if which html2text > /dev/null; then
   exit 0
 fi
 
+echo ""
+echo "********************************************************"
+echo "*** YOU UNFORTUNATELY DON'T HAVE HTML2TEXT INSTALLED ***"
+echo "********************************************************"
+echo ""
+echo "  html2text usually produces best output, so, if you don't "
+echo "  like the generated output, maybe try things out ..."
+echo ""
+
 if which w3m > /dev/null; then
   w3m -dump -T text/html $TMPFILE | $LPR $*
   rm -f $TMPFILE
   exit 0
 fi
 
+echo " w3m not available as well, ... "
+echo ""
+
 if which lynx > /dev/null; then
+  echo "lynx' output usually doesn't look good, can't help."
+  echo "" 
+  
   lynx -dump -force_html $TMPFILE | $LPR $*
   rm -f $TMPFILE
   exit 0
