@@ -154,7 +154,12 @@
 			   (cons "land" (storage:retrieve buffer "land"))
 			   (cons "stnr" (storage:retrieve buffer "stnr")))))
 	      
-	      (mandverw:store-file))
+	      (mandverw:store-file)
+	      (tb:dlg-info (string-append "Die erfassten Stammdaten wurden "
+					  "als Standardwerte gespeichert. "
+					  "Zukünftig angelegte Steuer"
+					  "erklärungen werden "
+					  "automatisch mit diesen befüllt.")))
 
 	    (tb:dlg-error (string-append "Die Pflichtfelder 'Bundesland' und "
 					 "'Steuernummer' sind nicht "
