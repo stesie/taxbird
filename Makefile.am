@@ -3,7 +3,6 @@
 SUBDIRS = src po
 
 EXTRA_DIST = \
-	autogen.sh \
 	taxbird.glade \
 	taxbird.gladep \
 	README.vendor-id \
