@@ -90,6 +90,9 @@
 
   ;; empty set ----------------------------------------------------------------
   (lambda () 
+    (tb:eval-file "datenlieferant.scm")
+    (tb:eval-file "mandverw.scm")
+
     (append (mandverw:return-defaults)
 	    datenlieferant:defaults
 	    '(("vend-id" . "74931") 
