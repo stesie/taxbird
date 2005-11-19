@@ -237,7 +237,8 @@ taxbird_ws_activate_sheet(GtkWidget *appwin, const char *fn, const char *root)
       GLADE_HOOKUP_OBJECT(appwin, w, glade_get_widget_name(w));
 
       if(! (GTK_IS_LABEL(w) || GTK_IS_TABLE(w) || GTK_IS_SEPARATOR(w)
-	    || GTK_IS_IMAGE(w) || GTK_IS_SCROLLED_WINDOW(w))) {
+	    || GTK_IS_IMAGE(w) || GTK_IS_SCROLLED_WINDOW(w)
+	    || GTK_IS_BOX(w))) {
 	g_signal_connect(w, "focus-in-event",
 			 G_CALLBACK(taxbird_ws_show_appbar_help), NULL);
 	if(GTK_IS_BUTTON(w))
