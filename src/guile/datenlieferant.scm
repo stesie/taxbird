@@ -26,36 +26,58 @@
        (load fn)))
 
 	 
-	 
+
+(define datenlieferant:store-defaults
+  (lambda (buffer)
+    (let ((fn (string-append (getenv "HOME") "/.taxbird/"))
+	  (handle #f)
+	  (fields '("anschluss" "name-lieferant" "berufsbez" 
+		    "ort-lieferant" "datenlieferant" "plz-lieferant"
+		    "strasse-lieferant" "land-lieferant" "vorwahl")))
+      (or
+       (file-exists? fn)
+       (mkdir fn)) ;; create directory ~/.taxbird/
+      
+      ;; open file ~/.taxbird/datenlieferant.dat ...
+      (set! fn (string-append fn "datenlieferant.dat"))
+      (set! handle (open fn (logior O_WRONLY O_CREAT)))
+
+      ;; store defaults to the file ...
+      (format handle "(define datenlieferant:defaults '(")
+      (for-each
+       (lambda(field)
+	 (format handle "(~S . ~S)" field (storage:retrieve buffer field)))
+       fields)
+      (format handle "))~%")
+      
+      (close handle)
+      (load fn))
+
+    (tb:dlg-info (string-append "Die erfassten Lieferantendaten wurden "
+				"als Standardwerte gespeichert. Zukünftig "
+				"angelegte Steuererklärungen werden "
+				"automatisch mit diesen befüllt."))))
+
 
 (define datenlieferant:button-demux
   (lambda (buffer field)
+    (tb:eval-file "revalidate.scm")
+
     (if (not (string=? field "store"))
 	#f
 
-	(let ((fn (string-append (getenv "HOME") "/.taxbird/"))
-	      (handle #f)
-	      (fields '("anschluss" "name-lieferant" "berufsbez" 
-			"ort-lieferant" "datenlieferant" "plz-lieferant"
-			"strasse-lieferant" "land-lieferant" "vorwahl")))
-	  (or
-	   (file-exists? fn)
-	   (mkdir fn)) ;; create directory ~/.taxbird/
+	(if (revalidate:buffer datenlieferant:validate buffer
+			       datenlieferant:validators)
 
-	  ;; open file ~/.taxbird/datenlieferant.dat ...
-	  (set! fn (string-append fn "datenlieferant.dat"))
-	  (set! handle (open fn (logior O_WRONLY O_CREAT)))
+	    (datenlieferant:store-defaults buffer)
 
-	  ;; store defaults to the file ...
-	  (format handle "(define datenlieferant:defaults '(")
-	  (for-each
-	   (lambda(field)
-	     (format handle "(~S . ~S)" field (storage:retrieve buffer field)))
-	   fields)
-	  (format handle "))~%")
-	  
-	  (close handle)
-	  (load fn)))))
+	    (tb:dlg-error
+	     (string-append "Die momentan unter \"Datenlieferant\" erfassten "
+			    "Werte sind nicht gültig und wurden deshalb "
+			    "nicht als Standardwerte abgespeichert."))))))
+	    
+
+
 
 
 
