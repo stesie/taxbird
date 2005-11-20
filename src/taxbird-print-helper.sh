@@ -31,6 +31,12 @@ cat >> $TMPFILE # store protocol
 #
 # OUR FAVOURITES IN DESCENDING ORDER ...
 #
+if which html2ps > /dev/null; then
+  cat $TMPFILE | sed 's/\/>/>/g' | html2ps | $LPR $*
+  rm -f $TMPFILE
+  exit 0
+fi
+
 if which html2text > /dev/null; then
   grep -v -e '^<?' $TMPFILE | html2text | $LPR $*
   rm -f $TMPFILE
