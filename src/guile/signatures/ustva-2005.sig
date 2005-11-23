@@ -15,18 +15,18 @@ ARGFK3Ntygn29EqpaFPDS+DSHPAmUe7AIN8m0+UuWbPSs1spEjPQMX2UoFUkbAWi
 QX/PBdzGS6bQ/FyjXwDMKpz/xRDz2JCghJjNlBhZivoAUoP7Fd/oKDjwu2uQj0rO
 +29mp1Uwof9SPp0yQ1XJ
 -----END CERTIFICATE-----
-Taxbird-Id: $Id: ustva-2005.sig,v 1.11 2005-11-19 17:36:07 stesie Exp $
+Taxbird-Id: $Id: ustva-2005.sig,v 1.12 2005-11-23 22:32:26 stesie Exp $
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg=sha1; boundary="----0F1C5AB4DDD08E2DA1E5B30EE3DD971B"
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg=sha1; boundary="----7A03E0942482FE641B1E50E2B10BFCAB"
 
 This is an S/MIME signed message
 
-------0F1C5AB4DDD08E2DA1E5B30EE3DD971B
+------7A03E0942482FE641B1E50E2B10BFCAB
 ba4136eea7a96e43c1937ab09242cbe7  export.scm
 176ff24077169a9c4700fc0fcc179b8b  steuernummer.scm
 e9bfe2d306a640b91a08fd84771c437b  ustva-2005.scm
 039d13c3fc6642e30edd519a0b339b04  ustva-2005.xml
-9b1147ea0f0f8d717826e262bb652ab8  autoload/ustva-2005-stub.scm
+23cd510fa9ea02022a48893d99f3b3a6  autoload/ustva-2005-stub.scm
 83e2e4f506aff672420b55f8c6b61c72  validate.scm
 8094683defaeae1e0525658f7111a112  revalidate.scm
 2b7387daff7219fdd329c612d0d898c8  monetary.scm
@@ -34,7 +34,7 @@ e9bfe2d306a640b91a08fd84771c437b  ustva-2005.scm
 54a7a475427983554268648d8e530bfe  datenlieferant.xml
 66c7f4ae1dd0432823711733ba7aaebd  bundesland.scm
 
-------0F1C5AB4DDD08E2DA1E5B30EE3DD971B
+------7A03E0942482FE641B1E50E2B10BFCAB
 Content-Type: application/x-pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -59,13 +59,13 @@ BhMCREUxEDAOBgNVBAgTB0JhdmFyaWExFTATBgNVBAcTDEZldWNodHdhbmdlbjEV
 MBMGA1UEChMMU3RlZmFuIFNpZWdsMQ4wDAYDVQQLEwUwMDYxNjEVMBMGA1UEAxMM
 U3RlZmFuIFNpZWdsMSMwIQYJKoZIhvcNAQkBFhRzdGVzaWVAYnJva2VucGlwZS5k
 ZQIJAOZZWabtrQSEMAkGBSsOAwIaBQCggbEwGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMDUxMTE5MTczNjEwWjAjBgkqhkiG9w0BCQQx
-FgQU3uROiF32B5UqBtLKCcmIrBAtDhkwUgYJKoZIhvcNAQkPMUUwQzAKBggqhkiG
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMDUxMTIzMjIyOTM4WjAjBgkqhkiG9w0BCQQx
+FgQUoGlhIwQ8yv+1JXI9kQTPuVt4NtAwUgYJKoZIhvcNAQkPMUUwQzAKBggqhkiG
 9w0DBzAOBggqhkiG9w0DAgICAIAwDQYIKoZIhvcNAwICAUAwBwYFKw4DAgcwDQYI
-KoZIhvcNAwICASgwDQYJKoZIhvcNAQEBBQAEgYC0LGlDVZAuWjMMdzukYlE70Ubn
-mwu/Qw/TQWyPYEd5Fhjbkr5c/1zsWK5v05napd0xFeWQHMjqF/GB4iyWP6umUHp3
-U0fwPqDgqRh/DRpCarT+VgDs276MZfWYlnn8DmnJDQ/UG+nwQADcEkNnYWQKhdyE
-a4fTe14djqz84f8K5Q==
+KoZIhvcNAwICASgwDQYJKoZIhvcNAQEBBQAEgYAwAusaWnZWsqlqg3K0gUJoBsyj
+qSBSB8fEIWl6ZRF7uzmnE58Hq7vSFQSddLosQYB+oQoPn3RpJvzA7SEtRxvXs5pD
++GpPB/rshk/OXJVe+rx4r6g2XmGYEqFaY96tG4VROSG5R81VKipHWcKtGj8hTTVY
+pliyympTtXlXW8lUMQ==
 
-------0F1C5AB4DDD08E2DA1E5B30EE3DD971B--
+------7A03E0942482FE641B1E50E2B10BFCAB--
 

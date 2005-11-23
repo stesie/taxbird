@@ -281,7 +281,7 @@ on_file_send_activate(GtkMenuItem *menuitem, gpointer user_data)
     return;
   }
 
-  taxbird_export(aw);
+  taxbird_export(aw, 0);
 }
 
 
@@ -419,5 +419,25 @@ on_templates_button_press_event        (GtkWidget       *widget,
     on_choose_template_OK_clicked(widget, NULL);
     
   return FALSE;
+}
+
+
+void
+on_file_send_testcase_activate         (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+  (void) user_data;
+
+  GtkWidget *aw = lookup_widget(GTK_WIDGET(menuitem), "taxbird");
+  int current_form = (int) g_object_get_data(G_OBJECT(aw), "current_form");
+
+  if(current_form == -1) {
+    taxbird_dialog_error(aw, _("Current document contains no data. "
+			       "What do you want to export from it?"));
+    return;
+  }
+
+  taxbird_export(aw, 1);
+
 }
 

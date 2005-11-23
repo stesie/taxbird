@@ -117,6 +117,15 @@
 		      </child>
 
 		      <child>
+			<widget class="GtkMenuItem" id="mnu_file_send_as_testcase">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Send as _Testcase ...</property>
+			  <property name="use_underline">True</property>
+			  <signal name="activate" handler="on_file_send_testcase_activate" last_modification_time="Wed, 23 Nov 2005 22:17:49 GMT"/>
+			</widget>
+		      </child>
+
+		      <child>
 			<widget class="GtkSeparatorMenuItem" id="trennlinie1">
 			  <property name="visible">True</property>
 			</widget>

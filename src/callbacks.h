@@ -73,3 +73,7 @@ gboolean
 on_templates_button_press_event        (GtkWidget       *widget,
                                         GdkEventButton  *event,
                                         gpointer         user_data);
+
+void
+on_file_send_testcase_activate         (GtkMenuItem     *menuitem,
+                                        gpointer         user_data);

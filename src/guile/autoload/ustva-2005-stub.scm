@@ -67,7 +67,7 @@
 
 
   ;; export function ----------------------------------------------------------
-  (lambda (buf)
+  (lambda (buf test)
     (ustva-2005:recalculate buf "" "")
 
     (tb:eval-file "revalidate.scm")
@@ -75,7 +75,8 @@
 	     (revalidate:buffer datenlieferant:validate buf 
 				datenlieferant:validators))
 
-	(let ((sig-result (tb:check-sig "signatures/ustva-2005.sig")))
+	(let ((sig-result (and (not test)
+			       (tb:check-sig "signatures/ustva-2005.sig"))))
 
 	  ;; document's content is valid, let's export it, to make the
 	  ;; IRO know, what nice programs there exist out in the free world ...

@@ -36,8 +36,9 @@
 #include "form.h"
 
 /* ask current template's guile backend to generate the data we'd
- * like to write out */
-static SCM taxbird_export_call_backend(GtkWidget *appwin);
+ * like to write out (in case testcase is set, with data being marked
+ * as testcase data) */
+static SCM taxbird_export_call_backend(GtkWidget *appwin, int testcase);
 
 /* fork a subprocess, RETURN: -1 on error, 0 == child, pid == parent */
 static pid_t taxbird_export_launch_subproc(int *to, int *from);
@@ -55,9 +56,9 @@ static pid_t taxbird_export_launch_command(const char *cmd, int *to, int *fr);
 
 
 void
-taxbird_export(GtkWidget *appwin)
+taxbird_export(GtkWidget *appwin, int testcase)
 {
-  SCM data = taxbird_export_call_backend(appwin);
+  SCM data = taxbird_export_call_backend(appwin, testcase);
 
   if(SCM_FALSEP(scm_list_p(data)))
     return; /* exporter function didn't return a list, thus abort here.
@@ -293,7 +294,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
 /* ask current template's guile backend to generate the data we'd
  * like to write out */
 static SCM
-taxbird_export_call_backend(GtkWidget *appwin) 
+taxbird_export_call_backend(GtkWidget *appwin, int test) 
 {
   int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
   g_return_val_if_fail(current_form >= 0, SCM_BOOL(0));
@@ -302,7 +303,7 @@ taxbird_export_call_backend(GtkWidget *appwin)
   SCM data = (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data");
 
   /* call exporter function of current template */
-  return scm_call_1(forms[current_form]->dataset_export, data);
+  return scm_call_2(forms[current_form]->dataset_export, data, SCM_BOOL(test));
 }
 
 

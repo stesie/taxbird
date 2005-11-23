@@ -19,7 +19,7 @@
 #ifndef TAXBIRD_EXPORT_H
 #define TAXBIRD_EXPORT_H
 
-void taxbird_export(GtkWidget *appwin);
+void taxbird_export(GtkWidget *appwin, int testcase);
 
 int taxbird_export_bottom_half(GtkWidget *confirm_dlg);
 
