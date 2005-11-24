@@ -237,7 +237,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
     }    
   }
 
-  int fd_to_protofile;
+  int fd_to_protofile = -1;
   GtkWidget *protosave = lookup_widget(confirm_dlg, "protocol_store");
   if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(protosave))) {
     /* open file to write protocol to ***/
