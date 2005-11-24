@@ -815,7 +815,7 @@ Please mind furthermore, that you need to file a declaration of participation be
 		      <property name="browse_dialog_title" translatable="yes">Save Elster XML document</property>
 		      <property name="directory_entry">False</property>
 		      <property name="modal">False</property>
-		      <property name="use_filechooser">False</property>
+		      <property name="use_filechooser">True</property>
 		      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_SAVE</property>
 
 		      <child internal-child="entry">
@@ -931,7 +931,7 @@ Please mind furthermore, that you need to file a declaration of participation be
 		      <property name="browse_dialog_title" translatable="yes">Choose Software Certificate File</property>
 		      <property name="directory_entry">False</property>
 		      <property name="modal">False</property>
-		      <property name="use_filechooser">False</property>
+		      <property name="use_filechooser">True</property>
 		      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
 
 		      <child internal-child="entry">
@@ -1160,7 +1160,7 @@ Please mind furthermore, that you need to file a declaration of participation be
 			      <property name="browse_dialog_title" translatable="yes"></property>
 			      <property name="directory_entry">False</property>
 			      <property name="modal">False</property>
-			      <property name="use_filechooser">False</property>
+			      <property name="use_filechooser">True</property>
 			      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_SAVE</property>
 
 			      <child internal-child="entry">
