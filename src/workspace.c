@@ -567,3 +567,11 @@ taxbird_ws_chooser_additem(SCM chooser, SCM item)
 
   return item;
 }
+
+#if 0
+/*
+ * please leave this alone, it's just to force the catalogue to contain
+ * the string `Yes!' which is used in some forms
+ */
+(void) _("Yes!");
+#endif
