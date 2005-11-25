@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Taxbird 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-19 19:12+0100\n"
-"PO-Revision-Date: 2005-11-19 19:13+0100\n"
+"POT-Creation-Date: 2005-11-25 15:36+0100\n"
+"PO-Revision-Date: 2005-11-25 15:38+0100\n"
 "Last-Translator: Stefan Siegl <ssiegl@gmx.de>\n"
 "Language-Team: German <ssiegl@gmx.de>\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Neues Dokument kann nicht angelegt werden. Entschuldigung."
 msgid "Unable to open document. Sorry."
 msgstr "Das Dokument kann nicht geöffnet werden. Entschuldigung."
 
-#: src/callbacks.c:279
+#: src/callbacks.c:279 src/callbacks.c:435
 msgid "Current document contains no data. What do you want to export from it?"
 msgstr ""
 "Aktuelles Dokument enthält keine Daten. Was möchten Sie daraus exportieren?"
@@ -50,11 +50,11 @@ msgstr ""
 "Ihre neuesten Änderungen am Dokument %s wurden bisher noch nicht "
 "gespeichert. Möchten Sie, dass Sie jetzt gespeichert werden?"
 
-#: src/export.c:77
+#: src/export.c:78
 msgid "Unable to initialize libgeier context"
 msgstr "Der libgeier Kontext konnte nicht initialisiert werden."
 
-#: src/export.c:84
+#: src/export.c:85
 msgid ""
 "Unable to validate the exported document. Sorry, but this should not "
 "happen. \n"
@@ -66,7 +66,7 @@ msgstr ""
 "\n"
 "Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
 
-#: src/export.c:98
+#: src/export.c:99
 msgid ""
 "Unable to xsltify the exported document. Sorry, but this should not "
 "happen. \n"
@@ -78,45 +78,49 @@ msgstr ""
 "\n"
 "Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
 
-#: src/export.c:112
+#: src/export.c:113
 msgid "Unable to allocate HtmlDocument."
 msgstr "Konnte HtmlDocument nicht alloziieren."
 
-#: src/export.c:118
+#: src/export.c:119
 msgid "Unable to call open_streamon allocated HtmlDocument."
 msgstr ""
 "open_stream konnte nicht auf das alloziierte HtmlDocument angewandt werden"
 
-#: src/export.c:154
+#: src/export.c:156
+msgid "Unable to initialize libgeier context."
+msgstr "libgeier Kontext konnte nicht initialisiert werden."
+
+#: src/export.c:176
+msgid "Unable to digitally sign Elster document."
+msgstr "Elster-Dokument konnte nicht digital signiert werden."
+
+#: src/export.c:193
 msgid ""
 "You told to store Coala-XML to a file, however didn't specify a filename."
 msgstr ""
 "Sie haben ausgewählt, das Coala-XML in eine Datei abzuspeichern, jedoch "
 "keinen Dateinamen festgelegt."
 
-#: src/export.c:163
+#: src/export.c:203
 msgid "Unable to create Coala-XML file."
 msgstr "Coala-XML Datei kann nicht erstellt werden."
 
-#: src/export.c:182
-msgid "Unable to initialize libgeier context."
-msgstr "libgeier Kontext konnte nicht initialisiert werden."
-
-#: src/export.c:197
+#: src/export.c:232
 msgid "Unable to fork print process, please verify the specified command"
 msgstr ""
 "Der Druckprozess konnte nicht gestartet werden, bitte überprüfen Sie den "
 "angegebenen Dateinamen."
 
-#: src/export.c:214
+#: src/export.c:252
 msgid "Unable to create protocol file."
 msgstr "Protokolldatei kann nicht erstellt werden."
 
-#: src/export.c:228
+#: src/export.c:264
 msgid "Unable to send the exported document."
 msgstr "Exportiertes Dokument kann nicht gesendet werden."
 
-#: src/export.c:238
+#: src/export.c:275
 #, c-format
 msgid ""
 "Unable to send the tax declaration to the inland revenue office, the error "
@@ -129,7 +133,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/export.c:255
+#: src/export.c:293
 msgid ""
 "Unable to generate the transmission protocol. This is a local error, THIS "
 "IS, YOUR DATA HAS BEEN SENT TO THE INLAND REVENUE OFFICE AND IT WAS ACCEPTED."
@@ -138,13 +142,13 @@ msgstr ""
 "lokaler Fehler,DAS BEDEUTET, DASS IHRE DATEN AN DAS FINANZAMT ÜBERMITTELT "
 "UND AKZEPTIERT WURDEN."
 
-#: src/export.c:281
+#: src/export.c:327
 msgid "Printer process exited abnormally, your data has been sent however."
 msgstr ""
 "Druckprozess endete auf unnormale Weise, Ihre Daten wurden jedoch gesendet."
 
-#: src/export.c:287
-msgid "Your data was sent to the inland revenue office and has been accepted"
+#: src/export.c:333
+msgid "Your data has been sent to the inland revenue office and was accepted"
 msgstr "Ihre Daten wurden an das Finanzamt übermittelt und wurden akzeptiert."
 
 #: src/interface.c:31
@@ -155,52 +159,56 @@ msgstr "_Neu"
 msgid "S_end Data ..."
 msgstr "Daten s_enden ..."
 
-#: src/interface.c:90
+#: src/interface.c:45
+msgid "Send as _Testcase ..."
+msgstr "Als Testfall senden ..."
+
+#: src/interface.c:97
 msgid "taxbird"
 msgstr "taxbird"
 
-#: src/interface.c:110
+#: src/interface.c:117
 msgid "New File"
 msgstr "Neue Datei"
 
-#: src/interface.c:115
+#: src/interface.c:122
 msgid "Open File"
 msgstr "Datei öffnen"
 
-#: src/interface.c:120
+#: src/interface.c:127
 msgid "Save File"
 msgstr "Datei speichern"
 
-#: src/interface.c:128
+#: src/interface.c:135
 msgid "Send Data"
 msgstr "Daten Senden"
 
-#: src/interface.c:175
+#: src/interface.c:182
 msgid "<b><i>Thank you for using Taxbird!</i></b>"
 msgstr "<b><i>Vielen Dank, dass Sie Taxbird verwenden!</i></b>"
 
-#: src/interface.c:261
+#: src/interface.c:269
 msgid "Choose Base Template"
 msgstr "Basisvorlage auswählen"
 
-#: src/interface.c:273
+#: src/interface.c:281
 msgid "Which template do you want to use as base for the new document?"
 msgstr "Welche Vorlage möchten Sie als Grundlage für das neue Dokument nutzen?"
 
-#: src/interface.c:336
+#: src/interface.c:344
 msgid "taxbird - Choose File"
 msgstr "taxbird - Datei auswählen"
 
 #. TRANSLATORS: Replace this string with your names, one name per line.
-#: src/interface.c:384
+#: src/interface.c:392
 msgid "translator_credits"
 msgstr "Stefan Siegl <ssiegl@gmx.de>"
 
-#: src/interface.c:390
+#: src/interface.c:398
 msgid "(C) 2004,05 Stefan Siegl"
 msgstr "(C) 2004,05 Stefan Siegl"
 
-#: src/interface.c:391
+#: src/interface.c:399
 msgid ""
 "taxbird is a geier-based tax declarations capturing and transfer tool (for "
 "Germany) "
@@ -208,15 +216,15 @@ msgstr ""
 "Taxbird ist ein auf Geier basierendes Werkzeug zum Erfassen und Übermitteln "
 "von Steuererklärungen (für Deutschland)"
 
-#: src/interface.c:440
+#: src/interface.c:456
 msgid "taxbird - Send Data"
 msgstr "taxbird - Daten senden"
 
-#: src/interface.c:452 src/interface.c:600
+#: src/interface.c:468 src/interface.c:679
 msgid "taxbird - Send Data Druid ..."
 msgstr "taxbird - Daten-Sende-Druide ..."
 
-#: src/interface.c:453
+#: src/interface.c:469
 msgid ""
 "As you probably know, Taxbird is currently somewhat in beta (or maybe even "
 "alpha-alike) state. Therefore it may happen, that generated export data is "
@@ -253,47 +261,71 @@ msgstr ""
 "Bitte bedenken Sie weiter, dass Sie eine Teilnahmeerklärung abgeben müssen, "
 "bevor das Finanzamt die mit Taxbird übermittelten Daten akzeptiert."
 
-#: src/interface.c:459
+#: src/interface.c:475
 msgid "Please review the gathered data ..."
 msgstr "Bitte überprüfen Sie die erfassten Daten ..."
 
-#: src/interface.c:479
+#: src/interface.c:495
 msgid "Store gathered data to XML File?"
 msgstr "Erfasste Daten in XML-Datei abspeichern?"
 
-#: src/interface.c:492
+#: src/interface.c:508
 msgid "Save exported data to a Coala-XML File?"
 msgstr "Exportierte Daten in eine Coala-XML Datei abspeichern?"
 
-#: src/interface.c:498
+#: src/interface.c:514
 msgid "Filename:"
 msgstr "Dateiname."
 
-#: src/interface.c:518
+#: src/interface.c:521
+msgid "Save Elster XML document"
+msgstr "Elster XML-Dokument speichern"
+
+#: src/interface.c:538
+msgid "Digitally Sign XML Document?"
+msgstr "XML-Dokument digital signieren?"
+
+#: src/interface.c:551
+msgid "Digitally Sign Elster XML Document"
+msgstr "Elster XML-Dokument Digital Signieren"
+
+#: src/interface.c:557
+msgid "SoftPSE-Filename:"
+msgstr "SoftPSE-Dateiname:"
+
+#: src/interface.c:564
+msgid "Choose Software Certificate File"
+msgstr "Softwarezertifikat-Datei auswählen"
+
+#: src/interface.c:577
+msgid "PIN-Code:"
+msgstr "PIN-Code:"
+
+#: src/interface.c:595
 msgid "Send the data to the IRO?"
 msgstr "Daten an das Finanzamt senden?"
 
-#: src/interface.c:524
+#: src/interface.c:601
 msgid "Call GEIER to send the gathered data to the inland revenue office"
 msgstr "GEIER aufrufen, um die erfassten Daten an das Finanzamt zu übermitteln"
 
-#: src/interface.c:545
-msgid "Print Transmission Protocol using:"
-msgstr "Übermittlungsprotokoll ausdrucken mit:"
-
-#: src/interface.c:558
+#: src/interface.c:627
 msgid "taxbird-print-helper.sh"
 msgstr "taxbird-print-helper.sh"
 
-#: src/interface.c:567
+#: src/interface.c:656
+msgid "Print Transmission Protocol using:"
+msgstr "Übermittlungsprotokoll ausdrucken mit:"
+
+#: src/interface.c:663
 msgid "Store Transmission Protocol to the following file:"
 msgstr "Übermittlungsprotokoll in folgender Datei abspeichern:"
 
-#: src/interface.c:591
+#: src/interface.c:670
 msgid "<b>Transmission Protocol ...</b>"
 msgstr "<b>Übermittlungsprotokoll ...</b>"
 
-#: src/interface.c:601
+#: src/interface.c:680
 msgid ""
 "Finally all data has been gathered, in order to send the data to the inland "
 "revenue office. \n"
@@ -426,4 +458,3 @@ msgstr ""
 
 msgid "Yes!"
 msgstr "Ja!"
-
