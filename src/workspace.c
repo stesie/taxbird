@@ -280,7 +280,8 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 
   /* figure out, what value to store */
   SCM sv;
-
+  SCM wn = scm_makfrom0str(glade_get_widget_name(w));
+  
   if(GTK_IS_ENTRY(w))
     sv = scm_makfrom0str(gtk_entry_get_text(GTK_ENTRY(w)));
 
@@ -291,6 +292,15 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
     sv = scm_int2num(item);
   }
 
+  else if(GTK_IS_RADIO_BUTTON(w)) {
+    if(! gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w)))
+      return; /* don't generate store signal for non-toggled items */
+
+    GSList *grp = gtk_radio_button_get_group(GTK_RADIO_BUTTON(w));
+    sv = wn;
+    wn = scm_makfrom0str(glade_get_widget_name(GTK_WIDGET(grp->data)));
+  }
+  
   else if(GTK_IS_TREE_VIEW(w)) {
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -336,7 +346,7 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
   int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
   SCM result = scm_call_3(forms[current_form]->dataset_write,
 			  (SCM)g_object_get_data(G_OBJECT(appwin), "scm_data"),
-			  scm_makfrom0str(glade_get_widget_name(w)), sv);
+			  wn, sv);
   
   if(SCM_FALSEP(result)) {
     /* the field's content is invalid, prepend warning to the bottom bar */
@@ -406,6 +416,21 @@ taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
 			  const char *field_name)
 {
   int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
+
+  if(GTK_IS_RADIO_BUTTON(w)) {
+    /* radio buttons need to be handled different, so they come first :)   */
+    GSList *grp = gtk_radio_button_get_group(GTK_RADIO_BUTTON(w));
+    SCM wn = scm_makfrom0str(glade_get_widget_name(GTK_WIDGET(grp->data)));
+    SCM v = scm_call_2(forms[current_form]->dataset_read,
+		       g_object_get_data(G_OBJECT(appwin), "scm_data"), wn);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w),
+				 SCM_STRINGP(v)
+				 && !strcmp(SCM_STRING_CHARS(v), field_name));
+    return;
+  }
+
+
+  /* okay, for non-radio-buttons we read the value first ... */
   SCM v = scm_call_2(forms[current_form]->dataset_read,
 		     g_object_get_data(G_OBJECT(appwin), "scm_data"),
 		     scm_makfrom0str(field_name));
