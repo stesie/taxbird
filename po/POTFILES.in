@@ -9,3 +9,4 @@ src/main.c
 src/sigcheck.c
 src/support.c
 src/workspace.c
+src/console.c
