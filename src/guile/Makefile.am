@@ -18,8 +18,11 @@ guilestuff_DATA = \
 	steuernummer.scm \
 	storage.scm \
 	string.scm \
+	taxbird.scm \
 	ustva-2005.xml \
 	ustva-2005.scm \
+	ustva-2006.xml \
+	ustva-2006.scm \
 	validate.scm \
 	versions.scm \
 	xml-writer.scm \
