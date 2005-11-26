@@ -55,11 +55,15 @@ Jahreserklärungen (hauptsächlich Einkommensteuererklärungen) möglich
 ist, steht noch nicht fest (da die Möglichkeit seitens der
 Finanzverwaltung bisher nicht eingeräumt wurde).
 
-Die Formulare (gegenwärtig nur die Umsatzsteuervoranmeldung 2005) sind
-mittels Skriptsprache und Glade-XML in Taxbird hinterlegt. So ist es
-möglich, ohne große Programmierkenntnisse eigene (weitere) Formulare
-hinzuzufügen, sowie bestehende zu Überarbeiten. Die Anwendung selbst
-muss nicht neu kompiliert werden. 
+Die Formulare sind mittels Skriptsprache und Glade-XML in Taxbird
+hinterlegt. So ist es möglich, ohne große Programmierkenntnisse eigene
+(weitere) Formulare hinzuzufügen, sowie bestehende zu
+Überarbeiten. Die Anwendung selbst muss nicht neu kompiliert werden. 
+
+Ab der Version 0.6 unterstützt Taxbird endlich auch die Abgabe von
+digital signierten Steueranmeldungen. Näheres zum Verfahrensablauf
+sowie, warum Sie diese Funktion unbedingt nutzen sollten, ist in der
+Datei README.dsig erläutert.
 
 
 
@@ -174,4 +178,4 @@ A: Der $Id: Wert der Signatur passt nicht zur installierten Programm-
 
 Vielen Dank, dass Sie Taxbird verwenden!
 
-$Id: README,v 1.10 2005-11-19 09:23:12 stesie Exp $
+$Id: README,v 1.11 2005-11-26 13:23:59 stesie Exp $

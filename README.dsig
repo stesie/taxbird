@@ -1,0 +1,116 @@
+			-*- mode: auto-fill; coding: utf-8 -*-
+taxbird - Gnome-2 based application to create Elster (Geier) XML files
+
+Copyright (C) 2004,05 Stefan Siegl <ssiegl@gmx.de>, Germany
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        This program is distributed in the hope that it will be useful,
+         but WITHOUT ANY WARRANTY; without even the implied warranty of
+         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                 GNU General Public License for more details.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+			Digitale Signaturen mit Taxbird
+                     =====================================
+
+a) Präambel
+
+   Ab dem 1. Januar des Jahres 2006 wird seitens der Finanzverwaltung die 
+   Möglichkeit eingeräumt werden, Steueranmeldungen digital signiert
+   abzugeben. Bislang war dies nicht möglich, zukünftig ist dies nicht
+   unbedingt notwendig.
+
+   Seitens der Finanzverwaltung werden drei Möglichkeiten angeboten,
+   wie die Signatur erfolgen kann:
+
+     * mittels Software-Zertifikaten (sog. ELSTER-Basis)
+     * mittels ELSTER-Stick (sog. ELSTER-Spezial)
+     * mittels Signaturkarte (sog. ELSTER-Plus)
+
+   Bitte beachten Sie, dass Taxbird gegenwärtig nur das erstgenannte
+   Verfahren unterstützt. 
+
+
+b) Wie komme ich an ein Software-Zertifikat?
+
+   Wie im Rahmen der Präambel erläutert, unterstützt Taxbird
+   gegenwärtig nur die Signatur mittels Software-Zertifikat. Hierbei
+   handelt es sich um eine mittels PIN-Code geschützte Datei, in der
+   sowohl Ihr sog. privater Schlüssel als auch ein hierzu gehörendes
+   Zertifikat gespeichert sind. Der private Schlüssel ist
+   grundsätzlich nur Ihnen bekannt und sollte niemals
+   preisgegeben/veröffentlicht werden. Das Zertifikat ist quasi
+   öffentlich und kann genutzt werden, um zu überprüfen, ob Sie die
+   Daten unterzeichnet haben (es wird zusammen mit den Nutzdaten an
+   die Clearingstelle zurück übermittelt). 
+
+   Um nun ein solches Schlüssel/Zertifikat-Paar zu erhalten, wählen
+   Sie zunächst unter http://www.portal.elster.de/ in der Navigation
+   den Menüpunkt "Registrierung" aus. Beachten Sie bitte, dass Sie
+   hierzu einen Java und JavaScript-fähigen Browser benötigen.
+
+   Falls alle Stricke reißen: Sie können die Registrierung auch mit
+   einem proprietären Browser eines Unternehmens auch Redmond
+   erstellen.
+
+   Wählen Sie zunächst die entsprechende Registrierungsart, sprich
+   Software-Zertifikat/ELSTER-Basis. Geben Sie weiter die abgefragten
+   persönlichen Daten ein. Sie erhalten daraufhin eine
+   sog. Aktivierungs-ID mittels E-Mail sowie einen Aktivierungs-Code
+   per `herkömmlicher' Post. (letzteres kann übrigens durchaus zwei
+   Wochen dauern)
+
+   Nachdem Ihnen sowohl Aktivierungs-ID und -Code vorliegen, können
+   Sie das Portal erneut aufrufen und mit der Aktivierung
+   fortfahren. Zuerst wird hierbei ein vorläufiges Konto und
+   Zertifikat erzeugt.
+
+   Melden Sie sich nun erstmals bei Ihrem noch vorläufigen Konto an,
+   daraufhin wird das vorläufige Zertifikat durch das endgültige
+   ersetzt. Dieses ist von jetzt ab drei Jahre gültig.
+
+   Im Zuge der Registrierung werden Sie aufgefordert, einen Dateinamen
+   anzugeben, wo der Zertifikat-Container gespeichert werden soll,
+   sowie mit welchem PIN-Code die Datei geschützt werden soll. 
+
+
+c) Daten mittels Taxbird signieren
+
+   Um mit Taxbird eine Steueranmeldung nun signiert abzugeben,
+   erfassen Sie die Daten zunächst wie gewohnt. Klicken Sie daraufhin
+   auf `Daten senden', der gewohnte Export-Druide erscheint und
+   frägt zunächst, ob die erfassten Daten wirklich übermittelt werden
+   sollen. Auf der sodann vierten Seite des Druiden können Sie nunmehr
+   ankreuzen, dass die Daten signiert werden sollen. Geben Sie in das
+   Textfeld zunächst den Pfad zu dem vom ElsterOnline-Portal erzeugten
+   Zertifikat-Container und weiter den zugehörigen PIN-Code ein. 
+
+   Fertig, das war's. Klicken Sie nun auf Weiter, dann auf
+   Anwenden. Die Daten werden nunmehr an die Clearingstelle
+   übermittelt. 
+
+
+d) Warum digital signieren?
+
+   Gegenwärtig werden die Daten seitens der Clearingstelle der
+   Finanzverwaltung angenommen, ohne dass es einer Authentifizierung
+   bedarf. Das heißt, grundsätzlich kann jeder, der Ihre Steuernummer
+   kennt, auch für Sie eine Umsatzsteuervoranmeldung abgeben, die -
+   gewisse Plausibilität vorausgesetzt - seitens Ihres Finanzamtes
+   auch verarbeitet werden wird. Für Sie bedeutet dies einfach nur
+   Ärger mit eigentlich Unnützem - welcher Scherzbold die Meldung
+   abgegeben hat, ist übrigens nur kaum bis gar nicht heraus zu
+   finden. 
+
+   Wenn Sie nun einmalig eine Steueranmeldung abgeben, die digital
+   signiert ist, wird zukünftig unter Ihrer Steuernummer keine
+   Voranmeldung mehr verarbeitet werden, die nicht signiert ist -
+   zumindest nicht ohne Rückfrage.
+   
+
+
+Vielen Dank, dass Sie Taxbird verwenden!
+
+$Id: README.dsig,v 1.1 2005-11-26 13:23:59 stesie Exp $
+   

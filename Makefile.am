@@ -7,6 +7,7 @@ EXTRA_DIST = \
 	taxbird.gladep \
 	README.vendor-id \
 	README.OpenSSL \
+	README.dsig \
 	COPYING.OpenSSL_exception \
 	taxbird.spec
 
