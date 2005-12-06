@@ -3,4 +3,6 @@ README
 README.OpenSSL
 README.vendor-id
 AUTHORS
+README.dsig
+COPYING.OpenSSL_exception
 THANKS
