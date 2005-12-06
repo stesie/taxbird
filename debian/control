@@ -2,13 +2,13 @@ Source: taxbird
 Section: gnome
 Priority: optional
 Maintainer: Stefan Siegl <stesie@brokenpipe.de>
-Build-Depends: debhelper (>= 4.0.0), autotools-dev, libssl-dev, pkg-config, libgtkhtml2-dev, libgnomeui-dev, glade-gnome-2, guile-1.6-dev, libgeier-dev (= 0.5)
+Build-Depends: debhelper (>= 4.0.0), autotools-dev, libssl-dev, pkg-config, libgtkhtml2-dev, libgnomeui-dev, glade-gnome-2, guile-1.6-dev, libgeier-dev (>= 0.5)
 Standards-Version: 3.6.1
 
 Package: taxbird
 Architecture: any
 Recommends: html2ps | html2text
-Depends: libssl0.9.7, libgtkhtml2-0, libgnomeui-0, guile-1.6-libs, libgeier (= 0.5)
+Depends: libssl0.9.7, libgtkhtml2-0, libgnomeui-0, guile-1.6-libs, libgeier (>= 0.5)
 Description: the first free Elster client (German Tax Declarations)
  Taxbird is a GNOME based graphical user interface to gather and send
  tax declarations to the German inland revenue office.  This is, it's
