@@ -25,7 +25,7 @@ else
 endif
 
 configure:
-	test -x ./configure || NOCONFIGURE=1 ./autogen.sh
+	test -x ./configure || autoreconf -i
 
 config.status: configure
 	dh_testdir
