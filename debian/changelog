@@ -1,3 +1,9 @@
+taxbird (0.6-4) unstable; urgency=low
+
+  * repackaging with a Debian/stable distribution
+ 
+ -- Stefan Siegl <stesie@brokenpipe.de>  Tue, 06 Dec 2005 23:16:23 +0100
+
 taxbird (0.6-3) unstable; urgency=low
 
   * new upstream release 0.6 (alias Santa Clause)
