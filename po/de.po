@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Taxbird 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-25 15:41+0100\n"
+"POT-Creation-Date: 2005-12-06 19:14+0100\n"
 "PO-Revision-Date: 2005-11-25 15:38+0100\n"
 "Last-Translator: Stefan Siegl <ssiegl@gmx.de>\n"
 "Language-Team: German <ssiegl@gmx.de>\n"
@@ -446,11 +446,11 @@ msgstr "Konnte Pixmap-Datei nicht finden: %s"
 msgid "Available Sheets"
 msgstr "Vorhandene Blätter"
 
-#: src/workspace.c:346
+#: src/workspace.c:356
 msgid "The current field's content is not valid. Sorry."
 msgstr "Der Inhalt des aktuellen Feldes ist nicht gültig. Entschuldigung."
 
-#: src/workspace.c:495
+#: src/workspace.c:520
 msgid "Current document contains no data. There's no point in writing it out."
 msgstr ""
 "Das aktuelle Dokument enthält keine Daten. Es macht keinen Sinn, es zu "
@@ -460,6 +460,6 @@ msgstr ""
 #. * please leave this alone, it's just to force the catalogue to contain
 #. * the string `Yes!' which is used in some forms
 #.
-#: src/workspace.c:576
+#: src/workspace.c:601
 msgid "Yes!"
 msgstr "Ja!"
