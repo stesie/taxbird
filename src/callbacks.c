@@ -242,8 +242,15 @@ on_choose_file_OK_clicked(GtkButton *button, gpointer user_data)
 
   if(fname) {
     if(gtk_file_chooser_get_action(GTK_FILE_CHOOSER(dialog)) == 
-       GTK_FILE_CHOOSER_ACTION_SAVE)
+       GTK_FILE_CHOOSER_ACTION_SAVE) {
+      if(! strchr(fname, '.')) {
+	fname = g_realloc(fname, strlen(fname) + 5);
+	strcat(fname, ".txb");
+      }
+
       taxbird_ws_save(appwindow, fname);
+    }
+
     else {
       /* check whether the passed taxbird appwin reference already has a 
        * template associated, if yes, create a new window */
