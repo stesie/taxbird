@@ -2,7 +2,11 @@
 
 SUBDIRS = src po
 
+desktopfiledir = $(prefix)/share/applications
+desktopfile_DATA = taxbird.desktop
+
 EXTRA_DIST = \
+	taxbird.desktop \
 	taxbird.glade \
 	taxbird.gladep \
 	README.vendor-id \
