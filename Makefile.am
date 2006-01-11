@@ -5,7 +5,10 @@ SUBDIRS = src po
 desktopfiledir = $(prefix)/share/applications
 desktopfile_DATA = taxbird.desktop
 
+mimedatadir = $(prefix)/share/mime/packages
+
 EXTRA_DIST = \
+	taxbird.xml \
 	taxbird.desktop \
 	taxbird.glade \
 	taxbird.gladep \
@@ -25,6 +28,17 @@ install-data-local:
 	    fi \
 	  done \
 	fi
+
+	@$(NORMAL_INSTALL)
+	test -z "$(DESTDIR)$(mimedatadir)" || $(mkdir_p) "$(DESTDIR)$(mimedatadir)"
+	@list='taxbird.xml'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_DATA) '$$d$$p' '$(DESTDIR)$(mimedatadir)/$$f'"; \
+	  $(INSTALL_DATA) "$$d$$p" "$(DESTDIR)$(mimedatadir)/$$f"; \
+	done
+
+	-update-mime-database $(prefix)/share/mime
 
 dist-hook:
 	if test -d pixmaps; then \
