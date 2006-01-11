@@ -1,3 +1,11 @@
+taxbird (0.6-5) unstable; urgency=low
+
+  * register application/x-taxbird mimetime
+  * automatically add .txb suffix
+  * added .desktop file to automatically add entries to gui menus
+
+ -- Stefan Siegl <stesie@brokenpipe.de>  Wed, 11 Jan 2006 22:02:23 +0100
+
 taxbird (0.6-4) unstable; urgency=low
 
   * repackaging with a Debian/stable distribution
