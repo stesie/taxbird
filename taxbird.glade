@@ -15,6 +15,7 @@
   <property name="default_height">480</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">True</property>
+  <property name="icon">taxbird.xpm</property>
   <property name="decorated">True</property>
   <property name="skip_taskbar_hint">False</property>
   <property name="skip_pager_hint">False</property>
@@ -650,6 +651,7 @@
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="focus_on_map">True</property>
+  <property name="logo">taxbird-logo-3.png</property>
   <property name="copyright" translatable="yes">(C) 2004,05 Stefan Siegl</property>
   <property name="comments" translatable="yes">taxbird is a geier-based tax declarations capturing and transfer tool (for Germany) </property>
   <property name="authors">Stefan Siegl &lt;ssiegl@gmx.de&gt;</property>
