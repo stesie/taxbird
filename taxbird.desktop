@@ -9,3 +9,4 @@ Exec=taxbird
 Icon=
 Encoding=UTF-8
 Terminal=false
+MimeType=application/x-taxbird
