@@ -38,7 +38,7 @@ if which html2ps > /dev/null; then
 fi
 
 if which html2text > /dev/null; then
-  grep -v -e '^<?' $TMPFILE | html2text | $LPR $*
+  grep -v -e '^<?' $TMPFILE | html2text -width 72 | $LPR $*
   rm -f $TMPFILE
   exit 0
 fi
@@ -53,7 +53,7 @@ echo "  like the generated output, maybe try things out ..."
 echo ""
 
 if which w3m > /dev/null; then
-  w3m -dump -T text/html $TMPFILE | $LPR $*
+  w3m -dump -cols 72 -T text/html $TMPFILE | $LPR $*
   rm -f $TMPFILE
   exit 0
 fi
@@ -65,7 +65,7 @@ if which lynx > /dev/null; then
   echo "lynx' output usually doesn't look good, can't help."
   echo "" 
   
-  lynx -dump -force_html $TMPFILE | $LPR $*
+  lynx -dump -width=72 -force_html $TMPFILE | $LPR $*
   rm -f $TMPFILE
   exit 0
 fi
