@@ -94,21 +94,24 @@ taxbird_export(GtkWidget *appwin, int testcase)
   /* xsltify gathered data */
   unsigned char *data_xslt;
   size_t data_xslt_len;
-  if(geier_xsltify_text(ctx, data_text, data_text_len,
-			&data_xslt, &data_xslt_len)) {
-    taxbird_dialog_error(appwin, _("Unable to xsltify the "
-				   "exported document. Sorry, but this "
-				   "should not happen. \n\nPlease consider "
-				   "posting to the taxbird@taxbird.de "
-				   "mailing list."));
-    geier_context_free(ctx);
-    return;
-  }
+  xmlDoc *indoc = NULL;
+  xmlDoc *outdoc = NULL;
+
+  if((geier_text_to_xml(ctx, data_text, data_text_len, &indoc)))
+    goto err;
+
+  if((geier_xsltify(ctx, indoc, &outdoc)))
+    goto err;
+  
+  if((geier_xml_to_encoded_text(ctx, outdoc, "ISO-8859-1",
+				&data_xslt, &data_xslt_len)))
+    goto err;
 
   geier_context_free(ctx);
 
   /* now convert xslt-result to HtmlDocument */
   HtmlDocument *doc = html_document_new();
+
   if(! doc) {
     taxbird_dialog_error(appwin, _("Unable to allocate HtmlDocument."));
     return;
@@ -133,6 +136,18 @@ taxbird_export(GtkWidget *appwin, int testcase)
 
   /* ask the user, whether it's okay to send the data ************************/
   taxbird_export_ask_user(appwin, doc, data, fn);
+  return;
+
+ err:
+  if(indoc) xmlFreeDoc(indoc);
+  if(outdoc) xmlFreeDoc(outdoc);
+
+  taxbird_dialog_error(appwin, _("Unable to xsltify the "
+				 "exported document. Sorry, but this "
+				 "should not happen. \n\nPlease consider "
+				 "posting to the taxbird@taxbird.de "
+				 "mailing list."));
+  geier_context_free(ctx);
   return;
 }
 
