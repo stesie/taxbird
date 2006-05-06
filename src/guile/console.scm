@@ -1,4 +1,4 @@
-;; Copyright(C) 2005 Stefan Siegl <stesie@brokenpipe.de>
+;; Copyright(C) 2005,2006 Stefan Siegl <stesie@brokenpipe.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -16,4 +16,19 @@
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 (tb:eval-file "readline.scm")
+
+;;
+;; We need to override tb:dlg-error and tb:dlg-info here to disable
+;; the Taxbird GUI's built-in version which require the Gnome UI to be
+;; initialized.  If we don't override it here, the App will just segfault :-/
+;;
+(define tb:dlg-error
+  (lambda (msg)
+    
+    (format #t "~%*** ERROR *** ~A ~%~%" msg)))
+
+(define tb:dlg-info
+  (lambda (msg)
+    
+    (format #t "~A~%" msg)))
 
