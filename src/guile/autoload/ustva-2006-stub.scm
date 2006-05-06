@@ -56,12 +56,31 @@
 			     (datenlieferant:validate buffer element value))))
 	  (if validity
 	      (let ()
-		(storage:store buffer element value)
-		
-		;; if the stored value is Kz?? call the recalculation function
 		(if (and (= (string-length element) 4)
 			 (string=? (substring element 0 2) "Kz"))
-		    (ustva-2006:recalculate buffer element value))))
+
+		    ;; it's an Kz?? entry, therefore pretty print it and 
+		    ;; afterwards recalculate the sheet ...
+		    (let ((non-floats (list "Kz35" "Kz41" "Kz42" "Kz43" "Kz44"
+					    "Kz45" "Kz48" "Kz49" "Kz51" "Kz52"
+					    "Kz60" "Kz76" "Kz73" "Kz77" "Kz84"
+					    "Kz86" "Kz91" "Kz93" "Kz94" "Kz95"
+					    "Kz97"
+					    ;; checkboxes ...
+					    "Kz10" "Kz26" "Kz29" "Kz22"
+					    )))
+
+		      (storage:store buffer element
+				     (number->monetary-string 
+				      (not (member element non-floats)) value))
+
+		      ;; call the recalculation function ...
+		      (ustva-2006:recalculate buffer element value))
+
+
+		    ;; not a Kz-field, just store and do nothing ...
+		    (storage:store buffer element value))))
+		
 	  
 	  validity)))
 

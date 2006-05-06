@@ -1,4 +1,4 @@
-;; Copyright(C) 2004,05 Stefan Siegl <ssiegl@gmx.de>
+;; Copyright(C) 2004,2005,2006 Stefan Siegl <ssiegl@gmx.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -144,16 +144,21 @@
   (lambda (buffer element value)
     (let ((list '("Kz51" (lambda(v buffer)
 			   (storage:store buffer "Kz51-calc"
-					  (/ (* (ms->number v) 16) 100)))
+					  (number->monetary-string
+					   #t (/ (* (ms->number v) 16) 100))))
 		  "Kz86" (lambda(v buffer)
 			   (storage:store buffer "Kz86-calc"
-					  (/ (* (ms->number v) 7) 100)))
+					  (number->monetary-string 
+					   #t (/ (* (ms->number v) 7) 100))))
 		  "Kz93" (lambda(v buffer)
 			   (storage:store buffer "Kz93-calc"
-					  (/ (* (ms->number v) 7) 100)))
+					  (number->monetary-string 
+					   #t (/ (* (ms->number v) 7) 100))))
 		  "Kz97" (lambda(v buffer)
 			   (storage:store buffer "Kz97-calc"
-					  (/ (* (ms->number v) 16) 100))))))
+					  (number->monetary-string
+					   #t (/ (* (ms->number v) 16) 100))))
+		  )))
 
       ;; recurse through the upper list 'list', looking for the field to
       ;; use as the calculation base ...
@@ -189,7 +194,8 @@
 	      (cadr fields))
 	     
 	     ;; store the result ...
-	     (storage:store buffer (car fields) (number->string sum))
+	     (storage:store buffer (car fields)
+			    (number->monetary-string #t sum))
 
 	     ;; forward the list ...
 	     (set! fields (cddr fields))))
@@ -212,7 +218,8 @@
 		 (set! result (- result (ms->number val))))
 
 	     ;; store the result ...
-	     (storage:store buffer (car fields) (number->string result))
+	     (storage:store buffer (car fields)
+			    (number->monetary-string #t result))
 
 	     ;; forward the list ...
 	     (set! fields (cdddr fields))))))
