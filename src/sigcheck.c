@@ -112,7 +112,7 @@ taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id)
   ERR_clear_error();
   if(! PKCS7_verify(p7, NULL, store, indata, out,
 		    PKCS7_NOVERIFY)) {
-    err_msg = _("This S/MIME signature on %s is not valid, sorry. Please "
+    err_msg = _("The S/MIME signature on %s is not valid, sorry. Please "
 		"try to install an unmodified version.");
     err = 2;
     goto out4;
@@ -160,6 +160,18 @@ taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id)
     err = 1;
   }
   
+  if(X509_cmp_current_time(X509_get_notBefore(cert)) < 0
+     || X509_cmp_current_time(X509_get_notAfter(cert)) > 0)
+    err_msg = _("The S/MIME signature on %s is valid (the "
+		"installed sources haven't been modified) "
+		"but the X.509 certificate has expired. "
+		"This is, your Taxbird installation is rather "
+		"old and probably has been updated "
+		"meanwhile.\n\n"
+		"Please have a look at www.taxbird.de and "
+		"look for an update, maybe consider "
+		"contacting the mailing list.");
+  
   OPENSSL_free(buf);
   sk_X509_free(stack);
 
@@ -180,8 +192,12 @@ taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id)
 
   if(err_msg) {
     err_msg = g_strdup_printf(err_msg, fn);
-    taxbird_dialog_error(NULL, err_msg);
-    /* g_printerr("%s\n", err_msg); */
+
+    if(err)
+      taxbird_dialog_error(NULL, err_msg);
+    else
+      taxbird_dialog_info(NULL, err_msg);
+
     g_free(err_msg);
   }
 
