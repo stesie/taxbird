@@ -32,7 +32,7 @@
 (define ustva-2006:definition
   '("Datenlieferant" ("datenlieferant.xml" "datenlieferant")
     
-    "Stammdaten" 	("ustva-2006.xml" "stammdaten")
+    "Finanzamtsverbindung" 	("ustva-2006.xml" "stammdaten")
     "Schnellerfassung"  ("ustva-2006.xml" "schnell")
     "Formular"		("ustva-2006.xml" "seite_1")))
 
