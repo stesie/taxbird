@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# Copyright(C) 2005 Stefan Siegl <stesie@brokenpipe.de>
+# Copyright(C) 2005,2006 Stefan Siegl <stesie@brokenpipe.de>
 # taxbird - free program to interface with German IRO's Elster/Coala
 # 
 # This program is free software; you can redistribute it and/or modify
@@ -18,12 +18,13 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 LPR=lpr
+#LPR=cat #use this for testing!
 MAILCAP=/etc/mailcap
 
 TMPFILE=`mktemp` || {
-  echo "$0: unable to create temporary file"
-  lpr $*	# try to print anyways (data comes from stdin)
-  exit 0
+  echo "$0: unable to create temporary file" 1>&2
+  $LPR $*	# try to print anyways (data comes from stdin)
+  exit 1
 }
 
 cat >> $TMPFILE # store protocol
@@ -43,27 +44,27 @@ if which html2text > /dev/null; then
   exit 0
 fi
 
-echo ""
-echo "********************************************************"
-echo "*** YOU UNFORTUNATELY DON'T HAVE HTML2TEXT INSTALLED ***"
-echo "********************************************************"
-echo ""
-echo "  html2text usually produces best output, so, if you don't "
-echo "  like the generated output, maybe try things out ..."
-echo ""
+echo "" 1>&2
+echo "********************************************************" 1>&2
+echo "*** YOU UNFORTUNATELY DON'T HAVE HTML2TEXT INSTALLED ***" 1>&2
+echo "********************************************************" 1>&2
+echo "" 1>&2
+echo "  html2text usually produces best output, so, if you don't " 1>&2
+echo "  like the generated output, maybe try things out ..." 1>&2
+echo "" 1>&2
 
 if which w3m > /dev/null; then
-  w3m -dump -cols 72 -T text/html $TMPFILE | $LPR $*
+  w3m -dump -cols 72 -T text/html -I ISO-8859-1 -O ISO-8859-1 $TMPFILE | $LPR $*
   rm -f $TMPFILE
   exit 0
 fi
 
-echo " w3m not available as well, ... "
-echo ""
+echo " w3m not available as well, ... " 1>&2
+echo "" 1>&2
 
 if which lynx > /dev/null; then
-  echo "lynx' output usually doesn't look good, can't help."
-  echo "" 
+  echo "lynx' output usually doesn't look good, can't help." 1>&2
+  echo ""  1>&2
   
   lynx -dump -width=72 -force_html $TMPFILE | $LPR $*
   rm -f $TMPFILE
