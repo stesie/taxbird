@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,05 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2004,2005,2006 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -68,39 +68,7 @@ void taxbird_guile_init(void)
   scm_c_define_gsubr("tb:activate-sheet", 2, 0, 0, taxbird_activate_sheet);
   scm_c_define_gsubr("tb:chooser-additem", 2, 0, 0, taxbird_ws_chooser_additem);
 
-  /* Scan autoload/ directories for files, that should be loaded automatically.
-   * However don't load each file from these directories in order, but 
-   * call taxbird_guile_eval_file to always evaluate the first file in the
-   * loadpath chain, i.e. allow the user to overwrite autoload/ files by
-   * putting hisself's in his private directory.
-   */
-  while(scm_ilength(loadpath)) {
-    struct dirent *dirent;
-    char *dirname = g_strdup_printf("%s/autoload/",
-				    SCM_STRING_CHARS(SCM_CAR(loadpath)));
-    DIR *dir = opendir(dirname);
-
-    if(dir) {
-      while((dirent = readdir(dir))) {
-	char *fname;
-	int namelen = strlen(dirent->d_name);
-	
-	/* expect autoload files to end in '.scm', i.e. don't try to
-	 * load Makefile.am, README, etc. */
-	if(namelen < 4) continue;
-	if(strcasecmp(&dirent->d_name[namelen - 4], ".scm")) continue;
-
-	fname = g_strdup_printf("autoload/%s", dirent->d_name);
-	taxbird_guile_eval_file(fname);
-	g_free(fname);
-      }
-
-      closedir(dir);
-      g_free(dirname);
-    }
-
-    loadpath = SCM_CDR(loadpath);
-  }
+  taxbird_guile_eval_file("startup.scm");
 }
 
 
