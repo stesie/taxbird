@@ -4,9 +4,9 @@ SUBDIRS =
 
 autoloaddir = $(datadir)/taxbird/guile/autoload
 autoload_DATA = \
-	ustva-2005-stub.scm \
-	ustva-2006-stub.scm \
-	ustsvza-2006-stub.scm
+	25-ustva-2006-stub.scm \
+	26-ustva-2005-stub.scm \
+	75-ustsvza-2006-stub.scm
 
 EXTRA_DIST = $(autoload_DATA) \
 	steuernummer-test.scm \
