@@ -1,4 +1,4 @@
-/* Copyright(C) 2005 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2005,2006 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -54,6 +54,33 @@ static void taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc,
 static pid_t taxbird_export_launch_command(const char *cmd, int *to, int *fr);
 
 
+static int
+taxbird_xsltify_text(geier_context *context,
+		     const unsigned char *input, size_t inlen,
+		     unsigned char **output, size_t *outlen)
+{
+  int retval;
+  xmlDoc *indoc;
+  xmlDoc *outdoc;
+
+  if((retval = geier_text_to_xml(context, input, inlen, &indoc)))
+    goto out0;
+
+  if((retval = geier_xsltify(context, indoc, &outdoc)))
+    goto out1;
+  
+  if((retval = geier_xml_to_encoded_text(context, outdoc, "ISO-8859-1",
+					 output, outlen)))
+    goto out2;
+
+ out2:
+  xmlFreeDoc(outdoc);
+ out1:
+  xmlFreeDoc(indoc);
+ out0:
+  return retval;
+}
+
 
 void
 taxbird_export(GtkWidget *appwin, int testcase)
@@ -94,24 +121,21 @@ taxbird_export(GtkWidget *appwin, int testcase)
   /* xsltify gathered data */
   unsigned char *data_xslt;
   size_t data_xslt_len;
-  xmlDoc *indoc = NULL;
-  xmlDoc *outdoc = NULL;
-
-  if((geier_text_to_xml(ctx, data_text, data_text_len, &indoc)))
-    goto err;
-
-  if((geier_xsltify(ctx, indoc, &outdoc)))
-    goto err;
-  
-  if((geier_xml_to_encoded_text(ctx, outdoc, "ISO-8859-1",
-				&data_xslt, &data_xslt_len)))
-    goto err;
+  if(taxbird_xsltify_text(ctx, data_text, data_text_len,
+			  &data_xslt, &data_xslt_len)) {
+    taxbird_dialog_error(appwin, _("Unable to xsltify the "
+				   "exported document. Sorry, but this "
+				   "should not happen. \n\nPlease consider "
+				   "posting to the taxbird@taxbird.de "
+				   "mailing list."));
+    geier_context_free(ctx);
+    return;
+  }
 
   geier_context_free(ctx);
 
   /* now convert xslt-result to HtmlDocument */
   HtmlDocument *doc = html_document_new();
-
   if(! doc) {
     taxbird_dialog_error(appwin, _("Unable to allocate HtmlDocument."));
     return;
@@ -136,18 +160,6 @@ taxbird_export(GtkWidget *appwin, int testcase)
 
   /* ask the user, whether it's okay to send the data ************************/
   taxbird_export_ask_user(appwin, doc, data, fn);
-  return;
-
- err:
-  if(indoc) xmlFreeDoc(indoc);
-  if(outdoc) xmlFreeDoc(outdoc);
-
-  taxbird_dialog_error(appwin, _("Unable to xsltify the "
-				 "exported document. Sorry, but this "
-				 "should not happen. \n\nPlease consider "
-				 "posting to the taxbird@taxbird.de "
-				 "mailing list."));
-  geier_context_free(ctx);
   return;
 }
 
@@ -303,8 +315,8 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   /** now run xsltify to generate protocol for user */
   unsigned char *data_xslt;
   size_t data_xslt_len;
-  if(geier_xsltify_text(ctx, data_return, data_return_len,
-			&data_xslt, &data_xslt_len)) {
+  if(taxbird_xsltify_text(ctx, data_return, data_return_len,
+			  &data_xslt, &data_xslt_len)) {
     taxbird_dialog_error(confirm_dlg, _("Unable to generate the transmission "
 					"protocol. This is a local error, THIS "
 					"IS, YOUR DATA HAS BEEN SENT TO THE "
