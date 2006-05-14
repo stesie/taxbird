@@ -51,3 +51,71 @@
 
    (sort files string<?)))
 
+
+
+;;
+;; make sure we have got all the prerequisites for printing,
+;; if not, warn the user one time
+;;
+;; (for the moment let's do so at taxbird startup, Fridtjof convincend
+;; me to do so)
+;;
+(define tb:check-print-env
+  (lambda ()
+    (let ((have-lpr #f) (have-html2ps #f))
+      (for-each
+       (lambda (path)
+	 (if (file-exists? (string-append path "/lpr"))
+	     (set! have-lpr #t))
+
+	 (if (file-exists? (string-append path "/html2ps"))
+	     (set! have-html2ps #t)))
+
+       (string-split (getenv "PATH") #\:))
+
+      (if (not (and have-lpr have-html2ps))
+
+	  (tb:dlg-info
+	   (string-append
+		    (if (not (or have-lpr have-html2ps))
+			(string-append
+			 "You neither have 'lpr' nor 'html2ps' installed "
+			 "on your system. The former is an absolute must if "
+			 "you would like to be able to print transmission "
+			 "protocols from within Taxbird. 'html2ps' is "
+			 "recommended for good looking results.")
+			
+			(if (not have-lpr)
+			    (string-append
+			     "You don't have 'lpr' installed on your system. "
+			     "This program is absolutely necessary however, "
+			     "if you would like "
+			     "to be able to print transmission protocols from "
+			     "within Taxbird. Please install it, if you "
+			     "would like to be able to print those.")
+
+			    (string-append
+			     "You don't have 'html2ps' installed on your "
+			     "system. The former is recommended to "
+			     "achieve good looking transmission protocols "
+			     "however.\n\n"
+			     "If you don't want to print those protocols, "
+			     "just ignore this. :-)")))
+
+	   "\n\n"
+	   "This message will be displayed only once."))))))
+
+(let ((fn (string-append (getenv "HOME") "/.taxbird/no-check-print-env")))
+  (or (file-exists? fn)
+      (let ((handle #f))
+	(tb:check-print-env)
+	
+	(let ((dir (string-append (getenv "HOME") "/.taxbird")))
+	  (or (file-exists? dir)
+	      (mkdir dir)))
+
+	(set! handle (open fn (logior O_WRONLY O_CREAT)))
+	(truncate-file handle 0)
+	(format handle "Just delete this, if you want a check next time.")
+	(close handle))))
+
