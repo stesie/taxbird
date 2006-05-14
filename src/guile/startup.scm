@@ -37,7 +37,9 @@
 				     ".scm"))
 		      
 		      (if (not (member fn files))
-			  (set! files (append files (list fn)))))))))
+			  (set! files (append files (list fn))))))
+
+	   (closedir port))))
    
    (append tb:scm-directories tb:scm-directories))
 
