@@ -1,7 +1,7 @@
 			-*- mode: auto-fill; coding: utf-8 -*-
 taxbird - Gnome-2 based application to create Elster (Geier) XML files
 
-Copyright (C) 2004,05 Stefan Siegl <ssiegl@gmx.de>, Germany
+Copyright (C) 2004,2005,2006 Stefan Siegl <stesie@brokenpipe.de>, Germany
                       (see AUTHORS for a complete and detailed list 
 		       of authors, contributers and copyrightholders)
 
@@ -37,28 +37,28 @@ Steuerdaten im Rahmen freier Software. Es besteht zum Einen aus
 Sowie aus 'Taxbird' einer grafischen (auf Gnome-2 basierenden) 
 Oberfläche zur Erfassung von Elster-XML Daten.
 
-Gegenwärtig befindet sich Taxbird noch in der Entwicklungsphase, das
-heißt, dass es hin- und wieder mal zu mehr oder weniger großen
-Problemen, sprich Programmfehlern, kommen könnte. Sollte dies der Fall
-sein, wird um Kontaktaufnahme mit der taxbird@taxbird.de Mailing-Liste
-gebeten, sodass der Fehler ausgebügelt werden kann.
-
-Die Übermittlung von Echtdaten ist inzwischen möglich. Die hierzu
-erforderliche Hersteller-ID wurde seitens der Oberfinanzdirektion
-München erteilt. Details zum Verfahren können in der Datei
-README.vendor-id in diesem Verzeichnis nachgelesen werden.
+Mit Taxbird ist inzwischen die Übermittlung von Echtdaten möglich. Die
+hierzu erforderliche Hersteller-ID wurde seitens der
+Oberfinanzdirektion München (inzwischen umbenannt in `Bayerisches
+Landesamt für Steuern) erteilt. Details zum Verfahren können in der
+Datei README.vendor-id in diesem Verzeichnis nachgelesen werden.
 
 Vorerst wird mittels Taxbird nur die Übermittlung von
 Umsatzsteuervoranmeldungen möglich sein. Die Abgabe von
-Lohnsteueranmeldungen ist vorgesehen. Wann die Übermittlung der
-Jahreserklärungen (hauptsächlich Einkommensteuererklärungen) möglich
-ist, steht noch nicht fest (da die Möglichkeit seitens der
-Finanzverwaltung bisher nicht eingeräumt wurde).
+Lohnsteueranmeldungen ist vorgesehen und grundsätzlich machbar. Wer
+das Formular benötigt und in Taxbird haben möchte, bitte auf der
+Mailingliste melden. 
+
+Die Übermittlung der Jahreserklärungen (hauptsächlich
+Einkommensteuererklärungen) ist gegenwärtig noch nicht möglich, da die
+Möglichkeit seitens der Finanzverwaltung bisher nicht eingeräumt
+wurde. Voraussichtlich wird jedoch erst die Übermittlung der
+Steuererklärungen für den Veranlagungszeitraum 2007 möglich sein. 
 
 Die Formulare sind mittels Skriptsprache und Glade-XML in Taxbird
 hinterlegt. So ist es möglich, ohne große Programmierkenntnisse eigene
-(weitere) Formulare hinzuzufügen, sowie bestehende zu
-Überarbeiten. Die Anwendung selbst muss nicht neu kompiliert werden. 
+(weitere) Formulare hinzuzufügen, zu installieren, sowie bestehende zu
+Überarbeiten. Die Anwendung selbst muss nicht neu kompiliert werden.
 
 Ab der Version 0.6 unterstützt Taxbird endlich auch die Abgabe von
 digital signierten Steueranmeldungen. Näheres zum Verfahrensablauf
@@ -178,4 +178,4 @@ A: Der $Id: Wert der Signatur passt nicht zur installierten Programm-
 
 Vielen Dank, dass Sie Taxbird verwenden!
 
-$Id: README,v 1.11 2005-11-26 13:23:59 stesie Exp $
+$Id: README,v 1.12 2006-05-18 18:33:07 stesie Exp $
