@@ -1,12 +1,12 @@
 [Desktop Entry]
 X-SuSE-translate=true
-Categories=Finance
+Categories=Finance;Office
 Name=Taxbird
 GenericName=Taxbird
 Comment=freier Elster-Client für Linux
 Type=Application
 Exec=taxbird
-Icon=
+Icon=taxbird.xpm
 Encoding=UTF-8
 Terminal=false
 MimeType=application/x-taxbird
