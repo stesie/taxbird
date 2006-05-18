@@ -28,8 +28,9 @@ install-data-local:
 	    fi \
 	  done \
 	fi
+	$(INSTALL_DATA) $(srcdir)/pixmaps/taxbird.xpm \
+		$(DESTDIR)$(datadir)/pixmaps
 
-	@$(NORMAL_INSTALL)
 	test -z "$(DESTDIR)$(mimedatadir)" || $(mkdir_p) "$(DESTDIR)$(mimedatadir)"
 	@list='taxbird.xml'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
