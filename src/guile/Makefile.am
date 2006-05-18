@@ -15,6 +15,7 @@ guilestuff_DATA = \
 	readline.scm \
 	revalidate.scm \
 	sheettree.scm \
+	startup.scm \
 	steuernummer.scm \
 	storage.scm \
 	string.scm \
