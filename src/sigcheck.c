@@ -160,8 +160,7 @@ taxbird_sigcheck(const char *fn, char **vendor_id, char **sig_id)
     err = 1;
   }
   
-  if(X509_cmp_current_time(X509_get_notBefore(cert)) < 0
-     || X509_cmp_current_time(X509_get_notAfter(cert)) > 0)
+  if(X509_cmp_current_time(X509_get_notAfter(cert)) < 0)
     err_msg = _("The S/MIME signature on %s is valid (the "
 		"installed sources haven't been modified) "
 		"but the X.509 certificate has expired. "
