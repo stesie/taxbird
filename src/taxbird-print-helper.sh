@@ -21,7 +21,7 @@ LPR=lpr
 #LPR=cat #use this for testing!
 MAILCAP=/etc/mailcap
 
-TMPFILE=`mktemp` || {
+TMPFILE=`mktemp -t tmp.XXXXXX` || {
   echo "$0: unable to create temporary file" 1>&2
   $LPR $*	# try to print anyways (data comes from stdin)
   exit 1
