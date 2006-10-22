@@ -41,10 +41,6 @@ GUILE_MODULE_REQUIRED(ice-9 format)
 CFLAGS="$CFLAGS $GPGME_CFLAGS $GUILE_CFLAGS $GLIB_CFLAGS"
 LDFLAGS="$LDFLAGS $GPGME_LIBS $GUILE_LDFLAGS $GLIB_LIBS"
 
-dnl Make sure libgeier is new enough ...
-AC_CHECK_LIB([geier], [geier_xml_to_encoded_text],,
-	     AC_MSG_ERROR([your libgeier is too old]))
-
 AC_OUTPUT([
 Makefile
 src/Makefile
