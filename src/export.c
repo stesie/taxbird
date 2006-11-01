@@ -47,7 +47,7 @@ typedef pid_t (* taxbird_export_subproc) (int *to, int *from);
 
 /* ask the user whether the exported data is okay */
 static void taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc,
-				    SCM data, SCM proto_fn);
+				    SCM data, SCM proto_fn, SCM softpse_fn);
 
 /* launch the given command CMD (whether CMD may even contain arguments)
  * RETURN: pid of child on success, -1 on failure */
@@ -157,9 +157,10 @@ taxbird_export(GtkWidget *appwin, int testcase)
   taxbird_guile_eval_file("taxbird.scm");
   SCM databuf = (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data");
   SCM fn = scm_call_1(scm_c_lookup_ref("tb:get-proto-filename"), databuf);
+  SCM softpse = scm_call_0(scm_c_lookup_ref("tb:get-softpse-filename"));
 
   /* ask the user, whether it's okay to send the data ************************/
-  taxbird_export_ask_user(appwin, doc, data, fn);
+  taxbird_export_ask_user(appwin, doc, data, fn, softpse);
   return;
 }
 
@@ -191,6 +192,11 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
 
     e = GTK_ENTRY(lookup_widget(confirm_dlg, "dsig_fileentry_text"));
     const char *filename = gtk_entry_get_text(e);
+
+    /* tell the guile backend about the new softpse filename ***/
+    SCM softpse = scm_makfrom0str(filename);
+    scm_call_1(scm_c_lookup_ref("tb:set-softpse-filename"), softpse);
+
 
     e = GTK_ENTRY(lookup_widget(confirm_dlg, "dsig_pincode"));
     const char *pincode = gtk_entry_get_text(e);
@@ -482,7 +488,8 @@ taxbird_export_launch_subproc(int *to, int *from)
 
 /* show the export druid and return */
 static void
-taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc, SCM data, SCM fn)
+taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc, SCM data,
+			SCM fn, SCM softpse_fn)
 {
   (void) appwin;  /* unused for the moment */
 
@@ -499,6 +506,14 @@ taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc, SCM data, SCM fn)
     GtkWidget *w = lookup_widget(confirm_dlg, "protocol_store_fileentry_text");
     gtk_entry_set_text(GTK_ENTRY(w), SCM_STRING_CHARS(fn));
   }
+
+  if(SCM_STRINGP(softpse_fn)) {
+    GtkWidget *dsig = lookup_widget(confirm_dlg, "dsig");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dsig), 1);
+
+    GtkWidget *w = lookup_widget(confirm_dlg, "dsig_fileentry_text");
+    gtk_entry_set_text(GTK_ENTRY(w), SCM_STRING_CHARS(softpse_fn));
+  }    
 
   gtk_widget_show(confirm_dlg);
 }
