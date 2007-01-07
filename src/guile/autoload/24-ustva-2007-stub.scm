@@ -1,4 +1,4 @@
-;; Copyright(C) 2004,05,2006 Stefan Siegl <ssiegl@gmx.de>
+;; Copyright(C) 2004,2005,2006,2007 Stefan Siegl <stesie@brokenpipe.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -95,8 +95,9 @@
 				datenlieferant:validators))
 
 	(let ((sig-result (and (not test)
-			       (tb:check-sig "signatures/ustva-2007.sig"))))
-
+			       (list "00616"
+				     "$Id: 24-ustva-2007-stub.scm,v 1.2 2007-01-07 13:54:46 stesie Exp $"))))
+	  
 	  ;; document's content is valid, let's export it, to make the
 	  ;; IRO know, what nice programs there exist out in the free world ...
 	  (tb:eval-file "export.scm")
