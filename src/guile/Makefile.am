@@ -1,10 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = autoload signatures
+SUBDIRS = autoload
 
 guilestuffdir = $(datadir)/taxbird/guile
 guilestuff_DATA = \
-	bundesland.scm \
 	console.scm \
 	datenlieferant.xml \
 	datenlieferant.scm \
@@ -28,8 +27,7 @@ guilestuff_DATA = \
 	ustva-2006.scm \
 	validate.scm \
 	versions.scm \
-	xml-writer.scm \
-	zeitraum.scm
+	xml-writer.scm
 
 EXTRA_DIST = $(guilestuff_DATA)
 CLEANFILES = *~ *.bak *.xmlp
