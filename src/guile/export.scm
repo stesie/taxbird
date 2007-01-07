@@ -1,4 +1,4 @@
-;; Copyright(C) 2005 Stefan Siegl <ssiegl@gmx.de>
+;; Copyright(C) 2005,2007 Stefan Siegl <ssiegl@gmx.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -70,7 +70,7 @@
 
   
 (define export:sig-id-regexp
-  (make-regexp "([^ ]+\.sig,v [0-9\.]+)"))
+  (make-regexp "([^ ]+\.scm,v [0-9\.]+)"))
     
 (define export:make-nutzdaten-header
   (lambda (store sig-result)
