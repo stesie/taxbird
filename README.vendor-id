@@ -1,5 +1,5 @@
 taxbird - Gnome-2 based application to create Elster (Geier) XML files
-Copyright (C) 2005 Stefan Siegl <ssiegl@gmx.de>, Germany
+Copyright (C) 2005,2007 Stefan Siegl <ssiegl@gmx.de>, Germany
 
 
 Um Steuerdaten im Rahmen des Elster-Verfahrens an die deutsche
@@ -15,62 +15,30 @@ Taxbird verfügt inzwischen über eine solche Identifikations-
 nummer. Diese kann jedoch nur immer zusammen mit den unveränderten
 Originalquellen verwendet werden.
 
+Wenn Sie eines der in Taxbird integrierten Formulare verändert
+möchten, sind Sie verpflichtet, eine eigene Hersteller-ID zu
+verwenden. Die in den Guile-Dateien hinterlegte Nummer darf von Ihnen
+hierzu nicht verwendet werden.
 
-Integration der Hersteller-ID in Taxbird
-----------------------------------------
- Um sicher zu gehen, dass die jeweilige Hersteller-ID nur zusammen mit
- den bestätigten, unveränderten Quellen verwendet wird, werden die 
- Quellen digital signiert. Werden diese verändert, so ist die Signatur
- ungültig, und in Folge dessen werden automatisch Testmerker gesetzt.
+Angenommen, Sie haben ein eigenes Formular zu Taxbird hinzugefügt und
+möchten dieses selbst verteilen, so benötigen Sie zwingend eine eigene
+Hersteller-ID. 
 
-
-
-Eigene Hersteller-ID mit Taxbird verwenden
-------------------------------------------
- Angenommen, Sie haben ein eigenes Formular zu Taxbird hinzugefügt und
- möchten dieses selbst verteilen, so benötigen Sie zwingend eine eigene
- Hersteller-ID. Um das Formular in Taxbird nebst Hersteller-ID zu
- integrieren, muss wie folgt vorgegangen werden:
-
- 1. der Quellcode für das Formular muss (tb:check-sig $signatur_name)
-    aufrufen und das Ergebnis an die export:-Funktionen weiterreichen
-    (siehe auch das ustva-2005 Formular)
- 
- 2. mit OpenSSL muss ein neues Zertifikat angelegt werden, dessen
-    OU-Wert die Hersteller-ID enthält. Hierzu kann das beigefügte
-    Skript taxbird-make-cert.sh verwendet werden.
-
- 3. die Signaturdatei ($signatur_name) muss Paare aus MD5-Summe sowie
-    Dateiname enthalten und digital signiert werden. Hierzu muss
-    zuerst, zum Beispiel mit 'ls -1 --co=no', eine Datei angelegt
-    werden, die die Dateinamen enthält, die in die Signatur mit
-    einfließen sollen. Daraufhin ist taxbird-sig-update.sh aufzurufen,
-    um die Signatur selbst zu erstellen.
- 
- 4. die Signaturdatei muss in ein CVS eingecheckt werden. Dadurch wird
-    der $Id-Wert in der Datei ausgefüllt. Diese Id wird in die
-    exportierten Daten mit eingefügt, sodass später ggf. festgestellt
-    werden kann, welche (evtl. fehlerhafte) Dateiversion zur
-    Erstellung des XML-Datensatz geführt hat.
- 
- 5. Funktionstest
-
- Bitte beachten Sie, dass die Revisionskontrolle laut
- Steuerdatenübermittlungsverordnung (StDÜV) erforderlich ist.
+Bitte beachten Sie ebenfalls, dass die Revisionskontrolle laut
+Steuerdatenübermittlungsverordnung (StDÜV) erforderlich ist.
 
 
 
 Hersteller-ID und selbst behobene Programmfehler
 ------------------------------------------------
  Sollte ein Programmfehler in den Datenhaltungskomponenten von Taxbird
- vorliegen - dessen Beseitigung wird zwangsläufig die digitale Signatur
- brechen - so können ohne weiteres vorgehen keine Echtdaten mehr
- übermittelt werden.
+ vorliegen, so können ohne Weiteres vorgehen keine Echtdaten mehr
+ übermittelt werden, da Sie die integrierte Hersteller-ID nicht
+ verwenden dürfen und (vermutlich) über keine eigene Hersteller-ID
+ verfügen. 
 
- Abhilfe kann hier nur durch erneutes Erstellen der Signaturdatei
- erfolgen, entweder seitens des Herstellers der jeweiligen Formular-
- komponente oder seitens des Anwenders, sofern dieser eine eigene
- Hersteller-ID besitzt.
+ Abhilfe kann hier leider nur durch ein entsprechendes Okay
+ meinerseits geschaffen werden.
 
 
 
@@ -80,5 +48,5 @@ Verbliebene Fragen
 
 
 
-$Id: README.vendor-id,v 1.2 2005-06-20 12:32:16 stesie Exp $
+$Id: README.vendor-id,v 1.3 2007-01-07 14:17:16 stesie Exp $
 

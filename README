@@ -1,7 +1,7 @@
 			-*- mode: auto-fill; coding: utf-8 -*-
 taxbird - Gnome-2 based application to create Elster (Geier) XML files
 
-Copyright (C) 2004,2005,2006 Stefan Siegl <stesie@brokenpipe.de>, Germany
+Copyright (C) 2004,2005,2006,2007 Stefan Siegl <stesie@brokenpipe.de>, Germany
                       (see AUTHORS for a complete and detailed list 
 		       of authors, contributers and copyrightholders)
 
@@ -18,11 +18,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-The taxbird GUI as well as libgeier make use of the OpenSSL library, 
-to which both the OpenSSL and the original SSLeay copyrights apply.
-See README.OpenSSL for details. This product includes cryptographic
-software written by Eric Young (eay@cryptsoft.com).
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -44,23 +39,23 @@ Landesamt für Steuern) erteilt. Details zum Verfahren können in der
 Datei README.vendor-id in diesem Verzeichnis nachgelesen werden.
 
 Vorerst wird mittels Taxbird nur die Übermittlung von
-Umsatzsteuervoranmeldungen möglich sein. Die Abgabe von
-Lohnsteueranmeldungen ist vorgesehen und grundsätzlich machbar. Wer
-das Formular benötigt und in Taxbird haben möchte, bitte auf der
-Mailingliste melden. 
+Umsatzsteuervoranmeldungen möglich sein. Die Abgabe von Lohnsteuer-
+anmeldungen ist grundsätzlich möglich, derzeit aber nicht
+implementiert. Wer das Formular benötigt und in Taxbird haben möchte,
+bitte auf der Mailingliste melden. 
 
-Die Übermittlung der Jahreserklärungen (hauptsächlich
-Einkommensteuererklärungen) ist gegenwärtig noch nicht möglich, da die
+Die Übermittlung der Jahreserklärungen (hauptsächlich Einkommen-
+steuererklärungen) ist gegenwärtig noch nicht möglich, da die
 Möglichkeit seitens der Finanzverwaltung bisher nicht eingeräumt
-wurde. Voraussichtlich wird jedoch erst die Übermittlung der
-Steuererklärungen für den Veranlagungszeitraum 2007 möglich sein. 
+wurde. Voraussichtlich wird jedoch die Übermittlung der Steuerer-
+klärungen für den Veranlagungszeitraum 2007 erstmals möglich sein. 
 
 Die Formulare sind mittels Skriptsprache und Glade-XML in Taxbird
 hinterlegt. So ist es möglich, ohne große Programmierkenntnisse eigene
 (weitere) Formulare hinzuzufügen, zu installieren, sowie bestehende zu
 Überarbeiten. Die Anwendung selbst muss nicht neu kompiliert werden.
 
-Ab der Version 0.6 unterstützt Taxbird endlich auch die Abgabe von
+Ab der Version 0.6 unterstützt Taxbird auch die Abgabe von
 digital signierten Steueranmeldungen. Näheres zum Verfahrensablauf
 sowie, warum Sie diese Funktion unbedingt nutzen sollten, ist in der
 Datei README.dsig erläutert.
@@ -90,28 +85,10 @@ $ make install
 Benötigte Bibliotheken:
 -----------------------
 GNU Guile 1.6.7 (andere können funktionieren)
-OpenSSL 0.9.5 oder später
+Mozilla XULrunner NSS  
+XMLsec-NSS
 libgnomeui-2.0 (Gnome Development Libraries)
 libgtkhtml-2.0 (GtkHTML Widget)
-
-
-
-Zum Kompilieren der Anwendung werden benötigt:
-----------------------------------------------
-(andere können funktionieren oder auch nicht, bei Problemen bitte melden):
-
-GNU Make 3.80
-gcc (GCC) 3.3.5
-
-
-
-Um den CVS-Tree kompilieren zu können, werden weiter benötigt:
---------------------------------------------------------------
-(andere können funktionieren oder auch nicht, bei Problemen bitte melden):
-
-autoconf (GNU Autoconf) 2.59
-automake (GNU Automake) 1.4-p6
-Glade-2 2.6.8 (mit Gnome-Unterstützung)
 
 
 
@@ -128,31 +105,12 @@ unter https://www.elster.de/doc/teilnahmeerklaerung.pdf herunterladen.
 
 (probably) Frequently Asked Questions
 -------------------------------------
-F: When running taxbird I sometimes get 
-   "WARNING **: Invalid UTF8 string passed to pango_layout_set_text()".
-   Why is this?
-
-A: taxbird expects the Scheme sources to be encoded in UTF-8. No filtering
-   etc. is done to the read strings, i.e. they are passed on to Gnome/Pango.
-   If you encode your file with ISO-8859-1 for example, pango will not be able
-   to interpret the data and will emit the warning. The shown strings will be
-   truncated at the first non-ASCII character in this case.
-
-
 F: Beim kompilieren tritt folgende Fehlermeldung auf:
    ** (glade-2:32360): WARNING **: Unknown widget class: GnomeApp
 
 A: Sie haben zwar Glade-2 installiert, allerdings eine Variante, die
    keine Gnome-Unterstützung bietet. Unter Debian GNU/Linux ist zum
    Beispiel das Paket glade-gnome-2 zu installieren, nicht glade-2.
-
-
-F: ./configure script complains:
-   "Package openssl was not found in the pkg-config search path"
-
-A: Sie haben entweder OpenSSL überhaupt nicht installiert, oder zumindest
-   die zumindest die Datei openssl.pc Datei ist nicht im Pfad. Unter Debian
-   GNU/Linux ist das Paket libssl-dev nebst Abhängigkeiten zu installieren.
 
 
 F: In der Voransicht im Daten-Senden-Dialog sowie am ausgedruckten
@@ -164,18 +122,6 @@ A: Die Felder werden seitens dem von der Finanzverwaltung zur Verfügung
    (unter Datenlieferant) ausgefüllt wird, müssten die Daten erscheinen.
 
 
-F: Nach einem Klick auf "Daten Senden" erscheint die Fehlermeldung
-   "Die $Id: der Signatur ist nicht gültig (beim Prüfen der Signatur
-    signatures/ustva-2005.sig)" - Export nur als Testdaten möglich
-
-A: Der $Id: Wert der Signatur passt nicht zur installierten Programm-
-   version von Taxbird. Vermutlich haben Sie noch eine "alte" GnuPG-
-   Signatur installiert, die installierte Taxbird-Version (ab 0.2)
-   erwartet jedoch eine OpenSSL-Signaturdatei.
-   Sind unter $HOME/.taxbird/guile/ eventuell noch alte Skriptdaten
-   hinterlegt? Falls ja, bitte löschen Sie diese.
-
-
 Vielen Dank, dass Sie Taxbird verwenden!
 
-$Id: README,v 1.12 2006-05-18 18:33:07 stesie Exp $
+$Id: README,v 1.13 2007-01-07 14:17:16 stesie Exp $
