@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,2005,2006 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2004,2005,2006,2007 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -29,12 +29,10 @@
 
 #include "guile.h"
 #include "form.h"
-#include "sigcheck.h"
 #include "dialog.h"
 #include "workspace.h"
 
 static SCM taxbird_guile_eval_file_SCM(SCM scm_fn);
-static SCM taxbird_guile_check_sig_SCM(SCM scm_fn);
 static SCM taxbird_dialog_error_SCM(SCM message);
 static SCM taxbird_dialog_info_SCM(SCM message);
 static SCM taxbird_get_version(void);
@@ -52,15 +50,7 @@ void taxbird_guile_init(void)
   /* search current and taxbird's system directory by default */
   scm_c_define("tb:scm-directories", loadpath);
 
-  scm_c_define("tb:field:text-input", scm_int2num(FIELD_TEXT_INPUT));
-  scm_c_define("tb:field:text-output", scm_int2num(FIELD_TEXT_OUTPUT));
-  scm_c_define("tb:field:chooser", scm_int2num(FIELD_CHOOSER));
-  scm_c_define("tb:field:label", scm_int2num(FIELD_LABEL));
-  scm_c_define("tb:field:button", scm_int2num(FIELD_BUTTON));
-  scm_c_define("tb:field:checkbox", scm_int2num(FIELD_CHECKBOX));
-
   scm_c_define_gsubr("tb:eval-file", 1, 0, 0, taxbird_guile_eval_file_SCM);
-  scm_c_define_gsubr("tb:check-sig", 1, 0, 0, taxbird_guile_check_sig_SCM);
   scm_c_define_gsubr("tb:form-register", 7, 0, 0, taxbird_form_register);
   scm_c_define_gsubr("tb:dlg-error", 1, 0, 0, taxbird_dialog_error_SCM);
   scm_c_define_gsubr("tb:dlg-info", 1, 0, 0, taxbird_dialog_info_SCM);
@@ -148,21 +138,6 @@ taxbird_guile_eval_file_SCM(SCM scm_fn)
   return SCM_BOOL(! taxbird_guile_eval_file(SCM_STRING_CHARS(scm_fn)));
 }
 
-
-
-static SCM
-taxbird_guile_check_sig_SCM(SCM scm_fn)
-{
-  g_return_val_if_fail(SCM_STRINGP(scm_fn), SCM_BOOL(0));
-
-  char *vendor_id;
-  char *sig_id;
-
-  if(taxbird_sigcheck(SCM_STRING_CHARS(scm_fn), &vendor_id, &sig_id))
-    return SCM_BOOL(0); /* error */
-
-  return scm_list_2(scm_take0str(vendor_id), scm_take0str(sig_id));
-}
 
 
 /* this is our global error handler, around just everything, even the

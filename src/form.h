@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,05 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2004,2005,2007 Stefan Siegl <ssiegl@gmx.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,17 +18,6 @@
 
 #ifndef TAXBIRD_FORM_H
 #define TAXBIRD_FORM_H
-
-enum field_type {
-  FIELD_TEXT_INPUT   = 0,
-  FIELD_TEXT_OUTPUT  = 1,
-  FIELD_CHOOSER      = 2,
-  FIELD_CHECKBOX     = 3,
-
-  FIELD_UNCHANGEABLE = 4,
-  FIELD_LABEL        = FIELD_UNCHANGEABLE | 0,
-  FIELD_BUTTON       = FIELD_UNCHANGEABLE | 1,
-};
 
 struct form {
   char *name;

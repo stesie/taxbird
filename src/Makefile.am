@@ -21,16 +21,12 @@ taxbird_SOURCES = \
         guile.c guile.h \
         form.c form.h \
 	dialog.c dialog.h \
-	sigcheck.c sigcheck.h \
-	export.c export.h \
-	digest.c digest.h
+	export.c export.h
 
 taxbird_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 
 EXTRA_DIST = \
-	taxbird-print-helper.sh \
-	taxbird-sig-update.sh \
-	taxbird-sig-makecert.sh
+	taxbird-print-helper.sh
 
 BUILT_SOURCES = interface.c interface.h \
 	support.c support.h
