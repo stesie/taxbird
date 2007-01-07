@@ -46,7 +46,6 @@ Makefile
 src/Makefile
 src/guile/Makefile
 src/guile/autoload/Makefile
-src/guile/signatures/Makefile
 po/Makefile.in
 ])
 
