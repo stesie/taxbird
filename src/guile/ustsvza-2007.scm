@@ -17,10 +17,8 @@
 
 (tb:eval-file "storage.scm")
 (tb:eval-file "datenlieferant.scm")
-(tb:eval-file "bundesland.scm")
 (tb:eval-file "steuernummer.scm")
 (tb:eval-file "validate.scm")
-(tb:eval-file "zeitraum.scm")
 
 ;; we use ice-9 pretty printer to reformat our numbers ...
 (use-modules (ice-9 format))
