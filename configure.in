@@ -21,7 +21,7 @@ fi
 
 AC_HEADER_STDC
 
-pkg_modules="libgnomeui-2.0 libgtkhtml-2.0 openssl libglade-2.0 libgeier >= 0.7"
+pkg_modules="libgnomeui-2.0 libgtkhtml-2.0 libglade-2.0 libgeier >= 0.7"
 PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
 AC_SUBST(PACKAGE_CFLAGS)
 AC_SUBST(PACKAGE_LIBS)

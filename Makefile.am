@@ -13,9 +13,7 @@ EXTRA_DIST = \
 	taxbird.glade \
 	taxbird.gladep \
 	README.vendor-id \
-	README.OpenSSL \
 	README.dsig \
-	COPYING.OpenSSL_exception \
 	taxbird.spec
 
 install-data-local:
