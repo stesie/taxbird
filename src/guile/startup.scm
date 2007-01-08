@@ -1,4 +1,4 @@
-;; Copyright(C) 2006 Stefan Siegl <stesie@brokenpipe.de>
+;; Copyright(C) 2006,2007 Stefan Siegl <stesie@brokenpipe.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@
 
      (if (file-exists? dirname)
 	 (let ((port (opendir dirname))
-	       (fn   nil))
+	       (fn   '()))
 
 	   (while (not (eof-object? (let ()
 				      (set! fn (readdir port)) fn)))

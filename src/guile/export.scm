@@ -70,7 +70,7 @@
 
   
 (define export:sig-id-regexp
-  (make-regexp "([^ ]+\.scm,v [0-9\.]+)"))
+  (make-regexp "([^ ]+\\.scm,v [0-9\\.]+)"))
     
 (define export:make-nutzdaten-header
   (lambda (store sig-result)

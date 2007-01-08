@@ -1,4 +1,4 @@
-;; Copyright(C) 2005,2006 Stefan Siegl <stesie@brokenpipe.de>
+;; Copyright(C) 2005,2006,2007 Stefan Siegl <stesie@brokenpipe.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -73,9 +73,10 @@
 	(if float
 	    (let ()
 	      (tb:eval-file "string.scm")
-	      (string-replace (format #f "~,2F" val) #\. ","))
+	      (string-replace (format #f "~,2F" (exact->inexact val)) #\. ","))
 
 	    ;; convert to non floating point number ...
+	    ;; call inexact->exact to strip a trailing .00 from the integer
 	    (format #f "~D" (inexact->exact val)))
     
 	;; no valid (aka true) input value ...
