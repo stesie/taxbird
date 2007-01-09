@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,05 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2004,2005,2007 Stefan Siegl <ssiegl@gmx.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@
 #include <libguile.h>
 
 #include "form.h"
+#include "guile.h"
 
 /* instantiate variables declared (extern) in form.h */
 struct form **forms = NULL;
@@ -56,8 +57,8 @@ taxbird_form_register(SCM name, SCM get_sheet_tree, SCM get_sheet,
     return SCM_BOOL(0);
   }
 
-  g_return_val_if_fail(SCM_STRINGP(name), SCM_BOOL(0));
-  forms[forms_num]->name = g_strdup(SCM_STRING_CHARS(name)); 
+  g_return_val_if_fail(scm_is_string(name), SCM_BOOL(0));
+  forms[forms_num]->name = scm_to_locale_string(name); 
 
   scm_gc_protect_object(forms[forms_num]->get_sheet_tree = get_sheet_tree);
   scm_gc_protect_object(forms[forms_num]->get_sheet = get_sheet);

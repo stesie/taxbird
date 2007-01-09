@@ -69,17 +69,15 @@ taxbird_guile_dirlist_lookup(const char *fn)
   SCM dirlist = scm_c_lookup_ref("tb:scm-directories");
 
   while(scm_ilength(dirlist)) {
-    char *buf;
     struct stat statbuf;
     SCM path = SCM_CAR(dirlist);
    
-    g_return_val_if_fail(SCM_STRINGP(path), NULL);
+    g_return_val_if_fail(scm_is_string(path), NULL);
+    char *pathname = scm_to_locale_string(path);
 
-    buf = g_strdup_printf("%s/%s", SCM_STRING_CHARS(path), fn);
-    if(! buf) {
-      perror(PACKAGE_NAME);
-      return NULL; /* out of memory */
-    }
+    char *buf = g_strdup_printf("%s/%s", pathname, fn);
+
+    free(pathname);
 
     if(! stat(buf, &statbuf)
        && ! S_ISDIR(statbuf.st_mode))
@@ -134,8 +132,13 @@ taxbird_guile_eval_file(const char *fn)
 static SCM 
 taxbird_guile_eval_file_SCM(SCM scm_fn)
 {
-  g_return_val_if_fail(SCM_STRINGP(scm_fn), SCM_BOOL(0));
-  return SCM_BOOL(! taxbird_guile_eval_file(SCM_STRING_CHARS(scm_fn)));
+  g_return_val_if_fail(scm_is_string(scm_fn), SCM_BOOL(0));
+
+  char *filename = scm_to_locale_string(scm_fn);
+  int result = taxbird_guile_eval_file(filename);
+  free(filename);
+
+  return SCM_BOOL(! result);
 }
 
 
@@ -162,7 +165,7 @@ taxbird_guile_global_err_handler(void *data, SCM tag, SCM args)
 static SCM
 taxbird_dialog_error_SCM(SCM message)
 {
-  if(! SCM_STRINGP(message)) {
+  if(! scm_is_string(message)) {
     scm_error_scm(scm_c_lookup_ref("wrong-type-arg"),
 		  scm_makfrom0str("tb:dlg-error"),
 		  scm_makfrom0str("invalid first argument, string expected"),
@@ -170,7 +173,10 @@ taxbird_dialog_error_SCM(SCM message)
     return SCM_BOOL(0);
   }
 
-  taxbird_dialog_error(NULL, SCM_STRING_CHARS(message));
+  char *c_message = scm_to_locale_string(message);
+  taxbird_dialog_error(NULL, c_message);
+  free(c_message);
+
   return message;
 }
 
@@ -179,7 +185,7 @@ taxbird_dialog_error_SCM(SCM message)
 static SCM
 taxbird_dialog_info_SCM(SCM message)
 {
-  if(! SCM_STRINGP(message)) {
+  if(! scm_is_string(message)) {
     scm_error_scm(scm_c_lookup_ref("wrong-type-arg"),
 		  scm_makfrom0str("tb:dlg-info"),
 		  scm_makfrom0str("invalid first argument, string expected"),
@@ -187,7 +193,10 @@ taxbird_dialog_info_SCM(SCM message)
     return SCM_BOOL(0);
   }
 
-  taxbird_dialog_info(NULL, SCM_STRING_CHARS(message));
+  char *c_message = scm_to_locale_string(message);
+  taxbird_dialog_info(NULL, c_message);
+  free(c_message);
+
   return message;
 }
 
@@ -203,7 +212,7 @@ taxbird_get_version(void)
 static SCM 
 taxbird_activate_sheet(SCM f, SCM r)
 {
-  if(! SCM_STRINGP(f)) {
+  if(! scm_is_string(f)) {
     scm_error_scm(scm_c_lookup_ref("wrong-type-arg"),
 		  scm_makfrom0str("tb:activate-sheet"),
 		  scm_makfrom0str("invalid first argument, string expected"),
@@ -211,7 +220,7 @@ taxbird_activate_sheet(SCM f, SCM r)
     return SCM_BOOL(0);
   }
 
-  if(! SCM_STRINGP(r)) {
+  if(! scm_is_string(r)) {
     scm_error_scm(scm_c_lookup_ref("wrong-type-arg"),
 		  scm_makfrom0str("tb:activate-sheet"),
 		  scm_makfrom0str("invalid second argument, string expected"),
@@ -219,6 +228,13 @@ taxbird_activate_sheet(SCM f, SCM r)
     return SCM_BOOL(0);
   }
 
-  taxbird_ws_activate_sheet(NULL, SCM_STRING_CHARS(f), SCM_STRING_CHARS(r));
+  char *filename = scm_to_locale_string(f);
+  char *sheetname = scm_to_locale_string(r);
+
+  taxbird_ws_activate_sheet(NULL, filename, sheetname);
+
+  free(sheetname);
+  free(filename);
+
   return SCM_BOOL(1);
 }

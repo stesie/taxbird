@@ -1,4 +1,4 @@
-/* Copyright(C) 2005 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2005,2007 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -15,6 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
 
 #include "console.h"
 #include "guile.h"
@@ -35,14 +39,19 @@ taxbird_console_select_template(SCM template_id)
 {
   int form = -1;
 
-  if(SCM_STRINGP(template_id)) {
+  if(scm_is_string(template_id)) {
+    char *template_name = scm_to_locale_string(template_id);
+
     int i;
     for(i = 0; i < forms_num; i ++)
-      if(! strcmp(forms[i]->name, SCM_STRING_CHARS(template_id))) {
+      if(! strcmp(forms[i]->name, template_name)) {
 	form = i;
 	break;
       }
+
+    free(template_name);
   }
+
   else if(SCM_NUMBERP(template_id))
     form = scm_num2int(template_id, 0, "taxbird_console_select_template");
 

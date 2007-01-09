@@ -1,4 +1,4 @@
-/* Copyright(C) 2005,2006 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2005,2006,2007 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -95,7 +95,7 @@ taxbird_export(GtkWidget *appwin, int testcase)
   taxbird_guile_eval_file("xml-writer.scm");
   data = scm_call_1(scm_c_lookup_ref("xml-writer:export"), data);
 
-  g_return_if_fail(SCM_STRINGP(data));
+  g_return_if_fail(scm_is_string(data));
   const char *data_text = SCM_STRING_CHARS(data);
   const int data_text_len = strlen(data_text);
 
@@ -173,7 +173,7 @@ int
 taxbird_export_bottom_half(GtkWidget *confirm_dlg)
 {
   SCM data = (SCM)g_object_get_data(G_OBJECT(confirm_dlg), "data");
-  g_return_val_if_fail(SCM_STRINGP(data), 1);
+  g_return_val_if_fail(scm_is_string(data), 1);
 
   const char *data_text = SCM_STRING_CHARS(data);
   int data_text_len = strlen(data_text);
@@ -502,12 +502,12 @@ taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc, SCM data,
 			 (void*) scm_gc_protect_object(data),
 			 (GDestroyNotify) scm_gc_unprotect_object);
 
-  if(SCM_STRINGP(fn)) {
+  if(scm_is_string(fn)) {
     GtkWidget *w = lookup_widget(confirm_dlg, "protocol_store_fileentry_text");
     gtk_entry_set_text(GTK_ENTRY(w), SCM_STRING_CHARS(fn));
   }
 
-  if(SCM_STRINGP(softpse_fn)) {
+  if(scm_is_string(softpse_fn)) {
     GtkWidget *dsig = lookup_widget(confirm_dlg, "dsig");
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dsig), 1);
 

@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,05 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2004,2005,2007 Stefan Siegl <ssiegl@gmx.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -142,7 +142,7 @@ taxbird_ws_fill_tree_store(GtkTreeStore *tree, GtkTreeIter *parent, SCM data)
   g_return_if_fail(scm_ilength(data));
 
   while(scm_ilength(data)) {
-    if(! SCM_STRINGP(SCM_CAR(data))) {
+    if(! scm_is_string(SCM_CAR(data))) {
       g_print("get-sheet-tree returned non-string object: ");
       gh_write(SCM_CAR(data));
       g_print("\n");
@@ -424,7 +424,7 @@ taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
     SCM v = scm_call_2(forms[current_form]->dataset_read,
 		       g_object_get_data(G_OBJECT(appwin), "scm_data"), wn);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w),
-				 SCM_STRINGP(v)
+				 scm_is_string(v)
 				 && !strcmp(SCM_STRING_CHARS(v), field_name));
     return;
   }
@@ -436,7 +436,7 @@ taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
 		     scm_makfrom0str(field_name));
   
   if(GTK_IS_ENTRY(w)) {
-    if(SCM_STRINGP(v)) {
+    if(scm_is_string(v)) {
       gtk_entry_set_text(GTK_ENTRY(w), SCM_STRING_CHARS(v));
     }
     else
@@ -444,7 +444,7 @@ taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
   } 
 
   else if(GTK_IS_COMBO_BOX(w)) {
-    if(SCM_STRINGP(v))
+    if(scm_is_string(v))
       gtk_combo_box_set_active(GTK_COMBO_BOX(w), atoi(SCM_STRING_CHARS(v)));
 
     /* don't make a default choice, it's pretty much unlikely we will be
@@ -452,7 +452,7 @@ taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
   }
 
   else if(GTK_IS_TOGGLE_BUTTON(w)) {
-    if(SCM_STRINGP(v))
+    if(scm_is_string(v))
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w),
 				   atoi(SCM_STRING_CHARS(v)));
 
@@ -553,7 +553,7 @@ taxbird_ws_unprotect_scm(gpointer d)
 SCM
 taxbird_ws_chooser_additem(SCM chooser, SCM item)
 {
-  if(! SCM_STRINGP(chooser)) {
+  if(! scm_is_string(chooser)) {
     scm_error_scm(scm_c_lookup_ref("wrong-type-arg"),
 		  scm_makfrom0str("tb:chooser-additem"),
 		  scm_makfrom0str("invalid first argument, string expected"),
@@ -561,7 +561,7 @@ taxbird_ws_chooser_additem(SCM chooser, SCM item)
     return SCM_BOOL(0);
   }
 
-  if(! SCM_STRINGP(item)) {
+  if(! scm_is_string(item)) {
     scm_error_scm(scm_c_lookup_ref("wrong-type-arg"),
 		  scm_makfrom0str("tb:chooser-additem"),
 		  scm_makfrom0str("invalid second argument, string expected"),
