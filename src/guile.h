@@ -36,4 +36,27 @@ char *taxbird_guile_dirlist_lookup(const char *fn);
 SCM taxbird_guile_global_err_handler(void *data, SCM tag, SCM args);
 
 
+
+/*
+ * libguile pre-1.8 compatibility stuff
+ */
+#ifndef HAVE_SCM_IS_STRING
+#define scm_is_string(str) SCM_STRINGP(str)
+#endif /* not HAVE_SCM_IS_STRING */
+
+#ifndef HAVE_SCM_TO_LOCALE_STRING
+inline static char *
+scm_to_locale_string(SCM str)
+{
+  if(! scm_is_string(str))
+    return NULL;
+  char *p = strdup(SCM_STRING_CHARS(str));
+  if(! p)
+    perror(PACKAGE_NAME);
+  return p;
+}
+#endif /* not HAVE_SCM_TO_LOCALE_STRING */
+
+
+
 #endif /* TAXBIRD_GUILE_H */

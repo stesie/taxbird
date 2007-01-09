@@ -41,6 +41,10 @@ GUILE_MODULE_REQUIRED(ice-9 format)
 CFLAGS="$CFLAGS $GPGME_CFLAGS $GUILE_CFLAGS $GLIB_CFLAGS"
 LDFLAGS="$LDFLAGS $GPGME_LIBS $GUILE_LDFLAGS $GLIB_LIBS"
 
+dnl Check for certain guile functions, introduced with libguile 1.8
+AC_CHECK_FUNCS(scm_to_locale_string)
+AC_CHECK_FUNCS(scm_is_string)
+
 AC_OUTPUT([
 Makefile
 src/Makefile
