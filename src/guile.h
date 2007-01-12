@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,05 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2004,2005,2007 Stefan Siegl <ssiegl@gmx.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -45,6 +45,7 @@ SCM taxbird_guile_global_err_handler(void *data, SCM tag, SCM args);
 #endif /* not HAVE_SCM_IS_STRING */
 
 #ifndef HAVE_SCM_TO_LOCALE_STRING
+#include <string.h>
 inline static char *
 scm_to_locale_string(SCM str)
 {
