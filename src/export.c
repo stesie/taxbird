@@ -96,7 +96,7 @@ taxbird_export(GtkWidget *appwin, int testcase)
   data = scm_call_1(scm_c_lookup_ref("xml-writer:export"), data);
 
   g_return_if_fail(scm_is_string(data));
-  const char *data_text = SCM_STRING_CHARS(data);
+  char *data_text = scm_to_locale_string(data);
   const int data_text_len = strlen(data_text);
 
   /* initialize libgeier */
@@ -114,6 +114,8 @@ taxbird_export(GtkWidget *appwin, int testcase)
 				   "should not happen. \n\nPlease consider "
 				   "contacting the taxbird@taxbird.de "
 				   "mailing list."));
+
+    free(data_text);
     geier_context_free(ctx);
     return;
   }
@@ -121,18 +123,19 @@ taxbird_export(GtkWidget *appwin, int testcase)
   /* xsltify gathered data */
   unsigned char *data_xslt;
   size_t data_xslt_len;
-  if(taxbird_xsltify_text(ctx, data_text, data_text_len,
-			  &data_xslt, &data_xslt_len)) {
+  int xsltify_result = taxbird_xsltify_text(ctx, data_text, data_text_len,
+					    &data_xslt, &data_xslt_len);
+  free(data_text);
+  geier_context_free(ctx);
+
+  if(xsltify_result) {
     taxbird_dialog_error(appwin, _("Unable to xsltify the "
 				   "exported document. Sorry, but this "
 				   "should not happen. \n\nPlease consider "
 				   "posting to the taxbird@taxbird.de "
 				   "mailing list."));
-    geier_context_free(ctx);
     return;
   }
-
-  geier_context_free(ctx);
 
   /* now convert xslt-result to HtmlDocument */
   HtmlDocument *doc = html_document_new();
@@ -175,15 +178,15 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   SCM data = (SCM)g_object_get_data(G_OBJECT(confirm_dlg), "data");
   g_return_val_if_fail(scm_is_string(data), 1);
 
-  const char *data_text = SCM_STRING_CHARS(data);
-  int data_text_len = strlen(data_text);
-
   geier_context *ctx = geier_context_new();
   if(! ctx) {
     taxbird_dialog_error(confirm_dlg,
 			 _("Unable to initialize libgeier context."));
     return 1;
   }
+
+  char *data_text = scm_to_locale_string(data);
+  int data_text_len = strlen(data_text);
 
   /* digitally sign the Coala-XML if requested *******************************/
   GtkWidget *dsig = lookup_widget(confirm_dlg, "dsig");
@@ -211,8 +214,8 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
       return 1;
     }
 
-    data = scm_take_str(output, outlen);
-    data_text = SCM_STRING_CHARS(data);
+    free(data_text);
+    data_text = output;
     data_text_len = outlen;
   }       
 
@@ -227,6 +230,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
 					  "a file, however didn't specify "
 					  "a filename."));
       geier_context_free(ctx);
+      free(data_text);
       return 1;
     }
 
@@ -235,6 +239,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
     if(fd < 0) {
       taxbird_dialog_error(confirm_dlg, _("Unable to create Coala-XML file."));
       geier_context_free(ctx);
+      free(data_text);
       return 1;
     }
 
@@ -248,6 +253,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   GtkWidget *send = lookup_widget(confirm_dlg, "send");
   if(! gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(send))) {
     geier_context_free(ctx);
+    free(data_text);
     return 0; /* close the druid, we shalt not send the data */
   }
 
@@ -266,6 +272,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
 					  "please verify the specified "
 					  "command"));
       geier_context_free(ctx);
+      free(data_text);
       return 1;
     }    
   }
@@ -284,6 +291,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
     if(fd_to_protofile < 0) {
       taxbird_dialog_error(confirm_dlg, _("Unable to create protocol file."));
       geier_context_free(ctx);
+      free(data_text);
       return 1;
     }
   }
@@ -299,6 +307,9 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
     if(fd_from_lpr >= 0) close(fd_from_lpr);
     if(fd_to_lpr >= 0) close(fd_to_lpr);
     if(fd_to_protofile >= 0) close(fd_to_protofile);
+
+    geier_context_free(ctx);
+    free(data_text);
     return 1;
   }
 
@@ -309,14 +320,21 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
 				  "inland revenue office, the error message, "
 				  "returned by the clearing host was: \n\n%s"),
 				error_msg);
+    free(error_msg);
+
     taxbird_dialog_error(confirm_dlg, msg);
     free(msg);
+
+    free(data_text);
     free(data_return);
+
     if(fd_from_lpr >= 0) close(fd_from_lpr);
     if(fd_to_lpr >= 0) close(fd_to_lpr);
     if(fd_to_protofile >= 0) close(fd_to_protofile);
     return 1;
   }
+
+  free(data_text);
 
   /** now run xsltify to generate protocol for user */
   unsigned char *data_xslt;
@@ -504,7 +522,9 @@ taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc, SCM data,
 
   if(scm_is_string(fn)) {
     GtkWidget *w = lookup_widget(confirm_dlg, "protocol_store_fileentry_text");
-    gtk_entry_set_text(GTK_ENTRY(w), SCM_STRING_CHARS(fn));
+    char *filename = scm_to_locale_string(fn);
+    gtk_entry_set_text(GTK_ENTRY(w), filename);
+    free(filename);
   }
 
   if(scm_is_string(softpse_fn)) {
@@ -512,7 +532,9 @@ taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc, SCM data,
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dsig), 1);
 
     GtkWidget *w = lookup_widget(confirm_dlg, "dsig_fileentry_text");
-    gtk_entry_set_text(GTK_ENTRY(w), SCM_STRING_CHARS(softpse_fn));
+    char *filename = scm_to_locale_string(softpse_fn);
+    gtk_entry_set_text(GTK_ENTRY(w), filename);
+    free(filename);
   }    
 
   gtk_widget_show(confirm_dlg);

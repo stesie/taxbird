@@ -150,7 +150,10 @@ taxbird_ws_fill_tree_store(GtkTreeStore *tree, GtkTreeIter *parent, SCM data)
     }
 
     gtk_tree_store_append(tree, &iter, parent);
-    gtk_tree_store_set(tree, &iter, 0, SCM_STRING_CHARS(SCM_CAR(data)), -1);
+    char *leafname = scm_to_locale_string(SCM_CAR(data));
+    gtk_tree_store_set(tree, &iter, 0, leafname, -1);
+    free(leafname);
+
     data = SCM_CDR(data);
 
     if(scm_ilength(data) && SCM_NFALSEP(scm_list_p(SCM_CAR(data)))) {
@@ -177,10 +180,13 @@ taxbird_ws_sel_sheet(GtkWidget *appwin, const char *sheetname)
 
   g_return_if_fail(scm_ilength(sheet) == 2);
 
-  const char *fn = SCM_STRING_CHARS(SCM_CAR(sheet));
-  const char *root = SCM_STRING_CHARS(SCM_CADR(sheet));
+  char *fn = scm_to_locale_string(SCM_CAR(sheet));
+  char *root = scm_to_locale_string(SCM_CADR(sheet));
 
   taxbird_ws_activate_sheet(appwin, fn, root);
+
+  free(root);
+  free(fn);
 }
 
 void 
@@ -423,9 +429,15 @@ taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
     SCM wn = scm_makfrom0str(glade_get_widget_name(GTK_WIDGET(grp->data)));
     SCM v = scm_call_2(forms[current_form]->dataset_read,
 		       g_object_get_data(G_OBJECT(appwin), "scm_data"), wn);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w),
-				 scm_is_string(v)
-				 && !strcmp(SCM_STRING_CHARS(v), field_name));
+    
+    int val = 0;
+    if(scm_is_string(v)) {
+      char *selection = scm_to_locale_string(v);
+      if(strcmp(selection, field_name) == 0) val = 1;
+      free(selection);
+    }
+
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w), val);
     return;
   }
 
@@ -437,24 +449,31 @@ taxbird_ws_retrieve_field(GtkWidget *w, GtkWidget *appwin,
   
   if(GTK_IS_ENTRY(w)) {
     if(scm_is_string(v)) {
-      gtk_entry_set_text(GTK_ENTRY(w), SCM_STRING_CHARS(v));
+      char *val = scm_to_locale_string(v);
+      gtk_entry_set_text(GTK_ENTRY(w), val);
+      free(val);
     }
     else
       gtk_entry_set_text(GTK_ENTRY(w), "");
   } 
 
   else if(GTK_IS_COMBO_BOX(w)) {
-    if(scm_is_string(v))
-      gtk_combo_box_set_active(GTK_COMBO_BOX(w), atoi(SCM_STRING_CHARS(v)));
+    if(scm_is_string(v)) {
+      char *val = scm_to_locale_string(v);
+      gtk_combo_box_set_active(GTK_COMBO_BOX(w), atoi(val));
+      free(val);
+    }
 
     /* don't make a default choice, it's pretty much unlikely we will be
      * right anyway */
   }
 
   else if(GTK_IS_TOGGLE_BUTTON(w)) {
-    if(scm_is_string(v))
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w),
-				   atoi(SCM_STRING_CHARS(v)));
+    if(scm_is_string(v)) {
+      char *val = scm_to_locale_string(v);
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w), atoi(val));
+      free(val);
+    }
 
     /* we don't make a default choice here, probably off is more sane, 
      * but who knows ... */
@@ -483,19 +502,20 @@ taxbird_ws_show_appbar_help(GtkWidget *widget, GdkEventFocus *event,
 void
 taxbird_ws_open(GtkWidget *appwin, const char *fname)
 {
-  SCM content;
-  int formid;
   SCM handle = scm_open_file(scm_makfrom0str(fname),
 			     scm_makfrom0str("r"));
 
-  content = scm_read_and_eval_x(handle);
+  SCM content = scm_read_and_eval_x(handle);
 
   if(! SCM_NFALSEP(scm_list_p(content)) || scm_ilength(content) != 2) {
     g_warning("unable to load file %s", fname);
     return;
   }
 
-  formid = taxbird_form_get_by_name(SCM_STRING_CHARS(SCM_CAR(content)));
+  char *formname = scm_to_locale_string(SCM_CAR(content));
+  int formid = taxbird_form_get_by_name(formname);
+  free(formname);
+
   taxbird_ws_sel_form(appwin, formid);
 
   g_object_set_data_full(G_OBJECT(appwin), "scm_data",
@@ -569,8 +589,10 @@ taxbird_ws_chooser_additem(SCM chooser, SCM item)
     return SCM_BOOL(0);
   }
 
-  GtkTreeView *view = GTK_TREE_VIEW(lookup_widget(taxbird_active_win,
-						  SCM_STRING_CHARS(chooser)));
+  char *widg = scm_to_locale_string(chooser);
+  GtkTreeView *view = GTK_TREE_VIEW(lookup_widget(taxbird_active_win, widg));
+  free(widg);
+
   g_return_val_if_fail(view, SCM_BOOL(0));
 
   GtkTreeStore *tree = GTK_TREE_STORE(gtk_tree_view_get_model(view));
@@ -587,7 +609,9 @@ taxbird_ws_chooser_additem(SCM chooser, SCM item)
 
   GtkTreeIter iter;
   gtk_tree_store_append(tree, &iter, NULL);
-  gtk_tree_store_set(tree, &iter, 0, SCM_STRING_CHARS(item), -1);
+  char *itemname = scm_to_locale_string(item);
+  gtk_tree_store_set(tree, &iter, 0, itemname, -1);
+  free(itemname);
   gtk_tree_view_set_model(view, GTK_TREE_MODEL(tree));
 
   return item;
