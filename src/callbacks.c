@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,05 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2004,2005,2007 Stefan Siegl <ssiegl@gmx.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -155,7 +155,11 @@ on_help_about_activate                 (GtkMenuItem     *menuitem,
 }
 
 
-/* callback function for OK button in template chooser window */
+/* callback function for OK button in template chooser window
+ *
+ * mind, that the widget GtkButton* need not be the button that has been
+ * clicked, since this function is invoked from other callback functions.
+ */
 void
 on_choose_template_OK_clicked(GtkButton *button, gpointer user_data)
 {
@@ -423,7 +427,7 @@ on_templates_button_press_event        (GtkWidget       *widget,
                                         gpointer         user_data)
 {
   if(event->type == GDK_2BUTTON_PRESS)
-    on_choose_template_OK_clicked(widget, NULL);
+    on_choose_template_OK_clicked((GtkButton *) widget, NULL);
     
   return FALSE;
 }
