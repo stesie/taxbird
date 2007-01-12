@@ -1,14 +1,14 @@
 # German translation of Taxbird
-# Copyright (C) 2005 Stefan Siegl <ssiegl@gmx.de>
+# Copyright (C) 2005,2006,2007 Stefan Siegl <ssiegl@gmx.de>
 # This file is distributed under the same license as the taxbird package.
-# Stefan Siegl <ssiegl@gmx.de>, 2005.
+# Stefan Siegl <ssiegl@gmx.de>, 2005, 2006, 2007.
 # 
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Taxbird 0.1\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-07 17:07+0100\n"
+"Project-Id-Version: Taxbird 0.9\n"
+"Report-Msgid-Bugs-To: stesie@brokenpipe.de\n"
+"POT-Creation-Date: 2007-01-12 15:59+0100\n"
 "PO-Revision-Date: 2006-05-13 17:14+0200\n"
 "Last-Translator: Stefan Siegl <ssiegl@gmx.de>\n"
 "Language-Team: German <ssiegl@gmx.de>\n"
@@ -20,28 +20,28 @@ msgstr ""
 msgid "Name of Template"
 msgstr "Name der Vorlage"
 
-#: src/callbacks.c:178
+#: src/callbacks.c:182
 msgid "Please select a template from the list."
 msgstr "Bitte wählen Sie eine Vorlage aus der Liste."
 
-#: src/callbacks.c:197
+#: src/callbacks.c:201
 msgid "Unable to create new document. Sorry."
 msgstr "Neues Dokument kann nicht angelegt werden. Entschuldigung."
 
-#: src/callbacks.c:265
+#: src/callbacks.c:269
 msgid "Unable to open document. Sorry."
 msgstr "Das Dokument kann nicht geöffnet werden. Entschuldigung."
 
-#: src/callbacks.c:286 src/callbacks.c:442
+#: src/callbacks.c:290 src/callbacks.c:446
 msgid "Current document contains no data. What do you want to export from it?"
 msgstr ""
 "Aktuelles Dokument enthält keine Daten. Was möchten Sie daraus exportieren?"
 
-#: src/callbacks.c:308
+#: src/callbacks.c:312
 msgid "(yet unnamed)"
 msgstr "(bisher unbenannt)"
 
-#: src/callbacks.c:310
+#: src/callbacks.c:314
 #, c-format
 msgid ""
 "Your recent changes to the document %s haven't been stored to disk so far. "
@@ -66,7 +66,7 @@ msgstr ""
 "\n"
 "Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
 
-#: src/export.c:126
+#: src/export.c:132
 msgid ""
 "Unable to xsltify the exported document. Sorry, but this should not "
 "happen. \n"
@@ -78,11 +78,11 @@ msgstr ""
 "\n"
 "Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
 
-#: src/export.c:140
+#: src/export.c:143
 msgid "Unable to allocate HtmlDocument."
 msgstr "Konnte HtmlDocument nicht alloziieren."
 
-#: src/export.c:146
+#: src/export.c:149
 msgid "Unable to call open_streamon allocated HtmlDocument."
 msgstr ""
 "open_stream konnte nicht auf das alloziierte HtmlDocument angewandt werden"
@@ -91,36 +91,36 @@ msgstr ""
 msgid "Unable to initialize libgeier context."
 msgstr "libgeier Kontext konnte nicht initialisiert werden."
 
-#: src/export.c:209
+#: src/export.c:212
 msgid "Unable to digitally sign Elster document."
 msgstr "Elster-Dokument konnte nicht digital signiert werden."
 
-#: src/export.c:226
+#: src/export.c:229
 msgid ""
 "You told to store Coala-XML to a file, however didn't specify a filename."
 msgstr ""
 "Sie haben ausgewählt, das Coala-XML in eine Datei abzuspeichern, jedoch "
 "keinen Dateinamen festgelegt."
 
-#: src/export.c:236
+#: src/export.c:240
 msgid "Unable to create Coala-XML file."
 msgstr "Coala-XML Datei kann nicht erstellt werden."
 
-#: src/export.c:265
+#: src/export.c:271
 msgid "Unable to fork print process, please verify the specified command"
 msgstr ""
 "Der Druckprozess konnte nicht gestartet werden, bitte überprüfen Sie den "
 "angegebenen Dateinamen."
 
-#: src/export.c:285
+#: src/export.c:292
 msgid "Unable to create protocol file."
 msgstr "Protokolldatei kann nicht erstellt werden."
 
-#: src/export.c:297
+#: src/export.c:305
 msgid "Unable to send the exported document."
 msgstr "Exportiertes Dokument kann nicht gesendet werden."
 
-#: src/export.c:308
+#: src/export.c:319
 #, c-format
 msgid ""
 "Unable to send the tax declaration to the inland revenue office, the error "
@@ -133,7 +133,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/export.c:326
+#: src/export.c:344
 msgid ""
 "Unable to generate the transmission protocol. This is a local error, THIS "
 "IS, YOUR DATA HAS BEEN SENT TO THE INLAND REVENUE OFFICE AND IT WAS ACCEPTED."
@@ -142,12 +142,12 @@ msgstr ""
 "lokaler Fehler,DAS BEDEUTET, DASS IHRE DATEN AN DAS FINANZAMT ÜBERMITTELT "
 "UND AKZEPTIERT WURDEN."
 
-#: src/export.c:360
+#: src/export.c:378
 msgid "Printer process exited abnormally, your data has been sent however."
 msgstr ""
 "Druckprozess endete auf unnormale Weise, Ihre Daten wurden jedoch gesendet."
 
-#: src/export.c:366
+#: src/export.c:384
 msgid "Your data has been sent to the inland revenue office and was accepted"
 msgstr "Ihre Daten wurden an das Finanzamt übermittelt und wurden akzeptiert."
 
@@ -205,8 +205,8 @@ msgid "translator_credits"
 msgstr "Stefan Siegl <stesie@brokenpipe.de>"
 
 #: src/interface.c:407
-msgid "(C) 2004,05,06 Stefan Siegl"
-msgstr "(C) 2004,05,06 Stefan Siegl"
+msgid "(C) 2004,2005,2006,2007 Stefan Siegl"
+msgstr "(C) 2004,2005,2006,2006 Stefan Siegl"
 
 #: src/interface.c:408
 msgid ""
@@ -365,11 +365,11 @@ msgstr "Konnte Pixmap-Datei nicht finden: %s"
 msgid "Available Sheets"
 msgstr "Vorhandene Blätter"
 
-#: src/workspace.c:356
+#: src/workspace.c:362
 msgid "The current field's content is not valid. Sorry."
 msgstr "Der Inhalt des aktuellen Feldes ist nicht gültig. Entschuldigung."
 
-#: src/workspace.c:520
+#: src/workspace.c:540
 msgid "Current document contains no data. There's no point in writing it out."
 msgstr ""
 "Das aktuelle Dokument enthält keine Daten. Es macht keinen Sinn, es zu "
@@ -379,7 +379,7 @@ msgstr ""
 #. * please leave this alone, it's just to force the catalogue to contain
 #. * the string `Yes!' which is used in some forms
 #.
-#: src/workspace.c:601
+#: src/workspace.c:625
 msgid "Yes!"
 msgstr "Ja!"
 
