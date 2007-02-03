@@ -32,7 +32,7 @@
     (let ((fn (string-append (getenv "HOME") "/.taxbird/"))
 	  (handle #f)
 	  (fields '("anschluss" "name-lieferant" "berufsbez" 
-		    "ort-lieferant" "datenlieferant" "plz-lieferant"
+		    "ort-lieferant" "plz-lieferant"
 		    "strasse-lieferant" "land-lieferant" "vorwahl")))
       (or
        (file-exists? fn)
