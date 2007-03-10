@@ -7,7 +7,7 @@ desktopfile_DATA = taxbird.desktop
 
 mimedatadir = $(prefix)/share/mime/packages
 
-man_MANS = taxbird.1
+man_MANS = taxbird.1 taxbird-print-helper.1
 
 EXTRA_DIST = \
 	${man_MANS} \

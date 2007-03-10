@@ -1,0 +1,32 @@
+.TH TAXBIRD\-PRINT\-HELPER 1 "March 10, 2007"
+.SH NAME
+taxbird\-print\-helper \- support taxbird printing XHTML documents
+.SH SYNOPSIS
+.B taxbird\-print\-helper
+.I[ options ]
+.SH DESCRIPTION
+This manual page documents briefly the
+.B taxbird\-print\-helper
+command.
+.PP
+\fBtaxbird\-print\-helper\fP is a small helper script supporting the 
+application \fBtaxbird\fP when printing XHTML documents, i.e. the
+transmission protocols generated using XSLT transformation.  This is
+it reads XHTML data from standard input and tries to produce post script
+output suitable for \fIlpr\fP by filtering it through applications
+like \fIhtml2ps\fP.
+.PP
+Note that any other provided command line argument is passed to lpr.
+.SH OPTIONS
+.TP
+.B \-h, \-\-help
+display this help and exit
+.TP
+.B \-\-version
+output version information and exit
+.SH AUTHOR
+Taxbird was written by Stefan Siegl <stesie@brokenpipe.de>.
+.SH "REPORTING BUGS"
+Report bugs to <taxbird@taxbird.de>.
+.SH "SEE ALSO"
+\fIlpr(1)\fR, \fItaxbird(1)\fR 
