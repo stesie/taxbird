@@ -1,0 +1,99 @@
+.TH TAXBIRD 1 "January 21, 2007"
+.SH NAME
+Taxbird \- The first free Elster client (German Tax Declarations)
+.SH SYNOPSIS
+.B taxbird
+.I [ GTK+ options ] [ Bonobo options ] [ GNOME options ] [ Session options ] [ options ]
+.SH DESCRIPTION
+This manual page documents briefly the
+.B taxbird
+command.
+.PP
+\fBTaxbird\fP is a GNOME based graphical user interface to gather and send
+tax declarations to the German inland revenue office.  This is a replacement
+for the proprietary application "ElsterFormular" maintained by the inland
+revenue offices.
+.SH OPTIONS
+.TP
+.B \-\-load\-modules=MODULE1,MODULE2,...
+Dynamic modules to load
+.TP
+.B \-h, \-\-help
+Show this help message
+.TP
+.B \-\-usage
+Display brief usage message
+.SH GTK+ OPTIONS
+.TP
+.B \-\-gdk\-debug=FLAGS
+Gdk debugging flags to set
+.TP
+.B \-\-gdk\-no\-debug=FLAGS
+Gdk debugging flags to unset
+.TP
+.B \-\-display=DISPLAY
+X display to use
+.TP
+.B \-\-screen=SCREEN
+X screen to use
+.TP
+.B \-\-sync
+.br
+Make X calls synchronous
+.TP
+.B \-\-name=NAME
+Program name as used by the window manager
+.TP
+.B \-\-class=CLASS
+Program class as used by the window manager
+.TP
+.B \-\-gtk\-debug=FLAGS
+Gtk+ debugging flags to set
+.TP
+.B \-\-gtk\-no\-debug=FLAGS
+Gtk+ debugging flags to unset
+.TP
+.B \-\-g\-fatal-warnings
+Make all warnings fatal
+.TP
+.B \-\-gtk\-module=MODULE
+Load an additional Gtk module
+.SH BONOBO OPTIONS
+.TP
+.B \-\-oaf\-ior\-fd=FD
+File descriptor to print IOR on
+.TP
+.B \-\-oaf\-activate-iid=IID
+IID to activate
+.TP
+.B \-\-oaf\-private
+Prevent registering of server with OAF
+.SH GNOME OPTIONS
+.TP
+.B \-\-disable\-crash\-dialog
+Disable Crash Dialog
+.TP
+.B \-\-disable\-sound
+Disable sound server usage
+.TP
+.B \-\-enable-sound
+Enable sound server usage
+.TP
+.B \-\-espeaker=HOSTNAME:PORT
+Host:port on which the sound server to use is running
+.TP
+.B \-\-version
+Show version
+.SH Session OPTIONS
+.B \-\-sm\-client\-id=ID
+Specify session management ID
+.TP
+.B \-\-sm-config\-prefix=PREFIX
+Specify prefix of saved configuration
+.TP
+.B \-\-sm\-disable
+Disable connection to session manager
+.SH AUTHOR
+Taxbird was written by Stefan Siegl <ssiegl@gmx.de>.
+.PP
+This manual page was written by Marvin Stark <marv@der-marv.de>.

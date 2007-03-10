@@ -7,7 +7,10 @@ desktopfile_DATA = taxbird.desktop
 
 mimedatadir = $(prefix)/share/mime/packages
 
+man_MANS = taxbird.1
+
 EXTRA_DIST = \
+	${man_MANS} \
 	taxbird.xml \
 	taxbird.desktop \
 	taxbird.glade \
