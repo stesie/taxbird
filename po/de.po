@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Taxbird 0.9\n"
 "Report-Msgid-Bugs-To: stesie@brokenpipe.de\n"
-"POT-Creation-Date: 2007-01-12 15:59+0100\n"
+"POT-Creation-Date: 2007-03-10 16:44+0100\n"
 "PO-Revision-Date: 2006-05-13 17:14+0200\n"
 "Last-Translator: Stefan Siegl <ssiegl@gmx.de>\n"
 "Language-Team: German <ssiegl@gmx.de>\n"
@@ -206,7 +206,7 @@ msgstr "Stefan Siegl <stesie@brokenpipe.de>"
 
 #: src/interface.c:407
 msgid "(C) 2004,2005,2006,2007 Stefan Siegl"
-msgstr "(C) 2004,2005,2006,2006 Stefan Siegl"
+msgstr "(C) 2004,2005,2006,2007 Stefan Siegl"
 
 #: src/interface.c:408
 msgid ""
@@ -309,10 +309,6 @@ msgstr "Daten an das Finanzamt senden?"
 msgid "Call GEIER to send the gathered data to the inland revenue office"
 msgstr "GEIER aufrufen, um die erfassten Daten an das Finanzamt zu übermitteln"
 
-#: src/interface.c:636
-msgid "taxbird-print-helper.sh"
-msgstr "taxbird-print-helper.sh"
-
 #: src/interface.c:665
 msgid "Print Transmission Protocol using:"
 msgstr "Übermittlungsprotokoll ausdrucken mit:"
@@ -382,6 +378,9 @@ msgstr ""
 #: src/workspace.c:625
 msgid "Yes!"
 msgstr "Ja!"
+
+#~ msgid "taxbird-print-helper.sh"
+#~ msgstr "taxbird-print-helper.sh"
 
 #~ msgid "Unable to find required signature file '%s' in the Taxbird path."
 #~ msgstr ""
