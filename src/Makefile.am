@@ -9,7 +9,7 @@ INCLUDES = \
 	@PACKAGE_CFLAGS@ 
 
 bin_PROGRAMS = taxbird
-bin_SCRIPTS = taxbird-print-helper.sh
+bin_SCRIPTS = taxbird-print-helper
 
 taxbird_SOURCES = \
         main.c \
@@ -26,7 +26,7 @@ taxbird_SOURCES = \
 taxbird_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 
 EXTRA_DIST = \
-	taxbird-print-helper.sh
+	taxbird-print-helper
 
 BUILT_SOURCES = interface.c interface.h \
 	support.c support.h
