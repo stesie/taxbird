@@ -21,6 +21,28 @@ LPR=lpr
 #LPR=cat #use this for testing!
 MAILCAP=/etc/mailcap
 
+if [ "x$1" = "x--help" -o "x$1" = "x-h" ]; then
+  cat <<EOF
+Usage: $0 [OPTION]...
+Support taxbird when printing XHTML documents (transmission protocols).
+
+      --help     display this help and exit
+      --version  output version information and exit
+
+NOTE: any other provided command line argument is passed to lpr.
+
+Report bugs to <taxbird@taxbird.de>.
+EOF
+  exit 0
+fi
+
+if [ "x$1" = "x--version" ]; then
+  cat <<EOF
+Taxbird print helper 0.2
+EOF
+  exit 0
+fi
+
 TMPFILE=`mktemp -t tmp.XXXXXX` || {
   echo "$0: unable to create temporary file" 1>&2
   $LPR $*	# try to print anyways (data comes from stdin)
