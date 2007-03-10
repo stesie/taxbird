@@ -800,7 +800,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz36">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Umsätze, die anderen Steuersätzen unterliegen (Steuer)</property>
+		  <property name="tooltip">Umsätze, die anderen Steuersätzen unterliegen (Steuer)
+
+Kennzahl im Formular: 36</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -825,7 +827,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz35">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben, Umsätze, die anderen Steuersätzen unterliegen (Umsatz)</property>
+		  <property name="tooltip">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben, Umsätze, die anderen Steuersätzen unterliegen (Umsatz)
+
+Kennzahl im Formular: 35</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -850,7 +854,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz86">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben zum Steuersatz von 7 v.H.</property>
+		  <property name="tooltip">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben zum Steuersatz von 7 v.H.
+
+Kennzahl im Formular: 86</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -875,7 +881,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz51">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben zum Steuersatz von 16 v.H.</property>
+		  <property name="tooltip">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben zum Steuersatz von 16 v.H.
+
+Kennzahl im Formular: 51</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -900,7 +908,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz48">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Umsätze nach § 4 Nr. 8 bis 28 UStG (steuerfreie Umsätze ohne Vorsteuerabzug)</property>
+		  <property name="tooltip">Umsätze nach § 4 Nr. 8 bis 28 UStG (steuerfreie Umsätze ohne Vorsteuerabzug)
+
+Kennzahl im Formular: 48</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -925,7 +935,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz43">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Weitere steuerfreie Umsätze mit Vorsteuer abzug (z.B. Ausfuhrlieferungen, Umsätze nach § 4 Nr. 2 bis 7 UStG)</property>
+		  <property name="tooltip">Weitere steuerfreie Umsätze mit Vorsteuer abzug (z.B. Ausfuhrlieferungen, Umsätze nach § 4 Nr. 2 bis 7 UStG)
+
+Kennzahl im Formular: 43</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -950,7 +962,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz41">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Innergem. Lieferungen (§ 4 Nr. 1 Buchst. b UStG) an Abnehmer mit USt-IdNr.</property>
+		  <property name="tooltip">Innergem. Lieferungen (§ 4 Nr. 1 Buchst. b UStG) an Abnehmer mit USt-IdNr.
+
+Kennzahl im Formular: 41</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -975,7 +989,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz44">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Innergem. Lieferungen neuer Fahrzeuge an Abnehmer ohne Ust-IdNr.</property>
+		  <property name="tooltip">Innergem. Lieferungen neuer Fahrzeuge an Abnehmer ohne Ust-IdNr.
+
+Kennzahl im Formular: 44</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1000,7 +1016,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz49">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Innergemeinschaftliche Lieferungen neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG)</property>
+		  <property name="tooltip">Innergemeinschaftliche Lieferungen neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG)
+
+Kennzahl im Formular: 49</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1109,7 +1127,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz77">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Umsätze land- und forstwirtschaftl. Betriebe nach § 24 UStG; Lieferungen in das übrige Gemeinschaftsgebiet an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
+		  <property name="tooltip">Umsätze land- und forstwirtschaftl. Betriebe nach § 24 UStG; Lieferungen in das übrige Gemeinschaftsgebiet an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.
+
+Kennzahl im Formular: 77</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1134,7 +1154,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz76">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Umsätze land- und forstwirtschaftl. Betriebe nach § 24 UStG; Umsätze für die eine Steuer nach § 24 UStG zu entrichten ist (Sägewerkserzeugnisse, Getränke und alkohol. Flüssigkeiten, z. B. Wein) - Umsatz</property>
+		  <property name="tooltip">Umsätze land- und forstwirtschaftl. Betriebe nach § 24 UStG; Umsätze für die eine Steuer nach § 24 UStG zu entrichten ist (Sägewerkserzeugnisse, Getränke und alkohol. Flüssigkeiten, z. B. Wein) - Umsatz
+
+Kennzahl im Formular: 76</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1159,7 +1181,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz80">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Umsätze land- und forstwirtschaftl. Betriebe nach § 24 UStG; Umsätze für die eine Steuer nach § 24 UStG zu entrichten ist (Sägewerkserzeugnisse, Getränke und alkohol. Flüssigkeiten, z. B. Wein) - Steuer</property>
+		  <property name="tooltip">Umsätze land- und forstwirtschaftl. Betriebe nach § 24 UStG; Umsätze für die eine Steuer nach § 24 UStG zu entrichten ist (Sägewerkserzeugnisse, Getränke und alkohol. Flüssigkeiten, z. B. Wein) - Steuer
+
+Kennzahl im Formular: 80</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1184,7 +1208,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz91">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Steuerfreie innergemeinschaftliche Erwerbe nach § 4b UStG</property>
+		  <property name="tooltip">Steuerfreie innergemeinschaftliche Erwerbe nach § 4b UStG
+
+Kennzahl im Formular: 91</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1209,7 +1235,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz97">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe zum Steuersatz von 16 v.H.</property>
+		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe zum Steuersatz von 16 v.H.
+
+Kennzahl im Formular: 97</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1282,7 +1310,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz93">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe zum Steuersatz von 7 v.H.</property>
+		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe zum Steuersatz von 7 v.H.
+
+Kennzahl im Formular: 93</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1307,7 +1337,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz98">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe, die anderen Steuersätzen unterliegen (Steuer)</property>
+		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe, die anderen Steuersätzen unterliegen (Steuer)
+
+Kennzahl im Formular: 98</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1332,7 +1364,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz95">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe, die anderen Steuersätzen unterliegen (Umsatz)</property>
+		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe, die anderen Steuersätzen unterliegen (Umsatz)
+
+Kennzahl im Formular: 95</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1357,7 +1391,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz94">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe, neuer Fahrzeuge von Lieferern &lt;b&gt;ohne&lt;/b&gt; USt-IdNr. zum allgemeinen Steuersatz (Umsatz)</property>
+		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe, neuer Fahrzeuge von Lieferern &lt;b&gt;ohne&lt;/b&gt; USt-IdNr. zum allgemeinen Steuersatz (Umsatz)
+
+Kennzahl im Formular: 94</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1382,7 +1418,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz96">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe, neuer Fahrzeuge von Lieferern &lt;b&gt;ohne&lt;/b&gt; USt-IdNr. zum allgemeinen Steuersatz (Steuer)</property>
+		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe, neuer Fahrzeuge von Lieferern &lt;b&gt;ohne&lt;/b&gt; USt-IdNr. zum allgemeinen Steuersatz (Steuer)
+
+Kennzahl im Formular: 96</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1435,7 +1473,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz42">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Umsätze aus Lieferungen des ersten Abnehmers bei &lt;b&gt;innergemeinschaftlichen Dreiecksgeschäften&lt;/b&gt; (§ 25b Abs. 2 UStG)</property>
+		  <property name="tooltip">Umsätze aus Lieferungen des ersten Abnehmers bei &lt;b&gt;innergemeinschaftlichen Dreiecksgeschäften&lt;/b&gt; (§ 25b Abs. 2 UStG)
+
+Kennzahl im Formular: 42</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1460,7 +1500,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz60">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Steuerpflichtige Umsätze im Sinne des § 13b Abs. 1 Satz 1 Nr. 1 bis 5 UStG, für die der &lt;b&gt;Leistungsempfänger&lt;/b&gt; die &lt;b&gt;Steuer schuldet&lt;/b&gt;</property>
+		  <property name="tooltip">Steuerpflichtige Umsätze im Sinne des § 13b Abs. 1 Satz 1 Nr. 1 bis 5 UStG, für die der &lt;b&gt;Leistungsempfänger&lt;/b&gt; die &lt;b&gt;Steuer schuldet&lt;/b&gt;
+
+Kennzahl im Formular: 60</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1485,7 +1527,9 @@ steuerbare Umsätze</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz45">
 		  <property name="visible">True</property>
-		  <property name="tooltip">im Inland nicht steuerbare Umsätze</property>
+		  <property name="tooltip">im Inland nicht steuerbare Umsätze
+
+Kennzahl im Formular: 45</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1681,7 +1725,9 @@ Unternehmers im Inland</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz52">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Leistungen eines im Ausland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 1 und 5 UStG), für die als Leistungsempfänger Steuer geschuldet wird - Umsatz</property>
+		  <property name="tooltip">Leistungen eines im Ausland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 1 und 5 UStG), für die als Leistungsempfänger Steuer geschuldet wird - Umsatz
+
+Kennzahl im Formular: 52</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1706,7 +1752,9 @@ Unternehmers im Inland</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz53">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Leistungen eines im Ausland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 1 und 5 UStG), für die als Leistungsempfänger Steuer geschuldet wird - Steuer</property>
+		  <property name="tooltip">Leistungen eines im Ausland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 1 und 5 UStG), für die als Leistungsempfänger Steuer geschuldet wird - Steuer
+
+Kennzahl im Formular: 53</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1731,7 +1779,9 @@ Unternehmers im Inland</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz73">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Lieferungen sicherungsübereigneter Gegenstände und Umsätze, die unter das GrEStG fallen (§ 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Umsatz)</property>
+		  <property name="tooltip">Lieferungen sicherungsübereigneter Gegenstände und Umsätze, die unter das GrEStG fallen (§ 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Umsatz)
+
+Kennzahl im Formular: 73</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1756,7 +1806,9 @@ Unternehmers im Inland</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz74">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Lieferungen sicherungsübereigneter Gegenstände und Umsätze, die unter das GrEStG fallen (§ 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Steuer)</property>
+		  <property name="tooltip">Lieferungen sicherungsübereigneter Gegenstände und Umsätze, die unter das GrEStG fallen (§ 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Steuer)
+
+Kennzahl im Formular: 74</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1781,7 +1833,9 @@ Unternehmers im Inland</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz84">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Bauleistungen eines im Inland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 4 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Umsatz)</property>
+		  <property name="tooltip">Bauleistungen eines im Inland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 4 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Umsatz)
+
+Kennzahl im Formular: 84</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1806,7 +1860,9 @@ Unternehmers im Inland</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz85">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Bauleistungen eines im Inland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 4 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Steuer)</property>
+		  <property name="tooltip">Bauleistungen eines im Inland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 4 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Steuer)
+
+Kennzahl im Formular: 85</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1831,7 +1887,9 @@ Unternehmers im Inland</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz65">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Steuer infolge Wechsels der Besteuerungsform sowie Nachsteuer auf versteuerte Anzahlungen wegen Steuersatzerhöhung</property>
+		  <property name="tooltip">Steuer infolge Wechsels der Besteuerungsform sowie Nachsteuer auf versteuerte Anzahlungen wegen Steuersatzerhöhung
+
+Kennzahl im Formular: 65</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2357,7 +2415,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz66">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Vorsteuerbeträge aus Rechnungen von anderen Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen im Sinne des § 13a Abs. 1 Nr. 6 UStG (§ 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgeschäften (§ 25b Abs. 5 UStG)</property>
+		  <property name="tooltip">Vorsteuerbeträge aus Rechnungen von anderen Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen im Sinne des § 13a Abs. 1 Nr. 6 UStG (§ 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgeschäften (§ 25b Abs. 5 UStG)
+
+Kennzahl im Formular: 66</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2382,7 +2442,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz61">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Vorsteuerbeträge aus dem innergemeinschaftlichen Erwerb von Gegenständen (§ 15 Abs. 1 Satz 1 Nr. 3 UStG)</property>
+		  <property name="tooltip">Vorsteuerbeträge aus dem innergemeinschaftlichen Erwerb von Gegenständen (§ 15 Abs. 1 Satz 1 Nr. 3 UStG)
+
+Kennzahl im Formular: 61</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2407,7 +2469,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz62">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Entrichtete Einfuhrumsatzsteuer (§ 15 Abs. 1 Satz 1 Nr. 2 UStG)</property>
+		  <property name="tooltip">Entrichtete Einfuhrumsatzsteuer (§ 15 Abs. 1 Satz 1 Nr. 2 UStG)
+
+Kennzahl im Formular: 62</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2432,7 +2496,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz67">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Vorsteuerbeträge aus Leistungen im Sinne des § 13b Abs. 1 UStG (§ 15 Abs. 1 Satz 1 Nr. 4 UStG)</property>
+		  <property name="tooltip">Vorsteuerbeträge aus Leistungen im Sinne des § 13b Abs. 1 UStG (§ 15 Abs. 1 Satz 1 Nr. 4 UStG)
+
+Kennzahl im Formular: 67</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2457,7 +2523,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz63">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Vorsteuerbeträge, die nach allgemeinen Durchschnittsätzen berechnet sind (§§ 23 und 23a UStG)</property>
+		  <property name="tooltip">Vorsteuerbeträge, die nach allgemeinen Durchschnittsätzen berechnet sind (§§ 23 und 23a UStG)
+
+Kennzahl im Formular: 63</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2482,7 +2550,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz64">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Berichtigung des Vorsteuerabzugs (§ 15a UStG)</property>
+		  <property name="tooltip">Berichtigung des Vorsteuerabzugs (§ 15a UStG)
+
+Kennzahl im Formular: 64</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2507,7 +2577,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz59">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Vorsteuerabzug für innergemeinschaftliche Lieferungen neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG) sowie von Kleinunternehmern im Sinne des § 19 Abs. 1 UStG (§ 15 Abs. 4a UStG)</property>
+		  <property name="tooltip">Vorsteuerabzug für innergemeinschaftliche Lieferungen neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG) sowie von Kleinunternehmern im Sinne des § 19 Abs. 1 UStG (§ 15 Abs. 4a UStG)
+
+Kennzahl im Formular: 59</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2556,7 +2628,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz69">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Steuerbeträge, die vom letzten Abnehmer eines innergemeinschaftlichen Dreiecksgeschäfts geschuldet werden (§ 25b Abs. 2 UStG), in Rechnungen unrichtig oder unberechtigt ausgewiesene Steuerbeträge (§ 14c UStG), Steuerbeträge für Leistungen im Sinne des § 13a Abs. 1 Nr. 6 UStG sowie Steuerbeträge, die nach § 6a Abs. 4 Satz 2 oder § 17 Abs. 1 Satz 2 UStG geschuldet werden.</property>
+		  <property name="tooltip">Steuerbeträge, die vom letzten Abnehmer eines innergemeinschaftlichen Dreiecksgeschäfts geschuldet werden (§ 25b Abs. 2 UStG), in Rechnungen unrichtig oder unberechtigt ausgewiesene Steuerbeträge (§ 14c UStG), Steuerbeträge für Leistungen im Sinne des § 13a Abs. 1 Nr. 6 UStG sowie Steuerbeträge, die nach § 6a Abs. 4 Satz 2 oder § 17 Abs. 1 Satz 2 UStG geschuldet werden.
+
+Kennzahl im Formular: 69</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2605,7 +2679,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz39">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Anrechnung (Abzug) der festgesetzten Sondervorauszahlung für Dauerfristverlängerung (nur auszufüllen in der letzten Voranmeldung des Besteuerungszeitraums, in der Regel Dezember)</property>
+		  <property name="tooltip">Anrechnung (Abzug) der festgesetzten Sondervorauszahlung für Dauerfristverlängerung (nur auszufüllen in der letzten Voranmeldung des Besteuerungszeitraums, in der Regel Dezember)
+
+Kennzahl im Formular: 39</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2938,7 +3014,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz86">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben zum Steuersatz von 7 v.H.</property>
+		  <property name="tooltip">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben zum Steuersatz von 7 v.H.
+
+Kennzahl im Formular: 86</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2963,7 +3041,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz51">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben zum Steuersatz von 16 v.H.</property>
+		  <property name="tooltip">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben zum Steuersatz von 16 v.H.
+
+Kennzahl im Formular: 51</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -2988,7 +3068,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz97">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe zum Steuersatz von 16 v.H.</property>
+		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe zum Steuersatz von 16 v.H.
+
+Kennzahl im Formular: 97</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -3061,7 +3143,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz93">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe zum Steuersatz von 7 v.H.</property>
+		  <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe zum Steuersatz von 7 v.H.
+
+Kennzahl im Formular: 93</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -3376,7 +3460,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz66">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Vorsteuerbeträge aus Rechnungen von anderen Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen im Sinne des § 13a Abs. 1 Nr. 6 UStG (§ 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgeschäften (§ 25b Abs. 5 UStG)</property>
+		  <property name="tooltip">Vorsteuerbeträge aus Rechnungen von anderen Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen im Sinne des § 13a Abs. 1 Nr. 6 UStG (§ 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgeschäften (§ 25b Abs. 5 UStG)
+
+Kennzahl im Formular: 66</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -3401,7 +3487,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz61">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Vorsteuerbeträge aus dem innergemeinschaftlichen Erwerb von Gegenständen (§ 15 Abs. 1 Satz 1 Nr. 3 UStG)</property>
+		  <property name="tooltip">Vorsteuerbeträge aus dem innergemeinschaftlichen Erwerb von Gegenständen (§ 15 Abs. 1 Satz 1 Nr. 3 UStG)
+
+Kennzahl im Formular: 61</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -3426,7 +3514,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz62">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Entrichtete Einfuhrumsatzsteuer (§ 15 Abs. 1 Satz 1 Nr. 2 UStG)</property>
+		  <property name="tooltip">Entrichtete Einfuhrumsatzsteuer (§ 15 Abs. 1 Satz 1 Nr. 2 UStG)
+
+Kennzahl im Formular: 62</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -3475,7 +3565,9 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
 	      <child>
 		<widget class="GtkEntry" id="Kz39">
 		  <property name="visible">True</property>
-		  <property name="tooltip">Anrechnung (Abzug) der festgesetzten Sondervorauszahlung für Dauerfristverlängerung (nur auszufüllen in der letzten Voranmeldung des Besteuerungszeitraums, in der Regel Dezember)</property>
+		  <property name="tooltip">Anrechnung (Abzug) der festgesetzten Sondervorauszahlung für Dauerfristverlängerung (nur auszufüllen in der letzten Voranmeldung des Besteuerungszeitraums, in der Regel Dezember)
+
+Kennzahl im Formular: 39</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
