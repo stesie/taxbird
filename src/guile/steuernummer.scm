@@ -1,6 +1,6 @@
 ;;               -*- mode: Scheme; coding: utf-8 -*-
 ;;
-;; Copyright(C) 2005 Stefan Siegl <ssiegl@gmx.de>
+;; Copyright(C) 2005,2007 Stefan Siegl <ssiegl@gmx.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -44,9 +44,11 @@
 (define steuernummer:convert
   (lambda (land entered-id)
     (let ((split-id "")
-	  ; the tax-ids are usually split into 3 pieces, expect for BaWue
-	  ; (land id 0) where there are only 2 pieces ....
-	  (pieces (if (= land 0) 2 3)))
+	  ; the tax-ids are usually split into 3 pieces, expect for 
+	  ;  - Baden-Wuerttemberg which has 2 pieces
+	  ;  - Rheinland-Pfalz which has 4 pieces 
+	  (pieces (if (= land 10) 4
+	              (if (= land 0) 2 3))))
 
       ; the id may be split either by spaces or slashes, simply try it out
       (set! split-id (string-split entered-id #\/))
@@ -71,7 +73,7 @@
     (3 3 5)    ; Mecklenburg-Vorpommern
     (2 3 5)    ; Niedersachsen
     (3 4 4)    ; Nordrhein-Westfalen
-    (2 3 5)    ; Rheinland-Pfalz
+    (2 3 4 1)  ; Rheinland-Pfalz
     (3 3 5)    ; Saarland
     (3 3 5)    ; Sachsen
     (3 3 5)    ; Sachsen-Anhalt
@@ -87,13 +89,8 @@
   (lambda (val buf)
     (let ((land (storage:retrieve buf "land")))
       (if (and (string? land) (> (string-length land) 0))
-	  (let ((specs   steuernummer:length-expectations)
+	  (let ((specs (list-ref steuernummer:length-expectations (string->number land)))
 		(example ""))
-	    (set! land (string->number land))
-	    (while (> land 0)
-		   (set! specs (cdr specs))
-		   (set! land (- land 1)))
-	    (set! specs (car specs))
 
 	    ;; we got e.g. '(3 3 5) as specs now ...
 	    (while (> (length specs) 0)
@@ -127,19 +124,12 @@
   (lambda (land split-id)
     (let ((valid #t)
 	  (length-check-id split-id)
-	  (length-expectation steuernummer:length-expectations)
+	  (length-expectation (list-ref steuernummer:length-expectations land))
 	  (prefixes '(#f "9" "11" "3" "24" "22" "26" "4" "23"
 			 "5" "27" "1" "3" "3" "21" "4"))
 	  (prefix #t))
 
-      ; forward to the length-expectation slot we need
-      (while (< 0 land)
-	     (set! length-expectation (cdr length-expectation))
-	     (set! prefixes (cdr prefixes))
-	     (set! land (- land 1)))
-
-      (set! length-expectation (car length-expectation))
-      (set! prefix (car prefixes))
+      (set! prefix (list-ref prefixes land))
 
       (while (> (length length-expectation) 0)
 	     (if (not (= (car length-expectation)
@@ -163,7 +153,7 @@
 			     
 			      "0"
 			      (cadr split-id)
-			      
-			      (caddr split-id)))))))
+			      (caddr split-id)
+			      (if (= land 10) (cadddr split-id) "")))))))
 
 	    
