@@ -99,7 +99,10 @@ main_forward(void *closure, int argc, char **argv)
 
     if(taxbird_enable_console)
       taxbird_console_init();
-    else {
+
+    taxbird_guile_eval_file("startup.scm");
+
+    if(!taxbird_enable_console) {
       /* create initial application window, i.e. workspace(ws) */
       GtkWidget *appwin = taxbird_ws_new();
       if(! appwin) exit(1); /* abort start */

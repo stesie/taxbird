@@ -57,8 +57,6 @@ void taxbird_guile_init(void)
   scm_c_define_gsubr("tb:get-version", 0, 0, 0, taxbird_get_version);
   scm_c_define_gsubr("tb:activate-sheet", 2, 0, 0, taxbird_activate_sheet);
   scm_c_define_gsubr("tb:chooser-additem", 2, 0, 0, taxbird_ws_chooser_additem);
-
-  taxbird_guile_eval_file("startup.scm");
 }
 
 
