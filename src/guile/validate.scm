@@ -1,6 +1,6 @@
 ;;               -*- mode: Scheme; coding: utf-8 -*-
 ;;
-;; Copyright(C) 2005 Stefan Siegl <ssiegl@gmx.de>
+;; Copyright(C) 2005,2007 Stefan Siegl <ssiegl@gmx.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -93,7 +93,10 @@
 ;; tax on that turnover. where 'max' is the turnover, buf the storage buffer
 ;; and 'val' the tax for the turnover as specified
 ;;
-;; allowed values are (max == val == 0) and (val != 0 && val < max && max != 0)
+;; allowed values are 
+;;   * if max = 0: val == 0
+;;   * if max > 0: val > 0 && val < max
+;;   * if max < 0: val < 0 && val > max
 (define validate:signed-monetary-max
   (lambda (val buf max)
     (if (string? max) (set! max (ms->number max)))
@@ -107,13 +110,20 @@
 			     (= (string-length val) 0)) "0" val))
 	   (set! val (ms->number val))
 
-	   (if (= max 0)
-	       ;; if max is set zero (or empty), don't allow associated field
-	       ;; to have a value assigned (i.e. force it to zero)
-	       (= val 0)
+	   (or
 
-	       ;; otherwise, if max is set, don't allow zero and force 
-	       ;; value to be less than 'max', since the tax you have to pay
-	       ;; for something you earned, shouldn't be 100% ;-)
-	       (and (< val max) 
-		    (not (= val 0))))))))
+	    ;;   * if max = 0: val == 0
+	    (if (= max 0) (= val 0) #f)
+
+	    ;;   * if max > 0: val > 0 && val < max
+	    (if (> max 0) (and (> val 0)
+			       (< val max))
+		#f)
+
+	    ;;   * if max < 0: val < 0 && val > max
+	    (if (< max 0) (and (< val 0)
+			       (> val max))
+		#f)
+
+	    #f)))))
+
