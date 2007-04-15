@@ -50,8 +50,8 @@ sub fill_cert_list {
   $combo->remove_text(0);
 
   $self->{certs} = eval {
-    use Taxbird;
-    Taxbird::get_opensc_certificates();
+    use Taxbird::OpenSC;
+    Taxbird::OpenSC::get_opensc_certificates();
   };
 
   if(ref($self->{certs}) ne "HASH") {

@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+package Taxbird::OpenSC;
 ## 
 ## Copyright (C) 2007  Stefan Siegl <stesie@brokenpipe.de>, Germany
 ## 
@@ -17,15 +17,28 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ## 
 
-use ExtUtils::MakeMaker;
+use strict;
+use warnings;
 
-WriteMakefile(
-    'NAME'	    => 'Taxbird',
-    'MAN3PODS'	    => { 
-    		       },
-    'DIR'	    => [qw(Taxbird) ],
-    'VERSION_FROM'  => 'Taxbird/OpenSC.pm',
-#    'PREREQ_PM'     => { },
-#    'LIBS'          => [ "-lopensc" ],
-#    'INC'           => '',
-);
+
+
+##############################################################################
+###   E x p o r t e r   A r e a                                            ###
+##############################################################################
+require Exporter;
+our @ISA = qw(Exporter);
+
+our %EXPORT_TAGS = ( 'all' => [ qw(
+	get_opensc_certificates
+) ] );
+
+our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
+our @EXPORT = qw();
+
+our $VERSION = "0.01";
+
+require XSLoader;
+XSLoader::load('Taxbird::OpenSC', $VERSION);
+
+1;
+

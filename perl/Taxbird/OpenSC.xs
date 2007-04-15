@@ -24,7 +24,7 @@
 
 #include <opensc/pkcs15.h>
 
-MODULE = Taxbird  PACKAGE = Taxbird
+MODULE = Taxbird::OpenSC  PACKAGE = Taxbird::OpenSC
 
 
 
