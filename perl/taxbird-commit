@@ -1,0 +1,8 @@
+#! /usr/bin/perl -w
+use strict;
+
+my $xmltree = "";
+while(<>) { $xmltree .= $_ }
+
+use Taxbird::UI::Commit;
+Taxbird::UI::Commit->run($xmltree);
