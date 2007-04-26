@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Taxbird 0.9\n"
 "Report-Msgid-Bugs-To: stesie@brokenpipe.de\n"
-"POT-Creation-Date: 2007-03-10 16:44+0100\n"
+"POT-Creation-Date: 2007-04-26 22:17+0200\n"
 "PO-Revision-Date: 2006-05-13 17:14+0200\n"
 "Last-Translator: Stefan Siegl <ssiegl@gmx.de>\n"
 "Language-Team: German <ssiegl@gmx.de>\n"
@@ -66,7 +66,7 @@ msgstr ""
 "\n"
 "Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
 
-#: src/export.c:132
+#: src/export.c:133
 msgid ""
 "Unable to xsltify the exported document. Sorry, but this should not "
 "happen. \n"
@@ -78,49 +78,49 @@ msgstr ""
 "\n"
 "Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
 
-#: src/export.c:143
+#: src/export.c:144
 msgid "Unable to allocate HtmlDocument."
 msgstr "Konnte HtmlDocument nicht alloziieren."
 
-#: src/export.c:149
+#: src/export.c:150
 msgid "Unable to call open_streamon allocated HtmlDocument."
 msgstr ""
 "open_stream konnte nicht auf das alloziierte HtmlDocument angewandt werden"
 
-#: src/export.c:184
+#: src/export.c:185
 msgid "Unable to initialize libgeier context."
 msgstr "libgeier Kontext konnte nicht initialisiert werden."
 
-#: src/export.c:212
+#: src/export.c:213
 msgid "Unable to digitally sign Elster document."
 msgstr "Elster-Dokument konnte nicht digital signiert werden."
 
-#: src/export.c:229
+#: src/export.c:230
 msgid ""
 "You told to store Coala-XML to a file, however didn't specify a filename."
 msgstr ""
 "Sie haben ausgewählt, das Coala-XML in eine Datei abzuspeichern, jedoch "
 "keinen Dateinamen festgelegt."
 
-#: src/export.c:240
+#: src/export.c:241
 msgid "Unable to create Coala-XML file."
 msgstr "Coala-XML Datei kann nicht erstellt werden."
 
-#: src/export.c:271
+#: src/export.c:272
 msgid "Unable to fork print process, please verify the specified command"
 msgstr ""
 "Der Druckprozess konnte nicht gestartet werden, bitte überprüfen Sie den "
 "angegebenen Dateinamen."
 
-#: src/export.c:292
+#: src/export.c:293
 msgid "Unable to create protocol file."
 msgstr "Protokolldatei kann nicht erstellt werden."
 
-#: src/export.c:305
+#: src/export.c:306
 msgid "Unable to send the exported document."
 msgstr "Exportiertes Dokument kann nicht gesendet werden."
 
-#: src/export.c:319
+#: src/export.c:320
 #, c-format
 msgid ""
 "Unable to send the tax declaration to the inland revenue office, the error "
@@ -133,7 +133,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/export.c:344
+#: src/export.c:345
 msgid ""
 "Unable to generate the transmission protocol. This is a local error, THIS "
 "IS, YOUR DATA HAS BEEN SENT TO THE INLAND REVENUE OFFICE AND IT WAS ACCEPTED."
@@ -142,12 +142,12 @@ msgstr ""
 "lokaler Fehler,DAS BEDEUTET, DASS IHRE DATEN AN DAS FINANZAMT ÜBERMITTELT "
 "UND AKZEPTIERT WURDEN."
 
-#: src/export.c:378
+#: src/export.c:379
 msgid "Printer process exited abnormally, your data has been sent however."
 msgstr ""
 "Druckprozess endete auf unnormale Weise, Ihre Daten wurden jedoch gesendet."
 
-#: src/export.c:384
+#: src/export.c:385
 msgid "Your data has been sent to the inland revenue office and was accepted"
 msgstr "Ihre Daten wurden an das Finanzamt übermittelt und wurden akzeptiert."
 
@@ -352,7 +352,7 @@ msgstr ""
 "\n"
 "Danke, dass Sie Taxbird benutzen!"
 
-#: src/support.c:60 src/support.c:85
+#: src/support.c:61 src/support.c:86
 #, c-format
 msgid "Couldn't find pixmap file: %s"
 msgstr "Konnte Pixmap-Datei nicht finden: %s"
