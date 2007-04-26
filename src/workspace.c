@@ -505,7 +505,7 @@ taxbird_ws_open(GtkWidget *appwin, const char *fname)
   SCM handle = scm_open_file(scm_makfrom0str(fname),
 			     scm_makfrom0str("r"));
 
-  SCM content = scm_read_and_eval_x(handle);
+  SCM content = scm_eval_x(scm_read(handle), scm_current_module());
 
   if(! SCM_NFALSEP(scm_list_p(content)) || scm_ilength(content) != 2) {
     g_warning("unable to load file %s", fname);
