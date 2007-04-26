@@ -20,6 +20,8 @@
 #  include <config.h>
 #endif
 
+#include <string.h>
+
 #include "console.h"
 #include "guile.h"
 #include "form.h"
@@ -37,12 +39,12 @@ taxbird_console_init(void)
 SCM
 taxbird_console_select_template(SCM template_id) 
 {
-  int form = -1;
+  unsigned int form = -1;
 
   if(scm_is_string(template_id)) {
     char *template_name = scm_to_locale_string(template_id);
 
-    int i;
+    unsigned int i;
     for(i = 0; i < forms_num; i ++)
       if(! strcmp(forms[i]->name, template_name)) {
 	form = i;
@@ -55,7 +57,7 @@ taxbird_console_select_template(SCM template_id)
   else if(SCM_NUMBERP(template_id))
     form = scm_num2int(template_id, 0, "taxbird_console_select_template");
 
-  if(form < 0 || form >= forms_num)
+  if(form >= forms_num)
     return SCM_BOOL(0);
 
   scm_c_define("console:template", scm_makfrom0str(forms[form]->name));

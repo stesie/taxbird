@@ -27,6 +27,7 @@
 #include "support.h"
 #include "workspace.h"
 #include "guile.h"
+#include "console.h"
 
 
 /* forwarded main, i.e. with guile support initialized */

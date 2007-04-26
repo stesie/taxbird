@@ -108,7 +108,7 @@ taxbird_export(GtkWidget *appwin, int testcase)
 
   /* try to validate resulting xml document against schema file */
   if(geier_validate_text(ctx, geier_format_unencrypted,
-			 data_text, data_text_len)) {
+			 (unsigned char *) data_text, data_text_len)) {
     taxbird_dialog_error(appwin, _("Unable to validate the "
 				   "exported document. Sorry, but this "
 				   "should not happen. \n\nPlease consider "
@@ -123,8 +123,9 @@ taxbird_export(GtkWidget *appwin, int testcase)
   /* xsltify gathered data */
   unsigned char *data_xslt;
   size_t data_xslt_len;
-  int xsltify_result = taxbird_xsltify_text(ctx, data_text, data_text_len,
-					    &data_xslt, &data_xslt_len);
+  int xsltify_result = taxbird_xsltify_text(ctx, (unsigned char *) data_text, 
+					    data_text_len, &data_xslt, 
+					    &data_xslt_len);
   free(data_text);
   geier_context_free(ctx);
 
@@ -151,7 +152,7 @@ taxbird_export(GtkWidget *appwin, int testcase)
     return;
   }
 
-  html_document_write_stream(doc, data_xslt, data_xslt_len);
+  html_document_write_stream(doc, (const char *) data_xslt, data_xslt_len);
   html_document_close_stream(doc);
 
   free(data_xslt);
@@ -206,8 +207,8 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
     
     unsigned char *output;
     size_t outlen;
-    if(geier_dsig_sign_text(ctx, data_text, data_text_len, &output, &outlen,
-			    filename, pincode)) {
+    if(geier_dsig_sign_text(ctx, (unsigned char *) data_text, data_text_len, 
+                            &output, &outlen, filename, pincode)) {
       taxbird_dialog_error(confirm_dlg, 
 			   _("Unable to digitally sign Elster document."));
       geier_context_free(ctx);
@@ -215,7 +216,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
     }
 
     free(data_text);
-    data_text = output;
+    data_text = (char *) output;
     data_text_len = outlen;
   }       
 
@@ -299,7 +300,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   /* send the data, finally **************************************************/
   unsigned char *data_return;
   size_t data_return_len;
-  if(geier_send_text(ctx, data_text, data_text_len,
+  if(geier_send_text(ctx, (unsigned char *) data_text, data_text_len,
 		     &data_return, &data_return_len)) {
     taxbird_dialog_error(confirm_dlg,
 			 _("Unable to send the exported document."));
