@@ -207,8 +207,15 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
     
     unsigned char *output;
     size_t outlen;
-    if(geier_dsig_sign_text(ctx, (unsigned char *) data_text, data_text_len, 
-                            &output, &outlen, filename, pincode)) {
+#ifdef HAVE_GEIER_DSIG_SIGN_SOFTPSE
+    if(geier_dsig_sign_softpse_text(ctx, (unsigned char *) data_text,
+				    data_text_len, &output, &outlen,
+				    filename, pincode))
+#else
+    if(geier_dsig_sign_text(ctx, (unsigned char *) data_text, data_text_len,
+			    &output, &outlen, filename, pincode))
+#endif
+    {
       taxbird_dialog_error(confirm_dlg, 
 			   _("Unable to digitally sign Elster document."));
       geier_context_free(ctx);
