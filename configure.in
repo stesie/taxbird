@@ -21,11 +21,54 @@ fi
 
 AC_HEADER_STDC
 
-pkg_modules="libgnomeui-2.0 libgtkhtml-2.0 libglade-2.0 libgeier >= 0.7"
-PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
-AC_SUBST(PACKAGE_CFLAGS)
-AC_SUBST(PACKAGE_LIBS)
+# check for necessary gnome libraries
+PKG_CHECK_MODULES(GNOME, [libgnomeui-2.0 libgtkhtml-2.0 libglade-2.0])
+AC_SUBST(GNOME_CFLAGS)
+AC_SUBST(GNOME_LIBS)
 
+backup_CFLAGS="$CFLAGS"
+backup_LDFLAGS="$LDFLAGS"
+
+#
+# temporarily add libgeier to CFLAGS/LDFLAGS
+# and do necessary checks
+#
+PKG_CHECK_MODULES(GEIER, [libgeier >= 0.7])
+AC_SUBST(GEIER_CFLAGS)
+AC_SUBST(GEIER_LDFLAGS)
+
+CFLAGS="$CFLAGS $GEIER_CFLAGS"
+LDFLAGS="$LDFLAGS $GEIER_LIBS"
+
+dnl Check for new-style signature functions of libgeier
+AC_CHECK_FUNCS([geier_dsig_sign_softpse])
+AC_CHECK_FUNCS([geier_dsig_sign_opensc])
+
+
+#
+# now do libguile checks ...
+#
+GUILE_FLAGS
+GUILE_MODULE_REQUIRED(ice-9 format)
+
+CFLAGS="$backup_CFLAGS $GUILE_CFLAGS"
+LDFLAGS="$backup_LDFLAGS $GUILE_LDFLAGS"
+
+dnl Check for certain guile functions, introduced with libguile 1.8
+AC_CHECK_FUNCS(scm_to_locale_string)
+AC_CHECK_FUNCS(scm_is_string)
+
+
+#
+# restore old CFLAGS/LDFLAGS again
+#
+CFLAGS="$backup_CFLAGS"
+LDFLAGS="$backup_LDFLAGS"
+
+
+#
+# gettext cruft
+#
 GETTEXT_PACKAGE=taxbird
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])
@@ -34,17 +77,11 @@ dnl Add the languages which your application supports here.
 ALL_LINGUAS="de"
 AM_GLIB_GNU_GETTEXT
 
-dnl Check for GNU Guile
-GUILE_FLAGS
-GUILE_MODULE_REQUIRED(ice-9 format)
 
-CFLAGS="$CFLAGS $GPGME_CFLAGS $GUILE_CFLAGS $GLIB_CFLAGS"
-LDFLAGS="$LDFLAGS $GPGME_LIBS $GUILE_LDFLAGS $GLIB_LIBS"
 
-dnl Check for certain guile functions, introduced with libguile 1.8
-AC_CHECK_FUNCS(scm_to_locale_string)
-AC_CHECK_FUNCS(scm_is_string)
-
+#
+# write Makefile
+#
 AC_OUTPUT([
 Makefile
 src/Makefile
