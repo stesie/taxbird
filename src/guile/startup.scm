@@ -68,6 +68,9 @@
 	 (if (file-exists? (string-append path "/lpr"))
 	     (set! have-lpr #t))
 
+	 (if (file-exists? (string-append path "/lp"))
+	     (set! have-lpr #t))
+
 	 (if (file-exists? (string-append path "/html2ps"))
 	     (set! have-html2ps #t)))
 

@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# Copyright(C) 2005,2006 Stefan Siegl <stesie@brokenpipe.de>
+# Copyright(C) 2005,2006,2007 Stefan Siegl <stesie@brokenpipe.de>
 # taxbird - free program to interface with German IRO's Elster/Coala
 # 
 # This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-LPR=lpr
 #LPR=cat #use this for testing!
 MAILCAP=/etc/mailcap
 
@@ -41,6 +40,22 @@ if [ "x$1" = "x--version" ]; then
 Taxbird print helper 0.2
 EOF
   exit 0
+fi
+
+IFS=":" 
+for check_path in $PATH; do
+  for prog in lp lpr; do
+    if [ -e "$check_path/$prog" -a "x$LPR" = "x" ]; then 
+      LPR="$check_path/$prog"
+    fi
+  done
+done
+IFS=""
+
+if [ "x$LPR" = "x" ]; then
+  echo "$0: no suitable lpr program found" 1>&2
+  cat > /dev/null  # kill stdin data ...
+  exit 1
 fi
 
 TMPFILE=`mktemp -t tmp.XXXXXX` || {
