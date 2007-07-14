@@ -28,15 +28,4 @@ taxbird_LDADD = @GNOME_LIBS@ @GEIER_LIBS@ $(INTLLIBS) @GUILE_LDFLAGS@
 EXTRA_DIST = \
 	taxbird-print-helper
 
-BUILT_SOURCES = interface.c interface.h \
-	support.c support.h
-
 MAINTAINER_CLEAN =
-
-support.h: support.c
-support.c: interface.c
-
-interface.h: interface.c
-interface.c: ../taxbird.glade
-	glade-2 -w ../taxbird.glade
-
