@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,05 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2004,2005,2007 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 #include <gnome.h>
 #include <geier.h>
 
-#include "interface.h"
-#include "support.h"
 #include "workspace.h"
 #include "guile.h"
 #include "console.h"
@@ -104,12 +102,12 @@ main_forward(void *closure, int argc, char **argv)
     taxbird_guile_eval_file("startup.scm");
 
     if(!taxbird_enable_console) {
-      /* create initial application window, i.e. workspace(ws) */
-      GtkWidget *appwin = taxbird_ws_new();
-      if(! appwin) exit(1); /* abort start */
+      /* Create application window. */
+      if(! taxbird_ws_new())
+	exit(1); /* abort start */
       
       if(argc == 2)
-	taxbird_ws_open(appwin, argv[1]);
+	taxbird_ws_open(argv[1]);
     }
 
     return SCM_BOOL(0);

@@ -3,7 +3,7 @@
 SUBDIRS = guile
 
 INCLUDES = \
-	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
+	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DVERSION=\""$(VERSION)"\" \
 	@GNOME_CFLAGS@ @GEIER_CFLAGS@ @GUILE_CFLAGS@
@@ -14,10 +14,9 @@ bin_SCRIPTS = taxbird-print-helper
 taxbird_SOURCES = \
         main.c \
 	console.c console.h \
-        support.c support.h \
-        interface.c interface.h \
         callbacks.c callbacks.h \
         workspace.c workspace.h \
+	glade.c glade.h \
         guile.c guile.h \
         form.c form.h \
 	dialog.c dialog.h \

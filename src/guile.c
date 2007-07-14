@@ -45,7 +45,7 @@ void taxbird_guile_init(void)
   SCM loadpath = scm_list_4(scm_makfrom0str("."),
 			    scm_makfrom0str("guile"),
 			    scm_take0str(loadpath_home),
-			    scm_makfrom0str(PACKAGE_DATA_DIR "/taxbird/guile"));
+			    scm_makfrom0str(PACKAGE_DATA_DIR "/guile"));
 
   /* search current and taxbird's system directory by default */
   scm_c_define("tb:scm-directories", loadpath);
@@ -229,7 +229,7 @@ taxbird_activate_sheet(SCM f, SCM r)
   char *filename = scm_to_locale_string(f);
   char *sheetname = scm_to_locale_string(r);
 
-  taxbird_ws_activate_sheet(NULL, filename, sheetname);
+  taxbird_ws_activate_sheet(filename, sheetname);
 
   free(sheetname);
   free(filename);

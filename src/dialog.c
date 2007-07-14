@@ -1,4 +1,4 @@
-/* Copyright(C) 2005 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2005,2007 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -19,11 +19,15 @@
 #include <gnome.h>
 
 #include "dialog.h"
+#include "workspace.h"
 
 /* display a common error dialog with the given message (in modal mode) */
 void 
 taxbird_dialog_error(GtkWidget *parent, const char *message)
 {
+  if(! parent)
+    parent = taxbird_window;
+
   GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
 					     GTK_DIALOG_MODAL,
 					     GTK_MESSAGE_ERROR,
@@ -38,6 +42,9 @@ taxbird_dialog_error(GtkWidget *parent, const char *message)
 void 
 taxbird_dialog_info(GtkWidget *parent, const char *message)
 {
+  if(! parent)
+    parent = taxbird_window;
+
   GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
 					     GTK_DIALOG_MODAL,
 					     GTK_MESSAGE_INFO,
@@ -51,6 +58,9 @@ taxbird_dialog_info(GtkWidget *parent, const char *message)
 int 
 taxbird_dialog_yes_no_cancel(GtkWidget *parent, const char *message)
 {
+  if(! parent)
+    parent = taxbird_window;
+
   GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
 					     GTK_DIALOG_MODAL,
 					     GTK_MESSAGE_QUESTION,

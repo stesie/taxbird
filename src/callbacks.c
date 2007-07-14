@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,2005,2007 Stefan Siegl <ssiegl@gmx.de>
+/* Copyright(C) 2004,2005,2007,2008 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,14 +24,12 @@
 #include <gnome.h>
 
 #include "callbacks.h"
-#include "interface.h"
 #include "dialog.h"
-#include "support.h"
 #include "workspace.h"
 #include "form.h"
 #include "guile.h"
 #include "export.h"
-
+#include "glade.h"
 
 /* callback function for 
  *  File -> New menuitem
@@ -40,10 +38,14 @@
 void
 on_file_new_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
+  (void) menuitem;
   (void) user_data;
-
-  GtkWidget *dialog = create_dlgChooseTemplate();
-  GtkTreeView *tv = GTK_TREE_VIEW(lookup_widget(dialog, "lstTemplates"));
+  
+  GladeXML *gladexml = NULL;
+  GtkWidget *dialog =
+    taxbird_glade_create(&gladexml, "dlgChooseTemplate");
+  GtkTreeView *tv = 
+    GTK_TREE_VIEW(taxbird_glade_lookup(gladexml, "lstTemplates"));
   g_return_if_fail(tv);
 
   /* add column */
@@ -72,9 +74,6 @@ on_file_new_activate(GtkMenuItem *menuitem, gpointer user_data)
     gtk_widget_show(GTK_WIDGET(tv));
   }
 
-  /* pass a reference to this taxbird window as user data of dialog */
-  gtk_object_set_user_data(GTK_OBJECT(dialog),
-			   lookup_widget(GTK_WIDGET(menuitem), "taxbird"));
   gtk_widget_show(dialog);
 }
 
@@ -84,10 +83,7 @@ on_file_open_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
   (void) user_data;
 
-  GtkWidget *dialog = create_dlgChooseFile();
-  /* pass a reference to this taxbird window as user data of dialog */
-  gtk_object_set_user_data(GTK_OBJECT(dialog),
-			   lookup_widget(GTK_WIDGET(menuitem), "taxbird"));
+  GtkWidget *dialog = taxbird_glade_create(NULL, "dlgChooseFile");
   gtk_widget_show(dialog);
 }
 
@@ -95,30 +91,64 @@ on_file_open_activate(GtkMenuItem *menuitem, gpointer user_data)
 void
 on_file_save_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-  GtkWidget *appwin = lookup_widget(GTK_WIDGET(menuitem), "taxbird");
-  const char *fname = g_object_get_data(G_OBJECT(appwin), "filename");
+  (void) menuitem;
+  (void) user_data;
 
-  if(fname)
-    taxbird_ws_save(appwin, fname);
+  if(taxbird_document_filename)
+    taxbird_ws_save(taxbird_document_filename);
+
   else
     /* forward to File -> Save As ... */
-    on_file_saveas_activate(menuitem, user_data);
+    on_file_saveas_activate(NULL, NULL);
 }
 
 
 void
 on_file_saveas_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
+  (void) menuitem;
   (void) user_data;
 
-  GtkWidget *dialog = create_dlgChooseFile();
+  GtkWidget *dialog = taxbird_glade_create(NULL, "dlgChooseFile");
   gtk_file_chooser_set_action(GTK_FILE_CHOOSER(dialog),
 			      GTK_FILE_CHOOSER_ACTION_SAVE);
-
-  /* pass a reference to this taxbird window as user data of dialog */
-  gtk_object_set_user_data(GTK_OBJECT(dialog),
-			   lookup_widget(GTK_WIDGET(menuitem), "taxbird"));
   gtk_widget_show(dialog);
+}
+
+
+static gboolean
+taxbird_document_ask_save_file(void)
+{
+  if(taxbird_document_changed) {
+    /* ask the user whether to save the current file */
+    const char *fn = (taxbird_document_filename
+		      ? taxbird_document_filename 
+		      : _("(yet unnamed)"));
+
+    char *msg = g_strdup_printf(_("Your recent changes to the document %s "
+				  "haven't been stored to disk so far. Do "
+				  "you want them to be stored now?"), fn);
+
+    int resp = taxbird_dialog_yes_no_cancel(NULL, msg);
+    g_free(msg);
+
+    switch(resp) {
+    case GTK_RESPONSE_YES:
+      on_file_save_activate(NULL, NULL);
+
+      /* re-read changed flag, abort if changes haven't been saved */
+      if(taxbird_document_changed) return TRUE; /* abort */
+      break;
+
+    case GTK_RESPONSE_NO:
+      break;
+
+    default:
+      return TRUE; /* don't destroy this window */
+    }
+  }
+
+  return FALSE;
 }
 
 
@@ -129,8 +159,11 @@ on_file_quit_activate(GtkMenuItem *menuitem, gpointer user_data)
   (void) menuitem;
   (void) user_data;
 
-  g_slist_foreach(taxbird_windows, (GFunc)on_file_close_activate, NULL);
-  /* gtk_main_quit(); */
+  if(taxbird_document_ask_save_file())
+    return;
+
+  gtk_widget_destroy(taxbird_window);
+  gtk_main_quit();
 }
 
 
@@ -150,7 +183,7 @@ on_help_about_activate                 (GtkMenuItem     *menuitem,
   (void) menuitem;
   (void) user_data;
 
-  GtkWidget *about = create_aboutTaxBird();
+  GtkWidget *about = taxbird_glade_create(NULL, "aboutTaxBird");
   gtk_widget_show (about);
 }
 
@@ -165,40 +198,30 @@ on_choose_template_OK_clicked(GtkButton *button, gpointer user_data)
 {
   (void) user_data;
 
-  GtkWidget *appwindow;
   char *sel_form_name;
-  GtkWidget *dialog = lookup_widget(GTK_WIDGET(button), "dlgChooseTemplate");
+
+  GladeXML *gladexml = glade_get_widget_tree(GTK_WIDGET(button));
+
+  GtkWidget *dialog = taxbird_glade_lookup(gladexml, "dlgChooseTemplate");
   g_return_if_fail(dialog);
 
-  {
-    GtkTreeSelection *sel;
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-    GtkTreeView *tv = GTK_TREE_VIEW(lookup_widget(dialog, "lstTemplates"));
-    g_return_if_fail(tv);
+  GtkTreeSelection *sel;
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+  GtkTreeView *tv =
+    GTK_TREE_VIEW(taxbird_glade_lookup(gladexml, "lstTemplates"));
+  g_return_if_fail(tv);
 
-    sel = gtk_tree_view_get_selection(tv);
-    if(! gtk_tree_selection_get_selected (sel, &model, &iter)) {
-      taxbird_dialog_error(dialog, _("Please select a template "
-				     "from the list."));
-      return;
-    }
-
-    gtk_tree_model_get(model, &iter, 0, &sel_form_name, -1);
+  sel = gtk_tree_view_get_selection(tv);
+  if(! gtk_tree_selection_get_selected (sel, &model, &iter)) {
+    taxbird_dialog_error(dialog, _("Please select a template "
+				   "from the list."));
+    return;
   }
-
-  appwindow = gtk_object_get_user_data(GTK_OBJECT(dialog));
-
-  /* check whether the passed taxbird appwin reference already has a 
-   * template associated, if yes, create a new window */
-  int cf = (int) g_object_get_data(G_OBJECT(appwindow), "current_form");
-  if(cf != -1)
-    appwindow = taxbird_ws_new();
-
-  if(appwindow)
-    taxbird_ws_sel_form(appwindow, taxbird_form_get_by_name(sel_form_name));
-  else
-    taxbird_dialog_error(NULL, _("Unable to create new document. Sorry."));
+  
+  gtk_tree_model_get(model, &iter, 0, &sel_form_name, -1);
+  
+  taxbird_ws_sel_form(taxbird_form_get_by_name(sel_form_name));
  
   g_free(sel_form_name);
   gtk_widget_destroy(dialog);
@@ -222,8 +245,7 @@ on_tv_sheets_cursor_changed(GtkTreeView *tv, gpointer user_data)
     return;
 
   gtk_tree_model_get(model, &iter, 0, &sel_sheet_name, -1);
-  taxbird_ws_sel_sheet(lookup_widget(GTK_WIDGET(tv), "taxbird"),
-		      sel_sheet_name);
+  taxbird_ws_sel_sheet(sel_sheet_name);
 
   g_free(sel_sheet_name);
 }
@@ -238,10 +260,11 @@ on_choose_file_OK_clicked(GtkButton *button, gpointer user_data)
 
   GtkWidget *appwindow;
   gchar *fname;
-  GtkWidget *dialog = lookup_widget(GTK_WIDGET(button), "dlgChooseFile");
+
+  GladeXML *gladexml = glade_get_widget_tree(GTK_WIDGET(button));
+  GtkWidget *dialog = taxbird_glade_lookup(gladexml, "dlgChooseFile");
   g_return_if_fail(dialog);
 
-  appwindow = gtk_object_get_user_data(GTK_OBJECT(dialog));
   fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 
   if(fname) {
@@ -252,21 +275,11 @@ on_choose_file_OK_clicked(GtkButton *button, gpointer user_data)
 	strcat(fname, ".txb");
       }
 
-      taxbird_ws_save(appwindow, fname);
+      taxbird_ws_save(fname);
     }
 
     else {
-      /* check whether the passed taxbird appwin reference already has a 
-       * template associated, if yes, create a new window */
-      int cf = (int) g_object_get_data(G_OBJECT(appwindow), "current_form");
-      if(cf != -1)
-	appwindow = taxbird_ws_new();
-
-      if(appwindow)
-	taxbird_ws_open(appwindow, fname);
-
-      else
-	taxbird_dialog_error(NULL, _("Unable to open document. Sorry."));
+      taxbird_ws_open(fname);
     }
 
     g_free(fname);
@@ -281,102 +294,15 @@ on_choose_file_OK_clicked(GtkButton *button, gpointer user_data)
 void
 on_file_send_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
+  (void) menuitem;
   (void) user_data;
 
-  GtkWidget *aw = lookup_widget(GTK_WIDGET(menuitem), "taxbird");
-  int current_form = (int) g_object_get_data(G_OBJECT(aw), "current_form");
-
-  if(current_form == -1) {
-    taxbird_dialog_error(aw, _("Current document contains no data. "
-			       "What do you want to export from it?"));
+  if(! taxbird_current_form) {
+    taxbird_dialog_error(NULL, _("Current document contains no data. "));
     return;
   }
 
-  taxbird_export(aw, 0);
-}
-
-
-
-gboolean
-on_file_close_activate(GtkWidget *widget, GdkEvent *event, gpointer user)
-{
-  (void) event;
-  (void) user;
-
-  GtkWidget *aw = lookup_widget(GTK_WIDGET(widget), "taxbird");
-  int changed = (int)g_object_get_data(G_OBJECT(aw), "changed");
-
-  if(changed) {
-    /* ask the user whether to save the current file */
-    const char *fn = g_object_get_data(G_OBJECT(aw), "filename");
-    if(! fn) fn = _("(yet unnamed)");
-
-    char *msg = g_strdup_printf(_("Your recent changes to the document %s "
-				  "haven't been stored to disk so far. Do "
-				  "you want them to be stored now?"), fn);
-
-    int resp = taxbird_dialog_yes_no_cancel(aw, msg);
-    g_free(msg);
-
-    switch(resp) {
-    case GTK_RESPONSE_YES:
-      on_file_save_activate((GtkMenuItem *) widget, NULL);
-
-      /* re-read changed flag, abort if changes haven't been saved */
-      changed = (int)g_object_get_data(G_OBJECT(aw), "changed");
-      if(changed) return TRUE; /* abort */
-      break;
-
-    case GTK_RESPONSE_NO:
-      break;
-
-    default:
-      return TRUE; /* don't destroy this window */
-    }
-  }
-
-  gtk_widget_destroy(aw);
-  taxbird_windows = g_slist_remove(taxbird_windows, aw);
-
-  /* stop the main loop, in case this was the last window */
-  if(! taxbird_windows) gtk_main_quit();
-
-  return FALSE;
-}
-
-
-
-gboolean
-on_export_druid_cancel                 (GtkWidget       *widget,
-                                        GdkEvent        *event,
-                                        gpointer         user_data)
-{
-  (void) event;
-  (void) user_data;
-
-  /* we don't have to disallocate any data - the associated data 
-   * structure will be unprotected and then garbage collected */
-
-  widget = lookup_widget(widget, "dlgExportConfirmation");
-  gtk_widget_destroy(widget);
-
-  return FALSE; /* close dialog, for delete-event */
-}
-
-
-void
-on_export_druid_finish(GnomeDruidPage *page, GtkWidget *widget,
-		       gpointer user_data)
-{
-  (void) page;
-  (void) user_data;
-
-  GtkWidget *confirm_dlg = lookup_widget(widget, "dlgExportConfirmation");
-
-  if(taxbird_export_bottom_half(confirm_dlg))
-    return; /* error occured */
-
-  gtk_widget_destroy(confirm_dlg);
+  taxbird_export(0);
 }
 
 
@@ -392,7 +318,7 @@ on_taxbird_configure(GtkWidget *widget, GdkEventConfigure *event,
   (void) user_data;
   static int old_height = 0;
 
-  widget = lookup_widget(widget, "vpane");
+  widget = taxbird_glade_lookup(taxbird_gladexml_app, "vpane");
   g_return_val_if_fail(widget, FALSE);
 
   if(old_height)
@@ -404,20 +330,6 @@ on_taxbird_configure(GtkWidget *widget, GdkEventConfigure *event,
     
   old_height = event->height;
   return FALSE;
-}
-
-
-GtkWidget*
-htmlview_create (gchar *widget_name, gchar *string1, gchar *string2,
-                gint int1, gint int2)
-{
-  (void) widget_name;
-  (void) string1;
-  (void) string2;
-  (void) int1;
-  (void) int2;
-
-  return html_view_new();
 }
 
 
@@ -439,16 +351,11 @@ on_file_send_testcase_activate         (GtkMenuItem     *menuitem,
 {
   (void) user_data;
 
-  GtkWidget *aw = lookup_widget(GTK_WIDGET(menuitem), "taxbird");
-  int current_form = (int) g_object_get_data(G_OBJECT(aw), "current_form");
-
-  if(current_form == -1) {
-    taxbird_dialog_error(aw, _("Current document contains no data. "
-			       "What do you want to export from it?"));
+  if(! taxbird_current_form) {
+    taxbird_dialog_error(NULL, _("Current document contains no data. "));
     return;
   }
 
-  taxbird_export(aw, 1);
-
+  taxbird_export(1);
 }
 

@@ -1,4 +1,4 @@
-/* Copyright(C) 2005,2007 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2007 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -16,11 +16,24 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef TAXBIRD_EXPORT_H
-#define TAXBIRD_EXPORT_H
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
 
-void taxbird_export(int testcase);
+#include <glade/glade.h>
 
-int taxbird_export_bottom_half(GtkWidget *confirm_dlg);
+#ifndef TAXBIRD_GLADE_H
+#define TAXBIRD_GLADE_H
 
-#endif /* ... TAXBIRD_EXPORT_H */
+/* GladeXML object of the application window */
+extern GladeXML *taxbird_gladexml_app;
+
+/* GladeXML object of the active sheet */
+extern GladeXML *taxbird_gladexml_sheet;
+
+GtkWidget *taxbird_glade_create(GladeXML **xml, const char *widget_name);
+
+GtkWidget *taxbird_glade_lookup(GladeXML *xml, const char *widget_name);
+
+
+#endif /* TAXBIRD_GLADE_H */

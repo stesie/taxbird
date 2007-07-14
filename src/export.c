@@ -27,18 +27,24 @@
 #include <unistd.h>
 
 #include <geier.h>
+#include <geierversion.h>
 
-#include "interface.h"
 #include "dialog.h"
-#include "support.h"
 #include "export.h"
 #include "guile.h"
 #include "form.h"
+#include "workspace.h"
+#include "glade.h"
+
+#ifndef HAVE_LIBOPENSC
+/* we're not able to sign using chipcards, without libopensc */
+# undef HAVE_GEIER_DSIG_SIGN_OPENSC
+#endif
 
 /* ask current template's guile backend to generate the data we'd
  * like to write out (in case testcase is set, with data being marked
  * as testcase data) */
-static SCM taxbird_export_call_backend(GtkWidget *appwin, int testcase);
+static SCM taxbird_export_call_backend(int testcase);
 
 /* fork a subprocess, RETURN: -1 on error, 0 == child, pid == parent */
 static pid_t taxbird_export_launch_subproc(int *to, int *from);
@@ -83,9 +89,9 @@ taxbird_xsltify_text(geier_context *context,
 
 
 void
-taxbird_export(GtkWidget *appwin, int testcase)
+taxbird_export(int testcase)
 {
-  SCM data = taxbird_export_call_backend(appwin, testcase);
+  SCM data = taxbird_export_call_backend(testcase);
 
   if(SCM_FALSEP(scm_list_p(data)))
     return; /* exporter function didn't return a list, thus abort here.
@@ -93,7 +99,8 @@ taxbird_export(GtkWidget *appwin, int testcase)
 
   /* export data into a c-string *********************************************/
   taxbird_guile_eval_file("xml-writer.scm");
-  data = scm_call_1(scm_c_lookup_ref("xml-writer:export"), data);
+  data = scm_call_1(scm_c_lookup_ref("xml-writer:export"),
+		    data);
 
   g_return_if_fail(scm_is_string(data));
   char *data_text = scm_to_locale_string(data);
@@ -102,18 +109,18 @@ taxbird_export(GtkWidget *appwin, int testcase)
   /* initialize libgeier */
   geier_context *ctx = geier_context_new();
   if(! ctx) {
-    taxbird_dialog_error(appwin, _("Unable to initialize libgeier context"));
+    taxbird_dialog_error(NULL, _("Unable to initialize libgeier context"));
     return;
   }
 
   /* try to validate resulting xml document against schema file */
   if(geier_validate_text(ctx, geier_format_unencrypted,
 			 (unsigned char *) data_text, data_text_len)) {
-    taxbird_dialog_error(appwin, _("Unable to validate the "
-				   "exported document. Sorry, but this "
-				   "should not happen. \n\nPlease consider "
-				   "contacting the taxbird@taxbird.de "
-				   "mailing list."));
+    taxbird_dialog_error(NULL, _("Unable to validate the "
+				 "exported document. Sorry, but this "
+				 "should not happen. \n\nPlease consider "
+				 "contacting the taxbird@taxbird.de "
+				 "mailing list."));
 
     free(data_text);
     geier_context_free(ctx);
@@ -159,8 +166,8 @@ taxbird_export(GtkWidget *appwin, int testcase)
 
   /* automatically fill protocol-store widget (which isn't filled by glade) **/
   taxbird_guile_eval_file("taxbird.scm");
-  SCM databuf = (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data");
-  SCM fn = scm_call_1(scm_c_lookup_ref("tb:get-proto-filename"), databuf);
+  SCM fn = scm_call_1(scm_c_lookup_ref("tb:get-proto-filename"),
+		      taxbird_document_data);
   SCM softpse = scm_call_0(scm_c_lookup_ref("tb:get-softpse-filename"));
 
   /* ask the user, whether it's okay to send the data ************************/
@@ -190,7 +197,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   int data_text_len = strlen(data_text);
 
   /* digitally sign the Coala-XML if requested *******************************/
-  GtkWidget *dsig = lookup_widget(confirm_dlg, "dsig");
+  GtkWidget *dsig = taxbird_glade_lookup(gladexml, "dsig");
   if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dsig))) {
     GtkEntry *e;
 
@@ -398,16 +405,13 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
 /* ask current template's guile backend to generate the data we'd
  * like to write out */
 static SCM
-taxbird_export_call_backend(GtkWidget *appwin, int test) 
+taxbird_export_call_backend(int test) 
 {
-  int current_form = (int) g_object_get_data(G_OBJECT(appwin), "current_form");
-  g_return_val_if_fail(current_form >= 0, SCM_BOOL(0));
-
-  /* data as supplied by the user */
-  SCM data = (SCM) g_object_get_data(G_OBJECT(appwin), "scm_data");
+  g_return_val_if_fail(taxbird_current_form, SCM_BOOL(0));
 
   /* call exporter function of current template */
-  return scm_call_2(forms[current_form]->dataset_export, data, SCM_BOOL(test));
+  return scm_call_2(taxbird_current_form->dataset_export,
+		    taxbird_document_data, SCM_BOOL(test));
 }
 
 

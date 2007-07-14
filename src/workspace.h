@@ -25,27 +25,39 @@
 GtkWidget *taxbird_ws_new(void);
 
 /* load taxbird workspace from file */
-void taxbird_ws_open(GtkWidget *app_window, const char *fname);
+void taxbird_ws_open(const char *fname);
 
 /* store taxbird workspace to file */
-void taxbird_ws_save(GtkWidget *app_window, const char *fname);
+void taxbird_ws_save(const char *fname);
 
 /* prepare taxbird workspace for form with given id,
  * clearing any existing data (after asking)
  */
-void taxbird_ws_sel_form(GtkWidget *app_window, int formid);
+void taxbird_ws_sel_form(int formid);
 
 /* display sheet with provided id in the workspace of app_window */
-void taxbird_ws_sel_sheet(GtkWidget *app_window, const char *sheet);
+void taxbird_ws_sel_sheet(const char *sheet);
 
 /* activate a sheet, loaded from the provided file and root widget */
-void taxbird_ws_activate_sheet(GtkWidget *, const char *file, const char *sh);
+void taxbird_ws_activate_sheet(const char *file, const char *sh);
 
 /* add another item to a chooser */
 SCM taxbird_ws_chooser_additem(SCM chooser, SCM item);
 
-/* list of all application windows */
-extern GSList *taxbird_windows;
+/* Pointer to the Taxbird application window. */
+extern GtkWidget *taxbird_window;
+
+/* Pointer to the form, which is currently marked active. */
+extern struct form *taxbird_current_form;
+
+/* Whether the document has been changed and shalt be saved. */
+extern int taxbird_document_changed;
+
+/* The filename of the current document, if any. */
+extern char *taxbird_document_filename;
+
+/* The SCM dataset of the current document. */
+extern SCM taxbird_document_data;
 
 
 #endif /* TAXBIRD_WORKSPACE_H */
