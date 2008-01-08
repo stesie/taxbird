@@ -14,7 +14,6 @@ EXTRA_DIST = \
 	taxbird.xml \
 	taxbird.desktop \
 	taxbird.glade \
-	taxbird.gladep \
 	README.vendor-id \
 	README.dsig
 
