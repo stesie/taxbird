@@ -24,7 +24,7 @@
   <property name="focus_on_map">True</property>
   <property name="urgency_hint">False</property>
   <property name="enable_layout_config">True</property>
-  <signal name="delete_event" handler="on_file_close_activate" last_modification_time="Sun, 08 May 2005 15:47:23 GMT"/>
+  <signal name="delete_event" handler="on_file_quit_activate" last_modification_time="Sun, 08 May 2005 15:47:23 GMT"/>
   <signal name="configure_event" handler="on_taxbird_configure" last_modification_time="Sun, 15 May 2005 11:18:11 GMT"/>
 
   <child internal-child="dock">
@@ -82,14 +82,6 @@
 			  <property name="visible">True</property>
 			  <property name="stock_item">GNOMEUIINFO_MENU_SAVE_AS_ITEM</property>
 			  <signal name="activate" handler="on_file_saveas_activate" last_modification_time="Sat, 25 Dec 2004 16:51:06 GMT"/>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkImageMenuItem" id="mnu_file_close">
-			  <property name="visible">True</property>
-			  <property name="stock_item">GNOMEUIINFO_MENU_CLOSE_ITEM</property>
-			  <signal name="activate" handler="on_file_close_activate" last_modification_time="Sun, 08 May 2005 15:47:06 GMT"/>
 			</widget>
 		      </child>
 
