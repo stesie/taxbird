@@ -5,6 +5,9 @@ SUBDIRS = src po
 desktopfiledir = $(prefix)/share/applications
 desktopfile_DATA = taxbird.desktop
 
+gladefiledir = $(pkgdatadir)
+gladefile_DATA = taxbird.glade
+
 mimedatadir = $(prefix)/share/mime/packages
 
 man_MANS = taxbird.1 taxbird-print-helper.1
