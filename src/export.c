@@ -1,4 +1,4 @@
-/* Copyright(C) 2005,2006,2007 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2005,2006,2007,2008 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -52,7 +52,7 @@ static pid_t taxbird_export_launch_subproc(int *to, int *from);
 typedef pid_t (* taxbird_export_subproc) (int *to, int *from);
 
 /* ask the user whether the exported data is okay */
-static void taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc,
+static void taxbird_export_ask_user(HtmlDocument *doc,
 				    SCM data, SCM proto_fn, SCM softpse_fn);
 
 /* launch the given command CMD (whether CMD may even contain arguments)
@@ -137,25 +137,25 @@ taxbird_export(int testcase)
   geier_context_free(ctx);
 
   if(xsltify_result) {
-    taxbird_dialog_error(appwin, _("Unable to xsltify the "
-				   "exported document. Sorry, but this "
-				   "should not happen. \n\nPlease consider "
-				   "posting to the taxbird@taxbird.de "
-				   "mailing list."));
+    taxbird_dialog_error(NULL, _("Unable to xsltify the "
+				 "exported document. Sorry, but this "
+				 "should not happen. \n\nPlease consider "
+				 "posting to the taxbird@taxbird.de "
+				 "mailing list."));
     return;
   }
 
   /* now convert xslt-result to HtmlDocument */
   HtmlDocument *doc = html_document_new();
   if(! doc) {
-    taxbird_dialog_error(appwin, _("Unable to allocate HtmlDocument."));
+    taxbird_dialog_error(NULL, _("Unable to allocate HtmlDocument."));
     return;
   }
 
   if(! html_document_open_stream(doc, "text/html")) {
     html_document_clear(doc);
-    taxbird_dialog_error(appwin, _("Unable to call open_stream"
-				   "on allocated HtmlDocument."));
+    taxbird_dialog_error(NULL, _("Unable to call open_stream"
+				 "on allocated HtmlDocument."));
     return;
   }
 
@@ -171,7 +171,7 @@ taxbird_export(int testcase)
   SCM softpse = scm_call_0(scm_c_lookup_ref("tb:get-softpse-filename"));
 
   /* ask the user, whether it's okay to send the data ************************/
-  taxbird_export_ask_user(appwin, doc, data, fn, softpse);
+  taxbird_export_ask_user(doc, data, fn, softpse);
   return;
 }
 
@@ -197,11 +197,12 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   int data_text_len = strlen(data_text);
 
   /* digitally sign the Coala-XML if requested *******************************/
-  GtkWidget *dsig = taxbird_glade_lookup(gladexml, "dsig");
+  GtkWidget *dsig = taxbird_glade_lookup(taxbird_gladexml_app, "dsig");
   if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dsig))) {
     GtkEntry *e;
 
-    e = GTK_ENTRY(lookup_widget(confirm_dlg, "dsig_fileentry_text"));
+    e = GTK_ENTRY(taxbird_glade_lookup(taxbird_gladexml_app, 
+                                       "dsig_fileentry_text"));
     const char *filename = gtk_entry_get_text(e);
 
     /* tell the guile backend about the new softpse filename ***/
@@ -209,7 +210,8 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
     scm_call_1(scm_c_lookup_ref("tb:set-softpse-filename"), softpse);
 
 
-    e = GTK_ENTRY(lookup_widget(confirm_dlg, "dsig_pincode"));
+    e = GTK_ENTRY(taxbird_glade_lookup(taxbird_gladexml_app, 
+                                       "dsig_pincode"));
     const char *pincode = gtk_entry_get_text(e);
     
     unsigned char *output;
@@ -235,9 +237,10 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   }       
 
   /* dump the generated Coala-XML to a file, if requested ********************/
-  GtkWidget *store = lookup_widget(confirm_dlg, "store");
+  GtkWidget *store = taxbird_glade_lookup(taxbird_gladexml_app, "store");
   if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(store))) {
-    GtkEntry *e = GTK_ENTRY(lookup_widget(confirm_dlg, "store_entry"));
+    GtkEntry *e = GTK_ENTRY(taxbird_glade_lookup(taxbird_gladexml_app, 
+                                                 "store_entry"));
     const char *filename = gtk_entry_get_text(e);
 
     if(! filename) {
@@ -265,7 +268,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
 
 
   /*** check whether we are requested to send the data to the IRO ************/
-  GtkWidget *send = lookup_widget(confirm_dlg, "send");
+  GtkWidget *send = taxbird_glade_lookup(taxbird_gladexml_app, "send");
   if(! gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(send))) {
     geier_context_free(ctx);
     free(data_text);
@@ -275,10 +278,12 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   /*** create filedescriptor for protocol output *****************************/
   pid_t pid_print = 0;
   int fd_to_lpr = -1, fd_from_lpr = -1;
-  GtkWidget *print = lookup_widget(confirm_dlg, "protocol_print");
+  GtkWidget *print = taxbird_glade_lookup(taxbird_gladexml_app, 
+                                          "protocol_print");
   if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(print))) {
     /* fork print process ***************/
-    GtkWidget *w = lookup_widget(confirm_dlg, "protocol_print_command");
+    GtkWidget *w = taxbird_glade_lookup(taxbird_gladexml_app, 
+                                        "protocol_print_command");
     const char *cmd = gtk_entry_get_text(GTK_ENTRY(w));
 
     pid_print = taxbird_export_launch_command(cmd, &fd_to_lpr, &fd_from_lpr);
@@ -293,10 +298,12 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   }
 
   int fd_to_protofile = -1;
-  GtkWidget *protosave = lookup_widget(confirm_dlg, "protocol_store");
+  GtkWidget *protosave = taxbird_glade_lookup(taxbird_gladexml_app, 
+                                              "protocol_store");
   if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(protosave))) {
     /* open file to write protocol to ***/
-    GtkWidget *w = lookup_widget(confirm_dlg, "protocol_store_fileentry_text");
+    GtkWidget *w = taxbird_glade_lookup(taxbird_gladexml_app, 
+                                        "protocol_store_fileentry_text");
     const char *filename = gtk_entry_get_text(GTK_ENTRY(w));
 
     fd_to_protofile = open(filename, O_WRONLY | O_CREAT | O_TRUNC,
@@ -518,14 +525,14 @@ taxbird_export_launch_subproc(int *to, int *from)
 
 /* show the export druid and return */
 static void
-taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc, SCM data,
+taxbird_export_ask_user(HtmlDocument *doc, SCM data,
 			SCM fn, SCM softpse_fn)
 {
-  (void) appwin;  /* unused for the moment */
+  /* GtkWidget *confirm_dlg = create_dlgExportConfirmation(); */
+  GtkWidget *confirm_dlg = taxbird_glade_create(taxbird_gladexml_app, 
+                                                "dlgExportConfirmation");
 
-  GtkWidget *confirm_dlg = create_dlgExportConfirmation();
-
-  GtkWidget *htmlview = lookup_widget(confirm_dlg, "htmlview");
+  GtkWidget *htmlview = taxbird_glade_lookup(taxbird_gladexml_app, "htmlview");
   html_view_set_document(HTML_VIEW(htmlview), doc);
 
   g_object_set_data_full(G_OBJECT(confirm_dlg), "data", 
@@ -533,17 +540,19 @@ taxbird_export_ask_user(GtkWidget *appwin, HtmlDocument *doc, SCM data,
 			 (GDestroyNotify) scm_gc_unprotect_object);
 
   if(scm_is_string(fn)) {
-    GtkWidget *w = lookup_widget(confirm_dlg, "protocol_store_fileentry_text");
+    GtkWidget *w = taxbird_glade_lookup(taxbird_gladexml_app, 
+                                        "protocol_store_fileentry_text");
     char *filename = scm_to_locale_string(fn);
     gtk_entry_set_text(GTK_ENTRY(w), filename);
     free(filename);
   }
 
   if(scm_is_string(softpse_fn)) {
-    GtkWidget *dsig = lookup_widget(confirm_dlg, "dsig");
+    GtkWidget *dsig = taxbird_glade_lookup(taxbird_gladexml_app, "dsig");
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dsig), 1);
 
-    GtkWidget *w = lookup_widget(confirm_dlg, "dsig_fileentry_text");
+    GtkWidget *w = taxbird_glade_lookup(taxbird_gladexml_app, 
+                                        "dsig_fileentry_text");
     char *filename = scm_to_locale_string(softpse_fn);
     gtk_entry_set_text(GTK_ENTRY(w), filename);
     free(filename);
