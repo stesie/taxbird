@@ -529,8 +529,7 @@ taxbird_export_ask_user(HtmlDocument *doc, SCM data,
 			SCM fn, SCM softpse_fn)
 {
   /* GtkWidget *confirm_dlg = create_dlgExportConfirmation(); */
-  GtkWidget *confirm_dlg = taxbird_glade_create(taxbird_gladexml_app, 
-                                                "dlgExportConfirmation");
+  GtkWidget *confirm_dlg = taxbird_glade_create(NULL, "dlgExportConfirmation");
 
   GtkWidget *htmlview = taxbird_glade_lookup(taxbird_gladexml_app, "htmlview");
   html_view_set_document(HTML_VIEW(htmlview), doc);
