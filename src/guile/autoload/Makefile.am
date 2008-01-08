@@ -6,7 +6,6 @@ autoloaddir = $(datadir)/taxbird/guile/autoload
 autoload_DATA = \
 	24-ustva-2007-stub.scm \
 	25-ustva-2006-stub.scm \
-	26-ustva-2005-stub.scm \
 	74-ustsvza-2007-stub.scm \
 	75-ustsvza-2006-stub.scm
 
