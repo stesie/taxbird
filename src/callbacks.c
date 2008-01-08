@@ -359,3 +359,38 @@ on_file_send_testcase_activate         (GtkMenuItem     *menuitem,
   taxbird_export(1);
 }
 
+
+gboolean
+on_export_druid_cancel                 (GtkWidget       *widget,
+                                        GdkEvent        *event,
+                                        gpointer         user_data)
+{
+  (void) event;
+  (void) user_data;
+
+  /* we don't have to disallocate any data - the associated data 
+   * structure will be unprotected and then garbage collected */
+
+  widget = taxbird_glade_lookup(taxbird_gladexml_export, 
+                                "dlgExportConfirmation");
+  gtk_widget_destroy(widget);
+
+  return FALSE; /* close dialog, for delete-event */
+}
+
+
+void
+on_export_druid_finish(GnomeDruidPage *page, GtkWidget *widget,
+		       gpointer user_data)
+{
+  (void) page;
+  (void) user_data;
+
+  GtkWidget *confirm_dlg = taxbird_glade_lookup(taxbird_gladexml_export, 
+                                                "dlgExportConfirmation");
+
+  if(taxbird_export_bottom_half(confirm_dlg))
+    return; /* error occured */
+
+  gtk_widget_destroy(confirm_dlg);
+}

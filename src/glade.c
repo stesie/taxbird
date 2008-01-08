@@ -30,6 +30,8 @@ GladeXML *taxbird_gladexml_app = NULL;
 /* GladeXML object of the active sheet */
 GladeXML *taxbird_gladexml_sheet = NULL;
 
+/* GladeXML object of the export dialog */
+GladeXML *taxbird_gladexml_export = NULL;
 
 GtkWidget *
 taxbird_glade_create(GladeXML **xml, const char *widget_name)

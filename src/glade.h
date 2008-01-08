@@ -31,6 +31,9 @@ extern GladeXML *taxbird_gladexml_app;
 /* GladeXML object of the active sheet */
 extern GladeXML *taxbird_gladexml_sheet;
 
+/* GladeXML object of the export dialog */
+extern GladeXML *taxbird_gladexml_export;
+
 GtkWidget *taxbird_glade_create(GladeXML **xml, const char *widget_name);
 
 GtkWidget *taxbird_glade_lookup(GladeXML *xml, const char *widget_name);
