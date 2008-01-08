@@ -533,7 +533,12 @@ taxbird_export_ask_user(HtmlDocument *doc, SCM data,
   GtkWidget *confirm_dlg = taxbird_glade_create(&taxbird_gladexml_export, 
                                                 "dlgExportConfirmation");
 
-  GtkWidget *htmlview = taxbird_glade_lookup(taxbird_gladexml_export, "htmlview");
+  GtkWidget *scroll = taxbird_glade_lookup(taxbird_gladexml_export, 
+                                           "scroll_htmlview");
+  g_return_if_fail(scroll);
+
+  GtkWidget *htmlview = html_view_new();
+  gtk_container_add(GTK_CONTAINER(scroll), htmlview);
   html_view_set_document(HTML_VIEW(htmlview), doc);
 
   g_object_set_data_full(G_OBJECT(confirm_dlg), "data", 
@@ -559,7 +564,7 @@ taxbird_export_ask_user(HtmlDocument *doc, SCM data,
     free(filename);
   }    
 
-  gtk_widget_show(confirm_dlg);
+  gtk_widget_show_all(confirm_dlg);
 }
 
 
