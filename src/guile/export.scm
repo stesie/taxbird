@@ -34,7 +34,7 @@
 
 (define export:make-transfer-header
   (lambda (store daten-art sig-result)
-    (append '("TransferHeader" (("version" "7")))
+    (append '("TransferHeader" (("version" "8")))
 	    (list (append (list "Verfahren" #f "ElsterAnmeldung"
 				"DatenArt"  #f daten-art
 				"Vorgang"   #f "send-NoSig")
@@ -87,7 +87,7 @@
       (set! st-nummer
 	    (steuernummer:convert land (storage:retrieve store "stnr")))
 
-      (list "NutzdatenHeader" '(("version" "9"))
+      (list "NutzdatenHeader" '(("version" "10"))
 	    (append
 	     (list "NutzdatenTicket" #f (number->string (random 10000000))
 		   "Empfaenger" '(("id" "F")) (substring st-nummer 0 4)
