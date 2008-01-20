@@ -19,8 +19,6 @@ guilestuff_DATA = \
 	storage.scm \
 	string.scm \
 	taxbird.scm \
-	ustsvza-2006.xml \
-	ustsvza-2006.scm \
 	ustsvza-2007.xml \
 	ustsvza-2007.scm \
 	ustva-2006.xml \
