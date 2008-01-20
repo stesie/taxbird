@@ -4,14 +4,12 @@ SUBDIRS = autoload
 
 guilestuffdir = $(datadir)/taxbird/guile
 guilestuff_DATA = \
-	console.scm \
 	datenlieferant.xml \
 	datenlieferant.scm \
 	export.scm \
 	mandverw.scm \
 	mandverw.xml \
 	monetary.scm \
-	readline.scm \
 	revalidate.scm \
 	sheettree.scm \
 	startup.scm \

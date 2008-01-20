@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,2005,2007 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2004,2005,2007,2008 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -25,14 +25,10 @@
 
 #include "workspace.h"
 #include "guile.h"
-#include "console.h"
 
 
 /* forwarded main, i.e. with guile support initialized */
 static void main_forward(void *closure, int argc, char **argv);
-
-/* whether we're using the console interface or the common gui */
-static int taxbird_enable_console = 0;
 
 int
 main (int argc, char *argv[])
@@ -43,24 +39,10 @@ main (int argc, char *argv[])
   textdomain (GETTEXT_PACKAGE);
 #endif
 
-  /* scan argument list for `--console' flag before we pass control
-   * to the gnome cruft ...
-   */
-  char **ptr = argv;
-  if(*ptr) do
-    if(! strcmp(*ptr, "--console")) {
-      do ptr[0] = ptr[1]; while(* (++ ptr));
-      argc --;
-      taxbird_enable_console = 1;
-      break;
-    }
-  while(* (++ ptr));
-
-  if(! taxbird_enable_console)
-    gnome_program_init (PACKAGE_NAME, PACKAGE_VERSION, LIBGNOMEUI_MODULE,
-			argc, argv,
-			GNOME_PARAM_APP_DATADIR, PACKAGE_DATA_DIR,
-			NULL);
+  gnome_program_init (PACKAGE_NAME, PACKAGE_VERSION, LIBGNOMEUI_MODULE,
+		      argc, argv,
+		      GNOME_PARAM_APP_DATADIR, PACKAGE_DATA_DIR,
+		      NULL);
 
   /* initialize GEIER library */
   geier_init(0); /* don't create debug output */
@@ -95,20 +77,13 @@ main_forward(void *closure, int argc, char **argv)
 
     /* load taxbird's Guile extension stuff */
     taxbird_guile_init();
-
-    if(taxbird_enable_console)
-      taxbird_console_init();
-
     taxbird_guile_eval_file("startup.scm");
 
-    if(!taxbird_enable_console) {
-      /* Create application window. */
-      if(! taxbird_ws_new())
-	exit(1); /* abort start */
-      
-      if(argc == 2)
-	taxbird_ws_open(argv[1]);
-    }
+    if(! taxbird_ws_new())
+      exit(1); /* abort start */
+    
+    if(argc == 2)
+      taxbird_ws_open(argv[1]);
 
     return SCM_BOOL(0);
   }
@@ -124,13 +99,7 @@ main_forward(void *closure, int argc, char **argv)
   SCM main_forward_catchy(void *body_data) {
     (void) body_data;
 
-    if(taxbird_enable_console) {
-      printf("*** Taxbird Console Interface ***\n");
-      gh_repl(argc, argv);
-    }
-    else 
-      gtk_main (); /* run common application */
-
+    gtk_main (); /* run common application */
     return SCM_BOOL(0);
   }
 

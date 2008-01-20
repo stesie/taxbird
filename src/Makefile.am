@@ -13,7 +13,6 @@ bin_SCRIPTS = taxbird-print-helper
 
 taxbird_SOURCES = \
         main.c \
-	console.c console.h \
         callbacks.c callbacks.h \
         workspace.c workspace.h \
 	glade.c glade.h \
