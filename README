@@ -1,13 +1,13 @@
 			-*- mode: auto-fill; coding: utf-8 -*-
 taxbird - Gnome-2 based application to create Elster (Geier) XML files
 
-Copyright (C) 2004,2005,2006,2007 Stefan Siegl <stesie@brokenpipe.de>, Germany
+Copyright (C) 2004,2005,2006,2007,2008 Stefan Siegl <stesie@brokenpipe.de>
                       (see AUTHORS for a complete and detailed list 
 		       of authors, contributers and copyrightholders)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
+the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
@@ -84,9 +84,8 @@ $ make install
 
 Benötigte Bibliotheken:
 -----------------------
-GNU Guile 1.6.7 (andere können funktionieren)
-Mozilla XULrunner NSS  
-XMLsec-NSS
+GNU Guile
+libgeier (und Mozilla XULrunner NSS, XMLsec-NSS)
 libgnomeui-2.0 (Gnome Development Libraries)
 libgtkhtml-2.0 (GtkHTML Widget)
 
@@ -105,14 +104,6 @@ unter https://www.elster.de/doc/teilnahmeerklaerung.pdf herunterladen.
 
 (probably) Frequently Asked Questions
 -------------------------------------
-F: Beim kompilieren tritt folgende Fehlermeldung auf:
-   ** (glade-2:32360): WARNING **: Unknown widget class: GnomeApp
-
-A: Sie haben zwar Glade-2 installiert, allerdings eine Variante, die
-   keine Gnome-Unterstützung bietet. Unter Debian GNU/Linux ist zum
-   Beispiel das Paket glade-gnome-2 zu installieren, nicht glade-2.
-
-
 F: In der Voransicht im Daten-Senden-Dialog sowie am ausgedruckten
    Protokoll sind die Felder "Unternehmer" sowie "Erstellt von" leer
 
@@ -123,5 +114,3 @@ A: Die Felder werden seitens dem von der Finanzverwaltung zur Verfügung
 
 
 Vielen Dank, dass Sie Taxbird verwenden!
-
-$Id: README,v 1.13 2007-01-07 14:17:16 stesie Exp $
