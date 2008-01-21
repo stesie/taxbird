@@ -96,7 +96,7 @@
 
 	(let ((sig-result (and (not test)
 			       (list "00616"
-				     "$Id: 25-ustva-2006-stub.scm,v 1.2 2007-01-07 14:15:29 stesie Exp $"))))
+				     "ustva-2006, $Id$"))))
 
 	  ;; document's content is valid, let's export it, to make the
 	  ;; IRO know, what nice programs there exist out in the free world ...
