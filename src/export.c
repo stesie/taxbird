@@ -36,11 +36,6 @@
 #include "workspace.h"
 #include "glade.h"
 
-#ifndef HAVE_LIBOPENSC
-/* we're not able to sign using chipcards, without libopensc */
-# undef HAVE_GEIER_DSIG_SIGN_OPENSC
-#endif
-
 /* ask current template's guile backend to generate the data we'd
  * like to write out (in case testcase is set, with data being marked
  * as testcase data) */
