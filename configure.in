@@ -42,7 +42,6 @@ LDFLAGS="$LDFLAGS $GEIER_LIBS"
 
 dnl Check for new-style signature functions of libgeier
 AC_CHECK_FUNCS([geier_dsig_sign_softpse])
-AC_CHECK_FUNCS([geier_dsig_sign_opensc])
 
 
 #
