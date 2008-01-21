@@ -2,9 +2,8 @@ src/callbacks.c
 src/dialog.c
 src/export.c
 src/form.c
+src/glade.c
 src/guile.c
-src/interface.c
 src/main.c
-src/support.c
 src/workspace.c
-src/console.c
+taxbird.glade
