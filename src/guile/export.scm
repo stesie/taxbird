@@ -15,8 +15,6 @@
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-(use-modules (ice-9 regex))
-
 ;; seed pseudo random number generator
 (set! *random-state* (seed->random-state (current-time)))
 
@@ -69,16 +67,12 @@
 			  (list "VersionClient" #f (tb:get-version)))))))
 
   
-(define export:sig-id-regexp
-  (make-regexp "([^ ]+\\.scm,v [0-9\\.]+)"))
-    
 (define export:make-nutzdaten-header
   (lambda (store sig-result)
     (tb:eval-file "steuernummer.scm")
     (let ((land (string->number (storage:retrieve store "land")))
 	  (sig-id (if (list? sig-result) 
-		      (match:substring
-		       (regexp-exec export:sig-id-regexp (cadr sig-result)))
+		      (substring (cadr sig-result) 0 50)
 
 		      ;; if signature is not valid, fill default string
 		      "(not assigned)"))
