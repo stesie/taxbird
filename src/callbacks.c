@@ -220,8 +220,9 @@ on_choose_template_OK_clicked(GtkButton *button, gpointer user_data)
   }
   
   gtk_tree_model_get(model, &iter, 0, &sel_form_name, -1);
-  
-  taxbird_ws_sel_form(taxbird_form_get_by_name(sel_form_name));
+
+  if(! taxbird_document_ask_save_file ())
+    taxbird_ws_sel_form(taxbird_form_get_by_name(sel_form_name));
  
   g_free(sel_form_name);
   gtk_widget_destroy(dialog);
@@ -279,7 +280,8 @@ on_choose_file_OK_clicked(GtkButton *button, gpointer user_data)
     }
 
     else {
-      taxbird_ws_open(fname);
+      if(! taxbird_document_ask_save_file ())
+	taxbird_ws_open(fname);
     }
 
     g_free(fname);
