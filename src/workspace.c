@@ -125,6 +125,18 @@ taxbird_ws_sel_form(int formid)
   if(SCM_NFALSEP(scm_list_p(taxbird_document_data)))
     scm_gc_unprotect_object(taxbird_document_data);
   taxbird_document_data = scm_gc_protect_object(scm_list_copy(data));
+
+  /* remove old viewport */
+  GtkWidget *child;
+  GtkBin *viewport =
+    GTK_BIN(taxbird_glade_lookup(taxbird_gladexml_app, "viewport"));
+  
+  if((child = GTK_WIDGET(gtk_bin_get_child(viewport))))
+    gtk_widget_destroy(child);
+
+  child = gtk_label_new("");
+  gtk_container_add(GTK_CONTAINER(viewport), child);
+  gtk_widget_show(child);
 }
 
 
