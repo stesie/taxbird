@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,2005,2007 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2004,2005,2007,2008 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -97,21 +97,30 @@ taxbird_ws_sel_form(int formid)
 {
   GtkTreeViewColumn *column;
   GtkTreeStore *tree;
+  GtkTreeModel *model;
   GtkTreeView *tv_sheets =
     GTK_TREE_VIEW(taxbird_glade_lookup(taxbird_gladexml_app, "tv_sheets"));
 
   g_return_if_fail(formid >= 0);
   g_return_if_fail(tv_sheets);
 
-  /* add column */
-  GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
-  column = gtk_tree_view_column_new_with_attributes(_("Available Sheets"),
-						    renderer, "text", 0, NULL);
-  gtk_tree_view_append_column(tv_sheets, column);
+  if((model = gtk_tree_view_get_model(tv_sheets))) {
+    /* there already is an attached model, replace it. */
+    tree = GTK_TREE_STORE(model);
+    gtk_tree_store_clear(model);
+  } 
+  else {
+    /* add column */
+    GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
+    column = gtk_tree_view_column_new_with_attributes(_("Available Sheets"),
+						      renderer, "text", 0, NULL);
+    gtk_tree_view_append_column(tv_sheets, column);
 
-  /* add names of available sheets */
-  tree = gtk_tree_store_new(1, G_TYPE_STRING);
-  gtk_tree_view_set_model(tv_sheets, GTK_TREE_MODEL(tree));
+    /* add names of available sheets */
+    tree = gtk_tree_store_new(1, G_TYPE_STRING);
+    gtk_tree_view_set_model(tv_sheets, GTK_TREE_MODEL(tree));
+  }
+
   SCM sheet_tree = scm_call_0(forms[formid]->get_sheet_tree);
   taxbird_ws_fill_tree_store(tree, NULL, sheet_tree);
 
