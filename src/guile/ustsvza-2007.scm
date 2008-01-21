@@ -72,7 +72,8 @@
 			    (storage:store buffer "Kz38"
 					   (if (< (ms->number v) 0) 0
 					       (inexact->exact
-						(/ (ms->number v) 11))))))))
+						(floor 
+						 (/ (ms->number v) 11)))))))))
 
       ;; recurse through the upper list 'list', looking for the field to
       ;; use as the calculation base ...
