@@ -583,7 +583,7 @@ taxbird_ws_chooser_additem(SCM chooser, SCM item)
 
   char *widg = scm_to_locale_string(chooser);
   GtkTreeView *view =
-    GTK_TREE_VIEW(taxbird_glade_lookup(taxbird_gladexml_app, widg));
+    GTK_TREE_VIEW(taxbird_glade_lookup(taxbird_gladexml_sheet, widg));
   free(widg);
 
   g_return_val_if_fail(view, SCM_BOOL(0));
