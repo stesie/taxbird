@@ -8,6 +8,8 @@ void
 on_file_open_activate                  (GtkMenuItem     *menuitem,
                                         gpointer         user_data);
 
+void on_file_new_from_last_year_activate(GtkMenuItem *mi, gpointer u);
+
 void
 on_file_save_activate                  (GtkMenuItem     *menuitem,
                                         gpointer         user_data);
@@ -36,10 +38,10 @@ void
 on_tv_sheets_cursor_changed            (GtkTreeView     *treeview,
                                         gpointer         user_data);
 
+void on_choose_file_open(GtkButton *button, gpointer user_data);
+void on_choose_file_copy_last_year(GtkButton *button, gpointer user_data);
+void on_choose_file_save(GtkButton *button, gpointer user_data);
 
-void
-on_choose_file_OK_clicked              (GtkButton       *button,
-                                        gpointer         user_data);
 
 void
 on_file_send_activate                  (GtkMenuItem     *menuitem,

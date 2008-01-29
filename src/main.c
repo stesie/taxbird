@@ -83,7 +83,7 @@ main_forward(void *closure, int argc, char **argv)
       exit(1); /* abort start */
     
     if(argc == 2)
-      taxbird_ws_open(argv[1]);
+      taxbird_ws_open(argv[1], FALSE);
 
     return SCM_BOOL(0);
   }

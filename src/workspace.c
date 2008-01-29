@@ -502,7 +502,7 @@ taxbird_ws_show_appbar_help(GtkWidget *widget, GdkEventFocus *event,
 
 /* load taxbird workspace from file */
 void
-taxbird_ws_open(const char *fname)
+taxbird_ws_open(const char *fname, gboolean copy_last_year)
 {
   SCM handle = scm_open_file(scm_makfrom0str(fname),
 			     scm_makfrom0str("r"));
@@ -512,6 +512,16 @@ taxbird_ws_open(const char *fname)
   if(! SCM_NFALSEP(scm_list_p(content)) || scm_ilength(content) != 2) {
     g_warning("unable to load file %s", fname);
     return;
+  }
+
+  if(copy_last_year) {
+    taxbird_guile_eval_file("inc-year.scm");
+    scm_call_1(scm_c_lookup_ref("tb:inc-year"), content);
+
+    if(! SCM_NFALSEP(scm_list_p(content)) || scm_ilength(content) != 2) {
+      g_warning("unable to load file %s", fname);
+      return;
+    }
   }
 
   char *formname = scm_to_locale_string(SCM_CAR(content));

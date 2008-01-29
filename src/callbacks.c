@@ -79,14 +79,31 @@ on_file_new_activate(GtkMenuItem *menuitem, gpointer user_data)
 
 
 void
-on_file_open_activate(GtkMenuItem *menuitem, gpointer user_data)
+on_file_new_from_last_year_activate(GtkMenuItem *mi, gpointer u)
 {
-  (void) user_data;
+  (void) mi;
+  (void) u;
 
-  GtkWidget *dialog = taxbird_glade_create(NULL, "dlgChooseFile");
+  GladeXML *xml = NULL;
+  GtkWidget *dialog = taxbird_glade_create(&xml, "dlgChooseFile");
+  g_signal_connect(G_OBJECT(taxbird_glade_lookup(xml, "cmdOK")),
+		   "activate", G_CALLBACK(on_choose_file_copy_last_year), NULL);
   gtk_widget_show(dialog);
 }
 
+
+void
+on_file_open_activate(GtkMenuItem *menuitem, gpointer user_data)
+{
+  (void) menuitem;
+  (void) user_data;
+
+  GladeXML *xml = NULL;
+  GtkWidget *dialog = taxbird_glade_create(&xml, "dlgChooseFile");
+  g_signal_connect(G_OBJECT(taxbird_glade_lookup(xml, "cmdOK")),
+		   "activate", G_CALLBACK(on_choose_file_open), NULL);
+  gtk_widget_show(dialog);
+}
 
 void
 on_file_save_activate(GtkMenuItem *menuitem, gpointer user_data)
@@ -109,9 +126,12 @@ on_file_saveas_activate(GtkMenuItem *menuitem, gpointer user_data)
   (void) menuitem;
   (void) user_data;
 
-  GtkWidget *dialog = taxbird_glade_create(NULL, "dlgChooseFile");
+  GladeXML *xml = NULL;
+  GtkWidget *dialog = taxbird_glade_create(&xml, "dlgChooseFile");
   gtk_file_chooser_set_action(GTK_FILE_CHOOSER(dialog),
 			      GTK_FILE_CHOOSER_ACTION_SAVE);
+  g_signal_connect(G_OBJECT(taxbird_glade_lookup(xml, "cmdOK")),
+		   "activate", G_CALLBACK(on_choose_file_save), NULL);
   gtk_widget_show(dialog);
 }
 
@@ -252,14 +272,51 @@ on_tv_sheets_cursor_changed(GtkTreeView *tv, gpointer user_data)
 }
 
 
+static gchar *
+on_choose_file_get_fname(GtkWidget *widget)
+{
+  GladeXML *gladexml = glade_get_widget_tree(widget);
+  GtkWidget *dialog = taxbird_glade_lookup(gladexml, "dlgChooseFile");
+  g_return_val_if_fail(dialog, NULL);
 
-/* OK button in file open/save dialog clicked ... */
+  gchar *fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+
+  if(fname && taxbird_document_ask_save_file ()) {
+    g_free(fname);
+    fname = NULL;
+  }
+
+  gtk_widget_destroy(dialog);
+  return fname;
+}
+
 void
-on_choose_file_OK_clicked(GtkButton *button, gpointer user_data)
+on_choose_file_open(GtkButton *button, gpointer user_data)
 {
   (void) user_data;
 
-  GtkWidget *appwindow;
+  gchar *fname = on_choose_file_get_fname(GTK_WIDGET(button));
+  if(fname)
+    taxbird_ws_open(fname, FALSE);
+}
+
+
+void
+on_choose_file_copy_last_year(GtkButton *button, gpointer user_data)
+{
+  (void) user_data;
+
+  gchar *fname = on_choose_file_get_fname(GTK_WIDGET(button));
+  if(fname)
+    taxbird_ws_open(fname, TRUE);
+}
+
+
+void
+on_choose_file_save(GtkButton *button, gpointer user_data)
+{
+  (void) user_data;
+
   gchar *fname;
 
   GladeXML *gladexml = glade_get_widget_tree(GTK_WIDGET(button));
@@ -269,24 +326,15 @@ on_choose_file_OK_clicked(GtkButton *button, gpointer user_data)
   fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 
   if(fname) {
-    if(gtk_file_chooser_get_action(GTK_FILE_CHOOSER(dialog)) == 
-       GTK_FILE_CHOOSER_ACTION_SAVE) {
-      if(! strchr(fname, '.')) {
-	fname = g_realloc(fname, strlen(fname) + 5);
-	strcat(fname, ".txb");
-      }
-
-      taxbird_ws_save(fname);
+    if(! strchr(fname, '.')) {
+      fname = g_realloc(fname, strlen(fname) + 5);
+      strcat(fname, ".txb");
     }
 
-    else {
-      if(! taxbird_document_ask_save_file ())
-	taxbird_ws_open(fname);
-    }
-
-    g_free(fname);
+    taxbird_ws_save(fname);
   }
 
+  g_free(fname);
   gtk_widget_destroy(dialog);
 }
 

@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,2005 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2004,2005,2008 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 GtkWidget *taxbird_ws_new(void);
 
 /* load taxbird workspace from file */
-void taxbird_ws_open(const char *fname);
+void taxbird_ws_open(const char *fname, gboolean last_year);
 
 /* store taxbird workspace to file */
 void taxbird_ws_save(const char *fname);
