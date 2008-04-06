@@ -70,7 +70,11 @@ cat >> $TMPFILE # store protocol
 # OUR FAVOURITES IN DESCENDING ORDER ...
 #
 if which html2ps > /dev/null; then
-  cat $TMPFILE | sed 's/\/>/>/g' | html2ps | $LPR $*
+  cat $TMPFILE |
+    sed 's,<table[^>]*/>,,g' |  # ignore empty tables
+    sed 's,/>,>,g' |            # empty XHTML tags -> empty HTML tags
+    html2ps |
+    $LPR $*
   rm -f $TMPFILE
   exit 0
 fi
