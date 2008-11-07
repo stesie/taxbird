@@ -26,7 +26,7 @@ install-data-local:
 	  $(install_sh) -d $(DESTDIR)$(datadir)/pixmaps/$(PACKAGE); \
 	  for pixmap in $(srcdir)/pixmaps/*; do \
 	    if test -f $$pixmap; then \
-	      $(INSTALL_DATA) $$pixmap $(DESTDIR)$(datadir)/pixmaps/$(PACKAGE); \
+	      $(INSTALL_DATA) $$pixmap $(DESTDIR)$(datadir)/$(PACKAGE); \
 	    fi \
 	  done \
 	fi
