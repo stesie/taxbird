@@ -7,6 +7,7 @@ guilestuff_DATA = \
 	datenlieferant.xml \
 	datenlieferant.scm \
 	export.scm \
+	inc-year.scm \
 	mandverw.scm \
 	mandverw.xml \
 	monetary.scm \
