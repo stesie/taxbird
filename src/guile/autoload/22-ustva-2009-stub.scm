@@ -20,6 +20,7 @@
 
 (and 
  (require-version 0 4 "Umsatzsteuervoranmeldung 2009")
+ (require-geier-version 0 10 "Umsatzsteuervoranmeldung 2009")
 
  ;; if version requirement is met, try to add the sheet ...
  (tb:form-register

@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,2005,2006,2007 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2004,2005,2006,2007,2008 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@
 #include <glib.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <geierversion.h>
 
 #include "guile.h"
 #include "form.h"
@@ -36,6 +37,7 @@ static SCM taxbird_guile_eval_file_SCM(SCM scm_fn);
 static SCM taxbird_dialog_error_SCM(SCM message);
 static SCM taxbird_dialog_info_SCM(SCM message);
 static SCM taxbird_get_version(void);
+static SCM taxbird_get_geier_version(void);
 static SCM taxbird_activate_sheet(SCM file, SCM root);
 
 /* initialize taxbird's guile backend */
@@ -55,6 +57,7 @@ void taxbird_guile_init(void)
   scm_c_define_gsubr("tb:dlg-error", 1, 0, 0, taxbird_dialog_error_SCM);
   scm_c_define_gsubr("tb:dlg-info", 1, 0, 0, taxbird_dialog_info_SCM);
   scm_c_define_gsubr("tb:get-version", 0, 0, 0, taxbird_get_version);
+  scm_c_define_gsubr("tb:get-geier-version", 0, 0, 0, taxbird_get_geier_version);
   scm_c_define_gsubr("tb:activate-sheet", 2, 0, 0, taxbird_activate_sheet);
   scm_c_define_gsubr("tb:chooser-additem", 2, 0, 0, taxbird_ws_chooser_additem);
 }
@@ -204,6 +207,14 @@ static SCM
 taxbird_get_version(void)
 {
   return scm_makfrom0str(PACKAGE_VERSION);
+}
+
+
+/* Return libgeier's version number */
+static SCM 
+taxbird_get_geier_version(void)
+{
+  return scm_makfrom0str(LIBGEIER_DOTTED_VERSION);
 }
 
 

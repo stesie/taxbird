@@ -1,4 +1,4 @@
-;; Copyright(C) 2005,2006 Stefan Siegl <stesie@brokenpipe.de>
+;; Copyright(C) 2005,2006,2008 Stefan Siegl <stesie@brokenpipe.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -35,3 +35,27 @@
 		   sheet-name)))
 
       ret)))
+
+
+(if (require-version 0 12 "versions.scm")
+    (let ()
+      (define geier-version (string-split (tb:get-geier-version) #\.))
+      (define geier-major (string->number (car geier-version)))
+      (define geier-minor (string->number (cadr geier-version)))))
+
+(define require-geier-version
+  (lambda (major minor sheet-name)
+    (if (require-version 0 12 sheet-name)
+	(let ((ret (or (> geier-major major)
+		       (and (= geier-major major)
+			    (>= geier-minor minor)))))
+	  (if (not ret)
+	      (tb:dlg-error 
+	       (format #f (string-append "The installed sheet `~A' currently "
+					 "cannot be used, since the used version "
+					 "of libgeier (the backend library) "
+					 "is to old. Please do an "
+					 "update of the library and come back. ")
+		       sheet-name)))
+
+	  ret))))
