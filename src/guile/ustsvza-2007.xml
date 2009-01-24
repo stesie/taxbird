@@ -148,7 +148,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label2">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Summe der verbleibenden Umsatzsteuer-Vorauszahlungen &lt;b&gt;zuzüglich&lt;/b&gt; der angerechneten Sondervorauszahlung für das Kalenderjahr 2006</property>
+		      <property name="label" translatable="yes">Summe der verbleibenden Umsatzsteuer-Vorauszahlungen &lt;b&gt;zuzüglich&lt;/b&gt; der angerechneten Sondervorauszahlung für das Vorjahr</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -197,7 +197,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label3">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Davon 1/11 = &lt;b&gt;Sondervorauszahlung 2007&lt;/b&gt;</property>
+		      <property name="label" translatable="yes">Davon 1/11 = &lt;b&gt;Sondervorauszahlung&lt;/b&gt;</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
