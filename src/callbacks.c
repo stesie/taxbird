@@ -20,7 +20,7 @@
 #  include <config.h>
 #endif
 
-#include <libgtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml.h>
 #include <gnome.h>
 
 #include "callbacks.h"

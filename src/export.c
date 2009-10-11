@@ -21,7 +21,7 @@
 #endif
 
 #include <gnome.h>
-#include <libgtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml.h>
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -47,7 +47,7 @@ static pid_t taxbird_export_launch_subproc(int *to, int *from);
 typedef pid_t (* taxbird_export_subproc) (int *to, int *from);
 
 /* ask the user whether the exported data is okay */
-static void taxbird_export_ask_user(HtmlDocument *doc,
+static void taxbird_export_ask_user(GtkWidget *html,
 				    SCM data, SCM proto_fn, SCM softpse_fn);
 
 /* launch the given command CMD (whether CMD may even contain arguments)
@@ -140,22 +140,13 @@ taxbird_export(int testcase)
     return;
   }
 
-  /* now convert xslt-result to HtmlDocument */
-  HtmlDocument *doc = html_document_new();
+  /* now convert xslt-result to GtkHTML */
+  GtkWidget *doc = gtk_html_new_from_string
+	((const char *) data_xslt, data_xslt_len);
   if(! doc) {
-    taxbird_dialog_error(NULL, _("Unable to allocate HtmlDocument."));
+    taxbird_dialog_error(NULL, _("Unable to allocate GtkHTML widget."));
     return;
   }
-
-  if(! html_document_open_stream(doc, "text/html")) {
-    html_document_clear(doc);
-    taxbird_dialog_error(NULL, _("Unable to call open_stream"
-				 "on allocated HtmlDocument."));
-    return;
-  }
-
-  html_document_write_stream(doc, (const char *) data_xslt, data_xslt_len);
-  html_document_close_stream(doc);
 
   free(data_xslt);
 
@@ -520,7 +511,7 @@ taxbird_export_launch_subproc(int *to, int *from)
 
 /* show the export druid and return */
 static void
-taxbird_export_ask_user(HtmlDocument *doc, SCM data,
+taxbird_export_ask_user(GtkWidget *doc, SCM data,
 			SCM fn, SCM softpse_fn)
 {
   /* GtkWidget *confirm_dlg = create_dlgExportConfirmation(); */
@@ -532,9 +523,7 @@ taxbird_export_ask_user(HtmlDocument *doc, SCM data,
                                            "scroll_htmlview");
   g_return_if_fail(scroll);
 
-  GtkWidget *htmlview = html_view_new();
-  gtk_container_add(GTK_CONTAINER(scroll), htmlview);
-  html_view_set_document(HTML_VIEW(htmlview), doc);
+  gtk_container_add(GTK_CONTAINER(scroll), doc);
 
   g_object_set_data_full(G_OBJECT(confirm_dlg), "data", 
 			 (void*) scm_gc_protect_object(data),
