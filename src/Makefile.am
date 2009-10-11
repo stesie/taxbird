@@ -6,7 +6,7 @@ INCLUDES = \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DVERSION=\""$(VERSION)"\" \
-	@GNOME_CFLAGS@ @GEIER_CFLAGS@ @GUILE_CFLAGS@
+	@GNOME_CFLAGS@ @GEIER_CFLAGS@ @GUILE_CFLAGS@ @GTKHTML_CFLAGS@
 
 bin_PROGRAMS = taxbird
 bin_SCRIPTS = taxbird-print-helper
@@ -21,7 +21,8 @@ taxbird_SOURCES = \
 	dialog.c dialog.h \
 	export.c export.h
 
-taxbird_LDADD = @GNOME_LIBS@ @GEIER_LIBS@ $(INTLLIBS) @GUILE_LDFLAGS@
+taxbird_LDADD = @GNOME_LIBS@ @GEIER_LIBS@ $(INTLLIBS) @GUILE_LDFLAGS@ \
+	@GTKHTML_LIBS@
 
 EXTRA_DIST = \
 	taxbird-print-helper

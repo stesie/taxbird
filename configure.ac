@@ -25,9 +25,15 @@ AC_HEADER_STDC
 AC_PROG_LIBTOOL
 
 # check for necessary gnome libraries
-PKG_CHECK_MODULES(GNOME, [libgnomeui-2.0 libgtkhtml-3.8 libglade-2.0])
+PKG_CHECK_MODULES(GNOME, [libgnomeui-2.0 libglade-2.0])
 AC_SUBST(GNOME_CFLAGS)
 AC_SUBST(GNOME_LIBS)
+
+PKG_CHECK_EXISTS([libgtkhtml-3.14],
+	[PKG_CHECK_MODULES(GTKHTML, [libgtkhtml-3.14])],
+	[PKG_CHECK_MODULES(GTKHTML, [libgtkhtml-3.8])])
+AC_SUBST(GTKHTML_CFLAGS)
+AC_SUBST(GTKHTML_LIBS)
 
 backup_CFLAGS="$CFLAGS"
 backup_LIBS="$LIBS"
