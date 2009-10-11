@@ -23,8 +23,6 @@ AC_HEADER_STDC
 
 # link with export-dynamic (talking 'bout misusing libtool) ...
 AC_PROG_LIBTOOL
-export_dynamic=`(./libtool --config; echo eval echo \\$export_dynamic_flag_spec) | sh`
-LDFLAGS="$LDFLAGS $export_dynamic"
 
 # check for necessary gnome libraries
 PKG_CHECK_MODULES(GNOME, [libgnomeui-2.0 libgtkhtml-3.8 libglade-2.0])
@@ -82,6 +80,11 @@ ALL_LINGUAS="de"
 AM_GLIB_GNU_GETTEXT
 
 
+#
+# add -wl,--export-dynamic
+#
+LDFLAGS="$LDFLAGS $export_dynamic_flag_spec"
+AC_SUBST(wl)
 
 #
 # write Makefile
