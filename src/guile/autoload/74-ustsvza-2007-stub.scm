@@ -72,9 +72,7 @@
 	  (revalidate:buffer datenlieferant:validate buf 
 			     datenlieferant:validators))
 
-	(let ((sig-result (and (not test)
-			       (list "00616"
-				     "ustsvza-2007, $Id$"))))
+	(let ((sig-result (if test #f "00616")))
 
 	  ;; document's content is valid, let's export it, to make the
 	  ;; IRO know, what nice programs there exist out in the free world ...

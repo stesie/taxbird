@@ -31,22 +31,21 @@
 
 
 (define export:make-transfer-header
-  (lambda (store daten-art sig-result)
+  (lambda (store daten-art vendor-id)
     (append '("TransferHeader" (("version" "8")))
 	    (list (append (list "Verfahren" #f "ElsterAnmeldung"
 				"DatenArt"  #f daten-art
 				"Vorgang"   #f "send-NoSig")
       
-			  (if (list? sig-result)
+			  (if (string? vendor-id)
 			      ;; prepare to send real data ...
-			      (list "Testmerker"   #f (if (string=? 
-							   (car sig-result)
-							   "74931")
+			      (list "Testmerker"   #f (if (string=? vendor-id
+								"74931")
 					; set testmerker, in any case, if the
 					; vendor-id is 74931 ...
 							  "700000004"
 							  "000000000")
-				    "HerstellerID" #f (car sig-result))
+				    "HerstellerID" #f vendor-id)
 			      
 			      ;; generate a test case ...
 			      (list "Testmerker"   #f "700000004"
@@ -68,14 +67,9 @@
 
   
 (define export:make-nutzdaten-header
-  (lambda (store sig-result)
+  (lambda (store vendor-id)
     (tb:eval-file "steuernummer.scm")
     (let ((land (string->number (storage:retrieve store "land")))
-	  (sig-id (if (list? sig-result) 
-		      (substring (cadr sig-result) 0 50)
-
-		      ;; if signature is not valid, fill default string
-		      "(not assigned)"))
 	  (st-nummer #f))
 
       (set! st-nummer
@@ -86,7 +80,10 @@
 	     (list "NutzdatenTicket" #f (number->string (random 10000000))
 		   "Empfaenger" '(("id" "F")) (substring st-nummer 0 4)
 		   "Hersteller" #f (list "ProduktName"    #f "Taxbird"
-					 "ProduktVersion" #f sig-id))
+					 "ProduktVersion" #f
+					   (format #f "Taxbird ~S, libgeier ~S"
+					    (tb:get-version)
+					    (tb:get-geier-version))))
 
 	     (export:generate-datenlieferant store))))))
 
