@@ -1,7 +1,7 @@
 			-*- mode: auto-fill; coding: utf-8 -*-
 taxbird - Gnome-2 based application to create Elster (Geier) XML files
 
-Copyright (C) 2004,2005,2006,2007,2008 Stefan Siegl <stesie@brokenpipe.de>
+Copyright (C) 2004,2005,2006,2007,2008,2009 Stefan Siegl <stesie@brokenpipe.de>
                       (see AUTHORS for a complete and detailed list 
 		       of authors, contributers and copyrightholders)
 
@@ -47,8 +47,8 @@ bitte auf der Mailingliste melden.
 Die Übermittlung der Jahreserklärungen (hauptsächlich Einkommen-
 steuererklärungen) ist gegenwärtig noch nicht möglich, da die
 Möglichkeit seitens der Finanzverwaltung bisher nicht eingeräumt
-wurde. Voraussichtlich wird jedoch die Übermittlung der Steuerer-
-klärungen für den Veranlagungszeitraum 2007 erstmals möglich sein. 
+wurde. Wann und ob dies irgendwann mit freier Software zulässig sein
+wird, ist momentan leider nicht abschätzbar.
 
 Die Formulare sind mittels Skriptsprache und Glade-XML in Taxbird
 hinterlegt. So ist es möglich, ohne große Programmierkenntnisse eigene
@@ -62,7 +62,7 @@ Datei README.dsig erläutert.
 
 
 
-Installation der CVS-Version:
+Installation der Git-Version:
 -----------------------------
 
 $ export CFLAGS="-Wall -ggdb" # sofern debugging Symbole gewünscht
@@ -87,7 +87,7 @@ Benötigte Bibliotheken:
 GNU Guile
 libgeier (und Mozilla XULrunner NSS, XMLsec-NSS)
 libgnomeui-2.0 (Gnome Development Libraries)
-libgtkhtml-2.0 (GtkHTML Widget)
+libgtkhtml-3.8 oder 3.14 (GtkHTML Widget)
 
 
 
@@ -100,17 +100,6 @@ voranmeldungen) ist eine sog. Teilnahmeerklärung abzugeben. Das hierzu
 notwendige Formular können Sie auf den Seiten der Finanzverwaltung
 unter https://www.elster.de/doc/teilnahmeerklaerung.pdf herunterladen.
 
-
-
-(probably) Frequently Asked Questions
--------------------------------------
-F: In der Voransicht im Daten-Senden-Dialog sowie am ausgedruckten
-   Protokoll sind die Felder "Unternehmer" sowie "Erstellt von" leer
-
-A: Die Felder werden seitens dem von der Finanzverwaltung zur Verfügung
-   gestellten Stylesheet nur ausgefüllt, wenn die Übermittlung durch 
-   einen Berater erfolgt. Wenn das Feld Berufsbezeichnung
-   (unter Datenlieferant) ausgefüllt wird, müssten die Daten erscheinen.
 
 
 Vielen Dank, dass Sie Taxbird verwenden!
