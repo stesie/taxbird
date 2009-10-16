@@ -216,11 +216,11 @@
 
 
 (define export:generate-kz09
-  (lambda (store sig-result)
+  (lambda (store vendor-id)
     (let ((berufsbez (storage:retrieve store "berufsbez"))
-	  (mandant   (storage:retrieve store "mandant"))
-	  (vendor-id (if (list? sig-result) (car sig-result) "74931")))
+	  (mandant   (storage:retrieve store "mandant")))
 
+      (if (not (string? vendor-id)) (set! vendor-id "74931"))
       (if (and berufsbez
 	       (> (string-length berufsbez) 0))
 
