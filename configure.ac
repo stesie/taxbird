@@ -1,11 +1,11 @@
 # Configure script for taxbird
-# Copyright (C) 2005,2006,2007,2008  Stefan Siegl <stesie@brokenpipe.de>
+# Copyright (C) 2005,2006,2007,2008,2009  Stefan Siegl <stesie@brokenpipe.de>
 #
 dnl Process this file with autoconf to produce a configure script.
 
 #AC_INIT(configure.in)
-AC_INIT(taxbird, 0.13, [taxbird@taxbird.de])
-AM_INIT_AUTOMAKE(taxbird, 0.13, [taxbird@taxbird.de])
+AC_INIT(taxbird, 0.14, [taxbird@taxbird.de])
+AM_INIT_AUTOMAKE(taxbird, 0.14, [taxbird@taxbird.de])
 AM_MAINTAINER_MODE
 AM_CONFIG_HEADER(config.h)
 
