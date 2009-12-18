@@ -54,6 +54,8 @@ static void taxbird_export_ask_user(GtkWidget *html,
  * RETURN: pid of child on success, -1 on failure */
 static pid_t taxbird_export_launch_command(const char *cmd, int *to, int *fr);
 
+extern int geier_iso_to_utf8(const unsigned char *input, const size_t inlen,
+			     unsigned char **output, size_t *outlen);
 
 static int
 taxbird_xsltify_text(geier_context *context,
@@ -140,15 +142,24 @@ taxbird_export(int testcase)
     return;
   }
 
+  /* convert output to UTF-8 needed by GtkHTML */
+  unsigned char *data_xslt_utf8;
+  size_t data_xslt_utf8_len;
+
+  geier_iso_to_utf8(data_xslt, data_xslt_len, &data_xslt_utf8, 
+		    &data_xslt_utf8_len);
+  free(data_xslt);
+
   /* now convert xslt-result to GtkHTML */
   GtkWidget *doc = gtk_html_new_from_string
-	((const char *) data_xslt, data_xslt_len);
+	((const char *) data_xslt_utf8, data_xslt_utf8_len);
+
   if(! doc) {
     taxbird_dialog_error(NULL, _("Unable to allocate GtkHTML widget."));
     return;
   }
 
-  free(data_xslt);
+  free(data_xslt_utf8);
 
   /* automatically fill protocol-store widget (which isn't filled by glade) **/
   taxbird_guile_eval_file("taxbird.scm");
