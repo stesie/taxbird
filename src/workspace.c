@@ -504,8 +504,13 @@ taxbird_ws_show_appbar_help(GtkWidget *widget, GdkEventFocus *event,
 void
 taxbird_ws_open(const char *fname, gboolean copy_last_year)
 {
-  SCM handle = scm_open_file(scm_makfrom0str(fname),
+  /* Matthias Jansen/2009-03-10: read from STDIN if filename is "-" */
+  SCM handle;
+  if (strncmp(fname,"-",1))
+	  handle = scm_open_file(scm_makfrom0str(fname),
 			     scm_makfrom0str("r"));
+  else
+  	handle = scm_current_input_port();
 
   SCM content = scm_eval_x(scm_read(handle), scm_current_module());
 
@@ -524,6 +529,7 @@ taxbird_ws_open(const char *fname, gboolean copy_last_year)
     }
   }
 
+
   char *formname = scm_to_locale_string(SCM_CAR(content));
   taxbird_ws_sel_form(taxbird_form_get_by_name(formname));
   free(formname);
@@ -532,9 +538,33 @@ taxbird_ws_open(const char *fname, gboolean copy_last_year)
   if(SCM_NFALSEP(scm_list_p(taxbird_document_data)))
     scm_gc_unprotect_object(taxbird_document_data);
   taxbird_document_data = scm_gc_protect_object(SCM_CADR(content));
+  
+  /* Matthias Jansen/2009-03-11: get the manually entered values and recalculate the automatic values for incomplete input strings */
+  taxbird_guile_eval_file("ustva-2007.scm");
 
-  taxbird_document_filename = g_strdup(fname);
-  taxbird_document_changed = 0;
+  /* TODO: get rid of hardcoded char array 
+   * TODO: Maybe only recalculate if we get data from STDIN?
+   * */
+  int recalcFieldsLen = 4;
+  char recalcFields[4][5] = {"Kz81", "Kz86", "Kz93", "Kz89"};
+
+  int i;
+
+  for (i = 0; i < recalcFieldsLen; i++) {
+	  SCM v = scm_call_2(taxbird_current_form->dataset_read,
+			     taxbird_document_data, scm_makfrom0str(recalcFields[i]));
+	  if (!scm_is_null(v) && !scm_is_false(v))
+		  scm_call_3(scm_c_lookup_ref("ustva-2007:recalculate"), taxbird_document_data, scm_makfrom0str(recalcFields[i]), v);
+  }
+  
+  scm_call_3(scm_c_lookup_ref("ustva-2007:recalculate"), taxbird_document_data, scm_makfrom0str(""), scm_makfrom0str(""));
+
+
+  /* Matthias Jansen/2009-03-11: only save the filename if it is not "-" */
+  if (strncmp(fname,"-",1)) {
+	  taxbird_document_filename = g_strdup(fname);
+	  taxbird_document_changed = 0;
+  }
 }
 
 
