@@ -52,7 +52,7 @@
    "Kz49" validate:signed-int
    "Kz43" validate:signed-int
    "Kz48" validate:signed-int
-   "Kz81" validate:signed-int   ;; Ums. regulär, 19% USt ab 2010
+   "Kz81" validate:signed-int   ;; Ums. regulär, 19% USt
    "Kz86" validate:signed-int   ;; Ums. regulär,  7% 
    "Kz35" validate:signed-int   ;; Ums. regulär, andere Steuersätze
    
@@ -187,7 +187,7 @@
     (let ((fields (list "uebertrag"  (list "Kz36" "Kz86-calc" "Kz81-calc"
 			                   "Kz80" "Kz96" "Kz98" "Kz93-calc"
 					   "Kz89-calc")
-			"ust-sum"    (list "uebertrag" "Kz85" "Kz74" "Kz53"
+			"ust-sum"    (list "uebertrag" "Kz85" "Kz74" "Kz53" "Kz47"
 					   "Kz65")
 			"vorst-sum"  (list "Kz66" "Kz61" "Kz62" "Kz67" "Kz63"
 					   "Kz64" "Kz59")
@@ -266,7 +266,7 @@
 	   (let ((result '())
 		 (fields (list (lambda (val)
 				 (format #f "~,2F" (ms->number val)))
-			       (list "Kz36" "Kz39" "Kz53" "Kz59" "Kz61"
+			       (list "Kz36" "Kz39" "Kz47" "Kz53" "Kz59" "Kz61"
 				     "Kz62" "Kz63" "Kz64" "Kz65" "Kz66"
 				     "Kz67" "Kz69" "Kz74" "Kz80" "Kz83"
 				     "Kz85" "Kz96" "Kz98")
