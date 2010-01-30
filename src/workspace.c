@@ -539,31 +539,13 @@ taxbird_ws_open(const char *fname, gboolean copy_last_year)
     scm_gc_unprotect_object(taxbird_document_data);
   taxbird_document_data = scm_gc_protect_object(SCM_CADR(content));
   
-  /* Matthias Jansen/2009-03-11: get the manually entered values and recalculate the automatic values for incomplete input strings */
-  taxbird_guile_eval_file("ustva-2007.scm");
-
-  /* TODO: get rid of hardcoded char array 
-   * TODO: Maybe only recalculate if we get data from STDIN?
-   * */
-  int recalcFieldsLen = 4;
-  char recalcFields[4][5] = {"Kz81", "Kz86", "Kz93", "Kz89"};
-
-  int i;
-
-  for (i = 0; i < recalcFieldsLen; i++) {
-	  SCM v = scm_call_2(taxbird_current_form->dataset_read,
-			     taxbird_document_data, scm_makfrom0str(recalcFields[i]));
-	  if (!scm_is_null(v) && !scm_is_false(v))
-		  scm_call_3(scm_c_lookup_ref("ustva-2007:recalculate"), taxbird_document_data, scm_makfrom0str(recalcFields[i]), v);
-  }
-  
-  scm_call_3(scm_c_lookup_ref("ustva-2007:recalculate"), taxbird_document_data, scm_makfrom0str(""), scm_makfrom0str(""));
-
+  /* recalculate the whole sheet */
+  scm_call_1(taxbird_current_form->dataset_recalc, taxbird_document_data);
 
   /* Matthias Jansen/2009-03-11: only save the filename if it is not "-" */
-  if (strncmp(fname,"-",1)) {
-	  taxbird_document_filename = g_strdup(fname);
-	  taxbird_document_changed = 0;
+  if (strcmp(fname, "-")) {
+    taxbird_document_filename = g_strdup(fname);
+    taxbird_document_changed = 0;
   }
 }
 

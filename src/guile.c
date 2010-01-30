@@ -53,7 +53,7 @@ void taxbird_guile_init(void)
   scm_c_define("tb:scm-directories", loadpath);
 
   scm_c_define_gsubr("tb:eval-file", 1, 0, 0, taxbird_guile_eval_file_SCM);
-  scm_c_define_gsubr("tb:form-register", 7, 0, 0, taxbird_form_register);
+  scm_c_define_gsubr("tb:form-register", 8, 0, 0, taxbird_form_register);
   scm_c_define_gsubr("tb:dlg-error", 1, 0, 0, taxbird_dialog_error_SCM);
   scm_c_define_gsubr("tb:dlg-info", 1, 0, 0, taxbird_dialog_info_SCM);
   scm_c_define_gsubr("tb:get-version", 0, 0, 0, taxbird_get_version);

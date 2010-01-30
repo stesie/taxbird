@@ -85,12 +85,13 @@
 	  
 	  validity)))
 
+  ;; recalculation function ---------------------------------------------------
+  (lambda (buf)
+    (tb:eval-file "ustva-2010.scm")
+    (ustva-2010:recalculate buf "" ""))
 
   ;; export function ----------------------------------------------------------
   (lambda (buf test)
-    (ustva-2010:recalculate buf "" "")
-    (tb:eval-file "ustva-2010.scm")
-
     (tb:eval-file "revalidate.scm")
     (if (and (revalidate:buffer ustva-2010:validate buf ustva-2010:validators)
 	     (revalidate:buffer datenlieferant:validate buf 

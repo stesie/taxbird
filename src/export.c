@@ -413,6 +413,9 @@ taxbird_export_call_backend(int test)
 {
   g_return_val_if_fail(taxbird_current_form, SCM_BOOL(0));
 
+  /* recalculate the whole sheet */
+  scm_call_1(taxbird_current_form->dataset_recalc, taxbird_document_data);
+
   /* call exporter function of current template */
   return scm_call_2(taxbird_current_form->dataset_export,
 		    taxbird_document_data, SCM_BOOL(test));

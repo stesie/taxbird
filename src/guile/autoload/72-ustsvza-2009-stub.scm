@@ -65,6 +65,10 @@
 	  validity)))
 
 
+  ;; recalculation function ---------------------------------------------------
+  (lambda (buf)
+	#t)
+
   ;; export function ----------------------------------------------------------
   (lambda (buf test)
     (tb:eval-file "revalidate.scm")

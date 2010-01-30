@@ -27,6 +27,7 @@ struct form {
 
   SCM dataset_read;   /* function to read from our dataset */
   SCM dataset_write;  /* function to write to the dataset */
+  SCM dataset_recalc; /* function to recalculate the dataset */
   SCM dataset_export; /* function to export XML stream */
   SCM dataset_create; /* empty data set */
 };
@@ -43,6 +44,7 @@ SCM taxbird_form_register(SCM name,
 			  SCM get_sheet,
 			  SCM dataset_read,
 			  SCM dataset_write, 
+			  SCM dataset_recalc,
 			  SCM dataset_export,
 			  SCM dataset_create);
 

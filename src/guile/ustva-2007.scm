@@ -1,4 +1,4 @@
-;; Copyright(C) 2004,2005,2006 Stefan Siegl <stesie@brokenpipe.de>
+;; Copyright(C) 2004,2005,2006,2010 Stefan Siegl <stesie@brokenpipe.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -140,7 +140,8 @@
 
 (define ustva-2007:recalculate
   (lambda (buffer element value)
-    (let ((list '(;; regulärer Umsatz, 19 % USt (ab 2007)
+    (let ((list '(
+		  ;; regulärer Umsatz, 19 % USt (ab 2007)
 		  "Kz81" (lambda(v buffer)
 			   (storage:store buffer "Kz81-calc"
 					  (number->monetary-string
@@ -168,11 +169,19 @@
       ;; recurse through the upper list 'list', looking for the field to
       ;; use as the calculation base ...
       (while (> (length list) 0)
-	     (if (string=? (car list) element)
+	     (if (string=? element "")
 		 (let ()
-		   (if (= (string-length value) 0)
+		   (set! value (storage:retrieve buffer (car list)))
+		   (if (or (not (string? value))
+			   (= (string-length value) 0))
 		       (set! value "0"))
-		   ((eval (cadr list) (current-module)) value buffer)))
+		   ((eval (cadr list) (current-module)) value buffer))
+
+		 (if (string=? (car list) element)
+		     (let ()
+		       (if (= (string-length value) 0)
+			   (set! value "0"))
+		       ((eval (cadr list) (current-module)) value buffer))))
 	     (set! list (cddr list))))
 
 
