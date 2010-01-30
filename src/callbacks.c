@@ -1,4 +1,4 @@
-/* Copyright(C) 2004,2005,2007,2008 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2004,2005,2007,2008,2010 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -87,7 +87,7 @@ on_file_new_from_last_year_activate(GtkMenuItem *mi, gpointer u)
   GladeXML *xml = NULL;
   GtkWidget *dialog = taxbird_glade_create(&xml, "dlgChooseFile");
   g_signal_connect(G_OBJECT(taxbird_glade_lookup(xml, "cmdOK")),
-		   "activate", G_CALLBACK(on_choose_file_copy_last_year), NULL);
+		   "clicked", G_CALLBACK(on_choose_file_copy_last_year), NULL);
   gtk_widget_show(dialog);
 }
 
@@ -101,7 +101,7 @@ on_file_open_activate(GtkMenuItem *menuitem, gpointer user_data)
   GladeXML *xml = NULL;
   GtkWidget *dialog = taxbird_glade_create(&xml, "dlgChooseFile");
   g_signal_connect(G_OBJECT(taxbird_glade_lookup(xml, "cmdOK")),
-		   "activate", G_CALLBACK(on_choose_file_open), NULL);
+		   "clicked", G_CALLBACK(on_choose_file_open), NULL);
   gtk_widget_show(dialog);
 }
 
@@ -131,7 +131,7 @@ on_file_saveas_activate(GtkMenuItem *menuitem, gpointer user_data)
   gtk_file_chooser_set_action(GTK_FILE_CHOOSER(dialog),
 			      GTK_FILE_CHOOSER_ACTION_SAVE);
   g_signal_connect(G_OBJECT(taxbird_glade_lookup(xml, "cmdOK")),
-		   "activate", G_CALLBACK(on_choose_file_save), NULL);
+		   "clicked", G_CALLBACK(on_choose_file_save), NULL);
   gtk_widget_show(dialog);
 }
 
