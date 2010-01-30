@@ -22,6 +22,7 @@ guilestuff_DATA = \
 	ustsvza-2007.scm \
 	ustsvza-2008.scm \
 	ustsvza-2009.scm \
+	ustsvza-2010.scm \
 	ustva-2007.xml \
 	ustva-2007.scm \
 	ustva-2008.scm \
