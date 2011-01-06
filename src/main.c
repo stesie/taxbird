@@ -1,4 +1,6 @@
-/* Copyright(C) 2004,2005,2007,2008 Stefan Siegl <stesie@brokenpipe.de>
+/* vim:ts=8:sw=2:sts=2:noet
+ *
+ * Copyright(C) 2004,2005,2007,2008,2011 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -25,6 +27,7 @@
 
 #include "workspace.h"
 #include "guile.h"
+#include "dialog.h"
 
 
 /* forwarded main, i.e. with guile support initialized */
@@ -43,9 +46,6 @@ main (int argc, char *argv[])
 		      argc, argv,
 		      GNOME_PARAM_APP_DATADIR, PACKAGE_DATA_DIR,
 		      NULL);
-
-  /* initialize GEIER library */
-  geier_init(0); /* don't create debug output */
 
   /* initialize Guile backend */
   scm_boot_guile(argc, argv, main_forward, NULL);
@@ -84,6 +84,11 @@ main_forward(void *closure, int argc, char **argv)
     
     if(argc == 2)
       taxbird_ws_open(argv[1], FALSE);
+
+	/* initialize GEIER library, no debug output */
+	if(geier_init(0))
+	  taxbird_dialog_error(NULL, _("Failed to initialize GEIER data transfer library. "
+								   "Data transfers to fiscal authorities will not be possible."));
 
     return SCM_BOOL(0);
   }
