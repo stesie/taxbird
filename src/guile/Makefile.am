@@ -29,6 +29,8 @@ guilestuff_DATA = \
 	ustva-2009.scm \
 	ustva-2010.scm \
 	ustva-2010.xml \
+	ustva-2011.scm \
+	ustva-2011.xml \
 	validate.scm \
 	versions.scm \
 	xml-writer.scm
