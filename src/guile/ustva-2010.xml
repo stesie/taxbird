@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <glade-interface>
   <!-- interface-requires gtk+ 2.6 -->
   <!-- interface-naming-policy toplevel-contextual -->
@@ -53,7 +53,7 @@
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
                     <property name="label">Verrechnung des Erstattungs-
-betrages erw&#xFC;nscht</property>
+betrages erwünscht</property>
                     <property name="justify">right</property>
                   </widget>
                   <packing>
@@ -68,7 +68,7 @@ betrages erw&#xFC;nscht</property>
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
-                    <property name="label" translatable="yes">Einzugserm&#xE4;chtigung wird 
+                    <property name="label" translatable="yes">Einzugsermächtigung wird 
 ausnahmsweise widerrufen</property>
                     <property name="justify">right</property>
                   </widget>
@@ -97,7 +97,7 @@ ausnahmsweise widerrufen</property>
                     <property name="visible">True</property>
                     <property name="items">Januar
 Februar
-M&#xE4;rz
+März
 April
 Mai
 Juni
@@ -148,7 +148,7 @@ Dezember
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="tooltip" translatable="yes">Verrechnung des Erstattungsbetrags erw&#xFC;nscht / Erstattungsbetrag ist abgetreten
+                    <property name="tooltip" translatable="yes">Verrechnung des Erstattungsbetrags erwünscht / Erstattungsbetrag ist abgetreten
 
 Kennzahl im Formular: 29</property>
                     <property name="use_underline">True</property>
@@ -171,7 +171,7 @@ Kennzahl im Formular: 29</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="tooltip" translatable="yes">Die Einzugserm&#xE4;chtigung wird ausnahmsweise (z.B. wegen Verrechnungsw&#xFC;nschen) f&#xFC;r diesen Voranmeldungszeitraum widerrufen
+                    <property name="tooltip" translatable="yes">Die Einzugsermächtigung wird ausnahmsweise (z.B. wegen Verrechnungswünschen) für diesen Voranmeldungszeitraum widerrufen
 
 Kennzahl im Formular: 26</property>
                     <property name="use_underline">True</property>
@@ -210,7 +210,7 @@ gesondert eingereicht</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="tooltip" translatable="yes">Belege (Vertr&#xE4;ge, Rechnungen, Erl&#xE4;uterungen usw.) sind beigef&#xFC;gt bzw. werden gesondert eingereicht
+                    <property name="tooltip" translatable="yes">Belege (Verträge, Rechnungen, Erläuterungen usw.) sind beigefügt bzw. werden gesondert eingereicht
 
 Kennzahl im Formular: 22</property>
                     <property name="use_underline">True</property>
@@ -284,7 +284,7 @@ Abnehmer &lt;b&gt;ohne&lt;/b&gt; USt-IDNr.</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
                     <property name="label">neuer Fahrzeuge 
-au&#xDF;erhalb eines Unternehmens</property>
+außerhalb eines Unternehmens</property>
                     <property name="use_markup">True</property>
                     <property name="justify">right</property>
                     <property name="wrap">True</property>
@@ -302,7 +302,7 @@ au&#xDF;erhalb eines Unternehmens</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
                     <property name="label">&lt;b&gt;Ausfuhrlieferungen&lt;/b&gt;,
-Ums&#xE4;tze &#xA7; 4 Nr. 2 bis 7 UStG</property>
+Umsätze § 4 Nr. 2 bis 7 UStG</property>
                     <property name="use_markup">True</property>
                     <property name="justify">right</property>
                     <property name="wrap">True</property>
@@ -319,7 +319,7 @@ Ums&#xE4;tze &#xA7; 4 Nr. 2 bis 7 UStG</property>
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
-                    <property name="label">Ums&#xE4;tze nach &#xA7; 4 Nr. 8 bis 28 UStG</property>
+                    <property name="label">Umsätze nach § 4 Nr. 8 bis 28 UStG</property>
                     <property name="use_markup">True</property>
                     <property name="justify">right</property>
                     <property name="wrap">True</property>
@@ -336,7 +336,7 @@ Ums&#xE4;tze &#xA7; 4 Nr. 2 bis 7 UStG</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="ypad">10</property>
-                    <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Steuerpflichtige Ums&#xE4;tze ...&lt;/b&gt;&lt;/span&gt;</property>
+                    <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Steuerpflichtige Umsätze ...&lt;/b&gt;&lt;/span&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -387,7 +387,7 @@ Ums&#xE4;tze &#xA7; 4 Nr. 2 bis 7 UStG</property>
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
-                    <property name="label">andere Steuers&#xE4;tze</property>
+                    <property name="label">andere Steuersätze</property>
                     <property name="use_markup">True</property>
                     <property name="justify">right</property>
                     <property name="wrap">True</property>
@@ -404,7 +404,7 @@ Ums&#xE4;tze &#xA7; 4 Nr. 2 bis 7 UStG</property>
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
-                    <property name="label">Lief. &#xFC;briges Gemeinschaftsgeb.,
+                    <property name="label">Lief. übriges Gemeinschaftsgeb.,
 an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
                     <property name="use_markup">True</property>
                     <property name="justify">right</property>
@@ -422,7 +422,7 @@ an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
-                    <property name="label">Ums&#xE4;tze, Steuer nach &#xA7; 24 UStG</property>
+                    <property name="label">Umsätze, Steuer nach § 24 UStG</property>
                     <property name="use_markup">True</property>
                     <property name="justify">right</property>
                     <property name="wrap">True</property>
@@ -455,7 +455,7 @@ an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
-                    <property name="label">steuerfrei, &#xA7; 4b UStG</property>
+                    <property name="label">steuerfrei, § 4b UStG</property>
                     <property name="use_markup">True</property>
                     <property name="justify">right</property>
                     <property name="wrap">True</property>
@@ -506,7 +506,7 @@ an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
-                    <property name="label">andere Steuers&#xE4;tze</property>
+                    <property name="label">andere Steuersätze</property>
                     <property name="use_markup">True</property>
                     <property name="justify">right</property>
                     <property name="wrap">True</property>
@@ -559,8 +559,8 @@ bei &lt;b&gt;innergem. Dreiecksgesch.&lt;/b&gt;</property>
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
-                    <property name="label">Steuerpflichtige Ums&#xE4;tze
-nach &#xA7; 13b UStG</property>
+                    <property name="label">Steuerpflichtige Umsätze
+nach § 13b UStG</property>
                     <property name="use_markup">True</property>
                     <property name="justify">right</property>
                     <property name="wrap">True</property>
@@ -577,7 +577,7 @@ nach &#xA7; 13b UStG</property>
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
-                    <property name="label">&lt;b&gt;&#xDC;brige nicht steuerbare Ums&#xE4;tze&lt;/b&gt;
+                    <property name="label">&lt;b&gt;Übrige nicht steuerbare Umsätze&lt;/b&gt;
  (Leistungsort nicht Inland)</property>
                     <property name="use_markup">True</property>
                     <property name="justify">right</property>
@@ -595,7 +595,7 @@ nach &#xA7; 13b UStG</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="ypad">7</property>
-                    <property name="label">&lt;big&gt;&lt;b&gt;Steuerfreie Ums&#xE4;tze mit Vorsteuerabzug ...&lt;/b&gt;&lt;/big&gt;</property>
+                    <property name="label">&lt;big&gt;&lt;b&gt;Steuerfreie Umsätze mit Vorsteuerabzug ...&lt;/b&gt;&lt;/big&gt;</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -612,7 +612,7 @@ nach &#xA7; 13b UStG</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="ypad">5</property>
-                    <property name="label">&lt;b&gt;Weitere steuerfreie Ums&#xE4;tze mit Vorsteuerabzug ...&lt;/b&gt;</property>
+                    <property name="label">&lt;b&gt;Weitere steuerfreie Umsätze mit Vorsteuerabzug ...&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -629,7 +629,7 @@ nach &#xA7; 13b UStG</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="ypad">7</property>
-                    <property name="label">&lt;big&gt;&lt;b&gt;Steuerfreie Ums&#xE4;tze ohne Vorsteuerabzug ...&lt;/b&gt;&lt;/big&gt;</property>
+                    <property name="label">&lt;big&gt;&lt;b&gt;Steuerfreie Umsätze ohne Vorsteuerabzug ...&lt;/b&gt;&lt;/big&gt;</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -679,7 +679,7 @@ nach &#xA7; 13b UStG</property>
                   <widget class="GtkEntry" id="Kz36">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Ums&#xE4;tze, die anderen Steuers&#xE4;tzen unterliegen (Steuer)
+                    <property name="tooltip">Umsätze, die anderen Steuersätzen unterliegen (Steuer)
 
 Kennzahl im Formular: 36</property>
                   </widget>
@@ -698,7 +698,7 @@ Kennzahl im Formular: 36</property>
                   <widget class="GtkEntry" id="Kz35">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben, Ums&#xE4;tze, die anderen Steuers&#xE4;tzen unterliegen (Umsatz)
+                    <property name="tooltip">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben, Umsätze, die anderen Steuersätzen unterliegen (Umsatz)
 
 Kennzahl im Formular: 35</property>
                   </widget>
@@ -755,7 +755,7 @@ Kennzahl im Formular: 81</property>
                   <widget class="GtkEntry" id="Kz48">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Ums&#xE4;tze nach &#xA7; 4 Nr. 8 bis 28 UStG (steuerfreie Ums&#xE4;tze ohne Vorsteuerabzug)
+                    <property name="tooltip">Umsätze nach § 4 Nr. 8 bis 28 UStG (steuerfreie Umsätze ohne Vorsteuerabzug)
 
 Kennzahl im Formular: 48</property>
                   </widget>
@@ -774,7 +774,7 @@ Kennzahl im Formular: 48</property>
                   <widget class="GtkEntry" id="Kz43">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Weitere steuerfreie Ums&#xE4;tze mit Vorsteuerabzug (z.B. Ausfuhrlieferungen, Ums&#xE4;tze nach &#xA7; 4 Nr. 2 bis 7 UStG)
+                    <property name="tooltip">Weitere steuerfreie Umsätze mit Vorsteuerabzug (z.B. Ausfuhrlieferungen, Umsätze nach § 4 Nr. 2 bis 7 UStG)
 
 Kennzahl im Formular: 43</property>
                   </widget>
@@ -793,7 +793,7 @@ Kennzahl im Formular: 43</property>
                   <widget class="GtkEntry" id="Kz41">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Innergemeinschaftliche Lieferungen (&#xA7; 4 Nr. 1 Buchst. b UStG) an Abnehmer mit USt-IdNr.
+                    <property name="tooltip">Innergemeinschaftliche Lieferungen (§ 4 Nr. 1 Buchst. b UStG) an Abnehmer mit USt-IdNr.
 
 Kennzahl im Formular: 41</property>
                   </widget>
@@ -831,7 +831,7 @@ Kennzahl im Formular: 44</property>
                   <widget class="GtkEntry" id="Kz49">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Innergemeinschaftliche Lieferungen neuer Fahrzeuge au&#xDF;erhalb eines Unternehmens (&#xA7; 2a UStG)
+                    <property name="tooltip">Innergemeinschaftliche Lieferungen neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG)
 
 Kennzahl im Formular: 49</property>
                   </widget>
@@ -851,7 +851,7 @@ Kennzahl im Formular: 49</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="ypad">7</property>
-                    <property name="label">&lt;big&gt;&lt;b&gt;Ums&#xE4;tze Land-/Forstwirtschaft (&#xA7; 24 UStG)&lt;/b&gt;&lt;/big&gt;</property>
+                    <property name="label">&lt;big&gt;&lt;b&gt;Umsätze Land-/Forstwirtschaft (§ 24 UStG)&lt;/b&gt;&lt;/big&gt;</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -900,7 +900,7 @@ Kennzahl im Formular: 49</property>
                   <widget class="GtkEntry" id="Kz77">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Ums&#xE4;tze land- und forstwirtschaftl. Betriebe nach &#xA7; 24 UStG; Lieferungen in das &#xFC;brige Gemeinschaftsgebiet an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.
+                    <property name="tooltip">Lieferungen land- und forstwirtschaftl. Betriebe nach § 24 UStG an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.
 
 Kennzahl im Formular: 77</property>
                   </widget>
@@ -919,7 +919,7 @@ Kennzahl im Formular: 77</property>
                   <widget class="GtkEntry" id="Kz76">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Ums&#xE4;tze land- und forstwirtschaftl. Betriebe nach &#xA7; 24 UStG; Ums&#xE4;tze f&#xFC;r die eine Steuer nach &#xA7; 24 UStG zu entrichten ist (S&#xE4;gewerkserzeugnisse, Getr&#xE4;nke und alkohol. Fl&#xFC;ssigkeiten, z. B. Wein) - Umsatz
+                    <property name="tooltip">Umsätze land- und forstwirtschaftl. Betriebe nach § 24 UStG; Umsätze für die eine Steuer nach § 24 UStG zu entrichten ist (Sägewerkserzeugnisse, Getränke und alkohol. Flüssigkeiten, z. B. Wein) - Umsatz
 
 Kennzahl im Formular: 76</property>
                   </widget>
@@ -938,7 +938,7 @@ Kennzahl im Formular: 76</property>
                   <widget class="GtkEntry" id="Kz80">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Ums&#xE4;tze land- und forstwirtschaftl. Betriebe nach &#xA7; 24 UStG; Ums&#xE4;tze f&#xFC;r die eine Steuer nach &#xA7; 24 UStG zu entrichten ist (S&#xE4;gewerkserzeugnisse, Getr&#xE4;nke und alkohol. Fl&#xFC;ssigkeiten, z. B. Wein) - Steuer
+                    <property name="tooltip">Umsätze land- und forstwirtschaftl. Betriebe nach § 24 UStG; Umsätze für die eine Steuer nach § 24 UStG zu entrichten ist (Sägewerkserzeugnisse, Getränke und alkohol. Flüssigkeiten, z. B. Wein) - Steuer
 
 Kennzahl im Formular: 80</property>
                   </widget>
@@ -957,7 +957,7 @@ Kennzahl im Formular: 80</property>
                   <widget class="GtkEntry" id="Kz91">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Steuerfreie innergemeinschaftliche Erwerbe nach &#xA7; 4b UStG
+                    <property name="tooltip">Steuerfreie innergemeinschaftliche Erwerbe nach § 4b UStG
 
 Kennzahl im Formular: 91</property>
                   </widget>
@@ -1048,7 +1048,7 @@ Kennzahl im Formular: 93</property>
                   <widget class="GtkEntry" id="Kz98">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe, die anderen Steuers&#xE4;tzen unterliegen (Steuer)
+                    <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe, die anderen Steuersätzen unterliegen (Steuer)
 
 Kennzahl im Formular: 98</property>
                   </widget>
@@ -1067,7 +1067,7 @@ Kennzahl im Formular: 98</property>
                   <widget class="GtkEntry" id="Kz95">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe, die anderen Steuers&#xE4;tzen unterliegen (Umsatz)
+                    <property name="tooltip">Steuerpflichtige innergemeinschaftliche Erwerbe, die anderen Steuersätzen unterliegen (Umsatz)
 
 Kennzahl im Formular: 95</property>
                   </widget>
@@ -1125,7 +1125,7 @@ Kennzahl im Formular: 96</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="ypad">10</property>
-                    <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Erg&#xE4;nzende Angaben zu Ums&#xE4;tzen ...&lt;/b&gt;&lt;/span&gt;</property>
+                    <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Ergänzende Angaben zu Umsätzen ...&lt;/b&gt;&lt;/span&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -1140,7 +1140,7 @@ Kennzahl im Formular: 96</property>
                   <widget class="GtkEntry" id="Kz42">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Ums&#xE4;tze aus Lieferungen des ersten Abnehmers bei &lt;b&gt;innergemeinschaftlichen Dreiecksgesch&#xE4;ften&lt;/b&gt; (&#xA7; 25b Abs. 2 UStG)
+                    <property name="tooltip">Umsätze aus Lieferungen des ersten Abnehmers bei &lt;b&gt;innergemeinschaftlichen Dreiecksgeschäften&lt;/b&gt; (§ 25b Abs. 2 UStG)
 
 Kennzahl im Formular: 42</property>
                   </widget>
@@ -1159,7 +1159,7 @@ Kennzahl im Formular: 42</property>
                   <widget class="GtkEntry" id="Kz60">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Steuerpflichtige Ums&#xE4;tze im Sinne des &#xA7; 13b UStG, f&#xFC;r die der &lt;b&gt;Leistungsempf&#xE4;nger&lt;/b&gt; die &lt;b&gt;Steuer schuldet&lt;/b&gt;
+                    <property name="tooltip">Steuerpflichtige Umsätze im Sinne des § 13b UStG, für die der &lt;b&gt;Leistungsempfänger&lt;/b&gt; die &lt;b&gt;Steuer schuldet&lt;/b&gt;
 
 Kennzahl im Formular: 60</property>
                   </widget>
@@ -1178,7 +1178,7 @@ Kennzahl im Formular: 60</property>
                   <widget class="GtkEntry" id="Kz45">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">&lt;b&gt;&#xDC;brige nicht steuerbare Ums&#xE4;tze&lt;/b&gt; (Leistungsort nicht im Inland)
+                    <property name="tooltip">&lt;b&gt;Übrige nicht steuerbare Umsätze&lt;/b&gt; (Leistungsort nicht im Inland)
 
 Kennzahl im Formular: 45</property>
                   </widget>
@@ -1215,7 +1215,7 @@ Kennzahl im Formular: 45</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="ypad">10</property>
-                    <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Ums&#xE4;tze &#xA7; 13b Abs. 2 UStG ...&lt;/b&gt;&lt;/span&gt;</property>
+                    <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Umsätze § 13b Abs. 2 UStG ...&lt;/b&gt;&lt;/span&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -1232,7 +1232,7 @@ Kennzahl im Formular: 45</property>
                     <property name="xalign">0</property>
                     <property name="xpad">5</property>
                     <property name="label">andere Leistungen eines im
-Ausland ans&#xE4;ssigen Unternehmers</property>
+Ausland ansässigen Unternehmers</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -1248,8 +1248,8 @@ Ausland ans&#xE4;ssigen Unternehmers</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="xpad">5</property>
-                    <property name="label">Lief. sichergs&#xFC;bereig. Gegenst.,
-Ums&#xE4;tze unter GrEStG fallend</property>
+                    <property name="label">Lief. sichergsübereig. Gegenst.,
+Umsätze unter GrEStG fallend</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -1282,7 +1282,7 @@ Unternehmers im Inland</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="ypad">10</property>
-                    <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Abziehbare Vorsteuerbetr&#xE4;ge ...&lt;/b&gt;&lt;/span&gt;</property>
+                    <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Abziehbare Vorsteuerbeträge ...&lt;/b&gt;&lt;/span&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -1297,7 +1297,7 @@ Unternehmers im Inland</property>
                   <widget class="GtkEntry" id="Kz52">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Andere Leistungen eines im Ausland ans&#xE4;ssigen Unternehmers (&#xA7; 13b Abs. 1 Satz 1 Nr. 1 und 5 UStG) - Umsatz
+                    <property name="tooltip">Andere Leistungen eines im Ausland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 1 und 5 UStG) - Umsatz
 
 Kennzahl im Formular: 52</property>
                   </widget>
@@ -1316,7 +1316,7 @@ Kennzahl im Formular: 52</property>
                   <widget class="GtkEntry" id="Kz53">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Andere Leistungen eines im Ausland ans&#xE4;ssigen Unternehmers (&#xA7; 13b Abs. 1 Satz 1 Nr. 1 und 5 UStG) - Steuer
+                    <property name="tooltip">Andere Leistungen eines im Ausland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 1 und 5 UStG) - Steuer
 
 Kennzahl im Formular: 53</property>
                   </widget>
@@ -1335,7 +1335,7 @@ Kennzahl im Formular: 53</property>
                   <widget class="GtkEntry" id="Kz73">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Lieferungen sicherungs&#xFC;bereigneter Gegenst&#xE4;nde und Ums&#xE4;tze, die unter das GrEStG fallen (&#xA7; 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG), f&#xFC;r die als Leistungsempf&#xE4;nger Steuer geschuldet wird - (Umsatz)
+                    <property name="tooltip">Lieferungen sicherungsübereigneter Gegenstände und Umsätze, die unter das GrEStG fallen (§ 13b Abs. 2 Nr. 2 und 3 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Umsatz)
 
 Kennzahl im Formular: 73</property>
                   </widget>
@@ -1354,7 +1354,7 @@ Kennzahl im Formular: 73</property>
                   <widget class="GtkEntry" id="Kz74">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Lieferungen sicherungs&#xFC;bereigneter Gegenst&#xE4;nde und Ums&#xE4;tze, die unter das GrEStG fallen (&#xA7; 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG), f&#xFC;r die als Leistungsempf&#xE4;nger Steuer geschuldet wird - (Steuer)
+                    <property name="tooltip">Lieferungen sicherungsübereigneter Gegenstände und Umsätze, die unter das GrEStG fallen (§ 13b Abs. 2 Nr. 2 und 3 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Steuer)
 
 Kennzahl im Formular: 74</property>
                   </widget>
@@ -1373,7 +1373,7 @@ Kennzahl im Formular: 74</property>
                   <widget class="GtkEntry" id="Kz84">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Bauleistungen eines im Inland ans&#xE4;ssigen Unternehmers (&#xA7; 13b Abs. 1 Satz 1 Nr. 4 UStG), f&#xFC;r die als Leistungsempf&#xE4;nger Steuer geschuldet wird - (Umsatz)
+                    <property name="tooltip">Bauleistungen eines im Inland ansässigen Unternehmers (§ 13b Abs. 2 Nr. 4 und 6 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Umsatz)
 
 Kennzahl im Formular: 84</property>
                   </widget>
@@ -1392,7 +1392,7 @@ Kennzahl im Formular: 84</property>
                   <widget class="GtkEntry" id="Kz85">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Bauleistungen eines im Inland ans&#xE4;ssigen Unternehmers (&#xA7; 13b Abs. 1 Satz 1 Nr. 4 UStG), f&#xFC;r die als Leistungsempf&#xE4;nger Steuer geschuldet wird - (Steuer)
+                    <property name="tooltip">Bauleistungen eines im Inland ansässigen Unternehmers (§ 13b Abs. 2 Nr. 4 und 6 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Steuer)
 
 Kennzahl im Formular: 85</property>
                   </widget>
@@ -1411,7 +1411,7 @@ Kennzahl im Formular: 85</property>
                   <widget class="GtkEntry" id="Kz65">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Steuer infolge Wechsels der Besteuerungsform sowie Nachsteuer auf versteuerte Anzahlungen wegen Steuersatzerh&#xF6;hung
+                    <property name="tooltip">Steuer infolge Wechsels der Besteuerungsform sowie Nachsteuer auf versteuerte Anzahlungen wegen Steuersatzerhöhung
 
 Kennzahl im Formular: 65</property>
                   </widget>
@@ -1430,7 +1430,7 @@ Kennzahl im Formular: 65</property>
                   <widget class="GtkLabel" id="label12">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt;b&gt;&#xDC;bertrag . . .&lt;/b&gt;</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Übertrag . . .&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -1480,7 +1480,7 @@ Kennzahl im Formular: 65</property>
                     <property name="xalign">0</property>
                     <property name="xpad">5</property>
                     <property name="ypad">7</property>
-                    <property name="label">&lt;b&gt;Umsatzsteuer-Vorauszahlung/&#xDC;berschuss&lt;/b&gt; . . .</property>
+                    <property name="label">&lt;b&gt;Umsatzsteuer-Vorauszahlung/Überschuss&lt;/b&gt; . . .</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -1545,7 +1545,7 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="xpad">5</property>
-                    <property name="label">Vorsteuerbetr&#xE4;ge aus innergem. Erwerb</property>
+                    <property name="label">Vorsteuerbeträge aus innergem. Erwerb</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -1579,7 +1579,7 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="xpad">5</property>
-                    <property name="label">Vorsteuer aus Leistungen im Sinne des &#xA7; 13b UStG</property>
+                    <property name="label">Vorsteuer aus Leistungen im Sinne des § 13b UStG</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -1596,7 +1596,7 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="xpad">5</property>
-                    <property name="label">Vorsteuer, nach allgemeinenen Durchschnitts&#xE4;tzen</property>
+                    <property name="label">Vorsteuer, nach allgemeinenen Durchschnittsätzen</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -1613,7 +1613,7 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="xpad">5</property>
-                    <property name="label">Berichtigung des Vorsteuerabzugs (&#xA7; 15a UStG)</property>
+                    <property name="label">Berichtigung des Vorsteuerabzugs (§ 15a UStG)</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -1630,7 +1630,7 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="xpad">5</property>
-                    <property name="label">Vorsteuerabzug f&#xFC;r innergem. Lieferungen neuer Fahrzeuge</property>
+                    <property name="label">Vorsteuerabzug für innergem. Lieferungen neuer Fahrzeuge</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -1755,7 +1755,7 @@ sowie Nachsteuer auf versteuerte Anzahlungen</property>
                   <widget class="GtkEntry" id="Kz66">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Vorsteuerbetr&#xE4;ge aus Rechnungen von anderen Unternehmern (&#xA7; 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen im Sinne des &#xA7; 13a Abs. 1 Nr. 6 UStG (&#xA7; 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgesch&#xE4;ften (&#xA7; 25b Abs. 5 UStG)
+                    <property name="tooltip">Vorsteuerbeträge aus Rechnungen von anderen Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen im Sinne des § 13a Abs. 1 Nr. 6 UStG (§ 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgeschäften (§ 25b Abs. 5 UStG)
 
 Kennzahl im Formular: 66</property>
                   </widget>
@@ -1774,7 +1774,7 @@ Kennzahl im Formular: 66</property>
                   <widget class="GtkEntry" id="Kz61">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Vorsteuerbetr&#xE4;ge aus dem innergemeinschaftlichen Erwerb von Gegenst&#xE4;nden (&#xA7; 15 Abs. 1 Satz 1 Nr. 3 UStG)
+                    <property name="tooltip">Vorsteuerbeträge aus dem innergemeinschaftlichen Erwerb von Gegenständen (§ 15 Abs. 1 Satz 1 Nr. 3 UStG)
 
 Kennzahl im Formular: 61</property>
                   </widget>
@@ -1793,7 +1793,7 @@ Kennzahl im Formular: 61</property>
                   <widget class="GtkEntry" id="Kz62">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Entrichtete Einfuhrumsatzsteuer (&#xA7; 15 Abs. 1 Satz 1 Nr. 2 UStG)
+                    <property name="tooltip">Entrichtete Einfuhrumsatzsteuer (§ 15 Abs. 1 Satz 1 Nr. 2 UStG)
 
 Kennzahl im Formular: 62</property>
                   </widget>
@@ -1812,7 +1812,7 @@ Kennzahl im Formular: 62</property>
                   <widget class="GtkEntry" id="Kz67">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Vorsteuerbetr&#xE4;ge aus Leistungen im Sinne des &#xA7; 13b Abs. 1 UStG (&#xA7; 15 Abs. 1 Satz 1 Nr. 4 UStG)
+                    <property name="tooltip">Vorsteuerbeträge aus Leistungen im Sinne des § 13b UStG (§ 15 Abs. 1 Satz 1 Nr. 4 UStG)
 
 Kennzahl im Formular: 67</property>
                   </widget>
@@ -1831,7 +1831,7 @@ Kennzahl im Formular: 67</property>
                   <widget class="GtkEntry" id="Kz63">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Vorsteuerbetr&#xE4;ge, die nach allgemeinen Durchschnitts&#xE4;tzen berechnet sind (&#xA7;&#xA7; 23 und 23a UStG)
+                    <property name="tooltip">Vorsteuerbeträge, die nach allgemeinen Durchschnittsätzen berechnet sind (§§ 23 und 23a UStG)
 
 Kennzahl im Formular: 63</property>
                   </widget>
@@ -1850,7 +1850,7 @@ Kennzahl im Formular: 63</property>
                   <widget class="GtkEntry" id="Kz64">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Berichtigung des Vorsteuerabzugs (&#xA7; 15a UStG)
+                    <property name="tooltip">Berichtigung des Vorsteuerabzugs (§ 15a UStG)
 
 Kennzahl im Formular: 64</property>
                   </widget>
@@ -1869,7 +1869,7 @@ Kennzahl im Formular: 64</property>
                   <widget class="GtkEntry" id="Kz59">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Vorsteuerabzug f&#xFC;r innergemeinschaftliche Lieferungen neuer Fahrzeuge au&#xDF;erhalb eines Unternehmens (&#xA7; 2a UStG) sowie von Kleinunternehmern im Sinne des &#xA7; 19 Abs. 1 UStG (&#xA7; 15 Abs. 4a UStG)
+                    <property name="tooltip">Vorsteuerabzug für innergemeinschaftliche Lieferungen neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG) sowie von Kleinunternehmern im Sinne des § 19 Abs. 1 UStG (§ 15 Abs. 4a UStG)
 
 Kennzahl im Formular: 59</property>
                   </widget>
@@ -1905,7 +1905,7 @@ Kennzahl im Formular: 59</property>
                   <widget class="GtkEntry" id="Kz69">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">in Rechnungen unrichtig oder unberechtigt ausgewiesene Steuerbetr&#xE4;ge (&#xA7; 14c UStG) sowie Steuerbetr&#xE4;ge, die nach &#xA7; 4 Nr. 4a Satz 1 Buchst. a Satz 2, &#xA7; 6a Abs. 4 Satz 2, &#xA7; 17 Abs. 1 Satz 6 oder &#xA7; 25b Abs. 2 UStG geschuldet werden
+                    <property name="tooltip">in Rechnungen unrichtig oder unberechtigt ausgewiesene Steuerbeträge (§ 14c UStG) sowie Steuerbeträge, die nach § 4 Nr. 4a Satz 1 Buchst. a Satz 2, § 6a Abs. 4 Satz 2, § 17 Abs. 1 Satz 6 oder § 25b Abs. 2 UStG geschuldet werden
 
 Kennzahl im Formular: 69</property>
                   </widget>
@@ -1941,7 +1941,7 @@ Kennzahl im Formular: 69</property>
                   <widget class="GtkEntry" id="Kz39">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Anrechnung (Abzug) der festgesetzten Sondervorauszahlung f&#xFC;r Dauerfristverl&#xE4;ngerung (nur auszuf&#xFC;llen in der letzten Voranmeldung des Besteuerungszeitraums, in der Regel Dezember)
+                    <property name="tooltip">Anrechnung (Abzug) der festgesetzten Sondervorauszahlung für Dauerfristverlängerung (nur auszufüllen in der letzten Voranmeldung des Besteuerungszeitraums, in der Regel Dezember)
 
 Kennzahl im Formular: 39</property>
                   </widget>
@@ -2012,7 +2012,7 @@ Kennzahl im Formular: 39</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
                     <property name="label">Nicht steuerbare sonstige Leistungen
-gem. &#xA7; 18b Satz 1 Nr. 2 UStG</property>
+gem. § 18b Satz 1 Nr. 2 UStG</property>
                     <property name="use_markup">True</property>
                     <property name="justify">right</property>
                     <property name="wrap">True</property>
@@ -2028,10 +2028,10 @@ gem. &#xA7; 18b Satz 1 Nr. 2 UStG</property>
                   <widget class="GtkEntry" id="Kz21">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">&lt;b&gt;Nicht steuerbare sonstige Leistungen&lt;/b&gt; gem. &#xA7; 18b Satz 1 Nr. 2 UStG
+                    <property name="tooltip">&lt;b&gt;Nicht steuerbare sonstige Leistungen&lt;/b&gt; gem. § 18b Satz 1 Nr. 2 UStG
 
 Kennzahl im Formular: 21</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </widget>
                   <packing>
                     <property name="left_attach">1</property>
@@ -2045,69 +2045,12 @@ Kennzahl im Formular: 21</property>
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
                   <widget class="GtkLabel" id="lbl47">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="xpad">5</property>
                     <property name="label">Leistungen von Unternehmern
-im &#xFC;brigen Gemeinschaftsgebiet</property>
+im übrigen Gemeinschaftsgebiet</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -2122,10 +2065,10 @@ im &#xFC;brigen Gemeinschaftsgebiet</property>
                   <widget class="GtkEntry" id="Kz46">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Im Inland steuerpflichtige sonstige Leistungen von im &#xFC;brigen Gemeinschaftsgebiet ans&#xE4;ssigen Unternehmern - Umsatz
+                    <property name="tooltip">Im Inland steuerpflichtige sonstige Leistungen von im übrigen Gemeinschaftsgebiet ansässigen Unternehmern - Umsatz
 
 Kennzahl im Formular: 46</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </widget>
                   <packing>
                     <property name="left_attach">1</property>
@@ -2142,10 +2085,10 @@ Kennzahl im Formular: 46</property>
                   <widget class="GtkEntry" id="Kz47">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Im Inland steuerpflichtige sonstige Leistungen von im &#xFC;brigen Gemeinschaftsgebiet ans&#xE4;ssigen Unternehmern - Steuer
+                    <property name="tooltip">Im Inland steuerpflichtige sonstige Leistungen von im übrigen Gemeinschaftsgebiet ansässigen Unternehmern - Steuer
 
 Kennzahl im Formular: 47</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                   </widget>
                   <packing>
                     <property name="left_attach">2</property>
@@ -2157,6 +2100,63 @@ Kennzahl im Formular: 47</property>
                     <property name="x_padding">2</property>
                     <property name="y_padding">2</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </widget>
             </child>
@@ -2215,7 +2215,7 @@ Kennzahl im Formular: 47</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="ypad">10</property>
-                    <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Steuerpflichtige Ums&#xE4;tze ...&lt;/b&gt;&lt;/span&gt;</property>
+                    <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Steuerpflichtige Umsätze ...&lt;/b&gt;&lt;/span&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -2460,7 +2460,7 @@ Kennzahl im Formular: 93</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="ypad">10</property>
-                    <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Abziehbare Vorsteuerbetr&#xE4;ge ...&lt;/b&gt;&lt;/span&gt;</property>
+                    <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Abziehbare Vorsteuerbeträge ...&lt;/b&gt;&lt;/span&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -2492,7 +2492,7 @@ Kennzahl im Formular: 93</property>
                     <property name="xalign">0</property>
                     <property name="xpad">5</property>
                     <property name="ypad">7</property>
-                    <property name="label">&lt;b&gt;Umsatzsteuer-Vorauszahlung/&#xDC;berschuss&lt;/b&gt; . . .</property>
+                    <property name="label">&lt;b&gt;Umsatzsteuer-Vorauszahlung/Überschuss&lt;/b&gt; . . .</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -2539,7 +2539,7 @@ Kennzahl im Formular: 93</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="xpad">5</property>
-                    <property name="label">Vorsteuerbetr&#xE4;ge aus innergem. Erwerb</property>
+                    <property name="label">Vorsteuerbeträge aus innergem. Erwerb</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                   </widget>
@@ -2650,7 +2650,7 @@ Kennzahl im Formular: 93</property>
                   <widget class="GtkEntry" id="Kz66">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Vorsteuerbetr&#xE4;ge aus Rechnungen von anderen Unternehmern (&#xA7; 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen im Sinne des &#xA7; 13a Abs. 1 Nr. 6 UStG (&#xA7; 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgesch&#xE4;ften (&#xA7; 25b Abs. 5 UStG)
+                    <property name="tooltip">Vorsteuerbeträge aus Rechnungen von anderen Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen im Sinne des § 13a Abs. 1 Nr. 6 UStG (§ 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgeschäften (§ 25b Abs. 5 UStG)
 
 Kennzahl im Formular: 66</property>
                   </widget>
@@ -2669,7 +2669,7 @@ Kennzahl im Formular: 66</property>
                   <widget class="GtkEntry" id="Kz61">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Vorsteuerbetr&#xE4;ge aus dem innergemeinschaftlichen Erwerb von Gegenst&#xE4;nden (&#xA7; 15 Abs. 1 Satz 1 Nr. 3 UStG)
+                    <property name="tooltip">Vorsteuerbeträge aus dem innergemeinschaftlichen Erwerb von Gegenständen (§ 15 Abs. 1 Satz 1 Nr. 3 UStG)
 
 Kennzahl im Formular: 61</property>
                   </widget>
@@ -2688,7 +2688,7 @@ Kennzahl im Formular: 61</property>
                   <widget class="GtkEntry" id="Kz62">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Entrichtete Einfuhrumsatzsteuer (&#xA7; 15 Abs. 1 Satz 1 Nr. 2 UStG)
+                    <property name="tooltip">Entrichtete Einfuhrumsatzsteuer (§ 15 Abs. 1 Satz 1 Nr. 2 UStG)
 
 Kennzahl im Formular: 62</property>
                   </widget>
@@ -2724,7 +2724,7 @@ Kennzahl im Formular: 62</property>
                   <widget class="GtkEntry" id="Kz39">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="tooltip">Anrechnung (Abzug) der festgesetzten Sondervorauszahlung f&#xFC;r Dauerfristverl&#xE4;ngerung (nur auszuf&#xFC;llen in der letzten Voranmeldung des Besteuerungszeitraums, in der Regel Dezember)
+                    <property name="tooltip">Anrechnung (Abzug) der festgesetzten Sondervorauszahlung für Dauerfristverlängerung (nur auszufüllen in der letzten Voranmeldung des Besteuerungszeitraums, in der Regel Dezember)
 
 Kennzahl im Formular: 39</property>
                   </widget>
@@ -2761,7 +2761,7 @@ Kennzahl im Formular: 39</property>
                     <property name="visible">True</property>
                     <property name="items">Januar
 Februar
-M&#xE4;rz
+März
 April
 Mai
 Juni
@@ -2908,7 +2908,7 @@ Dezember
                 <child>
                   <widget class="GtkComboBox" id="land">
                     <property name="visible">True</property>
-                    <property name="items">Baden W&#xFC;rttemberg
+                    <property name="items">Baden Württemberg
 Bayern
 Berlin
 Brandenburg
@@ -2923,7 +2923,7 @@ Saarland
 Sachsen
 Sachsen-Anhalt
 Schleswig-Holstein
-Th&#xFC;ringen</property>
+Thüringen</property>
                   </widget>
                   <packing>
                     <property name="left_attach">1</property>
@@ -3173,7 +3173,7 @@ Th&#xFC;ringen</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
                     <property name="label">Verrechnung des Erstattungs-
-betrages erw&#xFC;nscht</property>
+betrages erwünscht</property>
                     <property name="justify">right</property>
                   </widget>
                   <packing>
@@ -3188,7 +3188,7 @@ betrages erw&#xFC;nscht</property>
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
                     <property name="xpad">5</property>
-                    <property name="label" translatable="yes">Einzugserm&#xE4;chtigung wird 
+                    <property name="label" translatable="yes">Einzugsermächtigung wird 
 ausnahmsweise widerrufen</property>
                     <property name="justify">right</property>
                   </widget>
@@ -3217,7 +3217,7 @@ ausnahmsweise widerrufen</property>
                     <property name="visible">True</property>
                     <property name="items">Januar
 Februar
-M&#xE4;rz
+März
 April
 Mai
 Juni
