@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Taxbird 0.11\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-17 17:59+0200\n"
+"POT-Creation-Date: 2011-01-29 22:52+0100\n"
 "PO-Revision-Date: 2009-10-17 18:00+0100\n"
 "Last-Translator: Stefan Siegl <stesie@brokenpipe.de>\n"
 "Language-Team: German <taxbird@taxbird.de>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,11 +41,11 @@ msgstr "Bitte wählen Sie eine Vorlage aus der Liste."
 msgid "Current document contains no data. "
 msgstr "Aktuelles Dokument enthält keine Daten. "
 
-#: src/export.c:107
+#: src/export.c:110
 msgid "Unable to initialize libgeier context"
 msgstr "Der libgeier Kontext konnte nicht initialisiert werden."
 
-#: src/export.c:114
+#: src/export.c:117
 msgid ""
 "Unable to validate the exported document. Sorry, but this should not "
 "happen. \n"
@@ -56,7 +57,7 @@ msgstr ""
 "\n"
 "Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
 
-#: src/export.c:135
+#: src/export.c:138
 msgid ""
 "Unable to xsltify the exported document. Sorry, but this should not "
 "happen. \n"
@@ -68,44 +69,48 @@ msgstr ""
 "\n"
 "Bitte erwägen Sie, an die taxbird@taxbird.de Mailing-Liste zu schreiben."
 
-#: src/export.c:147
+#: src/export.c:159
 msgid "Unable to allocate GtkHTML widget."
 msgstr "GtkHTML-Steuerelement konnte nicht erstellt werden."
 
-#: src/export.c:178
+#: src/export.c:190
 msgid "Unable to initialize libgeier context."
 msgstr "libgeier Kontext konnte nicht initialisiert werden."
 
-#: src/export.c:215
+#: src/export.c:227
 msgid "Unable to digitally sign Elster document."
 msgstr "Elster-Dokument konnte nicht digital signiert werden."
 
-#: src/export.c:233
+#: src/export.c:245
 msgid ""
 "You told to store Coala-XML to a file, however didn't specify a filename."
 msgstr ""
 "Sie haben ausgewählt, das Coala-XML in eine Datei abzuspeichern, jedoch "
 "keinen Dateinamen festgelegt."
 
-#: src/export.c:244
+#: src/export.c:256
 msgid "Unable to create Coala-XML file."
-msgstr "Coala-XML Datei kann nicht erstellt werden."
+msgstr "Coala-XML Datei konnte nicht erstellt werden."
 
-#: src/export.c:277
+#: src/export.c:263
+msgid "Unable to write to Coala-XML file."
+msgstr "Coala-XML Datei konnte nicht geschrieben werden."
+
+#: src/export.c:294
 msgid "Unable to fork print process, please verify the specified command"
 msgstr ""
 "Der Druckprozess konnte nicht gestartet werden, bitte überprüfen Sie den "
 "angegebenen Dateinamen."
 
-#: src/export.c:300
+#: src/export.c:317
 msgid "Unable to create protocol file."
 msgstr "Protokolldatei kann nicht erstellt werden."
 
-#: src/export.c:313
+#: src/export.c:330
 msgid "Unable to send the exported document."
 msgstr "Exportiertes Dokument kann nicht gesendet werden."
 
-#: src/export.c:327
+#: src/export.c:344
 #, c-format
 msgid ""
 "Unable to send the tax declaration to the inland revenue office, the error "
@@ -118,7 +123,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/export.c:352
+#: src/export.c:369
 msgid ""
 "Unable to generate the transmission protocol. This is a local error, THIS "
 "IS, YOUR DATA HAS BEEN SENT TO THE INLAND REVENUE OFFICE AND IT WAS ACCEPTED."
@@ -127,14 +132,28 @@ msgstr ""
 "lokaler Fehler,DAS BEDEUTET, DASS IHRE DATEN AN DAS FINANZAMT ÜBERMITTELT "
 "UND AKZEPTIERT WURDEN."
 
-#: src/export.c:386
+#: src/export.c:384
+msgid "Failed to write to print-helper pipe."
+msgstr "Fehler beim Schreiben in die print-helper Pipe."
+
+#: src/export.c:392
+msgid "Failed to write to protocol file."
+msgstr "Protokolldatei konnte nicht geschrieben werden."
+
+#: src/export.c:409
 msgid "Printer process exited abnormally, your data has been sent however."
 msgstr ""
 "Druckprozess endete auf unnormale Weise, Ihre Daten wurden jedoch gesendet."
 
-#: src/export.c:392
+#: src/export.c:415
 msgid "Your data has been sent to the inland revenue office and was accepted"
 msgstr "Ihre Daten wurden an das Finanzamt übermittelt und wurden akzeptiert."
+
+#: src/main.c:90
+msgid ""
+"Failed to initialize GEIER data transfer library. Data transfers to fiscal "
+"authorities will not be possible."
+msgstr ""
 
 #: src/workspace.c:115
 msgid "Available Sheets"
@@ -144,7 +163,7 @@ msgstr "Vorhandene Blätter"
 msgid "The current field's content is not valid. Sorry."
 msgstr "Der Inhalt des aktuellen Feldes ist nicht gültig. Entschuldigung."
 
-#: src/workspace.c:547
+#: src/workspace.c:559
 msgid "Current document contains no data. There's no point in writing it out."
 msgstr ""
 "Das aktuelle Dokument enthält keine Daten. Es macht keinen Sinn, es zu "
@@ -154,7 +173,7 @@ msgstr ""
 #. * please leave this alone, it's just to force the catalogue to contain
 #. * the string `Yes!' which is used in some forms
 #.
-#: src/workspace.c:628
+#: src/workspace.c:640
 msgid "Yes!"
 msgstr "Ja!"
 
@@ -254,7 +273,7 @@ msgid "taxbird - Choose File"
 msgstr "taxbird - Datei auswählen"
 
 #: taxbird.glade:473
-msgid "(C) 2004,2005,2006,2007,2008 Stefan Siegl"
+msgid "(C) 2004,2005,2006,2007,2008,2009,2010,2011 Stefan Siegl"
 msgstr ""
 
 #: taxbird.glade:474
@@ -265,6 +284,7 @@ msgstr ""
 "Ein Programm zum Erfassen und Übermitteln von Steuererklärungen (für "
 "Deutschland)"
 
+#. TRANSLATORS: Replace this string with your names, one name per line.
 #: taxbird.glade:483
 msgid "translator_credits"
 msgstr "Stefan Siegl <stesie@brokenpipe.de>"
