@@ -1,4 +1,5 @@
-/* Copyright(C) 2005,2006,2007,2008 Stefan Siegl <stesie@brokenpipe.de>
+/* vim: noexpandtab sts=2 ts=8 sw=2
+ * Copyright(C) 2005,2006,2007,2008 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -258,7 +259,12 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
       return 1;
     }
 
-    write(fd, data_text, data_text_len);
+    if(write(fd, data_text, data_text_len) != data_text_len) {
+      taxbird_dialog_error(confirm_dlg, _("Unable to write to Coala-XML file."));
+      geier_context_free(ctx);
+      free(data_text);
+      return 1;
+    }
     close(fd);
   }
 
@@ -373,12 +379,18 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   }
 
   if(fd_to_lpr >= 0) {
-    write(fd_to_lpr, data_xslt, data_xslt_len);
+    if(write(fd_to_lpr, data_xslt, data_xslt_len) != data_xslt_len) {
+      taxbird_dialog_error(confirm_dlg,
+			   _("Failed to write to print-helper pipe."));
+    }
     close(fd_to_lpr);
   }
 
   if(fd_to_protofile >= 0) {
-    write(fd_to_protofile, data_xslt, data_xslt_len);
+    if(write(fd_to_protofile, data_xslt, data_xslt_len) != data_xslt_len) {
+      taxbird_dialog_error(confirm_dlg,
+			   _("Failed to write to protocol file."));
+    }
     close(fd_to_protofile);
   }
 

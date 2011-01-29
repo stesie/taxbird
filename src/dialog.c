@@ -1,4 +1,5 @@
-/* Copyright(C) 2005,2007 Stefan Siegl <stesie@brokenpipe.de>
+/* vim: noexpandtab sts=2 sw=2 ts=8
+ * Copyright(C) 2005,2007 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -31,7 +32,7 @@ taxbird_dialog_error(GtkWidget *parent, const char *message)
   GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
 					     GTK_DIALOG_MODAL,
 					     GTK_MESSAGE_ERROR,
-					     GTK_BUTTONS_CLOSE, message);
+					     GTK_BUTTONS_CLOSE, "%s", message);
   gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy (dialog);
 }
@@ -48,7 +49,7 @@ taxbird_dialog_info(GtkWidget *parent, const char *message)
   GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
 					     GTK_DIALOG_MODAL,
 					     GTK_MESSAGE_INFO,
-					     GTK_BUTTONS_CLOSE, message);
+					     GTK_BUTTONS_CLOSE, "%s", message);
   gtk_dialog_run(GTK_DIALOG(dialog));
   gtk_widget_destroy(dialog);
 }
@@ -64,7 +65,7 @@ taxbird_dialog_yes_no_cancel(GtkWidget *parent, const char *message)
   GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
 					     GTK_DIALOG_MODAL,
 					     GTK_MESSAGE_QUESTION,
-					     GTK_BUTTONS_NONE, message);
+					     GTK_BUTTONS_NONE, "%s", message);
 
   GtkWidget *but;
 

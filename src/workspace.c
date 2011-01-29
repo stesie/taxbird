@@ -107,7 +107,7 @@ taxbird_ws_sel_form(int formid)
   if((model = gtk_tree_view_get_model(tv_sheets))) {
     /* there already is an attached model, replace it. */
     tree = GTK_TREE_STORE(model);
-    gtk_tree_store_clear(model);
+    gtk_tree_store_clear(tree);
   } 
   else {
     /* add column */
