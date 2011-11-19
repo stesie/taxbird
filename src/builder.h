@@ -1,4 +1,4 @@
-/* Copyright(C) 2007 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2011 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -20,23 +20,26 @@
 #  include <config.h>
 #endif
 
-#include <glade/glade.h>
+#include <gtk/gtk.h>
 
-#ifndef TAXBIRD_GLADE_H
-#define TAXBIRD_GLADE_H
+#ifndef TAXBIRD_BUILDER_H
+#define TAXBIRD_BUILDER_H
 
-/* GladeXML object of the application window */
-extern GladeXML *taxbird_gladexml_app;
+/* GtkBuilder object of the application window */
+extern GtkBuilder *taxbird_builder_app;
 
-/* GladeXML object of the active sheet */
-extern GladeXML *taxbird_gladexml_sheet;
+/* GtkBuilder object of the active sheet */
+extern GtkBuilder *taxbird_builder_sheet;
 
-/* GladeXML object of the export dialog */
-extern GladeXML *taxbird_gladexml_export;
+/* GtkBuilder object of the active export.
+   
+   We use a seperate builder, so we can destroy and reinstantiate, if export
+   is either finished or cancelled. */
+extern GtkBuilder *taxbird_builder_export;
 
-GtkWidget *taxbird_glade_create(GladeXML **xml, const char *widget_name);
+GtkWidget *taxbird_builder_create(GtkBuilder **xml, const char *widget_name,
+				  const char *file_name);
 
-GtkWidget *taxbird_glade_lookup(GladeXML *xml, const char *widget_name);
-
+GtkWidget *taxbird_builder_lookup(GtkBuilder *xml, const char *widget_name);
 
 #endif /* TAXBIRD_GLADE_H */

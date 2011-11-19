@@ -31,12 +31,10 @@ on_help_about_activate                 (GtkMenuItem     *menuitem,
                                         gpointer         user_data);
 
 void
-on_choose_template_OK_clicked          (GtkButton       *button,
-                                        gpointer         user_data);
-
-void
 on_tv_sheets_cursor_changed            (GtkTreeView     *treeview,
                                         gpointer         user_data);
+
+void on_choose_template_OK_clicked(GtkTreeView *tv, gpointer user_data);
 
 void on_choose_file_open(GtkButton *button, gpointer user_data);
 void on_choose_file_copy_last_year(GtkButton *button, gpointer user_data);

@@ -22,13 +22,12 @@
 
 #include <gnome.h>
 #include <assert.h>
-#include <glade/glade.h>
 
 #include "dialog.h"
 #include "workspace.h"
 #include "form.h"
 #include "guile.h"
-#include "glade.h"
+#include "builder.h"
 
 /* add necessary items (taken from the dataset) to the
  * GtkTreeStore recursively */
@@ -73,7 +72,8 @@ SCM taxbird_document_data;
 GtkWidget *
 taxbird_ws_new(void)
 {
-  taxbird_window = taxbird_glade_create(&taxbird_gladexml_app, "taxbird");
+  taxbird_window = taxbird_builder_create(&taxbird_builder_app, "taxbird",
+					  PACKAGE_DATA_DIR "taxbird.ui");
   if(! taxbird_window) return NULL;
 
   gtk_widget_show(taxbird_window);
@@ -99,7 +99,7 @@ taxbird_ws_sel_form(int formid)
   GtkTreeStore *tree;
   GtkTreeModel *model;
   GtkTreeView *tv_sheets =
-    GTK_TREE_VIEW(taxbird_glade_lookup(taxbird_gladexml_app, "tv_sheets"));
+    GTK_TREE_VIEW(taxbird_builder_lookup(taxbird_builder_app, "tv_sheets"));
 
   g_return_if_fail(formid >= 0);
   g_return_if_fail(tv_sheets);
@@ -138,7 +138,7 @@ taxbird_ws_sel_form(int formid)
   /* remove old viewport */
   GtkWidget *child;
   GtkBin *viewport =
-    GTK_BIN(taxbird_glade_lookup(taxbird_gladexml_app, "viewport"));
+    GTK_BIN(taxbird_builder_lookup(taxbird_builder_app, "viewport"));
   
   if((child = GTK_WIDGET(gtk_bin_get_child(viewport))))
     gtk_widget_destroy(child);
@@ -226,14 +226,15 @@ taxbird_ws_activate_sheet(const char *fn, const char *root)
   /* remove old widget tree ... */
   GtkWidget *table;
   GtkBin *viewport =
-    GTK_BIN(taxbird_glade_lookup(taxbird_gladexml_app, "viewport"));
+    GTK_BIN(taxbird_builder_lookup(taxbird_builder_app, "viewport"));
   
   if((table = GTK_WIDGET(gtk_bin_get_child(viewport))))
     gtk_widget_destroy(table);
 
   /* create new widget tree  ... */
-  taxbird_gladexml_sheet = glade_xml_new(lookup_fn, root, NULL);
-  if(! taxbird_gladexml_sheet) {
+  taxbird_builder_sheet = NULL;
+  table = taxbird_builder_create(&taxbird_builder_sheet, root, lookup_fn);
+  if(! table) {
     g_printerr(PACKAGE_NAME ": cannot find root-element '%s' in '%s'\n",
 	       root, lookup_fn);
     g_free(lookup_fn);
@@ -241,18 +242,20 @@ taxbird_ws_activate_sheet(const char *fn, const char *root)
   }
 
   g_free(lookup_fn);
-  table = glade_xml_get_widget(taxbird_gladexml_sheet, root);
 
   /* make sure not to re-store field's values when loading them all */
   taxbird_ws_disable_storage_hook = 1;
 
-  GList *widgets = glade_xml_get_widget_prefix(taxbird_gladexml_sheet, "");
-  GList *ptr = widgets;
+  GSList *widgets = gtk_builder_get_objects(taxbird_builder_sheet);
+  GSList *ptr = widgets;
 
   if(ptr) {
     do {
-      GtkWidget *w = GTK_WIDGET(ptr->data);
+      GType t = G_OBJECT_TYPE(ptr->data);
+      if(!g_type_is_a(t, GTK_TYPE_WIDGET))
+	continue;
 
+      GtkWidget *w = GTK_WIDGET(ptr->data);
       if(! (GTK_IS_LABEL(w) || GTK_IS_TABLE(w) || GTK_IS_SEPARATOR(w)
 	    || GTK_IS_IMAGE(w) || GTK_IS_SCROLLED_WINDOW(w)
 	    || GTK_IS_BOX(w) || GTK_IS_ALIGNMENT(w))) {
@@ -271,11 +274,11 @@ taxbird_ws_activate_sheet(const char *fn, const char *root)
 	  g_signal_connect(w, "changed",
 			   G_CALLBACK(taxbird_ws_store_event), NULL);
 
-	taxbird_ws_retrieve_field(w, glade_get_widget_name(w));
+	taxbird_ws_retrieve_field(w, gtk_buildable_get_name(GTK_BUILDABLE(w)));
       }
     } while((ptr = ptr->next));
   
-    g_list_free(widgets);
+    g_slist_free(widgets);
   }
   
   gtk_container_set_border_width(GTK_CONTAINER(table), 5);
@@ -300,8 +303,8 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 
   /* figure out, what value to store */
   SCM sv;
-  SCM wn = scm_makfrom0str(glade_get_widget_name(w));
-  
+  SCM wn = scm_makfrom0str(gtk_buildable_get_name(GTK_BUILDABLE(w)));
+
   if(GTK_IS_ENTRY(w))
     sv = scm_makfrom0str(gtk_entry_get_text(GTK_ENTRY(w)));
 
@@ -318,7 +321,7 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
 
     GSList *grp = gtk_radio_button_get_group(GTK_RADIO_BUTTON(w));
     sv = wn;
-    wn = scm_makfrom0str(glade_get_widget_name(GTK_WIDGET(grp->data)));
+    wn = scm_makfrom0str(gtk_buildable_get_name(GTK_BUILDABLE(grp->data)));
   }
   
   else if(GTK_IS_TREE_VIEW(w)) {
@@ -353,7 +356,7 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
    * might disappear during the scheme call (in case the script decides to
    * display another sheet, leading in `w' to be destroyed) 
    */
-  GtkWidget *helpw = taxbird_glade_lookup(taxbird_gladexml_app, "helptext");
+  GtkWidget *helpw = taxbird_builder_lookup(taxbird_builder_app, "helptext");
   g_return_if_fail(helpw);
   GtkTooltipsData *tooltip = gtk_tooltips_data_get(w);
   const char *plain_helptext = tooltip ? tooltip->tip_text : "";
@@ -381,7 +384,7 @@ taxbird_ws_store_event(GtkWidget *w, gpointer user_data)
   taxbird_document_changed = 1;
 
   /* now update all but the current field */
-  const char *widget_name = glade_get_widget_name(w);
+  const char *widget_name = gtk_buildable_get_name(GTK_BUILDABLE(w));
   if(widget_name) taxbird_ws_update_fields(widget_name);
 
   /* write out the current field's unmodified helptext,
@@ -401,21 +404,26 @@ taxbird_ws_update_fields(const char *exception)
   g_return_if_fail(exception);
 
   assert(taxbird_ws_disable_storage_hook == 0);
-  assert(taxbird_gladexml_sheet);
+  assert(taxbird_builder_sheet);
   taxbird_ws_disable_storage_hook = 1;
 
-  GList *widgets = glade_xml_get_widget_prefix(taxbird_gladexml_sheet, "");
-  GList *ptr = widgets;
+  GSList *widgets = gtk_builder_get_objects(taxbird_builder_sheet);
+  GSList *ptr = widgets;
 
   if(ptr) {
     do {
-      GtkWidget *w = GTK_WIDGET(ptr->data);
+      GType t = G_OBJECT_TYPE(ptr->data);
+      if(!g_type_is_a(t, GTK_TYPE_WIDGET))
+	continue;
 
-      if(strcmp(glade_get_widget_name(w), exception))
-	taxbird_ws_retrieve_field(w, glade_get_widget_name(w));
+      GtkWidget *w = GTK_WIDGET(ptr->data);
+      const gchar *w_name = gtk_buildable_get_name(GTK_BUILDABLE(w));
+
+      if(strcmp(w_name, exception))
+	taxbird_ws_retrieve_field(w, w_name);
     } while((ptr = ptr->next));
     
-    g_list_free(widgets);
+    g_slist_free(widgets);
   }
 
   taxbird_ws_disable_storage_hook = 0;
@@ -429,7 +437,7 @@ taxbird_ws_retrieve_field(GtkWidget *w, const char *field_name)
   if(GTK_IS_RADIO_BUTTON(w)) {
     /* radio buttons need to be handled different, so they come first :)   */
     GSList *grp = gtk_radio_button_get_group(GTK_RADIO_BUTTON(w));
-    SCM wn = scm_makfrom0str(glade_get_widget_name(GTK_WIDGET(grp->data)));
+    SCM wn = scm_makfrom0str(gtk_buildable_get_name(GTK_BUILDABLE(grp->data)));
     SCM v = scm_call_2(taxbird_current_form->dataset_read,
 		       taxbird_document_data, wn);
     
@@ -493,7 +501,7 @@ taxbird_ws_show_appbar_help(GtkWidget *widget, GdkEventFocus *event,
   (void) user_data;
 
   GtkTooltipsData *tooltip = gtk_tooltips_data_get(widget);
-  GtkWidget *helpw = taxbird_glade_lookup(taxbird_gladexml_app, "helptext");
+  GtkWidget *helpw = taxbird_builder_lookup(taxbird_builder_app, "helptext");
   gtk_label_set_markup(GTK_LABEL(helpw), tooltip ? tooltip->tip_text : "");
   return FALSE; /* call other handlers as well */
 }
@@ -605,7 +613,7 @@ taxbird_ws_chooser_additem(SCM chooser, SCM item)
 
   char *widg = scm_to_locale_string(chooser);
   GtkTreeView *view =
-    GTK_TREE_VIEW(taxbird_glade_lookup(taxbird_gladexml_sheet, widg));
+    GTK_TREE_VIEW(taxbird_builder_lookup(taxbird_builder_sheet, widg));
   free(widg);
 
   g_return_val_if_fail(view, SCM_BOOL(0));

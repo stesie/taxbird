@@ -3,7 +3,7 @@
 SUBDIRS = guile
 
 INCLUDES = \
-	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
+	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)/"\" \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DVERSION=\""$(VERSION)"\" \
 	@GNOME_CFLAGS@ @GEIER_CFLAGS@ @GUILE_CFLAGS@ @GTKHTML_CFLAGS@
@@ -15,7 +15,7 @@ taxbird_SOURCES = \
         main.c \
         callbacks.c callbacks.h \
         workspace.c workspace.h \
-	glade.c glade.h \
+	builder.c builder.h \
         guile.c guile.h \
         form.c form.h \
 	dialog.c dialog.h \

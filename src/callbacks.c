@@ -21,7 +21,6 @@
 #endif
 
 #include <gtkhtml/gtkhtml.h>
-#include <gnome.h>
 
 #include "callbacks.h"
 #include "dialog.h"
@@ -29,7 +28,7 @@
 #include "form.h"
 #include "guile.h"
 #include "export.h"
-#include "glade.h"
+#include "builder.h"
 
 /* callback function for 
  *  File -> New menuitem
@@ -40,13 +39,14 @@ on_file_new_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
   (void) menuitem;
   (void) user_data;
-  
-  GladeXML *gladexml = NULL;
-  GtkWidget *dialog =
-    taxbird_glade_create(&gladexml, "dlgChooseTemplate");
-  GtkTreeView *tv = 
-    GTK_TREE_VIEW(taxbird_glade_lookup(gladexml, "lstTemplates"));
+
+  GtkBuilder *b = NULL;
+  GtkWidget *dialog = taxbird_builder_create(&b, "dlgChooseTemplate",
+					     PACKAGE_DATA_DIR "choose-template.ui");
+  GtkTreeView *tv = GTK_TREE_VIEW(taxbird_builder_lookup(b, "lstTemplates"));
   g_return_if_fail(tv);
+
+  g_object_unref(b);
 
   /* add column */
   {
@@ -84,10 +84,12 @@ on_file_new_from_last_year_activate(GtkMenuItem *mi, gpointer u)
   (void) mi;
   (void) u;
 
-  GladeXML *xml = NULL;
-  GtkWidget *dialog = taxbird_glade_create(&xml, "dlgChooseFile");
-  g_signal_connect(G_OBJECT(taxbird_glade_lookup(xml, "cmdOK")),
+  GtkBuilder *b = NULL;
+  GtkWidget *dialog = taxbird_builder_create(&b, "dlgChooseFile",
+					     PACKAGE_DATA_DIR "choose-file.ui");
+  g_signal_connect(G_OBJECT(taxbird_builder_lookup(b, "cmdOK")),
 		   "clicked", G_CALLBACK(on_choose_file_copy_last_year), NULL);
+  g_object_unref(b);
   gtk_widget_show(dialog);
 }
 
@@ -98,10 +100,12 @@ on_file_open_activate(GtkMenuItem *menuitem, gpointer user_data)
   (void) menuitem;
   (void) user_data;
 
-  GladeXML *xml = NULL;
-  GtkWidget *dialog = taxbird_glade_create(&xml, "dlgChooseFile");
-  g_signal_connect(G_OBJECT(taxbird_glade_lookup(xml, "cmdOK")),
+  GtkBuilder *b = NULL;
+  GtkWidget *dialog = taxbird_builder_create(&b, "dlgChooseFile",
+					     PACKAGE_DATA_DIR "choose-file.ui");
+  g_signal_connect(G_OBJECT(taxbird_builder_lookup(b, "cmdOK")),
 		   "clicked", G_CALLBACK(on_choose_file_open), NULL);
+  g_object_unref(b);
   gtk_widget_show(dialog);
 }
 
@@ -126,12 +130,14 @@ on_file_saveas_activate(GtkMenuItem *menuitem, gpointer user_data)
   (void) menuitem;
   (void) user_data;
 
-  GladeXML *xml = NULL;
-  GtkWidget *dialog = taxbird_glade_create(&xml, "dlgChooseFile");
+  GtkBuilder *b = NULL;
+  GtkWidget *dialog = taxbird_builder_create(&b, "dlgChooseFile",
+					     PACKAGE_DATA_DIR "choose-file.ui");
   gtk_file_chooser_set_action(GTK_FILE_CHOOSER(dialog),
 			      GTK_FILE_CHOOSER_ACTION_SAVE);
-  g_signal_connect(G_OBJECT(taxbird_glade_lookup(xml, "cmdOK")),
+  g_signal_connect(G_OBJECT(taxbird_builder_lookup(b, "cmdOK")),
 		   "clicked", G_CALLBACK(on_choose_file_save), NULL);
+  g_object_unref(b);
   gtk_widget_show(dialog);
 }
 
@@ -203,7 +209,8 @@ on_help_about_activate                 (GtkMenuItem     *menuitem,
   (void) menuitem;
   (void) user_data;
 
-  GtkWidget *about = taxbird_glade_create(NULL, "aboutTaxBird");
+  GtkWidget *about = taxbird_builder_create(NULL, "aboutTaxBird",
+					    PACKAGE_DATA_DIR "about.ui");
   gtk_widget_show (about);
 }
 
@@ -214,23 +221,20 @@ on_help_about_activate                 (GtkMenuItem     *menuitem,
  * clicked, since this function is invoked from other callback functions.
  */
 void
-on_choose_template_OK_clicked(GtkButton *button, gpointer user_data)
+on_choose_template_OK_clicked(GtkTreeView *tv, gpointer user_data)
 {
   (void) user_data;
 
   char *sel_form_name;
 
-  GladeXML *gladexml = glade_get_widget_tree(GTK_WIDGET(button));
+  g_return_if_fail(GTK_TREE_VIEW(tv));
 
-  GtkWidget *dialog = taxbird_glade_lookup(gladexml, "dlgChooseTemplate");
+  GtkWidget *dialog = gtk_widget_get_toplevel(GTK_WIDGET(tv));
   g_return_if_fail(dialog);
 
   GtkTreeSelection *sel;
   GtkTreeModel *model;
   GtkTreeIter iter;
-  GtkTreeView *tv =
-    GTK_TREE_VIEW(taxbird_glade_lookup(gladexml, "lstTemplates"));
-  g_return_if_fail(tv);
 
   sel = gtk_tree_view_get_selection(tv);
   if(! gtk_tree_selection_get_selected (sel, &model, &iter)) {
@@ -275,8 +279,7 @@ on_tv_sheets_cursor_changed(GtkTreeView *tv, gpointer user_data)
 static gchar *
 on_choose_file_get_fname(GtkWidget *widget)
 {
-  GladeXML *gladexml = glade_get_widget_tree(widget);
-  GtkWidget *dialog = taxbird_glade_lookup(gladexml, "dlgChooseFile");
+  GtkWidget *dialog = gtk_widget_get_toplevel(widget);
   g_return_val_if_fail(dialog, NULL);
 
   gchar *fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
@@ -319,8 +322,8 @@ on_choose_file_save(GtkButton *button, gpointer user_data)
 
   gchar *fname;
 
-  GladeXML *gladexml = glade_get_widget_tree(GTK_WIDGET(button));
-  GtkWidget *dialog = taxbird_glade_lookup(gladexml, "dlgChooseFile");
+  GtkWidget *dialog = taxbird_builder_lookup(taxbird_builder_app,
+					     "dlgChooseFile");
   g_return_if_fail(dialog);
 
   fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
@@ -368,7 +371,7 @@ on_taxbird_configure(GtkWidget *widget, GdkEventConfigure *event,
   (void) user_data;
   static int old_height = 0;
 
-  widget = taxbird_glade_lookup(taxbird_gladexml_app, "vpane");
+  widget = taxbird_builder_lookup(taxbird_builder_app, "vpane");
   g_return_val_if_fail(widget, FALSE);
 
   if(old_height)
@@ -389,8 +392,8 @@ on_templates_button_press_event        (GtkWidget       *widget,
                                         gpointer         user_data)
 {
   if(event->type == GDK_2BUTTON_PRESS)
-    on_choose_template_OK_clicked((GtkButton *) widget, NULL);
-    
+    on_choose_template_OK_clicked(GTK_TREE_VIEW(widget), NULL);
+
   return FALSE;
 }
 
@@ -421,8 +424,8 @@ on_export_druid_cancel                 (GtkWidget       *widget,
   /* we don't have to disallocate any data - the associated data 
    * structure will be unprotected and then garbage collected */
 
-  widget = taxbird_glade_lookup(taxbird_gladexml_export, 
-                                "dlgExportConfirmation");
+  widget = taxbird_builder_lookup(taxbird_builder_export, 
+				  "dlgExportConfirmation");
   gtk_widget_destroy(widget);
 
   return FALSE; /* close dialog, for delete-event */
@@ -436,8 +439,8 @@ on_export_druid_finish(GnomeDruidPage *page, GtkWidget *widget,
   (void) page;
   (void) user_data;
 
-  GtkWidget *confirm_dlg = taxbird_glade_lookup(taxbird_gladexml_export, 
-                                                "dlgExportConfirmation");
+  GtkWidget *confirm_dlg = taxbird_builder_lookup(taxbird_builder_export, 
+						  "dlgExportConfirmation");
 
   if(taxbird_export_bottom_half(confirm_dlg))
     return; /* error occured */

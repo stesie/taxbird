@@ -5,8 +5,8 @@ SUBDIRS = src po
 desktopfiledir = $(prefix)/share/applications
 desktopfile_DATA = taxbird.desktop
 
-gladefiledir = $(pkgdatadir)
-gladefile_DATA = taxbird.glade
+uifiledir = $(pkgdatadir)
+uifile_DATA = about.ui  choose-file.ui  choose-template.ui  export.ui  taxbird.ui
 
 mimedatadir = $(prefix)/share/mime/packages
 
@@ -14,9 +14,9 @@ man_MANS = taxbird.1 taxbird-print-helper.1
 
 EXTRA_DIST = \
 	${man_MANS} \
+	${uifile_DATA} \
 	taxbird.xml \
 	taxbird.desktop \
-	taxbird.glade \
 	README.vendor-id \
 	README.dsig
 

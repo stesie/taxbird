@@ -20,6 +20,7 @@
 #define TAXBIRD_WORKSPACE_H
 
 #include <guile/gh.h>
+#include <gtk/gtk.h>
 
 /* create new taxbird workspace */
 GtkWidget *taxbird_ws_new(void);

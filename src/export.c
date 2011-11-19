@@ -35,7 +35,7 @@
 #include "guile.h"
 #include "form.h"
 #include "workspace.h"
-#include "glade.h"
+#include "builder.h"
 
 /* ask current template's guile backend to generate the data we'd
  * like to write out (in case testcase is set, with data being marked
@@ -162,7 +162,8 @@ taxbird_export(int testcase)
 
   free(data_xslt_utf8);
 
-  /* automatically fill protocol-store widget (which isn't filled by glade) **/
+  /* automatically fill protocol-store widget
+     (which isn't filled by GtkBuilder) */
   taxbird_guile_eval_file("taxbird.scm");
   SCM fn = scm_call_1(scm_c_lookup_ref("tb:get-proto-filename"),
 		      taxbird_document_data);
@@ -195,12 +196,12 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   int data_text_len = strlen(data_text);
 
   /* digitally sign the Coala-XML if requested *******************************/
-  GtkWidget *dsig = taxbird_glade_lookup(taxbird_gladexml_export, "dsig");
+  GtkWidget *dsig = taxbird_builder_lookup(taxbird_builder_export, "dsig");
   if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dsig))) {
     GtkEntry *e;
 
-    e = GTK_ENTRY(taxbird_glade_lookup(taxbird_gladexml_export, 
-                                       "dsig_fileentry_text"));
+    e = GTK_ENTRY(taxbird_builder_lookup(taxbird_builder_export, 
+					 "dsig_fileentry_text"));
     const char *filename = gtk_entry_get_text(e);
 
     /* tell the guile backend about the new softpse filename ***/
@@ -208,8 +209,8 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
     scm_call_1(scm_c_lookup_ref("tb:set-softpse-filename"), softpse);
 
 
-    e = GTK_ENTRY(taxbird_glade_lookup(taxbird_gladexml_export, 
-                                       "dsig_pincode"));
+    e = GTK_ENTRY(taxbird_builder_lookup(taxbird_builder_export, 
+					 "dsig_pincode"));
     const char *pincode = gtk_entry_get_text(e);
     
     unsigned char *output;
@@ -235,10 +236,10 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   }       
 
   /* dump the generated Coala-XML to a file, if requested ********************/
-  GtkWidget *store = taxbird_glade_lookup(taxbird_gladexml_export, "store");
+  GtkWidget *store = taxbird_builder_lookup(taxbird_builder_export, "store");
   if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(store))) {
-    GtkEntry *e = GTK_ENTRY(taxbird_glade_lookup(taxbird_gladexml_export,
-                                                 "store_entry"));
+    GtkEntry *e = GTK_ENTRY(taxbird_builder_lookup(taxbird_builder_export,
+						   "store_entry"));
     const char *filename = gtk_entry_get_text(e);
 
     if(! filename) {
@@ -271,7 +272,7 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
 
 
   /*** check whether we are requested to send the data to the IRO ************/
-  GtkWidget *send = taxbird_glade_lookup(taxbird_gladexml_export, "send");
+  GtkWidget *send = taxbird_builder_lookup(taxbird_builder_export, "send");
   if(! gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(send))) {
     geier_context_free(ctx);
     free(data_text);
@@ -281,12 +282,12 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   /*** create filedescriptor for protocol output *****************************/
   pid_t pid_print = 0;
   int fd_to_lpr = -1, fd_from_lpr = -1;
-  GtkWidget *print = taxbird_glade_lookup(taxbird_gladexml_export, 
-                                          "protocol_print");
+  GtkWidget *print = taxbird_builder_lookup(taxbird_builder_export, 
+					    "protocol_print");
   if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(print))) {
     /* fork print process ***************/
-    GtkWidget *w = taxbird_glade_lookup(taxbird_gladexml_export, 
-                                        "protocol_print_command");
+    GtkWidget *w = taxbird_builder_lookup(taxbird_builder_export, 
+					  "protocol_print_command");
     const char *cmd = gtk_entry_get_text(GTK_ENTRY(w));
 
     pid_print = taxbird_export_launch_command(cmd, &fd_to_lpr, &fd_from_lpr);
@@ -301,12 +302,12 @@ taxbird_export_bottom_half(GtkWidget *confirm_dlg)
   }
 
   int fd_to_protofile = -1;
-  GtkWidget *protosave = taxbird_glade_lookup(taxbird_gladexml_export, 
-                                              "protocol_store");
+  GtkWidget *protosave = taxbird_builder_lookup(taxbird_builder_export, 
+						"protocol_store");
   if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(protosave))) {
     /* open file to write protocol to ***/
-    GtkWidget *w = taxbird_glade_lookup(taxbird_gladexml_export, 
-                                        "protocol_store_fileentry_text");
+    GtkWidget *w = taxbird_builder_lookup(taxbird_builder_export, 
+					  "protocol_store_fileentry_text");
     const char *filename = gtk_entry_get_text(GTK_ENTRY(w));
 
     fd_to_protofile = open(filename, O_WRONLY | O_CREAT | O_TRUNC,
@@ -541,12 +542,13 @@ taxbird_export_ask_user(GtkWidget *doc, SCM data,
 			SCM fn, SCM softpse_fn)
 {
   /* GtkWidget *confirm_dlg = create_dlgExportConfirmation(); */
-  taxbird_gladexml_export = NULL;
-  GtkWidget *confirm_dlg = taxbird_glade_create(&taxbird_gladexml_export, 
-                                                "dlgExportConfirmation");
+  taxbird_builder_export = NULL;
+  GtkWidget *confirm_dlg = taxbird_builder_create(&taxbird_builder_export, 
+						  "dlgExportConfirmation",
+						  "export.ui");
 
-  GtkWidget *scroll = taxbird_glade_lookup(taxbird_gladexml_export, 
-                                           "scroll_htmlview");
+  GtkWidget *scroll = taxbird_builder_lookup(taxbird_builder_export, 
+					     "scroll_htmlview");
   g_return_if_fail(scroll);
 
   gtk_container_add(GTK_CONTAINER(scroll), doc);
@@ -556,19 +558,19 @@ taxbird_export_ask_user(GtkWidget *doc, SCM data,
 			 (GDestroyNotify) scm_gc_unprotect_object);
 
   if(scm_is_string(fn)) {
-    GtkWidget *w = taxbird_glade_lookup(taxbird_gladexml_export, 
-                                        "protocol_store_fileentry_text");
+    GtkWidget *w = taxbird_builder_lookup(taxbird_builder_export, 
+					  "protocol_store_fileentry_text");
     char *filename = scm_to_locale_string(fn);
     gtk_entry_set_text(GTK_ENTRY(w), filename);
     free(filename);
   }
 
   if(scm_is_string(softpse_fn)) {
-    GtkWidget *dsig = taxbird_glade_lookup(taxbird_gladexml_export, "dsig");
+    GtkWidget *dsig = taxbird_builder_lookup(taxbird_builder_export, "dsig");
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dsig), 1);
 
-    GtkWidget *w = taxbird_glade_lookup(taxbird_gladexml_export, 
-                                        "dsig_fileentry_text");
+    GtkWidget *w = taxbird_builder_lookup(taxbird_builder_export, 
+					  "dsig_fileentry_text");
     char *filename = scm_to_locale_string(softpse_fn);
     gtk_entry_set_text(GTK_ENTRY(w), filename);
     free(filename);

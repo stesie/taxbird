@@ -22,7 +22,6 @@
 #  include <config.h>
 #endif
 
-#include <gnome.h>
 #include <geier.h>
 
 #include "workspace.h"
@@ -42,10 +41,7 @@ main (int argc, char *argv[])
   textdomain (GETTEXT_PACKAGE);
 #endif
 
-  gnome_program_init (PACKAGE_NAME, PACKAGE_VERSION, LIBGNOMEUI_MODULE,
-		      argc, argv,
-		      GNOME_PARAM_APP_DATADIR, PACKAGE_DATA_DIR,
-		      NULL);
+  gtk_init(&argc, &argv);
 
   /* initialize Guile backend */
   scm_boot_guile(argc, argv, main_forward, NULL);
