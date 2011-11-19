@@ -43,7 +43,7 @@
 
 	(if (not (string=? field "new")) #f
 	    (let ()
-	      (tb:activate-sheet "mandverw.xml" "stammdaten")
+	      (tb:activate-sheet "mandverw-stammdaten.ui" "stammdaten")
 	      #t))
 
 	(if (not (string=? field "delete")) #f
@@ -68,7 +68,7 @@
 (define mandverw:display-chooser
   (lambda (buffer)
     (if buffer (storage:store buffer "liste" ""))
-    (tb:activate-sheet "mandverw.xml" "chooser")
+    (tb:activate-sheet "mandverw-chooser.ui" "chooser")
 
     (let ((ptr mandverw:data))
       (while (> (length ptr) 0)

@@ -1,0 +1,312 @@
+<?xml version="1.0"?>
+<interface>
+  <object class="GtkListStore" id="model1">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">Baden W&#xFC;rttemberg</col>
+      </row>
+      <row>
+        <col id="0">Bayern</col>
+      </row>
+      <row>
+        <col id="0">Berlin</col>
+      </row>
+      <row>
+        <col id="0">Brandenburg</col>
+      </row>
+      <row>
+        <col id="0">Bremen</col>
+      </row>
+      <row>
+        <col id="0">Hamburg</col>
+      </row>
+      <row>
+        <col id="0">Hessen</col>
+      </row>
+      <row>
+        <col id="0">Mecklenburg-Vorpommern</col>
+      </row>
+      <row>
+        <col id="0">Niedersachsen</col>
+      </row>
+      <row>
+        <col id="0">Nordrhein-Westfalen</col>
+      </row>
+      <row>
+        <col id="0">Rheinland-Pfalz</col>
+      </row>
+      <row>
+        <col id="0">Saarland</col>
+      </row>
+      <row>
+        <col id="0">Sachsen</col>
+      </row>
+      <row>
+        <col id="0">Sachsen-Anhalt</col>
+      </row>
+      <row>
+        <col id="0">Schleswig-Holstein</col>
+      </row>
+      <row>
+        <col id="0">Th&#xFC;ringen</col>
+      </row>
+    </data>
+  </object>
+  <!-- interface-requires gtk+ 2.6 -->
+  <!-- interface-naming-policy toplevel-contextual -->
+  <object class="GtkTable" id="stammdaten">
+    <property name="visible">True</property>
+    <property name="n_rows">4</property>
+    <property name="n_columns">4</property>
+    <child>
+      <object class="GtkLabel" id="label7">
+        <property name="visible">True</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label" translatable="yes">Bundesland</property>
+        <property name="justify">right</property>
+      </object>
+      <packing>
+        <property name="top_attach">1</property>
+        <property name="bottom_attach">2</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"/>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label8">
+        <property name="visible">True</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label" translatable="yes">Steuernummer</property>
+        <property name="justify">right</property>
+      </object>
+      <packing>
+        <property name="top_attach">2</property>
+        <property name="bottom_attach">3</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"/>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label9">
+        <property name="visible">True</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">Mandantenname
+(falls Berater)</property>
+        <property name="justify">right</property>
+      </object>
+      <packing>
+        <property name="top_attach">3</property>
+        <property name="bottom_attach">4</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"/>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBox" id="land">
+        <property name="visible">True</property>
+        <property name="model">model1</property>
+        <child>
+          <object class="GtkCellRendererText" id="renderer1"/>
+          <attributes>
+            <attribute name="text">0</attribute>
+          </attributes>
+        </child>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">4</property>
+        <property name="top_attach">1</property>
+        <property name="bottom_attach">2</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options">GTK_FILL</property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label6">
+        <property name="visible">True</property>
+        <property name="xalign">0</property>
+        <property name="ypad">10</property>
+        <property name="label" translatable="yes">&lt;span size="xx-large"&gt;&lt;b&gt;Finanzamt ...&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="y_options"/>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="mandant">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">4</property>
+        <property name="top_attach">3</property>
+        <property name="bottom_attach">4</property>
+        <property name="y_options"/>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkHBox" id="hbox1">
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkEntry" id="stnr">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+          </object>
+          <packing>
+            <property name="padding">2</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="stnr-help">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <child>
+              <object class="GtkImage" id="image2">
+                <property name="visible">True</property>
+                <property name="stock">gtk-help</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="padding">2</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">4</property>
+        <property name="top_attach">2</property>
+        <property name="bottom_attach">3</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options">GTK_FILL</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkHBox" id="hbox2">
+        <property name="visible">True</property>
+        <property name="border_width">2</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkButton" id="store-mand">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <child>
+              <object class="GtkAlignment" id="alignment2">
+                <property name="visible">True</property>
+                <property name="xscale">0</property>
+                <property name="yscale">0</property>
+                <child>
+                  <object class="GtkHBox" id="hbox3">
+                    <property name="visible">True</property>
+                    <property name="spacing">2</property>
+                    <child>
+                      <object class="GtkImage" id="image4">
+                        <property name="visible">True</property>
+                        <property name="stock">gtk-floppy</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label16">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Als Standard</property>
+                        <property name="use_underline">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="mandverw">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <child>
+              <object class="GtkAlignment" id="alignment1">
+                <property name="visible">True</property>
+                <property name="xscale">0</property>
+                <property name="yscale">0</property>
+                <child>
+                  <object class="GtkHBox" id="hbox4">
+                    <property name="visible">True</property>
+                    <property name="spacing">2</property>
+                    <child>
+                      <object class="GtkImage" id="image3">
+                        <property name="visible">True</property>
+                        <property name="stock">gtk-revert-to-saved</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label15">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Mandantenverw.</property>
+                        <property name="use_underline">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="left_attach">3</property>
+        <property name="right_attach">4</property>
+        <property name="x_options">GTK_SHRINK</property>
+        <property name="y_options"/>
+      </packing>
+    </child>
+  </object>
+</interface>

@@ -28,10 +28,10 @@
 ;;; Umsatzsteuervoranmeldung 2007                                           ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define ustsvza-2007:definition
-  '("Datenlieferant"    ("datenlieferant.xml" "datenlieferant")
+  '("Datenlieferant"    ("datenlieferant.ui" "datenlieferant")
     
-    "Stammdaten" 	("ustsvza-2007.xml" "stammdaten")
-    "Formular"		("ustsvza-2007.xml" "vbox")))
+    "Stammdaten" 	("ustsvza-2007-stammdaten.ui" "stammdaten")
+    "Formular"		("ustsvza-2007-formular.ui" "vbox")))
 
 
 

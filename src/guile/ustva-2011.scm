@@ -30,11 +30,11 @@
 ;;; Umsatzsteuervoranmeldung 2011                                           ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define ustva-2011:definition
-  '("Datenlieferant" ("datenlieferant.xml" "datenlieferant")
+  '("Datenlieferant" ("datenlieferant.ui" "datenlieferant")
     
-    "Finanzamtsverbindung" 	("ustva-2011.xml" "stammdaten")
-    "Schnellerfassung"          ("ustva-2011.xml" "schnell")
-    "Formular"		        ("ustva-2011.xml" "seite_1")))
+    "Finanzamtsverbindung" 	("ustva-2010-stammdaten.ui" "stammdaten")
+    "Schnellerfassung"          ("ustva-2011-schnell.ui" "schnell")
+    "Formular"		        ("ustva-2011-seite_1.ui" "seite_1")))
 
 
 

@@ -4,12 +4,13 @@ SUBDIRS = autoload
 
 guilestuffdir = $(datadir)/taxbird/guile
 guilestuff_DATA = \
-	datenlieferant.xml \
 	datenlieferant.scm \
+	datenlieferant.ui \
 	export.scm \
 	inc-year.scm \
 	mandverw.scm \
-	mandverw.xml \
+	mandverw-chooser.ui \
+	mandverw-stammdaten.ui \
 	monetary.scm \
 	revalidate.scm \
 	sheettree.scm \
@@ -18,20 +19,18 @@ guilestuff_DATA = \
 	storage.scm \
 	string.scm \
 	taxbird.scm \
-	ustsvza-2007.xml \
 	ustsvza-2007.scm \
-	ustsvza-2008.scm \
-	ustsvza-2009.scm \
+	ustsvza-2007-stammdaten.ui \
+	ustsvza-2007-formular.ui \
 	ustsvza-2010.scm \
 	ustsvza-2011.scm \
-	ustva-2007.xml \
-	ustva-2007.scm \
-	ustva-2008.scm \
-	ustva-2009.scm \
 	ustva-2010.scm \
-	ustva-2010.xml \
+	ustva-2010-schnell.ui \
+	ustva-2010-seite_1.ui \
+	ustva-2010-stammdaten.ui \
 	ustva-2011.scm \
-	ustva-2011.xml \
+	ustva-2011-schnell.ui \
+	ustva-2011-seite_1.ui \
 	validate.scm \
 	versions.scm \
 	xml-writer.scm
