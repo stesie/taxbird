@@ -500,9 +500,11 @@ taxbird_ws_show_appbar_help(GtkWidget *widget, GdkEventFocus *event,
   (void) event;
   (void) user_data;
 
-  GtkTooltipsData *tooltip = gtk_tooltips_data_get(widget);
+  gchar *tooltip = gtk_widget_get_tooltip_text(widget);
   GtkWidget *helpw = taxbird_builder_lookup(taxbird_builder_app, "helptext");
-  gtk_label_set_markup(GTK_LABEL(helpw), tooltip ? tooltip->tip_text : "");
+  gtk_label_set_markup(GTK_LABEL(helpw), tooltip ? tooltip : "");
+  g_free(tooltip);
+
   return FALSE; /* call other handlers as well */
 }
 
