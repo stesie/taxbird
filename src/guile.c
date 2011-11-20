@@ -47,7 +47,7 @@ void taxbird_guile_init(void)
   SCM loadpath = scm_list_4(scm_makfrom0str("."),
 			    scm_makfrom0str("guile"),
 			    scm_take0str(loadpath_home),
-			    scm_makfrom0str(PACKAGE_DATA_DIR "/guile"));
+			    scm_makfrom0str(PACKAGE_DATA_DIR "guile"));
 
   /* search current and taxbird's system directory by default */
   scm_c_define("tb:scm-directories", loadpath);
