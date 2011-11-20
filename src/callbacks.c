@@ -322,13 +322,10 @@ on_choose_file_save(GtkButton *button, gpointer user_data)
 {
   (void) user_data;
 
-  gchar *fname;
-
-  GtkWidget *dialog = taxbird_builder_lookup(taxbird_builder_app,
-					     "dlgChooseFile");
+  GtkWidget *dialog = gtk_widget_get_toplevel(GTK_WIDGET(button));
   g_return_if_fail(dialog);
 
-  fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+  gchar *fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 
   if(fname) {
     if(! strchr(fname, '.')) {
