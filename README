@@ -1,7 +1,7 @@
 			-*- mode: auto-fill; coding: utf-8 -*-
-taxbird - Gnome-2 based application to create Elster (Geier) XML files
+taxbird - Gtk+ based application to create Elster (Geier) XML files
 
-Copyright (C) 2004,2005,2006,2007,2008,2009 Stefan Siegl <stesie@brokenpipe.de>
+Copyright (C) 2004-2011 Stefan Siegl <stesie@brokenpipe.de>
                       (see AUTHORS for a complete and detailed list 
 		       of authors, contributers and copyrightholders)
 
@@ -27,9 +27,9 @@ von Steuererklärungen, siehe <http://www.elster.de>.
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Taxbird ist ein Projekt, zur elektronischen Übermittlung von
-Steuerdaten im Rahmen freier Software. Es besteht zum Einen aus
+Steuerdaten im Rahmen freier Software. Es besteht zum einen aus
 'libgeier', einer Bibliothek zur Übermittlung von Steuerdaten,
-Sowie aus 'Taxbird' einer grafischen (auf Gnome-2 basierenden) 
+sowie aus 'Taxbird' einer grafischen (auf Gtk+ basierenden) 
 Oberfläche zur Erfassung von Elster-XML Daten.
 
 Mit Taxbird ist inzwischen die Übermittlung von Echtdaten möglich. Die
@@ -50,7 +50,7 @@ Möglichkeit seitens der Finanzverwaltung bisher nicht eingeräumt
 wurde. Wann und ob dies irgendwann mit freier Software zulässig sein
 wird, ist momentan leider nicht abschätzbar.
 
-Die Formulare sind mittels Skriptsprache und Glade-XML in Taxbird
+Die Formulare sind mittels Skriptsprache und GtkBuilder-XML in Taxbird
 hinterlegt. So ist es möglich, ohne große Programmierkenntnisse eigene
 (weitere) Formulare hinzuzufügen, zu installieren, sowie bestehende zu
 Überarbeiten. Die Anwendung selbst muss nicht neu kompiliert werden.
@@ -85,8 +85,8 @@ $ make install
 Benötigte Bibliotheken:
 -----------------------
 GNU Guile
-libgeier (und Mozilla XULrunner NSS, XMLsec-NSS)
-libgnomeui-2.0 (Gnome Development Libraries)
+libgeier (und Mozilla XULrunner NSS, XMLsec-NSS, libxml-2.0)
+gtk+-2.0 (Gtk+ Development Libraries)
 libgtkhtml-3.8 oder 3.14 (GtkHTML Widget)
 
 

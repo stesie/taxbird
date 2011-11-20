@@ -46,8 +46,10 @@ main (int argc, char *argv[])
   g_set_application_name("Taxbird");
 
   GError *error = NULL;
+  gboolean show_version = FALSE;
   GOptionEntry options[] = {
-    { G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_FILENAME_ARRAY, &args_remaining, NULL, N_("FILES") },
+    { G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_FILENAME_ARRAY, &args_remaining, NULL, N_("FILE") },
+    { "version", 0, 0, G_OPTION_ARG_NONE, &show_version, N_("Show version"), NULL },
     { NULL }
   };
 
@@ -57,6 +59,11 @@ main (int argc, char *argv[])
 		error->message, argv[0]);
     g_error_free (error);
     return 1;
+  }
+
+  if(show_version) {
+    g_print(PACKAGE_STRING "\n");
+    return 0;
   }
 
   /* initialize Guile backend */

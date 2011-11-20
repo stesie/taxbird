@@ -1,98 +1,54 @@
-.TH TAXBIRD 1 "January 21, 2007"
+.TH TAXBIRD "1" "November 2011" "taxbird 0.16" "User Commands"
 .SH NAME
 Taxbird \- The first free Elster client (German Tax Declarations)
 .SH SYNOPSIS
 .B taxbird
-.I [ GTK+ options ] [ Bonobo options ] [ GNOME options ] [ Session options ] [ options ]
+.I [ GTK+ options ] [ options ] [ FILE ]
 .SH DESCRIPTION
 This manual page documents briefly the
 .B taxbird
 command.
 .PP
-\fBTaxbird\fP is a GNOME based graphical user interface to gather and send
+\fBTaxbird\fP is a Gtk+ based graphical user interface to gather and send
 tax declarations to the German inland revenue office.  This is a replacement
 for the proprietary application "ElsterFormular" maintained by the inland
 revenue offices.
 .SH OPTIONS
 .TP
-.B \-\-load\-modules=MODULE1,MODULE2,...
-Dynamic modules to load
+\fB\-h\fR, \fB\-\-help\fR
+Show help options
 .TP
-.B \-h, \-\-help
-Show this help message
+\fB\-\-help\-all\fR
+Show all help options
 .TP
-.B \-\-usage
-Display brief usage message
+\fB\-\-help\-gtk\fR
+Show GTK+ Options
 .SH GTK+ OPTIONS
 .TP
-.B \-\-gdk\-debug=FLAGS
-Gdk debugging flags to set
-.TP
-.B \-\-gdk\-no\-debug=FLAGS
-Gdk debugging flags to unset
-.TP
-.B \-\-display=DISPLAY
-X display to use
-.TP
-.B \-\-screen=SCREEN
-X screen to use
-.TP
-.B \-\-sync
-.br
-Make X calls synchronous
-.TP
-.B \-\-name=NAME
-Program name as used by the window manager
-.TP
-.B \-\-class=CLASS
+\fB\-\-class\fR=\fICLASS\fR
 Program class as used by the window manager
 .TP
-.B \-\-gtk\-debug=FLAGS
-Gtk+ debugging flags to set
+\fB\-\-name\fR=\fINAME\fR
+Program name as used by the window manager
 .TP
-.B \-\-gtk\-no\-debug=FLAGS
-Gtk+ debugging flags to unset
+\fB\-\-screen\fR=\fISCREEN\fR
+X screen to use
+.TP
+\fB\-\-sync\fR
+Make X calls synchronous
+.TP
+\fB\-\-gtk\-module\fR=\fIMODULES\fR
+Load additional GTK+ modules
 .TP
 .B \-\-g\-fatal-warnings
 Make all warnings fatal
-.TP
-.B \-\-gtk\-module=MODULE
-Load an additional Gtk module
-.SH BONOBO OPTIONS
-.TP
-.B \-\-oaf\-ior\-fd=FD
-File descriptor to print IOR on
-.TP
-.B \-\-oaf\-activate-iid=IID
-IID to activate
-.TP
-.B \-\-oaf\-private
-Prevent registering of server with OAF
-.SH GNOME OPTIONS
-.TP
-.B \-\-disable\-crash\-dialog
-Disable Crash Dialog
-.TP
-.B \-\-disable\-sound
-Disable sound server usage
-.TP
-.B \-\-enable-sound
-Enable sound server usage
-.TP
-.B \-\-espeaker=HOSTNAME:PORT
-Host:port on which the sound server to use is running
+.SH APPLICATION OPTIONS
 .TP
 .B \-\-version
 Show version
-.SH Session OPTIONS
-.B \-\-sm\-client\-id=ID
-Specify session management ID
 .TP
-.B \-\-sm-config\-prefix=PREFIX
-Specify prefix of saved configuration
-.TP
-.B \-\-sm\-disable
-Disable connection to session manager
+\fB\-\-display\fR=\fIDISPLAY\fR
+X display to use
 .SH AUTHOR
 Taxbird was written by Stefan Siegl <stesie@brokenpipe.de>.
 .PP

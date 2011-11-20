@@ -1,5 +1,5 @@
 			-*- mode: auto-fill; coding: utf-8 -*-
-taxbird - Gnome-2 based application to create Elster (Geier) XML files
+taxbird - Gtk+ based application to create Elster (Geier) XML files
 
 Copyright (C) 2004,05 Stefan Siegl <ssiegl@gmx.de>, Germany
 
