@@ -24,10 +24,10 @@ AC_HEADER_STDC
 # link with export-dynamic (talking 'bout misusing libtool) ...
 AC_PROG_LIBTOOL
 
-# check for necessary gnome libraries
-PKG_CHECK_MODULES(GNOME, [libgnomeui-2.0 libglade-2.0])
-AC_SUBST(GNOME_CFLAGS)
-AC_SUBST(GNOME_LIBS)
+# check for necessary gtk+ libraries
+PKG_CHECK_MODULES(GTK, [gtk+-2.0])
+AC_SUBST(GTK_CFLAGS)
+AC_SUBST(GTK_LIBS)
 
 PKG_CHECK_EXISTS([libgtkhtml-3.14],
 	[PKG_CHECK_MODULES(GTKHTML, [libgtkhtml-3.14])],
@@ -42,7 +42,7 @@ backup_LIBS="$LIBS"
 # temporarily add libgeier to CFLAGS/LDFLAGS
 # and do necessary checks
 #
-PKG_CHECK_MODULES(GEIER, [libgeier >= 0.7])
+PKG_CHECK_MODULES(GEIER, [libgeier >= 0.7 libxml-2.0])
 AC_SUBST(GEIER_CFLAGS)
 AC_SUBST(GEIER_LIBS)
 

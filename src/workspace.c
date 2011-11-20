@@ -20,8 +20,8 @@
 #  include <config.h>
 #endif
 
-#include <gnome.h>
-#include <assert.h>
+#include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
 #include "dialog.h"
 #include "workspace.h"
@@ -402,9 +402,9 @@ static void
 taxbird_ws_update_fields(const char *exception)
 {
   g_return_if_fail(exception);
+  g_return_if_fail(taxbird_ws_disable_storage_hook == 0);
+  g_return_if_fail(taxbird_builder_sheet);
 
-  assert(taxbird_ws_disable_storage_hook == 0);
-  assert(taxbird_builder_sheet);
   taxbird_ws_disable_storage_hook = 1;
 
   GSList *widgets = gtk_builder_get_objects(taxbird_builder_sheet);

@@ -1,5 +1,4 @@
-/* vim: noexpandtab sts=2 ts=8 sw=2
- * Copyright(C) 2005,2006,2007,2008 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2005,2006,2007,2008,2011 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -21,8 +20,9 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <gtk/gtk.h>
 #include <gtkhtml/gtkhtml.h>
+#include <glib/gi18n.h>
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <unistd.h>

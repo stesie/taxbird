@@ -1,4 +1,4 @@
-#include <gnome.h>
+#include <gtk/gtk.h>
 
 void
 on_file_new_activate                   (GtkMenuItem     *menuitem,

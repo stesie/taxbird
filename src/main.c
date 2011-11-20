@@ -23,6 +23,8 @@
 #endif
 
 #include <geier.h>
+#include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
 #include "workspace.h"
 #include "guile.h"
