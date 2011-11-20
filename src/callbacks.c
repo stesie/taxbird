@@ -413,37 +413,35 @@ on_file_send_testcase_activate         (GtkMenuItem     *menuitem,
 }
 
 
-gboolean
-on_export_druid_cancel                 (GtkWidget       *widget,
-                                        GdkEvent        *event,
-                                        gpointer         user_data)
+void
+on_export_druid_finish(GtkWidget *dialog, gpointer user_data)
 {
-  (void) event;
   (void) user_data;
 
-  /* we don't have to disallocate any data - the associated data 
-   * structure will be unprotected and then garbage collected */
+  if(taxbird_export_bottom_half(dialog))
+    return; /* error occured */
 
-  widget = taxbird_builder_lookup(taxbird_builder_export, 
-				  "dlgExportConfirmation");
-  gtk_widget_destroy(widget);
-
-  return FALSE; /* close dialog, for delete-event */
+  //gtk_widget_destroy(dialog);
 }
 
 
-void
-on_export_druid_finish(GnomeDruidPage *page, GtkWidget *widget,
-		       gpointer user_data)
+void on_export_do_filechoose(GtkEntry *entry, gpointer ud)
 {
-  (void) page;
-  (void) user_data;
+  (void) ud;
 
-  GtkWidget *confirm_dlg = taxbird_builder_lookup(taxbird_builder_export, 
-						  "dlgExportConfirmation");
+  GtkBuilder *b = NULL;
+  GtkWidget *dialog = taxbird_builder_create(&b, "dlgChooseFile",
+					     PACKAGE_DATA_DIR "choose-file.ui");
+  gtk_file_chooser_set_action(GTK_FILE_CHOOSER(dialog),
+			      GTK_FILE_CHOOSER_ACTION_SAVE);
+  gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), gtk_entry_get_text(entry));
+  g_object_unref(b);
+  gtk_widget_show(dialog);
 
-  if(taxbird_export_bottom_half(confirm_dlg))
-    return; /* error occured */
+  gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+  if(result == GTK_RESPONSE_OK) {
+    gtk_entry_set_text(entry, gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog)));
+  }
 
-  gtk_widget_destroy(confirm_dlg);
+  gtk_widget_destroy(dialog);
 }
