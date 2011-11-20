@@ -30,9 +30,9 @@
 (define ustva-2010:definition
   '("Datenlieferant" ("datenlieferant.ui" "datenlieferant")
     
-    "Finanzamtsverbindung" 	("ustva-2010-stammdaten.xml" "stammdaten")
-    "Schnellerfassung"          ("ustva-2010-schnell.xml" "schnell")
-    "Formular"		        ("ustva-2010-seite_1.xml" "seite_1")))
+    "Finanzamtsverbindung" 	("ustva-2010-stammdaten.ui" "stammdaten")
+    "Schnellerfassung"          ("ustva-2010-schnell.ui" "schnell")
+    "Formular"		        ("ustva-2010-seite_1.ui" "seite_1")))
 
 
 
