@@ -1,6 +1,4 @@
-/* vim:ts=8:sw=2:sts=2:noet
- *
- * Copyright(C) 2004,2005,2007,2008,2011 Stefan Siegl <stesie@brokenpipe.de>
+/* Copyright(C) 2004,2005,2007,2008,2011 Stefan Siegl <stesie@brokenpipe.de>
  * taxbird - free program to interface with German IRO's Elster/Coala
  *
  * This program is free software; you can redistribute it and/or modify
@@ -34,6 +32,8 @@
 /* forwarded main, i.e. with guile support initialized */
 static void main_forward(void *closure, int argc, char **argv);
 
+gchar **args_remaining = NULL;
+
 int
 main (int argc, char *argv[])
 {
@@ -43,7 +43,21 @@ main (int argc, char *argv[])
   textdomain (GETTEXT_PACKAGE);
 #endif
 
-  gtk_init(&argc, &argv);
+  g_set_application_name("Taxbird");
+
+  GError *error = NULL;
+  GOptionEntry options[] = {
+    { G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_FILENAME_ARRAY, &args_remaining, NULL, N_("FILES") },
+    { NULL }
+  };
+
+  if(!gtk_init_with_args(&argc, &argv, _("- The first free Elster client"),
+			 options, GETTEXT_PACKAGE, &error)) {
+    g_printerr (_("%s\nRun '%s --help' to see a full list of available command line options.\n"),
+		error->message, argv[0]);
+    g_error_free (error);
+    return 1;
+  }
 
   /* initialize Guile backend */
   scm_boot_guile(argc, argv, main_forward, NULL);
@@ -80,13 +94,13 @@ main_forward(void *closure, int argc, char **argv)
     if(! taxbird_ws_new())
       exit(1); /* abort start */
     
-    if(argc == 2)
-      taxbird_ws_open(argv[1], FALSE);
+    if(args_remaining)
+      taxbird_ws_open(*args_remaining, FALSE);
 
-	/* initialize GEIER library, no debug output */
-	if(geier_init(0))
-	  taxbird_dialog_error(NULL, _("Failed to initialize GEIER data transfer library. "
-								   "Data transfers to fiscal authorities will not be possible."));
+    /* initialize GEIER library, no debug output */
+    if(geier_init(0))
+      taxbird_dialog_error(NULL, _("Failed to initialize GEIER data transfer library. "
+				   "Data transfers to fiscal authorities will not be possible."));
 
     return SCM_BOOL(0);
   }
