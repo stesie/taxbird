@@ -378,7 +378,7 @@ on_taxbird_configure(GtkWidget *widget, GdkEventConfigure *event,
 			   event->height - old_height + 
 			   gtk_paned_get_position(GTK_PANED(widget)));
   else
-    gtk_paned_set_position(GTK_PANED(widget), event->height - 165);
+    gtk_paned_set_position(GTK_PANED(widget), event->height - 205);
     
   old_height = event->height;
   return FALSE;
