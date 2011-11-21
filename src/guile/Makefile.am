@@ -31,6 +31,8 @@ guilestuff_DATA = \
 	ustva-2011.scm \
 	ustva-2011-schnell.ui \
 	ustva-2011-seite_1.ui \
+	ustva-2012.scm \
+	ustva-2012-seite_1.ui \
 	validate.scm \
 	versions.scm \
 	xml-writer.scm

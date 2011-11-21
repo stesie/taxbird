@@ -1,0 +1,2581 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy toplevel-contextual -->
+  <object class="GtkListStore" id="model1">
+    <columns>
+      <!-- column-name gchararray -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">Januar</col>
+      </row>
+      <row>
+        <col id="0">Februar</col>
+      </row>
+      <row>
+        <col id="0">März</col>
+      </row>
+      <row>
+        <col id="0">April</col>
+      </row>
+      <row>
+        <col id="0">Mai</col>
+      </row>
+      <row>
+        <col id="0">Juni</col>
+      </row>
+      <row>
+        <col id="0">Juli</col>
+      </row>
+      <row>
+        <col id="0">August</col>
+      </row>
+      <row>
+        <col id="0">September</col>
+      </row>
+      <row>
+        <col id="0">Oktober</col>
+      </row>
+      <row>
+        <col id="0">November</col>
+      </row>
+      <row>
+        <col id="0">Dezember</col>
+      </row>
+      <row>
+        <col id="0">1. Quartal</col>
+      </row>
+      <row>
+        <col id="0">2. Quartal</col>
+      </row>
+      <row>
+        <col id="0">3. Quartal</col>
+      </row>
+      <row>
+        <col id="0">4. Quartal</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkTable" id="seite_1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="n_rows">64</property>
+    <property name="n_columns">3</property>
+    <child>
+      <object class="GtkLabel" id="label2">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label" translatable="yes">Voranmeldungszeitraum</property>
+        <property name="justify">right</property>
+      </object>
+      <packing>
+        <property name="top_attach">1</property>
+        <property name="bottom_attach">2</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label3">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label" translatable="yes">Berichtigte Anmeldung</property>
+        <property name="justify">right</property>
+      </object>
+      <packing>
+        <property name="top_attach">2</property>
+        <property name="bottom_attach">3</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label4">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">Verrechnung des Erstattungs-
+betrages erwünscht</property>
+        <property name="justify">right</property>
+      </object>
+      <packing>
+        <property name="top_attach">4</property>
+        <property name="bottom_attach">5</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label5">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label" translatable="yes">Einzugsermächtigung wird 
+ausnahmsweise widerrufen</property>
+        <property name="justify">right</property>
+      </object>
+      <packing>
+        <property name="top_attach">5</property>
+        <property name="bottom_attach">6</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label10">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">10</property>
+        <property name="label" translatable="yes">&lt;span size="xx-large"&gt;&lt;b&gt;Umsatzsteuervoranmeldung ...&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBox" id="zeitraum">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="model">model1</property>
+        <child>
+          <object class="GtkCellRendererText" id="renderer1"/>
+          <attributes>
+            <attribute name="text">0</attribute>
+          </attributes>
+        </child>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">1</property>
+        <property name="bottom_attach">2</property>
+        <property name="y_options">GTK_FILL</property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="Kz10">
+        <property name="label" translatable="yes">Yes!</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="use_underline">True</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">2</property>
+        <property name="bottom_attach">3</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="Kz29">
+        <property name="label" translatable="yes">Yes!</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="tooltip_text" translatable="yes">Verrechnung des Erstattungsbetrags erwünscht / Erstattungsbetrag ist abgetreten
+
+Kennzahl im Formular: 29</property>
+        <property name="use_action_appearance">False</property>
+        <property name="use_underline">True</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">4</property>
+        <property name="bottom_attach">5</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="Kz26">
+        <property name="label" translatable="yes">Yes!</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="tooltip_text" translatable="yes">Die Einzugsermächtigung wird ausnahmsweise (z.B. wegen Verrechnungswünschen) für diesen Voranmeldungszeitraum widerrufen
+
+Kennzahl im Formular: 26</property>
+        <property name="use_action_appearance">False</property>
+        <property name="use_underline">True</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">5</property>
+        <property name="bottom_attach">6</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label17">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label" translatable="yes">Belege werden
+gesondert eingereicht</property>
+        <property name="justify">right</property>
+      </object>
+      <packing>
+        <property name="top_attach">3</property>
+        <property name="bottom_attach">4</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="Kz22">
+        <property name="label" translatable="yes">Yes!</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="tooltip_text" translatable="yes">Belege (Verträge, Rechnungen, Erläuterungen usw.) sind beigefügt bzw. werden gesondert eingereicht
+
+Kennzahl im Formular: 22</property>
+        <property name="use_action_appearance">False</property>
+        <property name="use_underline">True</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">3</property>
+        <property name="bottom_attach">4</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl0">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">10</property>
+        <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Lieferungen und sonstige Leistungen ...&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">6</property>
+        <property name="bottom_attach">7</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl4">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-ID</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">9</property>
+        <property name="bottom_attach">10</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl5">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">neuer Fahrzeuge an 
+Abnehmer &lt;b&gt;ohne&lt;/b&gt; USt-IDNr.</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">10</property>
+        <property name="bottom_attach">11</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl6">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">neuer Fahrzeuge 
+außerhalb eines Unternehmens</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">11</property>
+        <property name="bottom_attach">12</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl8">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">&lt;b&gt;Ausfuhrlieferungen&lt;/b&gt;,
+Umsätze § 4 Nr. 2 bis 7 UStG</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">13</property>
+        <property name="bottom_attach">14</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl10">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">Umsätze nach § 4 Nr. 8 bis 28 UStG</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">15</property>
+        <property name="bottom_attach">16</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl11">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">10</property>
+        <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Steuerpflichtige Umsätze ...&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">16</property>
+        <property name="bottom_attach">17</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl12">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="ypad">1</property>
+        <property name="label">zum Steuersatz von 19%</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">17</property>
+        <property name="bottom_attach">18</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl13">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">zum Steuersatz von 7%</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">18</property>
+        <property name="bottom_attach">19</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl14">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">andere Steuersätze</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">19</property>
+        <property name="bottom_attach">20</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl17">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">Lief. übriges Gemeinschaftsgeb.,
+an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">21</property>
+        <property name="bottom_attach">22</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl18">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">Umsätze, Steuer nach § 24 UStG</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">22</property>
+        <property name="bottom_attach">23</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl19">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">10</property>
+        <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Innergemeinschaftliche Erwerbe...&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">23</property>
+        <property name="bottom_attach">24</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl21">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">steuerfrei, §§ 4b und 25c UStG</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">25</property>
+        <property name="bottom_attach">26</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl23">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">zum Steuersatz von 19%</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">27</property>
+        <property name="bottom_attach">28</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl24">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">zum Steuersatz von 7%</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">28</property>
+        <property name="bottom_attach">29</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl25">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">andere Steuersätze</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">29</property>
+        <property name="bottom_attach">30</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl27">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">von Lieferern &lt;b&gt;ohne&lt;/b&gt; USt-IdNr.
+zum allgemeinen Steuersatz</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">31</property>
+        <property name="bottom_attach">32</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl30">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">Lief. des 1. Abnehmers
+bei &lt;b&gt;innergem. Dreiecksgesch.&lt;/b&gt;</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">33</property>
+        <property name="bottom_attach">34</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl31">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">Übrige steuerpflichtige Umsätze
+nach § 13b UStG</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">35</property>
+        <property name="bottom_attach">36</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl32">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">&lt;b&gt;Übrige nicht steuerbare Umsätze&lt;/b&gt;
+ (Leistungsort nicht Inland)</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">37</property>
+        <property name="bottom_attach">38</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl2">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">7</property>
+        <property name="label">&lt;big&gt;&lt;b&gt;Steuerfreie Umsätze mit Vorsteuerabzug ...&lt;/b&gt;&lt;/big&gt;</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">7</property>
+        <property name="bottom_attach">8</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl7">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">5</property>
+        <property name="label">&lt;b&gt;Weitere steuerfreie Umsätze mit Vorsteuerabzug ...&lt;/b&gt;</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">12</property>
+        <property name="bottom_attach">13</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl9">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">7</property>
+        <property name="label">&lt;big&gt;&lt;b&gt;Steuerfreie Umsätze ohne Vorsteuerabzug ...&lt;/b&gt;&lt;/big&gt;</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">14</property>
+        <property name="bottom_attach">15</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz81-calc">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="editable">False</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">17</property>
+        <property name="bottom_attach">18</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz86-calc">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="editable">False</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">18</property>
+        <property name="bottom_attach">19</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz36">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Umsätze, die anderen Steuersätzen unterliegen (Steuer)
+
+Kennzahl im Formular: 36</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">19</property>
+        <property name="bottom_attach">20</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz35">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben, Umsätze, die anderen Steuersätzen unterliegen (Umsatz)
+
+Kennzahl im Formular: 35</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">19</property>
+        <property name="bottom_attach">20</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz86">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben zum Steuersatz von 7 v.H.
+
+Kennzahl im Formular: 86</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">18</property>
+        <property name="bottom_attach">19</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz81">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Lieferungen und sonstige Leistungen einschl. unentgeltlicher Wertabgaben zum Steuersatz von 19 v.H.
+
+Kennzahl im Formular: 81</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">17</property>
+        <property name="bottom_attach">18</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz48">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Umsätze nach § 4 Nr. 8 bis 28 UStG (steuerfreie Umsätze ohne Vorsteuerabzug)
+
+Kennzahl im Formular: 48</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">15</property>
+        <property name="bottom_attach">16</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz43">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Weitere steuerfreie Umsätze mit Vorsteuerabzug (z.B. Ausfuhrlieferungen, Umsätze nach § 4 Nr. 2 bis 7 UStG)
+
+Kennzahl im Formular: 43</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">13</property>
+        <property name="bottom_attach">14</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz41">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Innergemeinschaftliche Lieferungen (§ 4 Nr. 1 Buchst. b UStG) an Abnehmer mit USt-IdNr.
+
+Kennzahl im Formular: 41</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">9</property>
+        <property name="bottom_attach">10</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz44">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Innergem. Lieferungen neuer Fahrzeuge an Abnehmer ohne USt-IdNr.
+
+Kennzahl im Formular: 44</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">10</property>
+        <property name="bottom_attach">11</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz49">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Innergemeinschaftliche Lieferungen neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG)
+
+Kennzahl im Formular: 49</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">11</property>
+        <property name="bottom_attach">12</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl16">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">7</property>
+        <property name="label">&lt;big&gt;&lt;b&gt;Umsätze Land-/Forstwirtschaft (§ 24 UStG)&lt;/b&gt;&lt;/big&gt;</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">20</property>
+        <property name="bottom_attach">21</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl20">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">7</property>
+        <property name="label">&lt;big&gt;&lt;b&gt;Steuerfreie innergemeinschaftliche Erwerbe ...&lt;/b&gt;&lt;/big&gt;</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">24</property>
+        <property name="bottom_attach">25</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl22">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">7</property>
+        <property name="label">&lt;big&gt;&lt;b&gt;Steuerpflichtige innergemeinschaftliche Erwerbe ...&lt;/b&gt;&lt;/big&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">26</property>
+        <property name="bottom_attach">27</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz77">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Umsätze land- und forstwirtschaftl. Betriebe nach § 24 UStG an Abnehmer &lt;b&gt;mit&lt;/b&gt; USt-IdNr.
+
+Kennzahl im Formular: 77</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">21</property>
+        <property name="bottom_attach">22</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz76">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Umsätze land- und forstwirtschaftl. Betriebe nach § 24 UStG; Umsätze für die eine Steuer nach § 24 UStG zu entrichten ist (Sägewerkserzeugnisse, Getränke und alkohol. Flüssigkeiten, z. B. Wein) - Umsatz
+
+Kennzahl im Formular: 76</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">22</property>
+        <property name="bottom_attach">23</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz80">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Umsätze land- und forstwirtschaftl. Betriebe nach § 24 UStG; Umsätze für die eine Steuer nach § 24 UStG zu entrichten ist (Sägewerkserzeugnisse, Getränke und alkohol. Flüssigkeiten, z. B. Wein) - Steuer
+
+Kennzahl im Formular: 80</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">22</property>
+        <property name="bottom_attach">23</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz91">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Steuerfreie innergemeinschaftliche Erwerbe nach §§ 4b und 25c UStG
+
+Kennzahl im Formular: 91</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">25</property>
+        <property name="bottom_attach">26</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz89">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Steuerpflichtige innergemeinschaftliche Erwerbe zum Steuersatz von 19 v.H.
+
+Kennzahl im Formular: 89</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">27</property>
+        <property name="bottom_attach">28</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz89-calc">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="editable">False</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">27</property>
+        <property name="bottom_attach">28</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz93-calc">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="editable">False</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">28</property>
+        <property name="bottom_attach">29</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz93">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Steuerpflichtige innergemeinschaftliche Erwerbe zum Steuersatz von 7 v.H.
+
+Kennzahl im Formular: 93</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">28</property>
+        <property name="bottom_attach">29</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz98">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Steuerpflichtige innergemeinschaftliche Erwerbe, die anderen Steuersätzen unterliegen (Steuer)
+
+Kennzahl im Formular: 98</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">29</property>
+        <property name="bottom_attach">30</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz95">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Steuerpflichtige innergemeinschaftliche Erwerbe, die anderen Steuersätzen unterliegen (Umsatz)
+
+Kennzahl im Formular: 95</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">29</property>
+        <property name="bottom_attach">30</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz94">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Steuerpflichtige innergemeinschaftliche Erwerbe, neuer Fahrzeuge von Lieferern &lt;b&gt;ohne&lt;/b&gt; USt-IdNr. zum allgemeinen Steuersatz (Umsatz)
+
+Kennzahl im Formular: 94</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">31</property>
+        <property name="bottom_attach">32</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz96">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Steuerpflichtige innergemeinschaftliche Erwerbe, neuer Fahrzeuge von Lieferern &lt;b&gt;ohne&lt;/b&gt; USt-IdNr. zum allgemeinen Steuersatz (Steuer)
+
+Kennzahl im Formular: 96</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">31</property>
+        <property name="bottom_attach">32</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">10</property>
+        <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Ergänzende Angaben zu Umsätzen ...&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">32</property>
+        <property name="bottom_attach">33</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz42">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Umsätze aus Lieferungen des ersten Abnehmers bei &lt;b&gt;innergemeinschaftlichen Dreiecksgeschäften&lt;/b&gt; (§ 25b Abs. 2 UStG)
+
+Kennzahl im Formular: 42</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">33</property>
+        <property name="bottom_attach">34</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz60">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Steuerpflichtige Umsätze, für die der Leistungsempfänger die Steuer nach § 13b Abs. 5 UStG schuldet&lt;/b&gt;
+
+Kennzahl im Formular: 60</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">35</property>
+        <property name="bottom_attach">36</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz45">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">&lt;b&gt;Übrige nicht steuerbare Umsätze&lt;/b&gt; (Leistungsort nicht im Inland)
+
+Kennzahl im Formular: 45</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">37</property>
+        <property name="bottom_attach">38</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl3">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">5</property>
+        <property name="label">&lt;b&gt;Innergemeinschaftliche Lieferungen ...&lt;/b&gt;</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">8</property>
+        <property name="bottom_attach">9</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">10</property>
+        <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Umsätze § 13b Abs. 2 UStG ...&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">39</property>
+        <property name="bottom_attach">40</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl15">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">andere Leistungen eines im
+Ausland ansässigen Unternehmers</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">41</property>
+        <property name="bottom_attach">42</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl26">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">Lief. sichergsübereig. Gegenst.,
+Umsätze unter GrEStG fallend</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">42</property>
+        <property name="bottom_attach">43</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl28">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">Bauleistungen eines
+Unternehmers im Inland</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">44</property>
+        <property name="bottom_attach">45</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl29">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">10</property>
+        <property name="label">&lt;span size="xx-large"&gt;&lt;b&gt;Abziehbare Vorsteuerbeträge ...&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">48</property>
+        <property name="bottom_attach">49</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz52">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Andere Leistungen eines im Ausland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 1 und 5 UStG) - Umsatz
+
+Kennzahl im Formular: 52</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">41</property>
+        <property name="bottom_attach">42</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz53">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Andere Leistungen eines im Ausland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 1 und 5 UStG) - Steuer
+
+Kennzahl im Formular: 53</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">41</property>
+        <property name="bottom_attach">42</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz73">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Lieferungen sicherungsübereigneter Gegenstände und Umsätze, die unter das GrEStG fallen (§ 13b Abs. 2 Nr. 2 und 3 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Umsatz)
+
+Kennzahl im Formular: 73</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">42</property>
+        <property name="bottom_attach">43</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz74">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Lieferungen sicherungsübereigneter Gegenstände und Umsätze, die unter das GrEStG fallen (§ 13b Abs. 2 Nr. 2 und 3 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Steuer)
+
+Kennzahl im Formular: 74</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">42</property>
+        <property name="bottom_attach">43</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz84">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Andere Umsätze eines im Inland ansässigen Unternehmers (§ 13b Abs. 2 Nr. 4, 6 bis 9 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Umsatz)
+
+Kennzahl im Formular: 84</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">44</property>
+        <property name="bottom_attach">45</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz85">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Andere Umsätze eines im Inland ansässigen Unternehmers (§ 13b Abs. 2 Nr. 4, 6 bis 9 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Steuer)
+
+Kennzahl im Formular: 85</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">44</property>
+        <property name="bottom_attach">45</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz65">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Steuer infolge Wechsels der Besteuerungsform sowie Nachsteuer auf versteuerte Anzahlungen wegen Steuersatzerhöhung
+
+Kennzahl im Formular: 65</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">45</property>
+        <property name="bottom_attach">46</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label12">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">&lt;b&gt;Übertrag . . .&lt;/b&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">38</property>
+        <property name="bottom_attach">39</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label13">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">&lt;b&gt;Umsatzsteuer . . .&lt;/b&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">47</property>
+        <property name="bottom_attach">48</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl33">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="ypad">7</property>
+        <property name="label">&lt;b&gt;Verbleibender Betrag . . .&lt;/b&gt;</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">57</property>
+        <property name="bottom_attach">58</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label14">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="ypad">7</property>
+        <property name="label">&lt;b&gt;Umsatzsteuer-Vorauszahlung/Überschuss&lt;/b&gt; . . .</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">60</property>
+        <property name="bottom_attach">61</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl34">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">15</property>
+        <property name="label">Steuer infolge Wechsels der Besteuerungsform
+sowie Nachsteuer auf versteuerte Anzahlungen</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">45</property>
+        <property name="bottom_attach">46</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkHSeparator" id="hseparator1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">46</property>
+        <property name="bottom_attach">47</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl35">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">aus Rechnungen anderer Unternehmer</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">49</property>
+        <property name="bottom_attach">50</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl36">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">Vorsteuerbeträge aus innergem. Erwerb</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">50</property>
+        <property name="bottom_attach">51</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl37">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">Einfuhrumsatzsteuer</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">51</property>
+        <property name="bottom_attach">52</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl38">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">Vorsteuer aus Leistungen im Sinne des § 13b UStG</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">52</property>
+        <property name="bottom_attach">53</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl39">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">Vorsteuer, nach allgemeinenen Durchschnittsätzen</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">53</property>
+        <property name="bottom_attach">54</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl40">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">Berichtigung des Vorsteuerabzugs (§ 15a UStG)</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">54</property>
+        <property name="bottom_attach">55</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl41">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">Vorsteuerabzug für innergem. Lieferungen neuer Fahrzeuge</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">55</property>
+        <property name="bottom_attach">56</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkHSeparator" id="hseparator2">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">56</property>
+        <property name="bottom_attach">57</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl42">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="ypad">15</property>
+        <property name="label">Diverse Sonstige (Kz69)</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">58</property>
+        <property name="bottom_attach">59</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkHSeparator" id="hseparator3">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">59</property>
+        <property name="bottom_attach">60</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkHSeparator" id="hseparator4">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">62</property>
+        <property name="bottom_attach">63</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl43">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">Anrechnung festgesetzte Sondervorauszahlung</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">61</property>
+        <property name="bottom_attach">62</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl44">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="ypad">7</property>
+        <property name="label">&lt;big&gt;&lt;b&gt;Verbleibende Umsatzsteuer-VZ . . .&lt;/b&gt;&lt;/big&gt;</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">2</property>
+        <property name="top_attach">63</property>
+        <property name="bottom_attach">64</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="ust-sum">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="editable">False</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">47</property>
+        <property name="bottom_attach">48</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz66">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Vorsteuerbeträge aus Rechnungen von anderen Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen im Sinne des § 13a Abs. 1 Nr. 6 UStG (§ 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgeschäften (§ 25b Abs. 5 UStG)
+
+Kennzahl im Formular: 66</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">49</property>
+        <property name="bottom_attach">50</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz61">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Vorsteuerbeträge aus dem innergemeinschaftlichen Erwerb von Gegenständen (§ 15 Abs. 1 Satz 1 Nr. 3 UStG)
+
+Kennzahl im Formular: 61</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">50</property>
+        <property name="bottom_attach">51</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz62">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Entrichtete Einfuhrumsatzsteuer (§ 15 Abs. 1 Satz 1 Nr. 2 UStG)
+
+Kennzahl im Formular: 62</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">51</property>
+        <property name="bottom_attach">52</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz67">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Vorsteuerbeträge aus Leistungen im Sinne des § 13b UStG (§ 15 Abs. 1 Satz 1 Nr. 4 UStG)
+
+Kennzahl im Formular: 67</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">52</property>
+        <property name="bottom_attach">53</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz63">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Vorsteuerbeträge, die nach allgemeinen Durchschnittsätzen berechnet sind (§§ 23 und 23a UStG)
+
+Kennzahl im Formular: 63</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">53</property>
+        <property name="bottom_attach">54</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz64">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Berichtigung des Vorsteuerabzugs (§ 15a UStG)
+
+Kennzahl im Formular: 64</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">54</property>
+        <property name="bottom_attach">55</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz59">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Vorsteuerabzug für innergemeinschaftliche Lieferungen neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG) sowie von Kleinunternehmern im Sinne des § 19 Abs. 1 UStG (§ 15 Abs. 4a UStG)
+
+Kennzahl im Formular: 59</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">55</property>
+        <property name="bottom_attach">56</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="ust-minus-vost">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="editable">False</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">57</property>
+        <property name="bottom_attach">58</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz69">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">in Rechnungen unrichtig oder unberechtigt ausgewiesene Steuerbeträge (§ 14c UStG) sowie Steuerbeträge, die nach § 4 Nr. 4a Satz 1 Buchst. a Satz 2, § 6a Abs. 4 Satz 2, § 17 Abs. 1 Satz 6 oder § 25b Abs. 2 UStG geschuldet werden
+
+Kennzahl im Formular: 69</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">58</property>
+        <property name="bottom_attach">59</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="ust-vz">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="editable">False</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">60</property>
+        <property name="bottom_attach">61</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz39">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Anrechnung (Abzug) der festgesetzten Sondervorauszahlung für Dauerfristverlängerung (nur auszufüllen in der letzten Voranmeldung des Besteuerungszeitraums, in der Regel Dezember)
+
+Kennzahl im Formular: 39</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">61</property>
+        <property name="bottom_attach">62</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz83">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="editable">False</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">63</property>
+        <property name="bottom_attach">64</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="uebertrag">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="editable">False</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">38</property>
+        <property name="bottom_attach">39</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="y_padding">3</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl45">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="ypad">5</property>
+        <property name="label">&lt;b&gt;neuer Fahrzeuge ...&lt;/b&gt;</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="right_attach">3</property>
+        <property name="top_attach">30</property>
+        <property name="bottom_attach">31</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl46">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">Nicht steuerbare sonstige Leistungen
+gem. § 18b Satz 1 Nr. 2 UStG</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">36</property>
+        <property name="bottom_attach">37</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz21">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">&lt;b&gt;Nicht steuerbare sonstige Leistungen&lt;/b&gt; gem. § 18b Satz 1 Nr. 2 UStG
+
+Kennzahl im Formular: 21</property>
+        <property name="invisible_char">●</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">36</property>
+        <property name="bottom_attach">37</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl47">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">Leistungen von Unternehmern
+im übrigen Gemeinschaftsgebiet</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">40</property>
+        <property name="bottom_attach">41</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz46">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Im Inland steuerpflichtige sonstige Leistungen von im übrigen Gemeinschaftsgebiet ansässigen Unternehmern - Umsatz
+
+Kennzahl im Formular: 46</property>
+        <property name="invisible_char">●</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">40</property>
+        <property name="bottom_attach">41</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz47">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Im Inland steuerpflichtige sonstige Leistungen von im übrigen Gemeinschaftsgebiet ansässigen Unternehmern - Steuer
+
+Kennzahl im Formular: 47</property>
+        <property name="invisible_char">●</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">40</property>
+        <property name="bottom_attach">41</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz68">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Steuerpflichtige Umsätze, für die der &lt;b&gt;Leistungsempfänger&lt;/b&gt; die &lt;b&gt;Steuer nach § 13b Abs. 5 Satz 1 i.V.m. Abs. 2 Nr. 10 UStG schuldet&lt;/b&gt;
+
+Kennzahl im Formular: 68</property>
+        <property name="invisible_char">●</property>
+        <property name="invisible_char_set">True</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">34</property>
+        <property name="bottom_attach">35</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl48">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="xpad">5</property>
+        <property name="label">Steuerpflichtige Umsätze
+nach § 13b Abs. 5 i.V.m. Abs. 2 Nr. 10 UStG</property>
+        <property name="use_markup">True</property>
+        <property name="justify">right</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">34</property>
+        <property name="bottom_attach">35</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz78">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Lieferungen von Mobilfunkgeräten und integrierten Schaltkreisen (§ 13b Abs. 2 Nr. 10 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Umsatz)
+
+Kennzahl im Formular: 78</property>
+        <property name="invisible_char">●</property>
+        <property name="invisible_char_set">True</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">43</property>
+        <property name="bottom_attach">44</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="Kz79">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tooltip_text">Lieferungen von Mobilfunkgeräten und integrierten Schaltkreisen (§ 13b Abs. 2 Nr. 10 UStG), für die als Leistungsempfänger Steuer geschuldet wird - (Steuer)
+
+Kennzahl im Formular: 79</property>
+        <property name="invisible_char">●</property>
+        <property name="invisible_char_set">True</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">43</property>
+        <property name="bottom_attach">44</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+        <property name="x_padding">2</property>
+        <property name="y_padding">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl49">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="xpad">5</property>
+        <property name="label">Lief. von Mobilfunkgeräten und
+integrierten Schaltkreisen</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">43</property>
+        <property name="bottom_attach">44</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+  </object>
+</interface>
