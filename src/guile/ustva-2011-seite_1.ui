@@ -1194,7 +1194,7 @@ Kennzahl im Formular: 42</property>
       <object class="GtkEntry" id="Kz60">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="tooltip-text">Steuerpflichtige Ums&#xE4;tze, f&#xFC;r die der Leistungsempf&#xE4;nger die Steuer nach &#xA7; 13b Abs. 5 UStG schuldet&lt;/b&gt;
+        <property name="tooltip-text">Steuerpflichtige Ums&#xE4;tze, f&#xFC;r die der &lt;b&gt;Leistungsempf&#xE4;nger&lt;/b&gt; die &lt;b&gt;Steuer nach &#xA7; 13b Abs. 5 UStG schuldet&lt;/b&gt;
 
 Kennzahl im Formular: 60</property>
       </object>
