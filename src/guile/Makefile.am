@@ -24,6 +24,7 @@ guilestuff_DATA = \
 	ustsvza-2007-formular.ui \
 	ustsvza-2010.scm \
 	ustsvza-2011.scm \
+	ustsvza-2012.scm \
 	ustva-2010.scm \
 	ustva-2010-schnell.ui \
 	ustva-2010-seite_1.ui \
