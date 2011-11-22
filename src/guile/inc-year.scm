@@ -1,4 +1,4 @@
-;; Copyright(C) 2008 Stefan Siegl <stesie@brokenpipe.de>
+;; Copyright(C) 2008,2011 Stefan Siegl <stesie@brokenpipe.de>
 ;; taxbird - free program to interface with German IRO's Elster/Coala
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
   (make-regexp "^Umsatzsteuervoranmeldung"))
 
 (define inc-year:year-regexp 
-  (make-regexp "(200[6-9])"))
+  (make-regexp "(201[0-9])"))
 
 (define tb:inc-year
   (lambda (data)
