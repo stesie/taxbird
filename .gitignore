@@ -27,3 +27,4 @@ stamp-h1
 *.txb
 src/taxbird
 *.o
+*.ui.h
