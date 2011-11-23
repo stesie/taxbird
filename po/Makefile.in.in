@@ -64,10 +64,13 @@ CATOBJEXT = @CATOBJEXT@
 INSTOBJEXT = @INSTOBJEXT@
 
 .SUFFIXES:
-.SUFFIXES: .c .o .po .pox .gmo .mo .msg .cat
+.SUFFIXES: .c .o .po .pox .gmo .mo .msg .cat .ui .ui.h
 
 .c.o:
 	$(COMPILE) $<
+
+.ui.ui.h:
+	intltool-extract --type gettext/glade $<
 
 .po.pox:
 	$(MAKE) $(GETTEXT_PACKAGE).pot
