@@ -2,8 +2,12 @@ src/callbacks.c
 src/dialog.c
 src/export.c
 src/form.c
-src/glade.c
+src/builder.c
 src/guile.c
 src/main.c
 src/workspace.c
-taxbird.glade
+about.ui.h
+choose-file.ui.h
+choose-template.ui.h
+export.ui.h
+taxbird.ui.h
