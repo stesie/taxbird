@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Taxbird 0.11\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-29 22:52+0100\n"
-"PO-Revision-Date: 2009-10-17 18:00+0100\n"
+"POT-Creation-Date: 2011-11-24 00:38+0100\n"
+"PO-Revision-Date: 2011-11-24 00:55+0100\n"
 "Last-Translator: Stefan Siegl <stesie@brokenpipe.de>\n"
 "Language-Team: German <taxbird@taxbird.de>\n"
 "Language: de\n"
@@ -16,15 +16,15 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/callbacks.c:56
+#: src/callbacks.c:58
 msgid "Name of Template"
 msgstr "Name der Vorlage"
 
-#: src/callbacks.c:146
+#: src/callbacks.c:154
 msgid "(yet unnamed)"
 msgstr "(bisher unbenannt)"
 
-#: src/callbacks.c:148
+#: src/callbacks.c:156
 #, c-format
 msgid ""
 "Your recent changes to the document %s haven't been stored to disk so far. "
@@ -33,11 +33,11 @@ msgstr ""
 "Ihre neuesten Änderungen am Dokument %s wurden bisher noch nicht "
 "gespeichert. Möchten Sie, dass sie jetzt gespeichert werden?"
 
-#: src/callbacks.c:237
+#: src/callbacks.c:243
 msgid "Please select a template from the list."
 msgstr "Bitte wählen Sie eine Vorlage aus der Liste."
 
-#: src/callbacks.c:351 src/callbacks.c:405
+#: src/callbacks.c:353 src/callbacks.c:407
 msgid "Current document contains no data. "
 msgstr "Aktuelles Dokument enthält keine Daten. "
 
@@ -73,44 +73,44 @@ msgstr ""
 msgid "Unable to allocate GtkHTML widget."
 msgstr "GtkHTML-Steuerelement konnte nicht erstellt werden."
 
-#: src/export.c:190
+#: src/export.c:191
 msgid "Unable to initialize libgeier context."
 msgstr "libgeier Kontext konnte nicht initialisiert werden."
 
-#: src/export.c:227
+#: src/export.c:225
 msgid "Unable to digitally sign Elster document."
 msgstr "Elster-Dokument konnte nicht digital signiert werden."
 
-#: src/export.c:245
+#: src/export.c:243
 msgid ""
 "You told to store Coala-XML to a file, however didn't specify a filename."
 msgstr ""
 "Sie haben ausgewählt, das Coala-XML in eine Datei abzuspeichern, jedoch "
 "keinen Dateinamen festgelegt."
 
-#: src/export.c:256
+#: src/export.c:254
 msgid "Unable to create Coala-XML file."
 msgstr "Coala-XML Datei konnte nicht erstellt werden."
 
-#: src/export.c:263
+#: src/export.c:261
 msgid "Unable to write to Coala-XML file."
 msgstr "Coala-XML Datei konnte nicht geschrieben werden."
 
-#: src/export.c:294
+#: src/export.c:292
 msgid "Unable to fork print process, please verify the specified command"
 msgstr ""
 "Der Druckprozess konnte nicht gestartet werden, bitte überprüfen Sie den "
 "angegebenen Dateinamen."
 
-#: src/export.c:317
+#: src/export.c:315
 msgid "Unable to create protocol file."
 msgstr "Protokolldatei kann nicht erstellt werden."
 
-#: src/export.c:330
+#: src/export.c:328
 msgid "Unable to send the exported document."
 msgstr "Exportiertes Dokument kann nicht gesendet werden."
 
-#: src/export.c:344
+#: src/export.c:342
 #, c-format
 msgid ""
 "Unable to send the tax declaration to the inland revenue office, the error "
@@ -123,7 +123,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/export.c:369
+#: src/export.c:367
 msgid ""
 "Unable to generate the transmission protocol. This is a local error, THIS "
 "IS, YOUR DATA HAS BEEN SENT TO THE INLAND REVENUE OFFICE AND IT WAS ACCEPTED."
@@ -132,24 +132,43 @@ msgstr ""
 "lokaler Fehler,DAS BEDEUTET, DASS IHRE DATEN AN DAS FINANZAMT ÜBERMITTELT "
 "UND AKZEPTIERT WURDEN."
 
-#: src/export.c:384
+#: src/export.c:382
 msgid "Failed to write to print-helper pipe."
 msgstr "Fehler beim Schreiben in die print-helper Pipe."
 
-#: src/export.c:392
+#: src/export.c:390
 msgid "Failed to write to protocol file."
 msgstr "Protokolldatei konnte nicht geschrieben werden."
 
-#: src/export.c:409
+#: src/export.c:407
 msgid "Printer process exited abnormally, your data has been sent however."
 msgstr ""
 "Druckprozess endete auf unnormale Weise, Ihre Daten wurden jedoch gesendet."
 
-#: src/export.c:415
+#: src/export.c:413
 msgid "Your data has been sent to the inland revenue office and was accepted"
 msgstr "Ihre Daten wurden an das Finanzamt übermittelt und wurden akzeptiert."
 
-#: src/main.c:90
+#: src/main.c:51
+msgid "FILE"
+msgstr "DATEI"
+
+#: src/main.c:52
+msgid "Show version"
+msgstr "Zeige Version"
+
+#: src/main.c:56
+msgid "- The first free Elster client"
+msgstr "- Der erste freie Elster Client"
+
+#: src/main.c:58
+#, c-format
+msgid ""
+"%s\n"
+"Run '%s --help' to see a full list of available command line options.\n"
+msgstr ""
+
+#: src/main.c:109
 msgid ""
 "Failed to initialize GEIER data transfer library. Data transfers to fiscal "
 "authorities will not be possible."
@@ -159,11 +178,11 @@ msgstr ""
 msgid "Available Sheets"
 msgstr "Vorhandene Blätter"
 
-#: src/workspace.c:370
+#: src/workspace.c:373
 msgid "The current field's content is not valid. Sorry."
 msgstr "Der Inhalt des aktuellen Feldes ist nicht gültig. Entschuldigung."
 
-#: src/workspace.c:559
+#: src/workspace.c:569
 msgid "Current document contains no data. There's no point in writing it out."
 msgstr ""
 "Das aktuelle Dokument enthält keine Daten. Es macht keinen Sinn, es zu "
@@ -173,110 +192,11 @@ msgstr ""
 #. * please leave this alone, it's just to force the catalogue to contain
 #. * the string `Yes!' which is used in some forms
 #.
-#: src/workspace.c:640
+#: src/workspace.c:650
 msgid "Yes!"
 msgstr "Ja!"
 
-#: taxbird.glade:9
-msgid "taxbird"
-msgstr "taxbird"
-
-#: taxbird.glade:31
-msgid "New File"
-msgstr "Neue Datei"
-
-#: taxbird.glade:42
-msgid "Open File"
-msgstr "Datei öffnen"
-
-#: taxbird.glade:53
-msgid "Save File"
-msgstr "Datei speichern"
-
-#: taxbird.glade:73
-msgid "Send Data"
-msgstr "Daten Senden"
-
-#: taxbird.glade:99
-msgid "_File"
-msgstr "_Datei"
-
-#: taxbird.glade:106
-msgid "gtk-new"
-msgstr ""
-
-#: taxbird.glade:116
-msgid "New from last _year"
-msgstr "Übernahme vom Vorjahr"
-
-#: taxbird.glade:124
-msgid "gtk-open"
-msgstr ""
-
-#: taxbird.glade:133
-msgid "gtk-save"
-msgstr ""
-
-#: taxbird.glade:142
-msgid "gtk-save-as"
-msgstr ""
-
-#: taxbird.glade:156
-msgid "S_end Data ..."
-msgstr "Daten s_enden ..."
-
-#: taxbird.glade:171
-msgid "Send as _Testcase ..."
-msgstr "Als Testfall senden ..."
-
-#: taxbird.glade:184
-msgid "gtk-quit"
-msgstr ""
-
-#: taxbird.glade:197
-msgid "_Help"
-msgstr "_Hilfe"
-
-#: taxbird.glade:204
-msgid "gtk-about"
-msgstr ""
-
-#: taxbird.glade:288
-msgid ""
-"<b><i>Thank you for using Taxbird!</i></b>\n"
-"\n"
-"Taxbird is free software; you can redistribute it and/or modify it under the "
-"terms of the GNU General Public License as published by the Free Software "
-"Foundation; either version 3 of the License, or (at your option) any later "
-"version.\n"
-"\n"
-"Taxbird is distributed in the hope that it will be useful, but WITHOUT ANY "
-"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
-"FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
-"details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"Taxbird; if not, write to the Free Software Foundation, Inc., 51 Franklin "
-"Street, Fifth Floor, Boston, MA  02110-1301  USA"
-msgstr ""
-
-#: taxbird.glade:338
-msgid "Choose Base Template"
-msgstr "Basisvorlage auswählen"
-
-#: taxbird.glade:352
-msgid "Which template do you want to use as base for the new document?"
-msgstr "Welche Vorlage möchten Sie als Grundlage für das neue Dokument nutzen?"
-
-#: taxbird.glade:424
-msgid "taxbird - Choose File"
-msgstr "taxbird - Datei auswählen"
-
-#: taxbird.glade:473
-msgid "(C) 2004,2005,2006,2007,2008,2009,2010,2011 Stefan Siegl"
-msgstr ""
-
-#: taxbird.glade:474
+#: about.ui.h:1
 msgid ""
 "A tax declarations capturing \n"
 "and transfer tool for Germany."
@@ -284,20 +204,32 @@ msgstr ""
 "Ein Programm zum Erfassen und Übermitteln von Steuererklärungen (für "
 "Deutschland)"
 
+#: about.ui.h:3
+msgid "Copyright (C) 2004-2011 Stefan Siegl"
+msgstr "Copyright (C) 2004-2011 Stefan Siegl"
+
 #. TRANSLATORS: Replace this string with your names, one name per line.
-#: taxbird.glade:483
+#: about.ui.h:5
 msgid "translator_credits"
 msgstr "Stefan Siegl <stesie@brokenpipe.de>"
 
-#: taxbird.glade:488
-msgid "taxbird - Send Data"
-msgstr "taxbird - Daten senden"
+#: choose-file.ui.h:1
+msgid "taxbird - Choose File"
+msgstr "taxbird - Datei auswählen"
 
-#: taxbird.glade:500 taxbird.glade:888
-msgid "taxbird - Send Data Druid ..."
-msgstr "taxbird - Daten-Sende-Druide ..."
+#: choose-template.ui.h:1
+msgid "Choose Base Template"
+msgstr "Basisvorlage auswählen"
 
-#: taxbird.glade:501
+#: choose-template.ui.h:2
+msgid "Which template do you want to use as base for the new document?"
+msgstr "Welche Vorlage möchten Sie als Grundlage für das neue Dokument nutzen?"
+
+#: export.ui.h:1
+msgid "<b>Transmission Protocol ...</b>"
+msgstr "<b>Übermittlungsprotokoll ...</b>"
+
+#: export.ui.h:2
 msgid ""
 "As you probably know, Taxbird is currently somewhat in beta (or maybe even "
 "alpha-alike) state. Therefore it may happen, that generated export data is "
@@ -334,59 +266,23 @@ msgstr ""
 "Bitte bedenken Sie weiter, dass Sie eine Teilnahmeerklärung abgeben müssen, "
 "bevor das Finanzamt die mit Taxbird übermittelten Daten akzeptiert."
 
-#: taxbird.glade:513
-msgid "Please review the gathered data ..."
-msgstr "Bitte überprüfen Sie die erfassten Daten ..."
-
-#: taxbird.glade:539
-msgid "Store gathered data to XML File?"
-msgstr "Erfasste Daten in XML-Datei abspeichern?"
-
-#: taxbird.glade:561
-msgid "Save exported data to a Coala-XML File?"
-msgstr "Exportierte Daten in eine Coala-XML Datei abspeichern?"
-
-#: taxbird.glade:576
-msgid "Filename:"
-msgstr "Dateiname."
-
-#: taxbird.glade:620
-msgid "Digitally Sign XML Document?"
-msgstr "XML-Dokument digital signieren?"
-
-#: taxbird.glade:642
-msgid "Digitally Sign Elster XML Document"
-msgstr "Elster XML-Dokument Digital Signieren"
-
-#: taxbird.glade:657
-msgid "SoftPSE-Filename:"
-msgstr "SoftPSE-Dateiname:"
-
-#: taxbird.glade:692
-msgid "PIN-Code:"
-msgstr "PIN-Code:"
-
-#: taxbird.glade:725
-msgid "Send the data to the IRO?"
-msgstr "Daten an das Finanzamt senden?"
-
-#: taxbird.glade:739
+#: export.ui.h:9
 msgid "Call GEIER to send the gathered data to the inland revenue office"
 msgstr "GEIER aufrufen, um die erfassten Daten an das Finanzamt zu übermitteln"
 
-#: taxbird.glade:831
-msgid "Print Transmission Protocol using:"
-msgstr "Übermittlungsprotokoll ausdrucken mit:"
+#: export.ui.h:10
+msgid "Digitally Sign Elster XML Document"
+msgstr "Elster XML-Dokument Digital Signieren"
 
-#: taxbird.glade:847
-msgid "Store Transmission Protocol to the following file:"
-msgstr "Übermittlungsprotokoll in folgender Datei abspeichern:"
+#: export.ui.h:11
+msgid "Digitally Sign XML Document?"
+msgstr "XML-Dokument digital signieren?"
 
-#: taxbird.glade:868
-msgid "<b>Transmission Protocol ...</b>"
-msgstr "<b>Übermittlungsprotokoll ...</b>"
+#: export.ui.h:12
+msgid "Filename:"
+msgstr "Dateiname."
 
-#: taxbird.glade:889
+#: export.ui.h:13
 msgid ""
 "Finally all data has been gathered, in order to send the data to the inland "
 "revenue office. \n"
@@ -416,6 +312,104 @@ msgstr ""
 "\n"
 "\n"
 "Danke, dass Sie Taxbird benutzen!"
+
+#: export.ui.h:22
+msgid "PIN-Code:"
+msgstr "PIN-Code:"
+
+#: export.ui.h:23
+msgid "Please review the gathered data ..."
+msgstr "Bitte überprüfen Sie die erfassten Daten ..."
+
+#: export.ui.h:24
+msgid "Print Transmission Protocol using:"
+msgstr "Übermittlungsprotokoll ausdrucken mit:"
+
+#: export.ui.h:25
+msgid "Save exported data to a Coala-XML File?"
+msgstr "Exportierte Daten in eine Coala-XML Datei abspeichern?"
+
+#: export.ui.h:26
+msgid "Send the data to the IRO?"
+msgstr "Daten an das Finanzamt senden?"
+
+#: export.ui.h:27
+msgid "SoftPSE-Filename:"
+msgstr "SoftPSE-Dateiname:"
+
+#: export.ui.h:28
+msgid "Store Transmission Protocol to the following file:"
+msgstr "Übermittlungsprotokoll in folgender Datei abspeichern:"
+
+#: export.ui.h:29
+msgid "Store gathered data to XML File?"
+msgstr "Erfasste Daten in XML-Datei abspeichern?"
+
+#: export.ui.h:30
+msgid "taxbird - Send Data Druid ..."
+msgstr "taxbird - Daten-Sende-Druide ..."
+
+#: taxbird.ui.h:1
+msgid ""
+"<b><i>Thank you for using Taxbird!</i></b>\n"
+"\n"
+"Taxbird is free software; you can redistribute it and/or modify it under the "
+"terms of the GNU General Public License as published by the Free Software "
+"Foundation; either version 3 of the License, or (at your option) any later "
+"version.\n"
+"\n"
+"Taxbird is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
+"FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
+"details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"Taxbird; if not, write to the Free Software Foundation, Inc., 51 Franklin "
+"Street, Fifth Floor, Boston, MA  02110-1301  USA"
+msgstr ""
+
+#: taxbird.ui.h:8
+msgid "New File"
+msgstr "Neue Datei"
+
+#: taxbird.ui.h:9
+msgid "New from last _year"
+msgstr "Übernahme vom Vorjahr"
+
+#: taxbird.ui.h:10
+msgid "Open File"
+msgstr "Datei öffnen"
+
+#: taxbird.ui.h:11
+msgid "S_end Data ..."
+msgstr "Daten s_enden ..."
+
+#: taxbird.ui.h:12
+msgid "Save File"
+msgstr "Datei speichern"
+
+#: taxbird.ui.h:13
+msgid "Send Data"
+msgstr "Daten Senden"
+
+#: taxbird.ui.h:14
+msgid "Send as _Testcase ..."
+msgstr "Als Testfall senden ..."
+
+#: taxbird.ui.h:15
+msgid "_File"
+msgstr "_Datei"
+
+#: taxbird.ui.h:16
+msgid "_Help"
+msgstr "_Hilfe"
+
+#: taxbird.ui.h:17
+msgid "taxbird"
+msgstr "taxbird"
+
+#~ msgid "taxbird - Send Data"
+#~ msgstr "taxbird - Daten senden"
 
 #~ msgid "Unable to call open_streamon allocated HtmlDocument."
 #~ msgstr ""
