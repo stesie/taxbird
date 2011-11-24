@@ -24,6 +24,7 @@
 #include <gtkhtml/gtkhtml.h>
 #include <glib/gi18n.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
 
