@@ -7,6 +7,5 @@ Comment=freier Elster-Client für Linux
 Type=Application
 Exec=taxbird
 Icon=taxbird.xpm
-Encoding=UTF-8
 Terminal=false
 MimeType=application/x-taxbird
