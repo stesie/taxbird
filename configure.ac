@@ -4,8 +4,8 @@
 dnl Process this file with autoconf to produce a configure script.
 
 #AC_INIT(configure.in)
-AC_INIT(taxbird, 0.17, [taxbird@taxbird.de])
-AM_INIT_AUTOMAKE(taxbird, 0.17, [taxbird@taxbird.de])
+AC_INIT(taxbird, 0.18, [taxbird@taxbird.de])
+AM_INIT_AUTOMAKE(taxbird, 0.18, [taxbird@taxbird.de])
 AM_MAINTAINER_MODE
 AM_CONFIG_HEADER(config.h)
 
@@ -42,7 +42,7 @@ backup_LIBS="$LIBS"
 # temporarily add libgeier to CFLAGS/LDFLAGS
 # and do necessary checks
 #
-PKG_CHECK_MODULES(GEIER, [libgeier >= 0.7 libxml-2.0])
+PKG_CHECK_MODULES(GEIER, [libgeier >= 0.13 libxml-2.0])
 AC_SUBST(GEIER_CFLAGS)
 AC_SUBST(GEIER_LIBS)
 
